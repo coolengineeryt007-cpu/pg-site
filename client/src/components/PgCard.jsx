@@ -30,7 +30,7 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
         <div style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(180deg, rgba(8,8,8,0.2) 0%, rgba(8,8,8,0.85) 100%)'
+          background: 'linear-gradient(180deg, rgba(4,13,33,0.15) 0%, rgba(4,13,33,0.92) 100%)'
         }} />
 
         {/* Top Badges */}
@@ -45,7 +45,7 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
         }}>
           <div style={{ display: 'flex', gap: '6px' }}>
             <span className={`badge ${
-              pg.gender === 'Girls' ? 'badge-crimson' : pg.gender === 'Boys' ? 'badge-blue' : 'badge-purple'
+              pg.gender === 'Girls' ? 'badge-peacock' : pg.gender === 'Boys' ? 'badge-blue' : 'badge-purple'
             }`}>
               {pg.gender} PG
             </span>
@@ -59,25 +59,25 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
           {/* Proximity / Distance Badge */}
           {pg.distanceKm !== undefined && pg.distanceKm !== null && (
             <div style={{
-              background: 'rgba(8, 8, 8, 0.85)',
-              border: '1px solid var(--gold-primary)',
+              background: 'rgba(4, 13, 33, 0.92)',
+              border: '1px solid rgba(14, 116, 237, 0.5)',
               borderRadius: 'var(--radius-full)',
               padding: '4px 10px',
               fontSize: '0.75rem',
               fontWeight: 700,
-              color: 'var(--gold-primary)',
+              color: 'var(--gold-light)',
               display: 'flex',
               alignItems: 'center',
-              gap: '4px'
+              gap: '5px'
             }}>
-              <Navigation size={12} style={{ color: 'var(--red-crimson)' }} />
+              <Navigation size={12} style={{ color: 'var(--blue-light)' }} />
               <span>{pg.distanceKm} km away</span>
             </div>
           )}
 
           {showStatus && pg.status && (
             <span className={`badge ${
-              pg.status === 'approved' ? 'badge-green' : pg.status === 'pending_review' ? 'badge-gold' : 'badge-crimson'
+              pg.status === 'approved' ? 'badge-green' : pg.status === 'pending_review' ? 'badge-gold' : 'badge-blue'
             }`}>
               {pg.status.replace('_', ' ')}
             </span>
@@ -89,10 +89,10 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
           position: 'absolute',
           bottom: '12px',
           left: '12px',
-          background: 'rgba(10, 10, 10, 0.85)',
+          background: 'rgba(4, 13, 33, 0.9)',
           padding: '4px 10px',
           borderRadius: 'var(--radius-sm)',
-          border: '1px solid rgba(212, 175, 55, 0.3)',
+          border: '1px solid rgba(212, 175, 55, 0.35)',
           display: 'flex',
           alignItems: 'center',
           gap: '5px',
@@ -101,20 +101,22 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
         }}>
           <Star size={14} fill="#D4AF37" color="#D4AF37" />
           <span style={{ color: '#fff' }}>{pg.rating || '4.9'}</span>
-          <span style={{ color: '#888', fontSize: '0.75rem' }}>({pg.reviewsCount || 20})</span>
+          <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>({pg.reviewsCount || 20})</span>
         </div>
       </div>
 
       {/* Card Content Body */}
-      <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <div style={{ padding: '22px 20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <h3 
           onClick={() => onSelect(pg)}
           style={{ 
-            fontSize: '1.15rem', 
+            fontSize: '1.2rem', 
             fontWeight: 700, 
-            color: '#fff', 
-            marginBottom: '6px',
-            cursor: 'pointer' 
+            color: '#ffffff', 
+            marginBottom: '8px',
+            cursor: 'pointer',
+            lineHeight: 1.35,
+            fontFamily: 'var(--font-sans)'
           }}
           className="gold-gradient-hover"
         >
@@ -130,7 +132,7 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
           fontSize: '0.85rem',
           marginBottom: '14px' 
         }}>
-          <MapPin size={15} style={{ color: 'var(--red-crimson)', flexShrink: 0 }} />
+          <MapPin size={15} style={{ color: 'var(--blue-light)', flexShrink: 0 }} />
           <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
             {pg.address.apartment ? `${pg.address.apartment}, ` : ''}{pg.address.area}, {pg.address.city}
           </span>
@@ -142,12 +144,12 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
             <span 
               key={room.id}
               style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                background: 'rgba(14, 116, 237, 0.08)',
+                border: '1px solid rgba(14, 116, 237, 0.2)',
                 padding: '3px 8px',
                 borderRadius: '4px',
                 fontSize: '0.75rem',
-                color: '#bbb',
+                color: '#CBD5E1',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px'
@@ -163,14 +165,14 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
         <div style={{ 
           display: 'flex', 
           gap: '12px', 
-          color: '#999', 
+          color: 'var(--text-muted)', 
           fontSize: '0.8rem', 
           marginBottom: '20px',
           borderTop: '1px solid rgba(255, 255, 255, 0.06)',
           paddingTop: '12px' 
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Wifi size={13} style={{ color: 'var(--gold-primary)' }} />
+            <Wifi size={13} style={{ color: 'var(--blue-light)' }} />
             <span>WiFi</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -178,7 +180,7 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
             <span>Food</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Zap size={13} style={{ color: 'var(--gold-primary)' }} />
+            <Zap size={13} style={{ color: 'var(--blue-cyan)' }} />
             <span>Power Backup</span>
           </div>
         </div>
@@ -189,18 +191,18 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'space-between',
-          borderTop: '1px solid rgba(212, 175, 55, 0.15)',
+          borderTop: '1px solid rgba(14, 116, 237, 0.18)',
           paddingTop: '14px'
         }}>
           <div>
-            <span style={{ fontSize: '0.7rem', color: '#888', textTransform: 'uppercase', display: 'block' }}>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', display: 'block' }}>
               Starts From
             </span>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
-              <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--gold-primary)' }}>
+              <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--gold-light)' }}>
                 ₹{pg.rent.toLocaleString('en-IN')}
               </span>
-              <span style={{ fontSize: '0.75rem', color: '#999' }}>/month</span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>/month</span>
             </div>
           </div>
 
@@ -211,10 +213,10 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
               rel="noopener noreferrer"
               className="btn btn-ghost btn-sm"
               title="Get Google Maps Route Directions"
-              style={{ padding: '8px 10px' }}
+              style={{ padding: '8px 10px', background: 'rgba(14, 116, 237, 0.12)', borderColor: 'rgba(14, 116, 237, 0.3)' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <Navigation size={14} style={{ color: 'var(--red-crimson)' }} />
+              <Navigation size={14} style={{ color: 'var(--blue-light)' }} />
             </a>
 
             <button 

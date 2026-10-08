@@ -21,11 +21,11 @@ const createLuxuryPin = (isFeatured = false, isDraggable = false) => {
         <div style="
           width: 34px;
           height: 34px;
-          background: ${isFeatured ? 'linear-gradient(135deg, #F3E5AB 0%, #D4AF37 60%, #996515 100%)' : 'linear-gradient(135deg, #DC2626 0%, #B91C1C 60%, #7F1D1D 100%)'};
+          background: ${isFeatured ? 'linear-gradient(135deg, #FFF0A8 0%, #D4AF37 60%, #996515 100%)' : 'linear-gradient(135deg, #1D68F2 0%, #0E74ED 60%, #00B4D8 100%)'};
           border: 2px solid #D4AF37;
           border-radius: 50% 50% 50% 0;
           transform: rotate(-45deg);
-          box-shadow: 0 8px 24px rgba(0,0,0,0.9), 0 0 15px rgba(212, 175, 55, 0.45);
+          box-shadow: 0 8px 24px rgba(0,0,0,0.9), 0 0 15px rgba(14, 116, 237, 0.45);
           display: flex;
           align-items: center;
           justify-content: center;

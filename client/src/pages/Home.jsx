@@ -37,7 +37,7 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
   const FAQS = [
     {
       q: "How does the 'Near Me' GPS feature find the closest PG accommodations?",
-      a: "When you tap the 'Near Me' button, Aurelia utilizes high-accuracy browser satellite geolocation combined with our backend Haversine distance engine. We instantly sort available verified properties based on exact road proximity (e.g. 0.8 km away) and provide turn-by-turn Google Maps navigation."
+      a: "When you tap the 'Near Me' button, Vrundavan Ventures utilizes high-accuracy browser satellite geolocation combined with our backend Haversine distance engine. We instantly sort available verified properties based on exact road proximity (e.g. 0.8 km away) and provide turn-by-turn Google Maps navigation."
     },
     {
       q: "Are the PG photos and pricing 100% verified?",
@@ -64,28 +64,28 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
         position: 'relative',
         padding: '90px 0 100px 0',
         overflow: 'hidden',
-        borderBottom: '1px solid rgba(212, 175, 55, 0.2)'
+        borderBottom: '1px solid rgba(14, 116, 237, 0.25)'
       }}>
         {/* Ambient Glows */}
         <div style={{
           position: 'absolute', top: '-15%', left: '50%', transform: 'translateX(-50%)',
           width: '800px', height: '420px',
-          background: 'radial-gradient(ellipse, rgba(14, 116, 237, 0.22) 0%, rgba(212, 175, 55, 0.12) 45%, transparent 70%)',
+          background: 'radial-gradient(ellipse, rgba(14, 116, 237, 0.25) 0%, rgba(212, 175, 55, 0.12) 45%, transparent 70%)',
           pointerEvents: 'none'
         }} />
 
         <div className="container" style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
           {/* Prestige Tag */}
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '22px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: '22px' }}>
             <span className="badge badge-gold animate-pulse-gold">
               <Crown size={14} /> Vrundavan Ventures • Luxury PG & Coliving Portal
             </span>
           </div>
 
           {/* Main H1 */}
-          <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.2rem)', lineHeight: 1.15, marginBottom: '20px', fontWeight: 900 }}>
+          <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.2rem)', lineHeight: 1.15, marginBottom: '20px', fontWeight: 900, color: '#ffffff' }}>
             Live Like Royalty in <br />
-            <span className="peacock-gradient-text">Curated Coliving Suites</span>
+            <span className="gold-gradient-text">Curated Coliving Suites</span>
           </h1>
 
           <p style={{
@@ -112,7 +112,7 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
 
           {/* Quick Hub Pills */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '10px' }}>
-            <span style={{ fontSize: '0.85rem', color: '#94A3B8' }}>Popular Hubs:</span>
+            <span style={{ fontSize: '0.85rem', color: '#8E9DB2' }}>Popular Hubs:</span>
             {['Rajkot (Pride Classic)', 'Koramangala', 'Hitech City', 'Hinjewadi', 'Bandra', 'DLF Cyber City'].map((city) => (
               <button
                 key={city}
@@ -130,66 +130,71 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
       {/* 2. VALUE PROPOSITIONS */}
       <section style={{ padding: '80px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-            <span className="badge badge-peacock" style={{ marginBottom: '10px' }}>The Vrundavan Standard</span>
-            <h2 className="font-serif gold-gradient-text" style={{ fontSize: '2.2rem' }}>
+          <div className="section-header-center">
+            <div className="badge-wrap">
+              <span className="badge badge-peacock">The Vrundavan Standard</span>
+            </div>
+            <h2 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.4rem)' }}>
               Why Students & Professionals Choose Us
             </h2>
+            <p>
+              Curated 5-star living standards, zero broker commissions, and verified property quality.
+            </p>
           </div>
 
           <div className="grid-4">
             <div className="luxury-card" style={{ padding: '30px' }}>
               <div style={{
-                width: '54px', height: '54px', borderRadius: '12px', background: 'rgba(212,175,55,0.12)',
+                width: '54px', height: '54px', borderRadius: '12px', background: 'rgba(212,175,55,0.15)',
                 border: '1px solid var(--gold-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 color: 'var(--gold-primary)', marginBottom: '20px'
               }}>
                 <ShieldCheck size={28} />
               </div>
               <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '10px' }}>100% Super Admin Vetted</h3>
-              <p style={{ color: '#aaa', fontSize: '0.9rem', lineHeight: 1.6 }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>
                 Every PG is rigorously inspected and approved by root administrators before going live. Zero catfishing.
               </p>
             </div>
 
             <div className="luxury-card" style={{ padding: '30px' }}>
               <div style={{
-                width: '54px', height: '54px', borderRadius: '12px', background: 'rgba(185,28,28,0.15)',
-                border: '1px solid var(--red-crimson)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#F87171', marginBottom: '20px'
+                width: '54px', height: '54px', borderRadius: '12px', background: 'rgba(14, 116, 237, 0.15)',
+                border: '1px solid var(--blue-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: 'var(--blue-light)', marginBottom: '20px'
               }}>
                 <Navigation size={28} />
               </div>
               <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '10px' }}>Google GPS Proximity</h3>
-              <p style={{ color: '#aaa', fontSize: '0.9rem', lineHeight: 1.6 }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>
                 Real-time distance calculations and instant turn-by-turn live navigation links straight to your building entrance.
               </p>
             </div>
 
             <div className="luxury-card" style={{ padding: '30px' }}>
               <div style={{
-                width: '54px', height: '54px', borderRadius: '12px', background: 'rgba(212,175,55,0.12)',
+                width: '54px', height: '54px', borderRadius: '12px', background: 'rgba(212,175,55,0.15)',
                 border: '1px solid var(--gold-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 color: 'var(--gold-primary)', marginBottom: '20px'
               }}>
                 <Utensils size={28} />
               </div>
               <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '10px' }}>Chef-Curated Dining</h3>
-              <p style={{ color: '#aaa', fontSize: '0.9rem', lineHeight: 1.6 }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>
                 Wholesome 3-course breakfast, lunch, and dinner buffets prepared by culinary experts under clean ISO standards.
               </p>
             </div>
 
             <div className="luxury-card" style={{ padding: '30px' }}>
               <div style={{
-                width: '54px', height: '54px', borderRadius: '12px', background: 'rgba(185,28,28,0.15)',
-                border: '1px solid var(--red-crimson)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#F87171', marginBottom: '20px'
+                width: '54px', height: '54px', borderRadius: '12px', background: 'rgba(0, 210, 180, 0.15)',
+                border: '1px solid var(--blue-cyan)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: 'var(--blue-cyan)', marginBottom: '20px'
               }}>
                 <CheckCircle size={28} />
               </div>
               <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '10px' }}>Zero Brokerage Direct</h3>
-              <p style={{ color: '#aaa', fontSize: '0.9rem', lineHeight: 1.6 }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>
                 Direct contact buttons for calling and WhatsApp messaging property hosts with standardized deposit refunds.
               </p>
             </div>
@@ -209,13 +214,15 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
             marginBottom: '40px'
           }}>
             <div>
-              <span className="badge badge-gold" style={{ marginBottom: '8px' }}>
-                Handpicked Collection
-              </span>
-              <h2 className="font-serif gold-gradient-text" style={{ fontSize: '2.2rem' }}>
+              <div style={{ marginBottom: '10px' }}>
+                <span className="badge badge-gold">
+                  Handpicked Collection
+                </span>
+              </div>
+              <h2 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.4rem)', margin: '0 0 8px 0' }}>
                 Featured Prime Residences
               </h2>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', margin: 0 }}>
                 The highest rated coliving spaces with single and shared luxury suites.
               </p>
             </div>
@@ -241,14 +248,16 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
       {/* 4. SATELLITE GOOGLE MAP LIVE SHOWCASE */}
       <section style={{ padding: '80px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '35px' }}>
-            <span className="badge badge-crimson" style={{ marginBottom: '8px' }}>
-              Real-Time Geolocation
-            </span>
-            <h2 className="font-serif gold-gradient-text" style={{ fontSize: '2.2rem' }}>
+          <div className="section-header-center">
+            <div className="badge-wrap">
+              <span className="badge badge-blue">
+                Live GPS Proximity Engine
+              </span>
+            </div>
+            <h2 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.4rem)' }}>
               Explore Verified PGs on Official Google Maps
             </h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', maxWidth: '650px', margin: '0 auto' }}>
+            <p>
               Browse properties dynamically across major tech corridors with interactive luxury pins and direct road navigation.
             </p>
           </div>
@@ -264,9 +273,11 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
       {/* 5. RESIDENT TESTIMONIALS */}
       <section style={{ padding: '80px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '45px' }}>
-            <span className="badge badge-gold" style={{ marginBottom: '8px' }}>Verified Stories</span>
-            <h2 className="font-serif gold-gradient-text" style={{ fontSize: '2.2rem' }}>
+          <div className="section-header-center">
+            <div className="badge-wrap">
+              <span className="badge badge-gold">Verified Experiences</span>
+            </div>
+            <h2 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.4rem)' }}>
               Loved by 50,000+ Scholars & Innovators
             </h2>
           </div>
@@ -279,7 +290,7 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
                 ))}
               </div>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', fontStyle: 'italic', marginBottom: '20px', lineHeight: 1.7 }}>
-                "Living at Aurelia's Koramangala residence eliminated every headache. 300 Mbps fiber internet for my remote deployments, delicious hot food daily, and complete peace of mind."
+                "Living at Vrundavan Ventures residences eliminated every headache. 300 Mbps fiber internet for my remote deployments, delicious hot food daily, and complete peace of mind."
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--gold-gradient)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000', fontWeight: 700 }}>
@@ -287,7 +298,7 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
                 </div>
                 <div>
                   <h4 style={{ color: '#fff', fontSize: '0.95rem' }}>Siddharth Rao</h4>
-                  <span style={{ color: '#888', fontSize: '0.75rem' }}>Lead Engineer at Amazon</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>Lead Engineer at Amazon</span>
                 </div>
               </div>
             </div>
@@ -302,12 +313,12 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
                 "As a woman moving to Bengaluru alone for college, safety was my family's top priority. The 24/7 biometric surveillance, courteous security, and lovely study deck are incomparable."
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--red-gradient)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700 }}>
+                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--blue-gradient)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700 }}>
                   SS
                 </div>
                 <div>
                   <h4 style={{ color: '#fff', fontSize: '0.95rem' }}>Shruti Sen</h4>
-                  <span style={{ color: '#888', fontSize: '0.75rem' }}>MBA Scholar, IIM-B</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>MBA Scholar, IIM-B</span>
                 </div>
               </div>
             </div>
@@ -319,7 +330,7 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
                 ))}
               </div>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', fontStyle: 'italic', marginBottom: '20px', lineHeight: 1.7 }}>
-                "The Google Maps autofill on the owner panel made listing our newly furnished property effortless. We received verified student inquiries within 24 hours of Super Admin approval!"
+                "The Google Maps autofill on the owner panel made listing our newly furnished Pride Classic property effortless. We received verified student inquiries within 24 hours of Super Admin approval!"
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--gold-gradient)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000', fontWeight: 700 }}>
@@ -327,7 +338,7 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
                 </div>
                 <div>
                   <h4 style={{ color: '#fff', fontSize: '0.95rem' }}>Rajesh Sharma</h4>
-                  <span style={{ color: '#888', fontSize: '0.75rem' }}>Verified Property Owner</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>Verified Property Owner</span>
                 </div>
               </div>
             </div>
@@ -338,9 +349,11 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
       {/* 6. COMPREHENSIVE FAQS (SEO SCHEMAPAGE) */}
       <section style={{ padding: '80px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="container" style={{ maxWidth: '850px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <span className="badge badge-crimson" style={{ marginBottom: '8px' }}>Got Questions?</span>
-            <h2 className="font-serif gold-gradient-text" style={{ fontSize: '2.2rem' }}>
+          <div className="section-header-center">
+            <div className="badge-wrap">
+              <span className="badge badge-blue">All You Need To Know</span>
+            </div>
+            <h2 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.4rem)' }}>
               Frequently Asked Questions
             </h2>
           </div>
@@ -360,7 +373,7 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
                   </span>
                 </div>
                 {activeFaq === idx && (
-                  <p style={{ color: '#aaa', fontSize: '0.92rem', marginTop: '14px', lineHeight: 1.7, borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '12px' }}>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', marginTop: '14px', lineHeight: 1.7, borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '12px' }}>
                     {faq.a}
                   </p>
                 )}
@@ -376,15 +389,16 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
           <div className="luxury-card" style={{
             padding: '50px 30px',
             textAlign: 'center',
-            background: 'linear-gradient(135deg, rgba(18,18,18,0.95) 0%, rgba(24,10,10,0.95) 100%)',
-            border: '1px solid var(--gold-border)'
+            background: 'linear-gradient(135deg, rgba(7, 23, 57, 0.95) 0%, rgba(4, 13, 33, 0.98) 100%)',
+            border: '1px solid rgba(212, 175, 55, 0.35)',
+            boxShadow: '0 20px 50px rgba(2, 6, 23, 0.9), 0 0 25px rgba(14, 116, 237, 0.25)'
           }}>
             <Crown size={36} style={{ color: 'var(--gold-primary)', margin: '0 auto 16px auto', display: 'block' }} />
             <h2 className="font-serif" style={{ fontSize: '2.2rem', color: '#fff', marginBottom: '14px' }}>
               Are You a Luxury Property Owner?
             </h2>
-            <p style={{ color: '#aaa', maxWidth: '600px', margin: '0 auto 25px auto', fontSize: '1rem', lineHeight: 1.7 }}>
-              List your PG with Aurelia. Benefit from Google Maps instant address autofill, zero brokerage charges, and high-intent corporate and student tenants.
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto 25px auto', fontSize: '1rem', lineHeight: 1.7 }}>
+              List your PG with Vrundavan Ventures. Benefit from Google Maps instant address autofill, zero brokerage charges, and high-intent corporate and student tenants.
             </p>
             <button 
               onClick={() => onNavigate('owner')}

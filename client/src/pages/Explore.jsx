@@ -137,7 +137,8 @@ export default function Explore({ onSelectPg, initialFilter = {} }) {
             value={city}
             onChange={(e) => setCity(e.target.value)}
           >
-            <option value="all">All Metro Cities</option>
+            <option value="all">All Cities</option>
+            <option value="Rajkot">Rajkot</option>
             <option value="Bengaluru">Bengaluru</option>
             <option value="Hyderabad">Hyderabad</option>
             <option value="Pune">Pune</option>
@@ -161,7 +162,7 @@ export default function Explore({ onSelectPg, initialFilter = {} }) {
           <button 
             onClick={handleGpsNearMe}
             disabled={detectingGps}
-            className="btn btn-crimson"
+            className="btn btn-gold"
             style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
           >
             <Navigation size={16} />

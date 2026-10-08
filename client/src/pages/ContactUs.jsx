@@ -20,18 +20,20 @@ export default function ContactUs() {
   return (
     <div className="container" style={{ paddingTop: '40px', paddingBottom: '90px' }}>
       <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 50px auto' }}>
-        <span className="badge badge-crimson" style={{ marginBottom: '12px' }}>
-          24/7 Prestige Concierge
-        </span>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '12px' }}>
+          <span className="badge badge-blue">
+            24/7 Prestige Concierge
+          </span>
+        </div>
         <h1 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(2.2rem, 4vw, 3.2rem)', marginBottom: '14px' }}>
-          Connect with Aurelia Living
+          Connect with Vrundavan Ventures
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: 1.7 }}>
           Whether you are a prospective resident seeking suite availability or a PG owner requesting property onboarding verification, our concierge team is at your service.
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.3fr) minmax(0, 1fr)', gap: '40px', marginBottom: '60px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '35px', marginBottom: '60px' }}>
         {/* Contact Form */}
         <div className="luxury-card" style={{ padding: '36px' }}>
           <h2 className="font-serif" style={{ fontSize: '1.5rem', color: '#fff', marginBottom: '10px' }}>

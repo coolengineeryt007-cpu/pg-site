@@ -30,14 +30,16 @@ export default function AboutUs() {
     <div className="container" style={{ paddingTop: '40px', paddingBottom: '90px' }}>
       {/* Hero Section */}
       <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 60px auto' }}>
-        <span className="badge badge-gold" style={{ marginBottom: '14px' }}>
-          👑 The Aurelia Legacy
-        </span>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '14px' }}>
+          <span className="badge badge-gold">
+            👑 The Vrundavan Legacy
+          </span>
+        </div>
         <h1 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(2.2rem, 4vw, 3.2rem)', marginBottom: '18px' }}>
           Transforming Student & Corporate Living into a Royal Experience
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', lineHeight: 1.8 }}>
-          We believe where you live shapes who you become. Aurelia was born out of a mission to replace subpar student hostels with 5-star, biometric-secured, gourmet-serviced living sanctuaries across India.
+          We believe where you live shapes who you become. Vrundavan Ventures was born out of a mission to replace subpar hostels with 5-star, biometric-secured, gourmet-serviced living sanctuaries across India.
         </p>
       </div>
 
