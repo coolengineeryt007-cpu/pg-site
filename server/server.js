@@ -680,12 +680,10 @@ Sitemap: ${baseUrl}/sitemap.xml
   res.send(content);
 });
 
-// START SERVER (Only listen when running standalone)
-if (!process.env.VERCEL) {
-  app.listen(PORT, () => {
-    console.log(`👑 Luxury PG Server running with prestige on port ${PORT}`);
-    console.log(`API Base: http://localhost:${PORT}/api`);
-  });
-}
+// START SERVER
+app.listen(PORT, () => {
+  console.log(`👑 Luxury PG Server running with prestige on port ${PORT}`);
+  console.log(`API Base: http://localhost:${PORT}/api`);
+});
 
 export default app;
