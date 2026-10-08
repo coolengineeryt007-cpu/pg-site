@@ -47,9 +47,10 @@ export default function Navbar({
         {/* Left Side: Brand Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <a 
-            href="#home" 
-            onClick={(e) => { e.preventDefault(); handleNav('home'); }} 
+            href="#portal" 
+            onClick={(e) => { e.preventDefault(); handleNav('portal'); }} 
             className="brand-logo"
+            title="Return to Main Portal Selection"
             style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}
           >
             <img 
