@@ -58,6 +58,65 @@ const INITIAL_DATA = {
   ],
   pgs: [
     {
+      id: "pg-pride-classic-rajkot",
+      name: "Pride Classic Luxury PG",
+      ownerId: "usr-owner-1",
+      ownerName: "Rajesh Sharma",
+      ownerPhone: "+91 98765 43210",
+      ownerWhatsapp: "+919876543210",
+      gender: "Co-ed",
+      status: "approved",
+      featured: true,
+      rating: 4.98,
+      reviewsCount: 38,
+      rent: 12500,
+      deposit: 18000,
+      noticePeriodDays: 30,
+      description: "Ultra-luxury executive coliving at Pride Classic, Yogi Nagar, Rajkot. Specially curated for professionals and scholars with 3-time Gujarati & Kathiyawadi homestyle meals, ultra high-speed fiber internet, private gym, and 24x7 biometric security.",
+      photos: [
+        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1540518614846-7ede433c4550?auto=format&fit=crop&w=1200&q=80"
+      ],
+      address: {
+        apartment: "Pride Classic",
+        addressLine1: "Yogi Nagar Main Road, Raiya Area",
+        addressLine2: "Near 150 Feet Ring Road",
+        area: "Yogi Nagar",
+        city: "Rajkot",
+        district: "Rajkot",
+        state: "Gujarat",
+        pincode: "360005",
+        lat: 22.2934,
+        lng: 70.7549
+      },
+      rooms: [
+        { id: "r1", type: "Single Private Suite", beds: 1, rent: 18000, available: 2, washroom: "Attached", ac: true, balcony: true },
+        { id: "r2", type: "Twin Sharing Executive", beds: 2, rent: 12500, available: 4, washroom: "Attached", ac: true, balcony: true },
+        { id: "r3", type: "Triple Sharing Comfort", beds: 3, rent: 8500, available: 3, washroom: "Attached", ac: true, balcony: false }
+      ],
+      facilities: [
+        "High-Speed Fiber WiFi (300 Mbps)",
+        "3-Time Gourmet Buffet (Pure Veg & Jain)",
+        "Air Conditioning (AC)",
+        "Daily Housekeeping",
+        "24x7 Power Backup",
+        "RO Purified Water",
+        "Biometric Smart Lock",
+        "CCTV Security Coverage",
+        "Fitness Gym & Yoga Zone",
+        "Automatic Laundry & Ironing",
+        "Attached Balcony & Geyser"
+      ],
+      rules: [
+        "Gate closes at 11:30 PM (biometric access after)",
+        "Pure vegetarian and hygienic premises",
+        "Lobby guest visiting allowed until 9:00 PM"
+      ],
+      createdAt: "2026-10-08T07:00:00.000Z"
+    },
+    {
       id: "pg-101",
       name: "The Imperial Crown Luxury Coliving",
       ownerId: "usr-owner-1",
