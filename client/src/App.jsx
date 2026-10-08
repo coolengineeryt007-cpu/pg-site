@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AuthModal from './components/AuthModal';
+import WelcomeRoleModal from './components/WelcomeRoleModal';
 
 import Home from './pages/Home';
 import Explore from './pages/Explore';
@@ -25,6 +26,15 @@ export default function App() {
   const [exploreFilter, setExploreFilter] = useState({});
   const [allPgs, setAllPgs] = useState([]);
   
+  // Full-Screen Role Pop-up on First Site Visit
+  const [welcomeModalOpen, setWelcomeModalOpen] = useState(() => {
+    try {
+      return !localStorage.getItem('vv_role_selected');
+    } catch {
+      return true;
+    }
+  });
+
   // Two-Option Role Switcher State: 'student' (default, zero login) vs 'owner' (host workflow)
   const [userRoleMode, setUserRoleMode] = useState(() => {
     try {
@@ -128,6 +138,14 @@ export default function App() {
       }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleWelcomeRoleSelect = (role) => {
+    try {
+      localStorage.setItem('vv_role_selected', 'true');
+    } catch {}
+    setWelcomeModalOpen(false);
+    handleRoleModeChange(role);
   };
 
   const handleNavigate = (page, filter = {}) => {
@@ -334,6 +352,12 @@ export default function App() {
         onClose={() => setAuthModalOpen(false)}
         initialRole={authModalRole}
         onLoginSuccess={handleLoginSuccess}
+      />
+
+      {/* Full-Screen Welcome Role Pop-up */}
+      <WelcomeRoleModal 
+        isOpen={welcomeModalOpen}
+        onSelectRole={handleWelcomeRoleSelect}
       />
     </div>
   );
