@@ -69,8 +69,8 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
         {/* Ambient Glows */}
         <div style={{
           position: 'absolute', top: '-15%', left: '50%', transform: 'translateX(-50%)',
-          width: '750px', height: '400px',
-          background: 'radial-gradient(ellipse, rgba(212, 175, 55, 0.12) 0%, rgba(185, 28, 28, 0.08) 50%, transparent 70%)',
+          width: '800px', height: '420px',
+          background: 'radial-gradient(ellipse, rgba(14, 116, 237, 0.22) 0%, rgba(212, 175, 55, 0.12) 45%, transparent 70%)',
           pointerEvents: 'none'
         }} />
 
@@ -78,14 +78,14 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
           {/* Prestige Tag */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '22px' }}>
             <span className="badge badge-gold animate-pulse-gold">
-              <Crown size={14} /> India's #1 Luxury PG & Coliving Portal
+              <Crown size={14} /> Vrundavan Ventures • Luxury PG & Coliving Portal
             </span>
           </div>
 
           {/* Main H1 */}
           <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.2rem)', lineHeight: 1.15, marginBottom: '20px', fontWeight: 900 }}>
             Live Like Royalty in <br />
-            <span className="gold-gradient-text">Curated Coliving Suites</span>
+            <span className="peacock-gradient-text">Curated Coliving Suites</span>
           </h1>
 
           <p style={{
@@ -105,20 +105,20 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
           }}>
             <LocationSearchBar 
               onLocationSelect={handleHeroLocationSelect}
-              placeholder="Search by area, tech park, or university..."
+              placeholder="Search area, landmark, Rajkot, or university..."
               showCurrentLocationBtn={true}
             />
           </div>
 
           {/* Quick Hub Pills */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '10px' }}>
-            <span style={{ fontSize: '0.85rem', color: '#888' }}>Popular Hubs:</span>
-            {['Koramangala', 'Hitech City', 'Hinjewadi', 'Bandra', 'DLF Cyber City'].map((city) => (
+            <span style={{ fontSize: '0.85rem', color: '#94A3B8' }}>Popular Hubs:</span>
+            {['Rajkot (Pride Classic)', 'Koramangala', 'Hitech City', 'Hinjewadi', 'Bandra', 'DLF Cyber City'].map((city) => (
               <button
                 key={city}
-                onClick={() => onNavigate('explore', { search: city })}
+                onClick={() => onNavigate('explore', { search: city.includes('Rajkot') ? 'Rajkot' : city })}
                 className="btn btn-ghost btn-sm"
-                style={{ borderRadius: 'var(--radius-full)', padding: '4px 14px', fontSize: '0.8rem' }}
+                style={{ borderRadius: 'var(--radius-full)', padding: '5px 14px', fontSize: '0.8rem', borderColor: 'rgba(14, 116, 237, 0.3)' }}
               >
                 📍 {city}
               </button>
@@ -131,7 +131,7 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
       <section style={{ padding: '80px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-            <span className="badge badge-crimson" style={{ marginBottom: '10px' }}>The Aurelia Standard</span>
+            <span className="badge badge-peacock" style={{ marginBottom: '10px' }}>The Vrundavan Standard</span>
             <h2 className="font-serif gold-gradient-text" style={{ fontSize: '2.2rem' }}>
               Why Students & Professionals Choose Us
             </h2>

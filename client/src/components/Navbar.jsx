@@ -9,10 +9,11 @@ import {
   LogOut, 
   Menu, 
   X,
-  Compass,
-  BookOpen,
-  PhoneCall,
-  Info
+  Compass, 
+  BookOpen, 
+  PhoneCall, 
+  Info,
+  Sparkles
 } from 'lucide-react';
 
 export default function Navbar({ activePage, setActivePage, currentUser, onLoginClick, onLogout }) {
@@ -27,21 +28,45 @@ export default function Navbar({ activePage, setActivePage, currentUser, onLogin
   return (
     <header className="navbar">
       <div className="container nav-inner">
-        {/* Brand Logo */}
+        {/* Brand Logo with Vrundavan Ventures Emblem */}
         <a 
           href="#home" 
           onClick={(e) => { e.preventDefault(); handleNav('home'); }} 
           className="brand-logo"
+          style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}
         >
-          <div className="brand-icon">
-            <Crown size={20} />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
-            <span className="gold-gradient-text" style={{ fontSize: '1.45rem', letterSpacing: '0.12em' }}>
-              AURELIA
+          <img 
+            src="/logo.png" 
+            alt="Vrundavan Ventures" 
+            style={{ 
+              height: '42px', 
+              width: 'auto', 
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 2px 8px rgba(14, 116, 237, 0.45))'
+            }} 
+          />
+          <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1 }}>
+            <span style={{ 
+              background: 'linear-gradient(135deg, #93C5FD 0%, #3B82F6 40%, #00D2B4 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontSize: '1.25rem',
+              fontWeight: 900,
+              letterSpacing: '0.06em',
+              fontFamily: 'var(--font-serif)'
+            }}>
+              VRUNDAVAN
             </span>
-            <span style={{ fontSize: '0.55rem', letterSpacing: '0.25em', color: '#888', fontWeight: 600 }}>
-              LUXURY RESIDENCES
+            <span style={{ 
+              background: 'linear-gradient(135deg, #FFDF70 0%, #D4AF37 60%, #B45309 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontSize: '0.62rem',
+              letterSpacing: '0.28em',
+              fontWeight: 800,
+              paddingLeft: '1px'
+            }}>
+              VENTURES
             </span>
           </div>
         </a>
@@ -61,7 +86,7 @@ export default function Navbar({ activePage, setActivePage, currentUser, onLogin
             onClick={(e) => { e.preventDefault(); handleNav('nearme'); }}
             className={`nav-link ${activePage === 'nearme' ? 'active' : ''}`}
           >
-            <MapPin size={16} style={{ color: 'var(--red-crimson)' }} /> Near Me
+            <MapPin size={16} style={{ color: 'var(--blue-light)' }} /> Near Me
           </a>
 
           <a 
@@ -90,13 +115,13 @@ export default function Navbar({ activePage, setActivePage, currentUser, onLogin
         </nav>
 
         {/* Right CTA / Auth controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {currentUser ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               {currentUser.role === 'superadmin' && (
                 <button 
                   onClick={() => handleNav('superadmin')} 
-                  className={`btn btn-sm ${activePage === 'superadmin' ? 'btn-crimson' : 'btn-outline-gold'}`}
+                  className={`btn btn-sm ${activePage === 'superadmin' ? 'btn-primary' : 'btn-outline-blue'}`}
                   style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
                 >
                   <ShieldCheck size={15} /> Super Admin
@@ -109,36 +134,36 @@ export default function Navbar({ activePage, setActivePage, currentUser, onLogin
                   className={`btn btn-sm ${activePage === 'owner' ? 'btn-gold' : 'btn-outline-gold'}`}
                   style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
                 >
-                  <PlusCircle size={15} /> Owner Dashboard
+                  <PlusCircle size={15} /> Host Panel
                 </button>
               )}
 
               <div 
                 style={{
-                  background: 'rgba(255, 255, 255, 0.08)',
+                  background: 'rgba(14, 116, 237, 0.12)',
                   padding: '6px 12px',
                   borderRadius: 'var(--radius-sm)',
                   fontSize: '0.85rem',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  border: '1px solid rgba(212, 175, 55, 0.2)'
+                  border: '1px solid rgba(14, 116, 237, 0.3)'
                 }}
               >
-                <span style={{ color: 'var(--gold-primary)', fontWeight: 600 }}>{currentUser.name}</span>
+                <span style={{ color: 'var(--gold-light)', fontWeight: 600 }}>{currentUser.name}</span>
                 <button 
-                  onClick={onLogout}
-                  title="Logout"
-                  style={{ background: 'transparent', border: 'none', color: '#999', cursor: 'pointer', padding: 0 }}
+                  onClick={onLogout} 
+                  title="Logout" 
+                  style={{ background: 'transparent', border: 'none', color: '#94A3B8', cursor: 'pointer', padding: 0 }}
                 >
                   <LogOut size={15} />
                 </button>
               </div>
             </div>
           ) : (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <button 
-                onClick={onLoginClick}
+                onClick={onLoginClick} 
                 className="btn btn-ghost btn-sm"
                 style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
               >
@@ -146,9 +171,7 @@ export default function Navbar({ activePage, setActivePage, currentUser, onLogin
               </button>
 
               <button 
-                onClick={() => {
-                  onLoginClick('owner');
-                }}
+                onClick={() => onLoginClick('owner')} 
                 className="btn btn-gold btn-sm"
                 style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
               >
@@ -157,19 +180,22 @@ export default function Navbar({ activePage, setActivePage, currentUser, onLogin
             </div>
           )}
 
-          {/* Mobile hamburger button */}
+          {/* Mobile hamburger toggle */}
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
+            aria-label="Toggle navigation menu"
             style={{
-              background: 'transparent',
-              border: 'none',
+              background: 'rgba(14, 116, 237, 0.15)',
+              border: '1px solid rgba(14, 116, 237, 0.35)',
               color: '#fff',
-              display: 'none',
-              cursor: 'pointer'
+              padding: '8px',
+              borderRadius: 'var(--radius-sm)',
+              cursor: 'pointer',
+              display: 'none'
             }}
             className="mobile-toggle-btn"
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
@@ -177,31 +203,46 @@ export default function Navbar({ activePage, setActivePage, currentUser, onLogin
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div style={{
-          background: 'rgba(10,10,10,0.98)',
-          borderBottom: '1px solid var(--gold-border)',
-          padding: '20px',
+          background: 'rgba(4, 13, 33, 0.98)',
+          borderBottom: '1px solid var(--blue-border)',
+          padding: '20px 16px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '14px'
+          gap: '14px',
+          animation: 'fadeIn 0.2s ease-out'
         }}>
-          <a href="#explore" onClick={() => handleNav('explore')} className="nav-link">Explore PGs</a>
-          <a href="#nearme" onClick={() => handleNav('nearme')} className="nav-link">Find Near Me</a>
-          <a href="#blogs" onClick={() => handleNav('blogs')} className="nav-link">Guides & Blogs</a>
-          <a href="#about" onClick={() => handleNav('about')} className="nav-link">About Us</a>
-          <a href="#contact" onClick={() => handleNav('contact')} className="nav-link">Contact Us</a>
+          <a href="#explore" onClick={() => handleNav('explore')} className="nav-link" style={{ fontSize: '1rem', padding: '6px 0' }}>
+            <Compass size={18} /> Explore PGs
+          </a>
+          <a href="#nearme" onClick={() => handleNav('nearme')} className="nav-link" style={{ fontSize: '1rem', padding: '6px 0', color: 'var(--blue-light)' }}>
+            <MapPin size={18} /> Find Near Me
+          </a>
+          <a href="#blogs" onClick={() => handleNav('blogs')} className="nav-link" style={{ fontSize: '1rem', padding: '6px 0' }}>
+            <BookOpen size={18} /> Guides & Blogs
+          </a>
+          <a href="#about" onClick={() => handleNav('about')} className="nav-link" style={{ fontSize: '1rem', padding: '6px 0' }}>
+            <Info size={18} /> About Us
+          </a>
+          <a href="#contact" onClick={() => handleNav('contact')} className="nav-link" style={{ fontSize: '1rem', padding: '6px 0' }}>
+            <PhoneCall size={18} /> Contact Us
+          </a>
           {currentUser?.role === 'superadmin' && (
-            <a href="#superadmin" onClick={() => handleNav('superadmin')} className="nav-link" style={{ color: 'var(--red-crimson)' }}>Super Admin Panel</a>
+            <a href="#superadmin" onClick={() => handleNav('superadmin')} className="nav-link" style={{ color: 'var(--blue-light)', fontWeight: 600 }}>
+              <ShieldCheck size={18} /> Super Admin Panel
+            </a>
           )}
           {currentUser?.role === 'owner' && (
-            <a href="#owner" onClick={() => handleNav('owner')} className="nav-link" style={{ color: 'var(--gold-primary)' }}>Owner Panel</a>
+            <a href="#owner" onClick={() => handleNav('owner')} className="nav-link" style={{ color: 'var(--gold-light)', fontWeight: 600 }}>
+              <PlusCircle size={18} /> Owner Panel
+            </a>
           )}
         </div>
       )}
 
       <style>{`
-        @media (max-width: 860px) {
+        @media (max-width: 960px) {
           .nav-links { display: none !important; }
-          .mobile-toggle-btn { display: block !important; }
+          .mobile-toggle-btn { display: flex !important; align-items: center; justify-content: center; }
         }
       `}</style>
     </header>

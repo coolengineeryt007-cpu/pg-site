@@ -225,121 +225,131 @@ export default function LocationSearchBar({
   return (
     <div ref={wrapperRef} className={`location-search-wrapper ${className}`} style={{ width: '100%', position: 'relative' }}>
       {/* Search Input Bar */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        background: '#121212',
-        border: '1px solid rgba(212, 175, 55, 0.45)',
-        borderRadius: 'var(--radius-md)',
-        padding: '6px 10px',
-        boxShadow: '0 8px 25px rgba(0,0,0,0.6)',
-        gap: '8px',
-        position: 'relative'
-      }}>
-        <Search size={18} style={{ color: 'var(--gold-primary)', flexShrink: 0, marginLeft: '4px' }} />
-        
-        <input
-          ref={inputRef}
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck="false"
-          data-lpignore="true"
-          data-form-type="other"
-          onFocus={() => {
-            if (suggestions.length > 0) setShowDropdown(true);
-          }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              handleManualSearch(e);
-            }
-          }}
-          placeholder={placeholder}
-          style={{
-            flex: 1,
-            background: 'transparent',
-            backgroundImage: 'none',
-            border: 'none',
-            outline: 'none',
-            color: '#fff',
-            fontSize: '0.95rem',
-            padding: '8px 4px',
-            minWidth: 0
-          }}
-        />
-
-        {/* Clear / Remove Input Button (X) */}
-        {inputValue && (
-          <button
-            type="button"
-            onClick={handleClearInput}
-            title="Clear and enter new location"
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: '#888',
-              cursor: 'pointer',
-              padding: '4px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: '50%',
-              transition: 'color 0.15s ease'
+      <div 
+        className="location-search-box"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          background: 'rgba(7, 23, 57, 0.95)',
+          border: '1px solid rgba(14, 116, 237, 0.45)',
+          borderRadius: 'var(--radius-md)',
+          padding: '6px 10px',
+          boxShadow: '0 8px 30px rgba(2, 6, 23, 0.8), 0 0 15px rgba(14, 116, 237, 0.2)',
+          gap: '8px',
+          position: 'relative'
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', flex: 1, minWidth: 0, gap: '8px' }}>
+          <Search size={18} style={{ color: 'var(--blue-light)', flexShrink: 0, marginLeft: '4px' }} />
+          
+          <input
+            ref={inputRef}
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck="false"
+            data-lpignore="true"
+            data-form-type="other"
+            onFocus={() => {
+              if (suggestions.length > 0) setShowDropdown(true);
             }}
-            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--gold-primary)'}
-            onMouseLeave={(e) => e.currentTarget.style.color = '#888'}
-          >
-            <X size={16} />
-          </button>
-        )}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleManualSearch(e);
+              }
+            }}
+            placeholder={placeholder}
+            style={{
+              flex: 1,
+              background: 'transparent',
+              backgroundImage: 'none',
+              border: 'none',
+              outline: 'none',
+              color: '#fff',
+              fontSize: '0.95rem',
+              padding: '8px 4px',
+              minWidth: 0
+            }}
+          />
 
-        {/* Search Action Button */}
-        <button
-          type="button"
-          onClick={handleManualSearch}
-          disabled={searchingText || !inputValue.trim()}
-          className="btn btn-ghost btn-sm"
-          style={{
-            padding: '6px 14px',
-            fontSize: '0.8rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px',
-            borderRadius: 'var(--radius-sm)'
-          }}
-          title="Search this location and pinpoint on map"
-        >
-          {searchingText ? <Loader2 size={13} className="animate-spin" /> : <Search size={13} />}
-          <span>Search</span>
-        </button>
+          {/* Clear / Remove Input Button (X) */}
+          {inputValue && (
+            <button
+              type="button"
+              onClick={handleClearInput}
+              title="Clear and enter new location"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: '#94A3B8',
+                cursor: 'pointer',
+                padding: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '50%',
+                transition: 'color 0.15s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--gold-light)'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#94A3B8'}
+            >
+              <X size={16} />
+            </button>
+          )}
+        </div>
 
-        {/* Near Me GPS Button */}
-        {showCurrentLocationBtn && (
+        <div className="location-search-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+          {/* Search Action Button */}
           <button
             type="button"
-            onClick={handleUseCurrentLocation}
-            disabled={detectingLocation}
-            className="btn btn-outline-gold btn-sm"
+            onClick={handleManualSearch}
+            disabled={searchingText || !inputValue.trim()}
+            className="btn btn-ghost btn-sm"
             style={{
               padding: '6px 14px',
               fontSize: '0.8rem',
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
-              borderRadius: 'var(--radius-sm)'
+              gap: '5px',
+              borderRadius: 'var(--radius-sm)',
+              background: 'rgba(14, 116, 237, 0.15)',
+              borderColor: 'rgba(14, 116, 237, 0.35)',
+              color: '#fff'
             }}
-            title="Automatically detect current GPS location and autofill address"
+            title="Search this location and pinpoint on map"
           >
-            {detectingLocation ? (
-              <Loader2 size={14} className="animate-spin" />
-            ) : (
-              <Navigation size={14} style={{ color: 'var(--gold-primary)' }} />
-            )}
-            <span>{detectingLocation ? "Detecting..." : "Near Me"}</span>
+            {searchingText ? <Loader2 size={13} className="animate-spin" /> : <Search size={13} />}
+            <span>Search</span>
           </button>
-        )}
+
+          {/* Near Me GPS Button */}
+          {showCurrentLocationBtn && (
+            <button
+              type="button"
+              onClick={handleUseCurrentLocation}
+              disabled={detectingLocation}
+              className="btn btn-gold btn-sm"
+              style={{
+                padding: '6px 14px',
+                fontSize: '0.8rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                borderRadius: 'var(--radius-sm)'
+              }}
+              title="Automatically detect current GPS location and autofill address"
+            >
+              {detectingLocation ? (
+                <Loader2 size={14} className="animate-spin" />
+              ) : (
+                <Navigation size={14} style={{ color: '#040D21' }} />
+              )}
+              <span>{detectingLocation ? "Detecting..." : "Near Me"}</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Autocomplete Suggestion Dropdown */}
@@ -351,10 +361,10 @@ export default function LocationSearchBar({
           right: 0,
           zIndex: 1000,
           marginTop: '6px',
-          background: '#161616',
-          border: '1px solid rgba(212, 175, 55, 0.4)',
+          background: '#071739',
+          border: '1px solid rgba(14, 116, 237, 0.5)',
           borderRadius: 'var(--radius-md)',
-          boxShadow: '0 12px 35px rgba(0,0,0,0.85)',
+          boxShadow: '0 14px 40px rgba(2, 6, 23, 0.95)',
           overflow: 'hidden',
           maxHeight: '260px',
           overflowY: 'auto'

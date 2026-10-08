@@ -1,11 +1,11 @@
 import React from 'react';
-import { Crown, Mail, Phone, MapPin, Shield, Heart, ArrowUpRight } from 'lucide-react';
+import { Crown, Mail, Phone, MapPin, Shield, Heart, ArrowUpRight, Sparkles } from 'lucide-react';
 
 export default function Footer({ onNavigate }) {
   return (
     <footer style={{
-      background: '#040404',
-      borderTop: '1px solid rgba(212, 175, 55, 0.25)',
+      background: '#030A1C',
+      borderTop: '1px solid rgba(14, 116, 237, 0.25)',
       padding: '70px 0 30px 0',
       marginTop: '80px',
       position: 'relative'
@@ -19,23 +19,48 @@ export default function Footer({ onNavigate }) {
         }}>
           {/* Brand Info */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-              <div style={{
-                width: '32px', height: '32px', background: 'var(--gold-gradient)',
-                borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#080808'
-              }}>
-                <Crown size={18} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+              <img 
+                src="/logo.png" 
+                alt="Vrundavan Ventures" 
+                style={{ 
+                  height: '46px', 
+                  width: 'auto', 
+                  objectFit: 'contain',
+                  filter: 'drop-shadow(0 2px 8px rgba(14, 116, 237, 0.45))'
+                }} 
+              />
+              <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1 }}>
+                <span style={{ 
+                  background: 'linear-gradient(135deg, #93C5FD 0%, #3B82F6 40%, #00D2B4 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  fontSize: '1.25rem',
+                  fontWeight: 900,
+                  letterSpacing: '0.06em',
+                  fontFamily: 'var(--font-serif)'
+                }}>
+                  VRUNDAVAN
+                </span>
+                <span style={{ 
+                  background: 'linear-gradient(135deg, #FFDF70 0%, #D4AF37 60%, #B45309 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  fontSize: '0.62rem',
+                  letterSpacing: '0.28em',
+                  fontWeight: 800
+                }}>
+                  VENTURES
+                </span>
               </div>
-              <span className="gold-gradient-text font-serif" style={{ fontSize: '1.4rem', fontWeight: 800 }}>
-                AURELIA
-              </span>
             </div>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: '1.7', marginBottom: '20px' }}>
-              Redefining student and professional living across India. Handpicked luxury Paying Guest residences with chef-crafted nutrition, biometric safety, and high-speed workspaces.
+              Vrundavan Ventures elevates paying guest & executive coliving across India. Handpicked verified accommodations with chef-crafted nutrition, biometric safety, high-speed connectivity, and prime connectivity.
             </p>
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
               <span className="badge badge-gold">Verified Residences</span>
-              <span className="badge badge-crimson">Zero Brokerage</span>
+              <span className="badge badge-blue">Zero Brokerage</span>
+              <span className="badge badge-peacock">Direct Host Connect</span>
             </div>
           </div>
 
@@ -73,7 +98,7 @@ export default function Footer({ onNavigate }) {
             </ul>
           </div>
 
-          {/* Company & Leadership */}
+          {/* Company & Policies */}
           <div>
             <h4 style={{ color: '#fff', fontSize: '1.05rem', marginBottom: '18px', letterSpacing: '0.04em' }}>
               COMPANY & POLICIES
@@ -118,12 +143,12 @@ export default function Footer({ onNavigate }) {
                 <span>+91 1800 212 9999 (Toll Free)</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Mail size={16} style={{ color: 'var(--gold-primary)' }} />
-                <span>concierge@aureliapg.com</span>
+                <Mail size={16} style={{ color: 'var(--blue-light)' }} />
+                <span>concierge@vrundavanventures.com</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                <MapPin size={16} style={{ color: 'var(--red-crimson)', marginTop: '4px' }} />
-                <span>Aurelia Towers, 8th Floor, Koramangala 4th Block, Bengaluru, KA 560034</span>
+                <MapPin size={16} style={{ color: 'var(--gold-primary)', marginTop: '4px' }} />
+                <span>Pride Classic, Yogi Nagar Main Road, Rajkot, Gujarat 360005</span>
               </div>
               <div style={{ marginTop: '10px' }}>
                 <a 
@@ -152,12 +177,12 @@ export default function Footer({ onNavigate }) {
           color: 'var(--text-muted)'
         }}>
           <div>
-            © {new Date().getFullYear()} AURELIA Luxury Residences Inc. All rights reserved.
+            © {new Date().getFullYear()} VRUNDAVAN VENTURES. All rights reserved.
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <span>Theme: <strong>Black + Red + Gold 👑</strong></span>
+            <span>Theme: <strong>Sapphire Blue + Imperial Gold 🦚</strong></span>
             <span>•</span>
-            <span>100% On-Page SEO Compliant</span>
+            <span>100% Mobile Responsive</span>
           </div>
         </div>
       </div>
