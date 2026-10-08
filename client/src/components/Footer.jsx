@@ -120,6 +120,11 @@ export default function Footer({ onNavigate }) {
                 </a>
               </li>
               <li>
+                <a href="#owner-portal" onClick={(e) => { e.preventDefault(); onNavigate('owner-portal'); }} style={{ color: 'var(--gold-light)', textDecoration: 'none', fontWeight: 600 }} className="nav-link">
+                  🏢 For PG Owners & Hosts
+                </a>
+              </li>
+              <li>
                 <a href="#terms" onClick={(e) => { e.preventDefault(); onNavigate('terms'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
                   Terms & Conditions
                 </a>

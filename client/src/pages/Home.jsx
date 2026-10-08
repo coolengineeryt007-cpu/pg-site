@@ -41,7 +41,7 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
     },
     {
       q: "Are the PG photos and pricing 100% verified?",
-      a: "Yes. Every property undergoes strict multi-step vetting by our Super Admin team before being approved. All room configurations, starting rents, deposit terms, and amenities are verified against physical site inspections."
+      a: "Yes. Every property undergoes strict multi-step vetting by our quality verification team before being approved. All room configurations, starting rents, deposit terms, and amenities are verified against physical site inspections."
     },
     {
       q: "Is there any brokerage or hidden agent commission?",
@@ -53,7 +53,7 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
     },
     {
       q: "How can PG property owners list their properties?",
-      a: "Property hosts can click 'List Your PG' to access the PG Owner Admin Panel. Our integrated Google Maps API automatically populates building name, street line, pincode, state, and coordinates for lightning-fast onboarding."
+      a: "Property hosts can select the 'For PG Owners' option at the top to access the dedicated Host Portal. Our integrated Google Maps API automatically populates building name, street line, pincode, state, and coordinates for lightning-fast onboarding."
     }
   ];
 

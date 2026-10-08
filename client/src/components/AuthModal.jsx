@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Crown, ShieldCheck, User, X, Check, Lock, Mail, Phone } from 'lucide-react';
+import { Building2, User, X, Check, Lock, Mail, Phone, Crown } from 'lucide-react';
 import { api } from '../services/api';
 
 export default function AuthModal({ isOpen, onClose, initialRole = 'owner', onLoginSuccess }) {
@@ -21,7 +21,7 @@ export default function AuthModal({ isOpen, onClose, initialRole = 'owner', onLo
 
     try {
       if (isRegister) {
-        const res = await api.register({ name, email, password, role, phone });
+        const res = await api.register({ name, email, password, role: 'owner', phone });
         onLoginSuccess(res.user);
         onClose();
       } else {
@@ -36,7 +36,7 @@ export default function AuthModal({ isOpen, onClose, initialRole = 'owner', onLo
     }
   };
 
-  // Quick 1-Click Demo Login buttons for instant tester access
+  // Quick 1-Click Demo Login button for instant Owner access
   const handleDemoLogin = (demoEmail, demoPass) => {
     setEmail(demoEmail);
     setPassword(demoPass);
@@ -66,46 +66,36 @@ export default function AuthModal({ isOpen, onClose, initialRole = 'owner', onLo
             width: '44px', height: '44px', background: 'var(--gold-gradient)', borderRadius: '10px',
             display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px auto', color: '#080808'
           }}>
-            <Crown size={24} />
+            <Building2 size={24} />
           </div>
           <h2 className="font-serif gold-gradient-text" style={{ fontSize: '1.6rem' }}>
-            {isRegister ? 'Create Aurelia Account' : 'Prestige Access Portal'}
+            {isRegister ? 'Register as PG Owner' : 'PG Owner Access Portal'}
           </h2>
           <p style={{ color: '#888', fontSize: '0.85rem' }}>
-            {isRegister ? 'Register as PG Owner or Student Resident' : 'Sign in to access your administrative dashboard'}
+            {isRegister ? 'Create your host account to list properties with 0% brokerage' : 'Sign in to access your properties, rooms, and tenant leads'}
           </p>
         </div>
 
-        {/* 1-Click Demo Logins */}
+        {/* 1-Click Demo Login for PG Owner ONLY (Super Admin is strictly hidden) */}
         {!isRegister && (
           <div style={{
-            background: '#121212',
-            border: '1px solid rgba(212,175,55,0.2)',
+            background: '#071739',
+            border: '1px solid rgba(212,175,55,0.3)',
             borderRadius: 'var(--radius-sm)',
             padding: '12px',
             marginBottom: '20px'
           }}>
             <span style={{ fontSize: '0.72rem', color: 'var(--gold-primary)', textTransform: 'uppercase', fontWeight: 700, display: 'block', marginBottom: '8px', textAlign: 'center' }}>
-              ⚡ 1-Click Instant Demo Profiles:
+              ⚡ 1-Click Demo Host Access:
             </span>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
-              <button 
-                type="button"
-                onClick={() => handleDemoLogin('superadmin@luxurypg.com', 'Super@123')}
-                className="btn btn-crimson btn-sm"
-                style={{ fontSize: '0.75rem', padding: '6px 8px' }}
-              >
-                <ShieldCheck size={13} /> Super Admin
-              </button>
-              <button 
-                type="button"
-                onClick={() => handleDemoLogin('rajesh@royalpg.com', 'Owner@123')}
-                className="btn btn-gold btn-sm"
-                style={{ fontSize: '0.75rem', padding: '6px 8px' }}
-              >
-                <Crown size={13} /> PG Owner Host
-              </button>
-            </div>
+            <button 
+              type="button"
+              onClick={() => handleDemoLogin('rajesh@royalpg.com', 'Owner@123')}
+              className="btn btn-gold btn-sm"
+              style={{ width: '100%', fontSize: '0.82rem', padding: '8px 12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+            >
+              <Crown size={14} /> Instant Demo PG Owner Login (Rajesh Sharma)
+            </button>
           </div>
         )}
 
@@ -119,33 +109,22 @@ export default function AuthModal({ isOpen, onClose, initialRole = 'owner', onLo
           {isRegister && (
             <>
               <div className="form-group">
-                <label className="form-label">Full Name</label>
+                <label className="form-label">Full Name / PG Entity Name</label>
                 <input 
                   type="text" 
                   required 
                   className="form-input" 
-                  placeholder="e.g. Vikram Sharma"
+                  placeholder="e.g. Rajesh Sharma"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
 
               <div className="form-group">
-                <label className="form-label">Account Role</label>
-                <select 
-                  className="form-select"
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                >
-                  <option value="owner">PG Owner (Unlimited Host Tier)</option>
-                  <option value="tenant">Student / Tenant Resident</option>
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Phone Number</label>
+                <label className="form-label">Phone / WhatsApp Number</label>
                 <input 
                   type="tel" 
+                  required
                   className="form-input" 
                   placeholder="+91 98765 43210"
                   value={phone}
@@ -161,7 +140,7 @@ export default function AuthModal({ isOpen, onClose, initialRole = 'owner', onLo
               type="email" 
               required 
               className="form-input" 
-              placeholder="user@domain.com"
+              placeholder="owner@domain.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -185,14 +164,14 @@ export default function AuthModal({ isOpen, onClose, initialRole = 'owner', onLo
             className="btn btn-gold" 
             style={{ width: '100%', marginTop: '12px' }}
           >
-            {loading ? 'Authenticating...' : isRegister ? 'Register Account' : 'Sign In'}
+            {loading ? 'Authenticating...' : isRegister ? 'Create Host Account' : 'Sign In as Owner'}
           </button>
         </form>
 
         <div style={{ textAlign: 'center', marginTop: '18px', fontSize: '0.85rem', color: '#888' }}>
           {isRegister ? (
             <span>
-              Already registered?{' '}
+              Already have an owner account?{' '}
               <button 
                 onClick={() => setIsRegister(false)} 
                 style={{ background: 'transparent', border: 'none', color: 'var(--gold-primary)', cursor: 'pointer', fontWeight: 600 }}
