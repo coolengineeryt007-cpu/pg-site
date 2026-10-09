@@ -128,16 +128,19 @@ export default function PgDetailView({ pg, onBack, onScheduleVisit }) {
 
       {/* Photo Gallery Grid */}
       <div style={{ marginBottom: '35px' }}>
-        <div style={{
-          position: 'relative',
-          width: '100%',
-          height: '460px',
-          borderRadius: 'var(--radius-lg)',
-          overflow: 'hidden',
-          border: '1px solid var(--gold-border)',
-          boxShadow: 'var(--shadow-luxury)',
-          marginBottom: '14px'
-        }}>
+        <div 
+          className="pg-detail-gallery-main"
+          style={{
+            position: 'relative',
+            width: '100%',
+            height: '460px',
+            borderRadius: 'var(--radius-lg)',
+            overflow: 'hidden',
+            border: '1px solid var(--gold-border)',
+            boxShadow: 'var(--shadow-luxury)',
+            marginBottom: '14px'
+          }}
+        >
           <img 
             src={photos[selectedPhoto]} 
             alt={pg.name} 
@@ -185,7 +188,7 @@ export default function PgDetailView({ pg, onBack, onScheduleVisit }) {
       </div>
 
       {/* Main Grid: Details (Left 7) & Pricing/Contact Card (Right 5) */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.8fr) minmax(0, 1.2fr)', gap: '35px' }}>
+      <div className="pg-detail-grid">
         {/* Left Column */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
           {/* About / Description */}

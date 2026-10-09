@@ -475,6 +475,21 @@ export default function Navbar({
           .portal-switch-link { display: none !important; }
           .mobile-toggle-btn { display: flex !important; align-items: center; justify-content: center; }
         }
+
+        @media (max-width: 480px) {
+          .brand-logo img {
+            height: 36px !important;
+          }
+          .brand-logo span:first-of-type {
+            font-size: 1.15rem !important;
+          }
+          .brand-logo span:last-of-type {
+            font-size: 0.58rem !important;
+          }
+          .nav-inner {
+            gap: 8px !important;
+          }
+        }
       `}</style>
     </header>
   );

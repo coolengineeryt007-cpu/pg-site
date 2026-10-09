@@ -117,7 +117,7 @@ export default function OwnerLanding({ onOpenLogin, onOpenRegister, onDemoLogin,
               <Sparkles size={14} /> 100% Zero Brokerage Listing
             </span>
 
-            <h1 className="font-serif" style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.4rem)', lineHeight: 1.2, marginBottom: '18px', fontWeight: 900, color: '#ffffff' }}>
+            <h1 className="font-serif" style={{ fontSize: 'clamp(1.75rem, 4.5vw, 3.4rem)', lineHeight: 1.2, marginBottom: '18px', fontWeight: 900, color: '#ffffff' }}>
               Fill Your Rooms Faster & <br />
               <span className="gold-gradient-text">Manage Your PG Properties</span>
             </h1>

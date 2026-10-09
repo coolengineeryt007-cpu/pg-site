@@ -33,9 +33,9 @@ export default function ContactUs() {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '35px', marginBottom: '60px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px', marginBottom: '60px' }}>
         {/* Contact Form */}
-        <div className="luxury-card" style={{ padding: '36px' }}>
+        <div className="luxury-card" style={{ padding: 'clamp(20px, 4vw, 36px)' }}>
           <h2 className="font-serif" style={{ fontSize: '1.5rem', color: '#fff', marginBottom: '10px' }}>
             Send Us a Priority Message
           </h2>

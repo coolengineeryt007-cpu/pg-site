@@ -580,6 +580,34 @@ h1, h2, h3, h4, .section-title {
   }
 }
 
+/* PG Detail View Responsiveness */
+.pg-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.2fr);
+  gap: 35px;
+}
+
+@media (max-width: 900px) {
+  .pg-detail-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .pg-detail-gallery-main {
+    height: 280px !important;
+  }
+}
+
+/* Global Media & Table Overflow Protection */
+img, svg, video, iframe {
+  max-width: 100%;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Modal Overlay */
 .modal-overlay {
   position: fixed;
