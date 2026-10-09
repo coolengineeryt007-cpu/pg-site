@@ -26,12 +26,20 @@ import GoogleMapView from '../components/GoogleMapView';
 export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenLogin }) {
   const [activeFaq, setActiveFaq] = useState(null);
 
-  const featuredPgs = pgs.filter(p => p.featured || p.rating >= 4.8).slice(0, 3);
+  // Show exactly 6 listings on the Home page
+  const featuredPgs = pgs.slice(0, 6);
   const sampleMarkers = pgs.slice(0, 6);
 
+  const handleProtectedNavigate = (page, filter = {}) => {
+    if (!currentUser) {
+      if (onOpenLogin) onOpenLogin('student');
+      return;
+    }
+    onNavigate(page, filter);
+  };
+
   const handleHeroLocationSelect = (parsed) => {
-    // Navigate to explore with the selected location and coordinates
-    onNavigate('explore', {
+    handleProtectedNavigate('explore', {
       lat: parsed.lat,
       lng: parsed.lng,
       search: parsed.area || parsed.city
@@ -112,28 +120,28 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
             marginBottom: '26px'
           }}>
             <button
-              onClick={() => onNavigate('explore', { propertyType: 'all' })}
+              onClick={() => handleProtectedNavigate('explore', { propertyType: 'all' })}
               className="btn btn-gold btn-sm"
               style={{ borderRadius: 'var(--radius-full)', padding: '8px 18px', fontWeight: 700 }}
             >
               🌟 All Rentals
             </button>
             <button
-              onClick={() => onNavigate('explore', { propertyType: 'house' })}
+              onClick={() => handleProtectedNavigate('explore', { propertyType: 'house' })}
               className="btn btn-outline-gold btn-sm"
               style={{ borderRadius: 'var(--radius-full)', padding: '8px 18px', fontWeight: 600 }}
             >
               🏠 Houses & Flats (1/2/3 BHK)
             </button>
             <button
-              onClick={() => onNavigate('explore', { propertyType: 'room' })}
+              onClick={() => handleProtectedNavigate('explore', { propertyType: 'room' })}
               className="btn btn-outline-gold btn-sm"
               style={{ borderRadius: 'var(--radius-full)', padding: '8px 18px', fontWeight: 600 }}
             >
               🛏️ Rental Rooms (1RK / Studio)
             </button>
             <button
-              onClick={() => onNavigate('explore', { propertyType: 'pg' })}
+              onClick={() => handleProtectedNavigate('explore', { propertyType: 'pg' })}
               className="btn btn-outline-gold btn-sm"
               style={{ borderRadius: 'var(--radius-full)', padding: '8px 18px', fontWeight: 600 }}
             >
@@ -157,28 +165,28 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '14px' }}>
             <span style={{ fontSize: '0.82rem', color: '#8E9DB2', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Ideal For:</span>
             <button
-              onClick={() => onNavigate('explore', { suitableFor: 'Family' })}
+              onClick={() => handleProtectedNavigate('explore', { suitableFor: 'Family' })}
               className="btn btn-ghost btn-sm"
               style={{ borderRadius: 'var(--radius-full)', padding: '4px 12px', fontSize: '0.8rem', color: '#FCD34D' }}
             >
               👨‍👩‍👧 Families
             </button>
             <button
-              onClick={() => onNavigate('explore', { suitableFor: 'Working Professionals' })}
+              onClick={() => handleProtectedNavigate('explore', { suitableFor: 'Working Professionals' })}
               className="btn btn-ghost btn-sm"
               style={{ borderRadius: 'var(--radius-full)', padding: '4px 12px', fontSize: '0.8rem', color: '#60A5FA' }}
             >
               💼 Working Professionals
             </button>
             <button
-              onClick={() => onNavigate('explore', { suitableFor: 'Students' })}
+              onClick={() => handleProtectedNavigate('explore', { suitableFor: 'Students' })}
               className="btn btn-ghost btn-sm"
               style={{ borderRadius: 'var(--radius-full)', padding: '4px 12px', fontSize: '0.8rem', color: '#34D399' }}
             >
               🎓 Students & Scholars
             </button>
             <button
-              onClick={() => onNavigate('explore', { suitableFor: 'All' })}
+              onClick={() => handleProtectedNavigate('explore', { suitableFor: 'All' })}
               className="btn btn-ghost btn-sm"
               style={{ borderRadius: 'var(--radius-full)', padding: '4px 12px', fontSize: '0.8rem', color: '#E2E8F0' }}
             >
@@ -192,7 +200,7 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
             {['Rajkot (Kalawad / Raiya)', 'Koramangala (Bengaluru)', 'Hitech City (Hyderabad)', 'Hinjewadi (Pune)', 'Bandra (Mumbai)', 'DLF Cyber City (Gurugram)'].map((city) => (
               <button
                 key={city}
-                onClick={() => onNavigate('explore', { search: city.includes('Rajkot') ? 'Rajkot' : city.includes('Koramangala') ? 'Koramangala' : city.split(' ')[0] })}
+                onClick={() => handleProtectedNavigate('explore', { search: city.includes('Rajkot') ? 'Rajkot' : city.includes('Koramangala') ? 'Koramangala' : city.split(' ')[0] })}
                 className="btn btn-ghost btn-sm"
                 style={{ borderRadius: 'var(--radius-full)', padding: '4px 12px', fontSize: '0.78rem', borderColor: 'rgba(14, 116, 237, 0.3)' }}
               >
@@ -304,7 +312,7 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
             </div>
 
             <button 
-              onClick={() => onNavigate('explore')}
+              onClick={() => handleProtectedNavigate('explore')}
               className="btn btn-outline-gold"
               style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
             >

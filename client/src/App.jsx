@@ -16,6 +16,8 @@ import ContactUs from './pages/ContactUs';
 import Blogs from './pages/Blogs';
 import BlogDetail from './pages/BlogDetail';
 import Legal from './pages/Legal';
+import LockedPageGate from './components/LockedPageGate';
+import { Lock, LogIn } from 'lucide-react';
 
 import { api } from './services/api';
 
@@ -369,7 +371,7 @@ export default function App() {
 
       {/* Main Content Router */}
       <main style={{ flex: 1 }}>
-        {/* STUDENT MODE (URL: /#student, /#explore, /#nearme) - ZERO LOGIN REQUIRED */}
+        {/* STUDENT MODE (URL: /student) - HOME PAGE ALWAYS ACCESSIBLE */}
         {activePage === 'home' && (
           <Home 
             pgs={allPgs}
@@ -383,48 +385,127 @@ export default function App() {
           />
         )}
 
-        {activePage === 'explore' && (
-          <Explore 
-            onSelectPg={handleSelectPg}
-            initialFilter={exploreFilter}
-            currentUser={currentUser}
-            onOpenLogin={(role = 'tenant') => {
-              setAuthModalRole(role);
-              setAuthModalOpen(true);
-            }}
-          />
-        )}
-
+        {/* DETAIL PAGE: IF NOT LOGGED IN, SHOW "PLEASE LOGIN FOR MORE INFORMATION" GATEWAY */}
         {activePage === 'detail' && selectedPg && (
-          <PgDetailView 
-            pg={selectedPg}
-            onBack={() => handleNavigate('explore')}
-            currentUser={currentUser}
-            onOpenLogin={(role = 'tenant') => {
-              setAuthModalRole(role);
-              setAuthModalOpen(true);
-            }}
-          />
+          !currentUser ? (
+            <div className="container" style={{ padding: '60px 20px', minHeight: '70vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <div className="luxury-card" style={{ maxWidth: '640px', width: '100%', padding: '36px 30px', textAlign: 'center' }}>
+                {/* Selected Property Preview */}
+                <div style={{ position: 'relative', height: '220px', borderRadius: '14px', overflow: 'hidden', marginBottom: '24px' }}>
+                  <img 
+                    src={selectedPg.photos?.[0] || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80'} 
+                    alt={selectedPg.name}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 20%, rgba(4,13,33,0.92) 100%)' }} />
+                  <div style={{ position: 'absolute', bottom: '16px', left: '18px', right: '18px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                    <div style={{ textAlign: 'left' }}>
+                      <h3 style={{ color: '#ffffff', fontSize: '1.35rem', fontWeight: 800, margin: '0 0 4px 0' }}>
+                        {selectedPg.name}
+                      </h3>
+                      <span style={{ color: '#CBD5E1', fontSize: '0.85rem' }}>
+                        📍 {selectedPg.address?.area}, {selectedPg.address?.city}
+                      </span>
+                    </div>
+                    <span className="badge badge-gold" style={{ fontSize: '0.9rem', fontWeight: 800 }}>
+                      ₹{selectedPg.rent?.toLocaleString('en-IN')}/mo
+                    </span>
+                  </div>
+                </div>
+
+                <div style={{
+                  width: '64px',
+                  height: '64px',
+                  borderRadius: '50%',
+                  background: 'rgba(212, 175, 55, 0.15)',
+                  border: '1.5px solid rgba(212, 175, 55, 0.5)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 16px auto',
+                  color: 'var(--gold-primary)'
+                }}>
+                  <Lock size={30} />
+                </div>
+
+                <h2 className="font-serif gold-gradient-text" style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '10px' }}>
+                  Please Login for More Information
+                </h2>
+
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6, maxWidth: '500px', margin: '0 auto 26px auto' }}>
+                  Full house details, exact street address, host direct phone & WhatsApp contacts, verified room availability, and physical visit scheduling are locked. Please login with your student/seeker account to view all details.
+                </p>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '380px', margin: '0 auto' }}>
+                  <button 
+                    onClick={() => {
+                      setAuthModalRole('tenant');
+                      setAuthModalOpen(true);
+                    }}
+                    className="btn btn-gold btn-lg"
+                    style={{ width: '100%', fontSize: '1rem', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
+                  >
+                    <LogIn size={18} />
+                    <span>Please Login for More Information</span>
+                  </button>
+
+                  <button 
+                    onClick={() => handleNavigate('home')}
+                    className="btn btn-ghost"
+                    style={{ width: '100%', fontSize: '0.9rem' }}
+                  >
+                    ← Back to Home Listings
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <PgDetailView 
+              pg={selectedPg}
+              onBack={() => handleNavigate('explore')}
+              currentUser={currentUser}
+              onOpenLogin={(role = 'tenant') => {
+                setAuthModalRole(role);
+                setAuthModalOpen(true);
+              }}
+            />
+          )
         )}
 
-        {/* OWNER MODE (URL: /#owner) - HOST PORTAL / DASHBOARD */}
-        {activePage === 'owner-portal' && (
-          <OwnerLanding 
-            onOpenLogin={() => {
-              setAuthModalRole('owner');
-              setAuthModalOpen(true);
-            }}
-            onOpenRegister={() => {
-              setAuthModalRole('owner');
-              setAuthModalOpen(true);
-            }}
-            onDemoLogin={handleDemoOwnerLogin}
-            onSwitchToStudent={handleSelectStudentPortal}
-          />
+        {/* EXPLORE PAGE: ONLY SHOWN IF LOGGED IN */}
+        {activePage === 'explore' && (
+          !currentUser ? (
+            <LockedPageGate 
+              title="Please Login to Explore Properties"
+              message="Access to all verified rental properties is restricted to registered members. Please sign in to unlock all listings, live GPS filters, and direct owner WhatsApp contacts."
+              role="student"
+              onOpenLogin={(r) => { setAuthModalRole(r); setAuthModalOpen(true); }}
+              onGoHome={() => handleNavigate('home')}
+            />
+          ) : (
+            <Explore 
+              onSelectPg={handleSelectPg}
+              initialFilter={exploreFilter}
+              currentUser={currentUser}
+              onOpenLogin={(role = 'tenant') => {
+                setAuthModalRole(role);
+                setAuthModalOpen(true);
+              }}
+            />
+          )
         )}
 
-        {activePage === 'owner' && (
-          currentUser && currentUser.role === 'owner' ? (
+        {/* OWNER MODE: ONLY SHOWN IF LOGGED IN AS OWNER */}
+        {(activePage === 'owner-portal' || activePage === 'owner') && (
+          !currentUser ? (
+            <LockedPageGate 
+              title="Please Login to Access Host Portal"
+              message="The Property Host Portal is reserved for property owners, landlords, and PG managers. Please log in with your host credentials to manage your properties."
+              role="owner"
+              onOpenLogin={(r) => { setAuthModalRole('owner'); setAuthModalOpen(true); }}
+              onGoHome={() => handleNavigate('home')}
+            />
+          ) : currentUser.role === 'owner' ? (
             <OwnerPanel 
               currentUser={currentUser}
               onSelectPg={handleSelectPg}
@@ -447,7 +528,7 @@ export default function App() {
           )
         )}
 
-        {/* SUPER ADMIN (SECRET URL ONLY: /#admin-secret) */}
+        {/* SUPER ADMIN (SECRET URL ONLY: /superadmin) */}
         {activePage === 'superadmin' && (
           currentUser && currentUser.role === 'superadmin' ? (
             <SuperAdminPanel 
@@ -466,32 +547,80 @@ export default function App() {
           )
         )}
 
-        {/* GENERAL PAGES */}
+        {/* GENERAL PAGES: PROTECTED WITH LOGIN GATE */}
         {activePage === 'about' && (
-          <AboutUs />
+          !currentUser ? (
+            <LockedPageGate 
+              title="Please Login to View About Us"
+              message="Our company background and mission information are reserved for registered members. Please sign in to continue."
+              role="student"
+              onOpenLogin={(r) => { setAuthModalRole(r); setAuthModalOpen(true); }}
+              onGoHome={() => handleNavigate('home')}
+            />
+          ) : (
+            <AboutUs />
+          )
         )}
 
         {activePage === 'contact' && (
-          <ContactUs />
+          !currentUser ? (
+            <LockedPageGate 
+              title="Please Login to View Concierge Contact"
+              message="Our direct phone support, VIP concierge desk, and physical office locations are available to registered members."
+              role="student"
+              onOpenLogin={(r) => { setAuthModalRole(r); setAuthModalOpen(true); }}
+              onGoHome={() => handleNavigate('home')}
+            />
+          ) : (
+            <ContactUs />
+          )
         )}
 
         {activePage === 'blogs' && (
-          <Blogs 
-            onSelectBlog={handleSelectBlog}
-          />
+          !currentUser ? (
+            <LockedPageGate 
+              title="Please Login to Read Rental Guides"
+              message="Unlock all tenant relocation guides, city living advice, and tenant checklists by signing in with your account."
+              role="student"
+              onOpenLogin={(r) => { setAuthModalRole(r); setAuthModalOpen(true); }}
+              onGoHome={() => handleNavigate('home')}
+            />
+          ) : (
+            <Blogs 
+              onSelectBlog={handleSelectBlog}
+            />
+          )
         )}
 
         {activePage === 'blog-detail' && selectedBlog && (
-          <BlogDetail 
-            blog={selectedBlog}
-            onBack={() => handleNavigate('blogs')}
-          />
+          !currentUser ? (
+            <LockedPageGate 
+              title="Please Login to Read Full Article"
+              role="student"
+              onOpenLogin={(r) => { setAuthModalRole(r); setAuthModalOpen(true); }}
+              onGoHome={() => handleNavigate('home')}
+            />
+          ) : (
+            <BlogDetail 
+              blog={selectedBlog}
+              onBack={() => handleNavigate('blogs')}
+            />
+          )
         )}
 
         {(activePage === 'terms' || activePage === 'privacy') && (
-          <Legal 
-            initialTab={activePage}
-          />
+          !currentUser ? (
+            <LockedPageGate 
+              title="Please Login to View Policy Documents"
+              role="student"
+              onOpenLogin={(r) => { setAuthModalRole(r); setAuthModalOpen(true); }}
+              onGoHome={() => handleNavigate('home')}
+            />
+          ) : (
+            <Legal 
+              initialTab={activePage}
+            />
+          )
         )}
       </main>
 

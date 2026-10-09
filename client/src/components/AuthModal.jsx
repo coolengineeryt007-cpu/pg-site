@@ -168,64 +168,11 @@ export default function AuthModal({
           </button>
         </div>
 
-        {/* Portal / Role Switcher Tabs */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '8px',
-          background: 'rgba(2, 6, 23, 0.8)',
-          padding: '6px',
-          borderRadius: '12px',
-          border: '1px solid rgba(14, 116, 237, 0.25)',
-          marginBottom: '22px'
-        }}>
-          <button
-            type="button"
-            onClick={() => { setRole('tenant'); setError(''); }}
-            style={{
-              padding: '10px 14px',
-              borderRadius: '8px',
-              border: 'none',
-              cursor: 'pointer',
-              fontWeight: 700,
-              fontSize: '0.86rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              transition: 'all 0.2s ease',
-              background: role === 'tenant' ? 'var(--blue-gradient)' : 'transparent',
-              color: role === 'tenant' ? '#ffffff' : '#94A3B8',
-              boxShadow: role === 'tenant' ? '0 4px 12px rgba(14, 116, 237, 0.35)' : 'none'
-            }}
-          >
-            <GraduationCap size={17} />
-            <span>Tenant / Seeker</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => { setRole('owner'); setError(''); }}
-            style={{
-              padding: '10px 14px',
-              borderRadius: '8px',
-              border: 'none',
-              cursor: 'pointer',
-              fontWeight: 700,
-              fontSize: '0.86rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              transition: 'all 0.2s ease',
-              background: role === 'owner' ? 'var(--gold-gradient)' : 'transparent',
-              color: role === 'owner' ? '#080808' : '#94A3B8',
-              boxShadow: role === 'owner' ? '0 4px 12px rgba(212, 175, 55, 0.35)' : 'none'
-            }}
-          >
-            <Building2 size={17} />
-            <span>Property Host</span>
-          </button>
+        {/* Dedicated Portal Badge (Strictly Single Role: Student OR Owner) */}
+        <div style={{ textAlign: 'center', marginBottom: '14px' }}>
+          <span className={`badge ${role === 'owner' ? 'badge-gold' : 'badge-blue'}`} style={{ fontSize: '0.84rem', padding: '6px 16px', fontWeight: 700 }}>
+            {role === 'owner' ? '🏢 Property Owner & Landlord Portal' : '🎓 Student & Home Seeker Portal'}
+          </span>
         </div>
 
         {/* Modal Title & Welcome Notice */}

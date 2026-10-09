@@ -16,7 +16,8 @@ import {
   Sparkles,
   LayoutDashboard,
   ArrowRight,
-  ShieldCheck
+  ShieldCheck,
+  LogIn
 } from 'lucide-react';
 
 export default function Navbar({ 
@@ -159,14 +160,38 @@ export default function Navbar({
           {userRoleMode === 'student' ? (
             /* Tenant Page Actions */
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <button 
-                onClick={() => handleNav('explore')}
-                className="btn btn-gold btn-sm"
-                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-              >
-                <Compass size={15} />
-                <span>Browse Rentals</span>
-              </button>
+              {currentUser ? (
+                <div 
+                  style={{
+                    background: 'rgba(14, 116, 237, 0.12)',
+                    padding: '6px 12px',
+                    borderRadius: 'var(--radius-sm)',
+                    fontSize: '0.85rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    border: '1px solid rgba(14, 116, 237, 0.3)'
+                  }}
+                >
+                  <span style={{ color: 'var(--gold-light)', fontWeight: 600 }}>{currentUser.name}</span>
+                  <button 
+                    onClick={onLogout} 
+                    title="Logout" 
+                    style={{ background: 'transparent', border: 'none', color: '#94A3B8', cursor: 'pointer', padding: 0 }}
+                  >
+                    <LogOut size={15} />
+                  </button>
+                </div>
+              ) : (
+                <button 
+                  onClick={() => onLoginClick('student')}
+                  className="btn btn-outline-gold btn-sm"
+                  style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                >
+                  <LogIn size={15} />
+                  <span>Student Sign In</span>
+                </button>
+              )}
 
               {/* Clean link to the separate PG Owner page */}
               <a 
