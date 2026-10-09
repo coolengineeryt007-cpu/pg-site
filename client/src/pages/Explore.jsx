@@ -112,13 +112,7 @@ export default function Explore({ onSelectPg, initialFilter = {} }) {
 
       {/* Main Filter & Search Control Panel */}
       <div className="luxury-card" style={{ padding: '24px', marginBottom: '30px' }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'minmax(280px, 1.5fr) minmax(140px, 1fr) minmax(140px, 1fr) auto',
-          gap: '16px',
-          alignItems: 'center',
-          marginBottom: '20px'
-        }}>
+        <div className="explore-filter-grid">
           {/* Location Search Bar */}
           <LocationSearchBar 
             initialValue={search}

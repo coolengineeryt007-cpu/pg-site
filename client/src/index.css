@@ -508,14 +508,75 @@ h1, h2, h3, h4, .section-title {
   cursor: pointer;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .nav-links {
-    display: none;
+    display: none !important;
   }
   .mobile-nav-toggle {
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
+  }
+}
+
+/* ==========================================================================
+   FLUID RESPONSIVE GRID SYSTEM
+   ========================================================================== */
+.grid-1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+@media (max-width: 1024px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+}
+
+/* Explore Page Filter Grid Responsiveness */
+.explore-filter-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.5fr) minmax(140px, 1fr) minmax(140px, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 960px) {
+  .explore-filter-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .explore-filter-grid {
+    grid-template-columns: 1fr !important;
   }
 }
 

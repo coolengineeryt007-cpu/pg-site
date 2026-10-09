@@ -83,7 +83,7 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
           </div>
 
           {/* Main H1 */}
-          <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.2rem)', lineHeight: 1.15, marginBottom: '20px', fontWeight: 900, color: '#ffffff' }}>
+          <h1 className="font-serif" style={{ fontSize: 'clamp(1.85rem, 5vw, 4.2rem)', lineHeight: 1.15, marginBottom: '20px', fontWeight: 900, color: '#ffffff' }}>
             Live Like Royalty in <br />
             <span className="gold-gradient-text">Curated Coliving Suites</span>
           </h1>
@@ -151,9 +151,9 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
               }}>
                 <ShieldCheck size={28} />
               </div>
-              <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '10px' }}>100% Super Admin Vetted</h3>
+              <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '10px' }}>100% Quality Vetted</h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>
-                Every PG is rigorously inspected and approved by root administrators before going live. Zero catfishing.
+                Every PG is rigorously inspected and verified before going live. Zero catfishing.
               </p>
             </div>
 

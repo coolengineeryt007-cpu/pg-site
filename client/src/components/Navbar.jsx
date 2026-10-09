@@ -14,14 +14,14 @@ import {
   X,
   Sparkles,
   LayoutDashboard,
-  CheckCircle2
+  ArrowRight,
+  ShieldCheck
 } from 'lucide-react';
 
 export default function Navbar({ 
   activePage, 
   setActivePage, 
   userRoleMode = 'student', 
-  onChangeRoleMode, 
   currentUser, 
   onLoginClick, 
   onLogout 
@@ -34,188 +34,123 @@ export default function Navbar({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleRoleSwitch = (mode) => {
-    if (onChangeRoleMode) {
-      onChangeRoleMode(mode);
-    }
-    setMobileMenuOpen(false);
-  };
-
   return (
     <header className="navbar">
       <div className="container nav-inner">
         {/* Left Side: Brand Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <a 
-            href="#portal" 
-            onClick={(e) => { e.preventDefault(); handleNav('portal'); }} 
-            className="brand-logo"
-            title="Return to Main Portal Selection"
-            style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}
-          >
-            <img 
-              src="/logo.png" 
-              alt="Vrundavan Ventures" 
-              style={{ 
-                height: '42px', 
-                width: 'auto', 
-                objectFit: 'contain',
-                filter: 'drop-shadow(0 2px 8px rgba(14, 116, 237, 0.45))'
-              }} 
-            />
-            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1 }}>
-              <span style={{ 
-                background: 'linear-gradient(135deg, #93C5FD 0%, #3B82F6 40%, #00D2B4 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontSize: '1.25rem',
-                fontWeight: 900,
-                letterSpacing: '0.06em',
-                fontFamily: 'var(--font-serif)'
-              }}>
-                VRUNDAVAN
-              </span>
-              <span style={{ 
-                background: 'linear-gradient(135deg, #FFDF70 0%, #D4AF37 60%, #B45309 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontSize: '0.62rem',
-                letterSpacing: '0.28em',
-                fontWeight: 800,
-                paddingLeft: '1px'
-              }}>
-                VENTURES
-              </span>
-            </div>
-          </a>
-
-          {/* Prominent Two-Option Mode Pill (Student vs PG Owner) */}
-          <div className="role-mode-pill-desktop">
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              background: 'rgba(7, 23, 57, 0.95)',
-              border: '1px solid rgba(14, 116, 237, 0.4)',
-              borderRadius: 'var(--radius-full)',
-              padding: '3px',
-              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.35)'
+        <a 
+          href="#portal" 
+          onClick={(e) => { e.preventDefault(); handleNav('portal'); }} 
+          className="brand-logo"
+          title="Return to Main Portal Selection"
+          style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}
+        >
+          <img 
+            src="/logo.png" 
+            alt="Vrundavan Ventures" 
+            style={{ 
+              height: '44px', 
+              width: 'auto', 
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 2px 8px rgba(14, 116, 237, 0.5))'
+            }} 
+          />
+          <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1 }}>
+            <span style={{ 
+              background: 'linear-gradient(135deg, #93C5FD 0%, #3B82F6 40%, #00D2B4 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontSize: '1.3rem',
+              fontWeight: 900,
+              letterSpacing: '0.06em',
+              fontFamily: 'var(--font-serif)'
             }}>
-              <button
-                type="button"
-                onClick={() => handleRoleSwitch('student')}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '6px 14px',
-                  borderRadius: 'var(--radius-full)',
-                  border: 'none',
-                  fontSize: '0.82rem',
-                  fontWeight: userRoleMode === 'student' ? 800 : 600,
-                  cursor: 'pointer',
-                  transition: 'all 0.25s ease',
-                  background: userRoleMode === 'student' 
-                    ? 'linear-gradient(135deg, #1D68F2 0%, #0E74ED 60%, #00D2B4 100%)' 
-                    : 'transparent',
-                  color: userRoleMode === 'student' ? '#ffffff' : '#94A3B8',
-                  boxShadow: userRoleMode === 'student' ? '0 2px 10px rgba(14, 116, 237, 0.5)' : 'none'
-                }}
-              >
-                <GraduationCap size={15} />
-                <span>For Students</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleRoleSwitch('owner')}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '6px 14px',
-                  borderRadius: 'var(--radius-full)',
-                  border: 'none',
-                  fontSize: '0.82rem',
-                  fontWeight: userRoleMode === 'owner' ? 800 : 600,
-                  cursor: 'pointer',
-                  transition: 'all 0.25s ease',
-                  background: userRoleMode === 'owner' 
-                    ? 'linear-gradient(135deg, #FFF2B2 0%, #F5C542 40%, #D4AF37 100%)' 
-                    : 'transparent',
-                  color: userRoleMode === 'owner' ? '#040D21' : '#94A3B8',
-                  boxShadow: userRoleMode === 'owner' ? '0 2px 10px rgba(212, 175, 55, 0.5)' : 'none'
-                }}
-              >
-                <Building2 size={15} />
-                <span>For PG Owners</span>
-              </button>
-            </div>
+              VRUNDAVAN
+            </span>
+            <span style={{ 
+              background: 'linear-gradient(135deg, #FFDF70 0%, #D4AF37 60%, #B45309 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontSize: '0.64rem',
+              letterSpacing: '0.28em',
+              fontWeight: 800,
+              paddingLeft: '2px'
+            }}>
+              VENTURES
+            </span>
           </div>
-        </div>
+        </a>
 
-        {/* Center / Desktop Navigation Links */}
+        {/* Center: Nicer, Luxury Desktop Navigation Menu */}
         <nav className="nav-links">
           {userRoleMode === 'student' ? (
-            /* STUDENT MODE: Frictionless navigation, ZERO login required */
+            /* STUDENT PAGE MENU: 100% Student-Centric, Zero Login */
             <>
               <a 
                 href="#explore" 
                 onClick={(e) => { e.preventDefault(); handleNav('explore'); }}
-                className={`nav-link ${activePage === 'explore' ? 'active' : ''}`}
+                className={`luxury-menu-link ${activePage === 'explore' ? 'active' : ''}`}
               >
-                <Compass size={16} /> Explore PGs
+                <Compass size={17} style={{ color: 'var(--gold-primary)' }} />
+                <span>Explore PGs</span>
               </a>
 
               <a 
                 href="#nearme" 
                 onClick={(e) => { e.preventDefault(); handleNav('nearme'); }}
-                className={`nav-link ${activePage === 'nearme' ? 'active' : ''}`}
+                className={`luxury-menu-link ${activePage === 'nearme' ? 'active' : ''}`}
               >
-                <MapPin size={16} style={{ color: 'var(--blue-light)' }} /> Near Me
+                <MapPin size={17} style={{ color: 'var(--blue-light)' }} />
+                <span>Near Me</span>
               </a>
 
               <a 
                 href="#blogs" 
                 onClick={(e) => { e.preventDefault(); handleNav('blogs'); }}
-                className={`nav-link ${activePage === 'blogs' ? 'active' : ''}`}
+                className={`luxury-menu-link ${activePage === 'blogs' ? 'active' : ''}`}
               >
-                <BookOpen size={16} /> Guides & Blog
+                <BookOpen size={17} style={{ color: '#00D2B4' }} />
+                <span>Guides & Blog</span>
               </a>
 
               <a 
                 href="#about" 
                 onClick={(e) => { e.preventDefault(); handleNav('about'); }}
-                className={`nav-link ${activePage === 'about' ? 'active' : ''}`}
+                className={`luxury-menu-link ${activePage === 'about' ? 'active' : ''}`}
               >
-                <Info size={16} /> About Us
+                <Info size={17} style={{ color: '#94A3B8' }} />
+                <span>About Us</span>
               </a>
 
               <a 
                 href="#contact" 
                 onClick={(e) => { e.preventDefault(); handleNav('contact'); }}
-                className={`nav-link ${activePage === 'contact' ? 'active' : ''}`}
+                className={`luxury-menu-link ${activePage === 'contact' ? 'active' : ''}`}
               >
-                <PhoneCall size={16} /> Contact
+                <PhoneCall size={17} style={{ color: 'var(--gold-light)' }} />
+                <span>Contact</span>
               </a>
             </>
           ) : (
-            /* OWNER MODE: Host navigation */
+            /* OWNER PAGE MENU: 100% Host-Centric */
             <>
               {currentUser && currentUser.role === 'owner' ? (
                 <>
                   <a 
                     href="#owner" 
                     onClick={(e) => { e.preventDefault(); handleNav('owner'); }}
-                    className={`nav-link ${activePage === 'owner' ? 'active' : ''}`}
+                    className={`luxury-menu-link ${activePage === 'owner' ? 'active' : ''}`}
                   >
-                    <LayoutDashboard size={16} /> Host Dashboard
+                    <LayoutDashboard size={17} style={{ color: 'var(--gold-primary)' }} />
+                    <span>Host Dashboard</span>
                   </a>
                   <a 
                     href="#owner-listings" 
                     onClick={(e) => { e.preventDefault(); handleNav('owner'); }}
-                    className="nav-link"
+                    className="luxury-menu-link"
                   >
-                    <Building2 size={16} /> My Listings
+                    <Building2 size={17} style={{ color: 'var(--blue-light)' }} />
+                    <span>My Properties</span>
                   </a>
                 </>
               ) : (
@@ -223,16 +158,18 @@ export default function Navbar({
                   <a 
                     href="#owner-portal" 
                     onClick={(e) => { e.preventDefault(); handleNav('owner-portal'); }}
-                    className={`nav-link ${activePage === 'owner-portal' ? 'active' : ''}`}
+                    className={`luxury-menu-link ${activePage === 'owner-portal' ? 'active' : ''}`}
                   >
-                    <Building2 size={16} /> Host Benefits
+                    <Building2 size={17} style={{ color: 'var(--gold-primary)' }} />
+                    <span>Host Overview</span>
                   </a>
                   <a 
                     href="#contact" 
                     onClick={(e) => { e.preventDefault(); handleNav('contact'); }}
-                    className="nav-link"
+                    className="luxury-menu-link"
                   >
-                    <PhoneCall size={16} /> Owner Support
+                    <PhoneCall size={17} style={{ color: 'var(--blue-light)' }} />
+                    <span>Host Support</span>
                   </a>
                 </>
               )}
@@ -240,43 +177,37 @@ export default function Navbar({
           )}
         </nav>
 
-        {/* Right CTA Area */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {/* Right Side: CTAs & Separate Page Switcher Links (NO TAB SWITCHER) */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           {userRoleMode === 'student' ? (
-            /* STUDENT MODE: Direct call to action, ZERO auth clutter */
+            /* Student Page Actions */
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div 
-                className="student-zero-badge"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  background: 'rgba(0, 210, 180, 0.1)',
-                  border: '1px solid rgba(0, 210, 180, 0.35)',
-                  padding: '5px 12px',
-                  borderRadius: 'var(--radius-full)',
-                  fontSize: '0.78rem',
-                  color: '#5EEAD4',
-                  fontWeight: 600
-                }}
-              >
-                <CheckCircle2 size={13} />
-                <span>Zero Login Needed</span>
-              </div>
-
               <button 
                 onClick={() => handleNav('explore')}
-                className="btn btn-outline-gold btn-sm"
+                className="btn btn-gold btn-sm"
                 style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
               >
-                <Compass size={14} /> Find Rooms
+                <Compass size={15} />
+                <span>Find Rooms</span>
               </button>
+
+              {/* Clean link to the separate PG Owner page */}
+              <a 
+                href="#owner" 
+                onClick={(e) => { e.preventDefault(); handleNav('owner-portal'); }}
+                className="portal-switch-link"
+                title="Switch to PG Owner Portal"
+              >
+                <Building2 size={14} />
+                <span>Host Portal</span>
+                <ArrowRight size={13} />
+              </a>
             </div>
           ) : (
-            /* OWNER MODE: Host controls */
+            /* Owner Page Actions */
             <>
               {currentUser && currentUser.role === 'owner' ? (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <button 
                     onClick={() => handleNav('owner')} 
                     className={`btn btn-sm ${activePage === 'owner' ? 'btn-gold' : 'btn-outline-gold'}`}
@@ -306,9 +237,19 @@ export default function Navbar({
                       <LogOut size={15} />
                     </button>
                   </div>
+
+                  <a 
+                    href="#student" 
+                    onClick={(e) => { e.preventDefault(); handleNav('home'); }}
+                    className="portal-switch-link"
+                    title="Switch to Student Portal"
+                  >
+                    <GraduationCap size={14} />
+                    <span>Student View</span>
+                  </a>
                 </div>
               ) : (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <button 
                     onClick={() => onLoginClick('owner')} 
                     className="btn btn-ghost btn-sm"
@@ -324,12 +265,24 @@ export default function Navbar({
                   >
                     <PlusCircle size={15} /> List Your PG
                   </button>
+
+                  {/* Clean link to the separate Student page */}
+                  <a 
+                    href="#student" 
+                    onClick={(e) => { e.preventDefault(); handleNav('home'); }}
+                    className="portal-switch-link"
+                    title="Switch to Student Portal"
+                  >
+                    <GraduationCap size={14} />
+                    <span>Students</span>
+                    <ArrowRight size={13} />
+                  </a>
                 </div>
               )}
             </>
           )}
 
-          {/* Mobile Hamburger Button */}
+          {/* Mobile Hamburger Menu Toggle */}
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
             aria-label="Toggle navigation menu"
@@ -337,7 +290,7 @@ export default function Navbar({
               background: 'rgba(14, 116, 237, 0.15)',
               border: '1px solid rgba(14, 116, 237, 0.35)',
               color: '#fff',
-              padding: '8px',
+              padding: '8px 10px',
               borderRadius: 'var(--radius-sm)',
               cursor: 'pointer',
               display: 'none'
@@ -354,137 +307,172 @@ export default function Navbar({
         <div style={{
           background: 'rgba(4, 13, 33, 0.98)',
           borderBottom: '1px solid var(--blue-border)',
-          padding: '20px 16px',
+          padding: '24px 20px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '14px',
+          gap: '16px',
           animation: 'fadeIn 0.2s ease-out'
         }}>
-          {/* Mobile Role Switcher Pill */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            background: 'rgba(7, 23, 57, 0.95)',
-            border: '1px solid rgba(14, 116, 237, 0.4)',
-            borderRadius: 'var(--radius-full)',
-            padding: '3px',
-            marginBottom: '6px'
-          }}>
-            <button
-              type="button"
-              onClick={() => handleRoleSwitch('student')}
-              style={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
-                padding: '8px 12px',
-                borderRadius: 'var(--radius-full)',
-                border: 'none',
-                fontSize: '0.85rem',
-                fontWeight: userRoleMode === 'student' ? 800 : 600,
-                cursor: 'pointer',
-                background: userRoleMode === 'student' 
-                  ? 'linear-gradient(135deg, #1D68F2 0%, #0E74ED 60%, #00D2B4 100%)' 
-                  : 'transparent',
-                color: userRoleMode === 'student' ? '#ffffff' : '#94A3B8'
-              }}
-            >
-              <GraduationCap size={16} /> For Students
-            </button>
-
-            <button
-              type="button"
-              onClick={() => handleRoleSwitch('owner')}
-              style={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
-                padding: '8px 12px',
-                borderRadius: 'var(--radius-full)',
-                border: 'none',
-                fontSize: '0.85rem',
-                fontWeight: userRoleMode === 'owner' ? 800 : 600,
-                cursor: 'pointer',
-                background: userRoleMode === 'owner' 
-                  ? 'linear-gradient(135deg, #FFF2B2 0%, #F5C542 40%, #D4AF37 100%)' 
-                  : 'transparent',
-                color: userRoleMode === 'owner' ? '#040D21' : '#94A3B8'
-              }}
-            >
-              <Building2 size={16} /> For PG Owners
-            </button>
-          </div>
-
           {userRoleMode === 'student' ? (
-            /* Mobile Student Links - zero login */
+            /* Mobile Student Navigation */
             <>
-              <a href="#explore" onClick={() => handleNav('explore')} className="nav-link" style={{ fontSize: '1rem', padding: '6px 0' }}>
-                <Compass size={18} /> Explore PGs
+              <a href="#explore" onClick={() => handleNav('explore')} className="mobile-nav-item">
+                <Compass size={20} style={{ color: 'var(--gold-primary)' }} />
+                <span>Explore PGs</span>
               </a>
-              <a href="#nearme" onClick={() => handleNav('nearme')} className="nav-link" style={{ fontSize: '1rem', padding: '6px 0', color: 'var(--blue-light)' }}>
-                <MapPin size={18} /> Find Near Me
+              <a href="#nearme" onClick={() => handleNav('nearme')} className="mobile-nav-item">
+                <MapPin size={20} style={{ color: 'var(--blue-light)' }} />
+                <span>Find Near Me (GPS)</span>
               </a>
-              <a href="#blogs" onClick={() => handleNav('blogs')} className="nav-link" style={{ fontSize: '1rem', padding: '6px 0' }}>
-                <BookOpen size={18} /> Guides & Blogs
+              <a href="#blogs" onClick={() => handleNav('blogs')} className="mobile-nav-item">
+                <BookOpen size={20} style={{ color: '#00D2B4' }} />
+                <span>Guides & Blogs</span>
               </a>
-              <a href="#about" onClick={() => handleNav('about')} className="nav-link" style={{ fontSize: '1rem', padding: '6px 0' }}>
-                <Info size={18} /> About Us
+              <a href="#about" onClick={() => handleNav('about')} className="mobile-nav-item">
+                <Info size={20} style={{ color: '#94A3B8' }} />
+                <span>About Us</span>
               </a>
-              <a href="#contact" onClick={() => handleNav('contact')} className="nav-link" style={{ fontSize: '1rem', padding: '6px 0' }}>
-                <PhoneCall size={18} /> Contact Us
+              <a href="#contact" onClick={() => handleNav('contact')} className="mobile-nav-item">
+                <PhoneCall size={20} style={{ color: 'var(--gold-light)' }} />
+                <span>Contact Concierge</span>
               </a>
+
+              <div style={{ borderTop: '1px solid rgba(14, 116, 237, 0.2)', paddingTop: '16px', marginTop: '6px' }}>
+                <a 
+                  href="#owner" 
+                  onClick={(e) => { e.preventDefault(); handleNav('owner-portal'); }} 
+                  className="mobile-nav-item"
+                  style={{ color: 'var(--gold-light)', fontWeight: 700 }}
+                >
+                  <Building2 size={20} />
+                  <span>Go to PG Owner Portal →</span>
+                </a>
+              </div>
             </>
           ) : (
-            /* Mobile Owner Links */
+            /* Mobile Owner Navigation */
             <>
               {currentUser && currentUser.role === 'owner' ? (
                 <>
-                  <a href="#owner" onClick={() => handleNav('owner')} className="nav-link" style={{ color: 'var(--gold-light)', fontWeight: 600 }}>
-                    <LayoutDashboard size={18} /> Host Dashboard
+                  <a href="#owner" onClick={() => handleNav('owner')} className="mobile-nav-item" style={{ color: 'var(--gold-light)', fontWeight: 700 }}>
+                    <LayoutDashboard size={20} />
+                    <span>Host Dashboard</span>
                   </a>
                   <button 
                     onClick={() => { onLogout(); setMobileMenuOpen(false); }}
                     className="btn btn-ghost btn-sm"
-                    style={{ justifyContent: 'flex-start', color: '#f87171' }}
+                    style={{ justifyContent: 'flex-start', color: '#f87171', width: '100%', padding: '12px' }}
                   >
                     <LogOut size={16} /> Logout ({currentUser.name})
                   </button>
                 </>
               ) : (
                 <>
-                  <a href="#owner-portal" onClick={() => handleNav('owner-portal')} className="nav-link" style={{ color: 'var(--gold-light)', fontWeight: 600 }}>
-                    <Building2 size={18} /> Host Benefits & Portal
+                  <a href="#owner-portal" onClick={() => handleNav('owner-portal')} className="mobile-nav-item" style={{ color: 'var(--gold-light)', fontWeight: 700 }}>
+                    <Building2 size={20} />
+                    <span>Host Benefits & Portal</span>
                   </a>
                   <button 
                     onClick={() => { onLoginClick('owner'); setMobileMenuOpen(false); }}
-                    className="btn btn-ghost btn-sm"
-                    style={{ justifyContent: 'center' }}
+                    className="btn btn-ghost"
+                    style={{ width: '100%', justifyContent: 'center' }}
                   >
-                    <User size={16} /> Sign In as Owner
+                    <User size={16} /> Host Sign In
                   </button>
                   <button 
                     onClick={() => { onLoginClick('owner'); setMobileMenuOpen(false); }}
-                    className="btn btn-gold btn-sm"
-                    style={{ justifyContent: 'center' }}
+                    className="btn btn-gold"
+                    style={{ width: '100%', justifyContent: 'center' }}
                   >
-                    <PlusCircle size={16} /> List Your PG
+                    <PlusCircle size={16} /> List Your PG Free
                   </button>
                 </>
               )}
+
+              <div style={{ borderTop: '1px solid rgba(14, 116, 237, 0.2)', paddingTop: '16px', marginTop: '6px' }}>
+                <a 
+                  href="#student" 
+                  onClick={(e) => { e.preventDefault(); handleNav('home'); }} 
+                  className="mobile-nav-item"
+                  style={{ color: 'var(--blue-light)', fontWeight: 700 }}
+                >
+                  <GraduationCap size={20} />
+                  <span>Go to Student Residences →</span>
+                </a>
+              </div>
             </>
           )}
         </div>
       )}
 
+      {/* Luxury Menu Link & Mobile Styles */}
       <style>{`
-        @media (max-width: 960px) {
+        .luxury-menu-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          color: #CBD5E1;
+          text-decoration: none;
+          font-size: 0.94rem;
+          font-weight: 500;
+          padding: 8px 14px;
+          border-radius: var(--radius-sm);
+          transition: all 0.2s ease;
+          border: 1px solid transparent;
+        }
+        .luxury-menu-link:hover {
+          color: #ffffff;
+          background: rgba(14, 116, 237, 0.12);
+          border-color: rgba(14, 116, 237, 0.25);
+        }
+        .luxury-menu-link.active {
+          color: #ffffff;
+          background: rgba(14, 116, 237, 0.18);
+          border-color: rgba(14, 116, 237, 0.45);
+          font-weight: 700;
+          box-shadow: 0 4px 15px rgba(2, 6, 23, 0.5);
+        }
+
+        .portal-switch-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 0.82rem;
+          font-weight: 600;
+          color: var(--gold-light);
+          padding: 6px 12px;
+          border: 1px solid rgba(212, 175, 55, 0.35);
+          border-radius: var(--radius-full);
+          text-decoration: none;
+          transition: all 0.2s ease;
+          background: rgba(212, 175, 55, 0.08);
+        }
+        .portal-switch-link:hover {
+          background: rgba(212, 175, 55, 0.18);
+          border-color: var(--gold-primary);
+          color: #fff;
+          transform: translateY(-1px);
+        }
+
+        .mobile-nav-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          font-size: 1.05rem;
+          color: #E2E8F0;
+          text-decoration: none;
+          padding: 10px 8px;
+          border-radius: var(--radius-sm);
+          transition: background 0.15s ease;
+        }
+        .mobile-nav-item:hover {
+          background: rgba(14, 116, 237, 0.15);
+          color: #fff;
+        }
+
+        @media (max-width: 1040px) {
           .nav-links { display: none !important; }
-          .role-mode-pill-desktop { display: none !important; }
-          .student-zero-badge { display: none !important; }
+          .portal-switch-link { display: none !important; }
           .mobile-toggle-btn { display: flex !important; align-items: center; justify-content: center; }
         }
       `}</style>

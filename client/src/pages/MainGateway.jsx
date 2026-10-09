@@ -153,8 +153,8 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
         {/* The TWO Interactive Portal Cards */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '30px',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '24px',
           maxWidth: '960px',
           margin: '0 auto',
           width: '100%'
@@ -376,7 +376,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
         </div>
       </footer>
 
-      {/* Hover Micro-interactions */}
+      {/* Hover Micro-interactions & Mobile Responsiveness */}
       <style>{`
         .gateway-card-student:hover {
           transform: translateY(-8px);
@@ -387,6 +387,11 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
           transform: translateY(-8px);
           border-color: #F5C542 !important;
           box-shadow: 0 25px 60px -12px rgba(212, 175, 55, 0.45) !important;
+        }
+        @media (max-width: 640px) {
+          .gateway-card {
+            padding: 24px 18px !important;
+          }
         }
       `}</style>
     </div>
