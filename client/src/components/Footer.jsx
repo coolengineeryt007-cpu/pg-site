@@ -24,12 +24,12 @@ export default function Footer({ onNavigate }) {
                 src="/logo.png" 
                 alt="Vrundavan Ventures" 
                 style={{ 
-                  height: '54px', 
-                  width: '54px', 
+                  height: '68px', 
+                  width: '68px', 
                   borderRadius: '50%',
                   objectFit: 'cover',
-                  border: '2px solid rgba(212, 175, 55, 0.75)',
-                  boxShadow: '0 0 15px rgba(212, 175, 55, 0.45)',
+                  border: '2px solid rgba(212, 175, 55, 0.85)',
+                  boxShadow: '0 0 18px rgba(212, 175, 55, 0.5)',
                   display: 'block'
                 }} 
               />

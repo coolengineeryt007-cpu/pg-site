@@ -494,21 +494,9 @@ export default function App() {
           )
         )}
 
-        {/* OWNER MODE: SHOWS ADMIN PREVIEW WITH HALF DATA IF NOT LOGGED IN */}
+        {/* OWNER PORTAL: SHOWS MOTIVATIONAL STUDENT SHOWCASE & REAL LISTINGS TO MOTIVATE HOSTS */}
         {(activePage === 'owner-portal' || activePage === 'owner') && (
-          !currentUser ? (
-            <OwnerPanel 
-              currentUser={null}
-              isGuestPreview={true}
-              onSelectPg={handleSelectPg}
-              onNavigateHome={() => handleNavigate('home')}
-              onLogout={handleLogout}
-              onOpenLogin={(role = 'owner') => {
-                setAuthModalRole(role);
-                setAuthModalOpen(true);
-              }}
-            />
-          ) : currentUser.role === 'owner' ? (
+          currentUser && currentUser.role === 'owner' ? (
             <OwnerPanel 
               currentUser={currentUser}
               isGuestPreview={false}
@@ -522,6 +510,9 @@ export default function App() {
             />
           ) : (
             <OwnerLanding 
+              pgs={allPgs}
+              currentUser={currentUser}
+              onSelectPg={handleSelectPg}
               onOpenLogin={() => {
                 setAuthModalRole('owner');
                 setAuthModalOpen(true);
@@ -532,6 +523,7 @@ export default function App() {
               }}
               onDemoLogin={handleDemoOwnerLogin}
               onSwitchToStudent={handleSelectStudentPortal}
+              onLogout={handleLogout}
             />
           )
         )}

@@ -51,13 +51,14 @@ export default function Navbar({
             src="/logo.png" 
             alt="Vrundavan Ventures" 
             style={{ 
-              height: '52px', 
-              width: '52px', 
+              height: '76px', 
+              width: '76px', 
               borderRadius: '50%',
               objectFit: 'cover',
-              border: '2px solid rgba(212, 175, 55, 0.75)',
-              boxShadow: '0 0 15px rgba(212, 175, 55, 0.45)',
-              display: 'block'
+              border: '2.5px solid rgba(212, 175, 55, 0.85)',
+              boxShadow: '0 0 20px rgba(212, 175, 55, 0.55), 0 4px 14px rgba(0, 0, 0, 0.6)',
+              display: 'block',
+              transition: 'transform 0.3s ease, box-shadow 0.3s ease'
             }} 
           />
         </a>
@@ -479,18 +480,16 @@ export default function Navbar({
           .nav-links { display: none !important; }
           .portal-switch-link { display: none !important; }
           .mobile-toggle-btn { display: flex !important; align-items: center; justify-content: center; }
+          .brand-logo img {
+            height: 64px !important;
+            width: 64px !important;
+          }
         }
 
         @media (max-width: 480px) {
           .brand-logo img {
-            height: 40px !important;
-            width: 40px !important;
-          }
-          .brand-logo span:first-of-type {
-            font-size: 1.15rem !important;
-          }
-          .brand-logo span:last-of-type {
-            font-size: 0.58rem !important;
+            height: 54px !important;
+            width: 54px !important;
           }
           .nav-inner {
             gap: 8px !important;

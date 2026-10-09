@@ -452,7 +452,7 @@ h1, h2, h3, h4, .section-title {
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(14, 116, 237, 0.25);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-  padding: 12px 0;
+  padding: 8px 0;
   transition: all var(--transition-normal);
 }
 
