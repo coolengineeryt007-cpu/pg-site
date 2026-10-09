@@ -1113,7 +1113,12 @@ if (!fs.existsSync(DB_FILE)) {
 export const readDB = () => {
   try {
     const raw = fs.readFileSync(DB_FILE, 'utf-8');
-    return JSON.parse(raw);
+    const data = JSON.parse(raw);
+    if (!Array.isArray(data.inquiries)) data.inquiries = [];
+    if (!Array.isArray(data.pgs)) data.pgs = [];
+    if (!Array.isArray(data.users)) data.users = [];
+    if (!Array.isArray(data.blogs)) data.blogs = [];
+    return data;
   } catch (err) {
     console.error('Error reading DB file, reinitializing default data:', err);
     return INITIAL_DATA;

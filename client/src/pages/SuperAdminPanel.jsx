@@ -20,18 +20,23 @@ import {
   Phone, 
   Star, 
   AlertTriangle,
-  Sparkles
+  Sparkles,
+  MessageSquare,
+  MessageCircle,
+  Home
 } from 'lucide-react';
 import { api } from '../services/api';
 
 export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }) {
-  const [activeTab, setActiveTab] = useState('pending'); // 'overview', 'pending', 'properties', 'owners', 'admins', 'blogs'
+  const [activeTab, setActiveTab] = useState('pending'); // 'overview', 'pending', 'properties', 'inquiries', 'owners', 'admins', 'blogs'
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [stats, setStats] = useState(null);
   const [allPgs, setAllPgs] = useState([]);
+  const [inquiries, setInquiries] = useState([]);
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterCity, setFilterCity] = useState('all');
+  const [filterType, setFilterType] = useState('all'); // 'all', 'house', 'room', 'pg'
   const [searchTerm, setSearchTerm] = useState('');
   const [actionMessage, setActionMessage] = useState(null);
 
@@ -43,6 +48,9 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
 
       const pgsRes = await api.getPgs({ includeAllStatus: 'true' });
       setAllPgs(pgsRes.pgs || []);
+
+      const inqRes = await api.getInquiries();
+      setInquiries(inqRes || []);
 
       const blogsRes = await api.getBlogs();
       setBlogs(blogsRes || []);
@@ -72,14 +80,14 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
   };
 
   const handleDeletePg = async (pgId) => {
-    if (!window.confirm("Are you sure you want to permanently delete this PG listing?")) return;
+    if (!window.confirm("Are you sure you want to permanently delete this property listing?")) return;
     try {
       await api.deletePg(pgId);
       setActionMessage({ type: 'success', text: "Listing removed permanently." });
       await loadData();
       setTimeout(() => setActionMessage(null), 3000);
     } catch (err) {
-      alert(err.message || 'Error deleting PG');
+      alert(err.message || 'Error deleting property');
     }
   };
 
@@ -88,9 +96,10 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
   const filteredPgs = allPgs.filter(p => {
     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.address.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.ownerName.toLowerCase().includes(searchTerm.toLowerCase());
+      (p.ownerName && p.ownerName.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesCity = filterCity === 'all' || p.address.city.toLowerCase() === filterCity.toLowerCase();
-    return matchesSearch && matchesCity;
+    const matchesType = filterType === 'all' || (p.propertyType || 'pg') === filterType;
+    return matchesSearch && matchesCity && matchesType;
   });
 
   return (
@@ -160,12 +169,25 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
           </button>
 
           <button 
+            onClick={() => { setActiveTab('inquiries'); setSidebarOpen(false); }}
+            className={`admin-nav-btn ${activeTab === 'inquiries' ? 'active' : ''}`}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <MessageSquare size={18} style={{ color: 'var(--blue-light)' }} />
+              <span>All Tenant Leads</span>
+            </div>
+            <span className="badge badge-blue" style={{ fontSize: '0.7rem', padding: '2px 7px' }}>
+              {inquiries.length}
+            </span>
+          </button>
+
+          <button 
             onClick={() => { setActiveTab('owners'); setSidebarOpen(false); }}
             className={`admin-nav-btn ${activeTab === 'owners' ? 'active' : ''}`}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Users size={18} />
-              <span>PG Hosts Directory</span>
+              <span>Property Hosts Directory</span>
             </div>
           </button>
 
@@ -258,6 +280,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                 {activeTab === 'overview' && 'Global Analytics & KPIs'}
                 {activeTab === 'pending' && `Moderation Queue (${pendingPgs.length} Awaiting Approval)`}
                 {activeTab === 'properties' && `Properties Database (${allPgs.length} Total)`}
+                {activeTab === 'inquiries' && `Tenant Leads & Inquiries (${inquiries.length} Total)`}
                 {activeTab === 'owners' && 'Property Hosts Directory'}
                 {activeTab === 'blogs' && 'SEO Editorial Content'}
                 {activeTab === 'admins' && 'Privileged Super Administrators (2-3 Root Users)'}
@@ -294,13 +317,13 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
         {activeTab === 'overview' && (
           <div>
             {/* KPI Cards */}
-            <div className="grid-4" style={{ marginBottom: '32px' }}>
+            <div className="grid-4" style={{ marginBottom: '24px' }}>
               <div className="luxury-card" style={{ padding: '22px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#888', marginBottom: '8px' }}>
                   <span style={{ fontSize: '0.78rem', textTransform: 'uppercase' }}>Total Properties</span>
                   <Building size={18} style={{ color: 'var(--gold-primary)' }} />
                 </div>
-                <h2 style={{ fontSize: '2rem', color: '#fff' }}>{stats?.totalPgs || 0}</h2>
+                <h2 style={{ fontSize: '2rem', color: '#fff' }}>{allPgs.length}</h2>
                 <span style={{ fontSize: '0.72rem', color: '#888' }}>Across all regions</span>
               </div>
 
@@ -309,8 +332,8 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                   <span style={{ fontSize: '0.78rem', textTransform: 'uppercase' }}>Live On Frontend</span>
                   <CheckCircle2 size={18} style={{ color: '#34D399' }} />
                 </div>
-                <h2 style={{ fontSize: '2rem', color: '#34D399' }}>{stats?.approvedPgs || 0}</h2>
-                <span style={{ fontSize: '0.72rem', color: '#34D399' }}>100% Vetted</span>
+                <h2 style={{ fontSize: '2rem', color: '#34D399' }}>{allPgs.filter(p => p.status === 'approved').length}</h2>
+                <span style={{ fontSize: '0.72rem', color: '#34D399' }}>100% Vetted & Active</span>
               </div>
 
               <div className="luxury-card" style={{ padding: '22px', border: pendingPgs.length > 0 ? '1px solid var(--red-crimson)' : '' }}>
@@ -319,18 +342,45 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                   <Clock size={18} style={{ color: 'var(--red-crimson)' }} />
                 </div>
                 <h2 style={{ fontSize: '2rem', color: pendingPgs.length > 0 ? '#F87171' : '#fff' }}>
-                  {stats?.pendingApprovals || 0}
+                  {pendingPgs.length}
                 </h2>
                 <span style={{ fontSize: '0.72rem', color: '#F87171' }}>Awaiting Moderation</span>
               </div>
 
               <div className="luxury-card" style={{ padding: '22px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#888', marginBottom: '8px' }}>
-                  <span style={{ fontSize: '0.78rem', textTransform: 'uppercase' }}>Registered Hosts</span>
-                  <Users size={18} style={{ color: 'var(--gold-primary)' }} />
+                  <span style={{ fontSize: '0.78rem', textTransform: 'uppercase' }}>Tenant Leads</span>
+                  <MessageSquare size={18} style={{ color: 'var(--blue-light)' }} />
                 </div>
-                <h2 style={{ fontSize: '2rem', color: 'var(--gold-primary)' }}>{stats?.totalOwners || 0}</h2>
-                <span style={{ fontSize: '0.72rem', color: '#888' }}>Unlimited Host Tier</span>
+                <h2 style={{ fontSize: '2rem', color: 'var(--blue-light)' }}>{inquiries.length}</h2>
+                <span style={{ fontSize: '0.72rem', color: '#888' }}>Platform Inquiries</span>
+              </div>
+            </div>
+
+            {/* Property Types Distribution */}
+            <div className="grid-3" style={{ marginBottom: '32px' }}>
+              <div className="luxury-card" style={{ padding: '18px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <span style={{ color: '#888', fontSize: '0.8rem' }}>🏠 Houses & Flats</span>
+                  <h3 style={{ color: '#fff', fontSize: '1.4rem', marginTop: '2px' }}>{allPgs.filter(p => p.propertyType === 'house').length}</h3>
+                </div>
+                <span className="badge badge-gold">Family & Exec</span>
+              </div>
+
+              <div className="luxury-card" style={{ padding: '18px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <span style={{ color: '#888', fontSize: '0.8rem' }}>🛏️ Private Rental Rooms</span>
+                  <h3 style={{ color: '#fff', fontSize: '1.4rem', marginTop: '2px' }}>{allPgs.filter(p => p.propertyType === 'room').length}</h3>
+                </div>
+                <span className="badge badge-peacock">1RK & Studios</span>
+              </div>
+
+              <div className="luxury-card" style={{ padding: '18px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <span style={{ color: '#888', fontSize: '0.8rem' }}>🏢 PGs & Coliving</span>
+                  <h3 style={{ color: '#fff', fontSize: '1.4rem', marginTop: '2px' }}>{allPgs.filter(p => !p.propertyType || p.propertyType === 'pg').length}</h3>
+                </div>
+                <span className="badge badge-blue">With Food & Maid</span>
               </div>
             </div>
 
@@ -352,7 +402,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                     ⚠️ {pendingPgs.length} Property Submissions Pending Verification
                   </h3>
                   <p style={{ color: '#bbb', fontSize: '0.88rem' }}>
-                    Review submitted photos, location accuracy, and host pricing to publish them live to students.
+                    Review submitted photos, location accuracy, and host pricing to publish them live to tenants and home seekers.
                   </p>
                 </div>
                 <button onClick={() => setActiveTab('pending')} className="btn btn-crimson btn-sm">
@@ -371,7 +421,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                 <FileCheck size={48} style={{ color: '#34D399', margin: '0 auto 16px auto', display: 'block' }} />
                 <h3 style={{ color: '#fff', fontSize: '1.25rem', marginBottom: '8px' }}>Approval Queue is Clean!</h3>
                 <p style={{ color: '#888', fontSize: '0.9rem', maxWidth: '420px', margin: '0 auto' }}>
-                  All submitted PG accommodations have been vetted and approved. New submissions from hosts will appear here automatically.
+                  All submitted properties (houses, rooms, and PGs) have been vetted and approved. New submissions from hosts will appear here automatically.
                 </p>
               </div>
             ) : (
@@ -395,10 +445,19 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                     />
 
                     <div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                         <h3 style={{ color: '#fff', fontSize: '1.25rem' }}>{pg.name}</h3>
+                        <span className={`badge ${
+                          pg.propertyType === 'house' ? 'badge-gold' : pg.propertyType === 'room' ? 'badge-peacock' : 'badge-blue'
+                        }`} style={{ fontSize: '0.8rem', padding: '3px 8px' }}>
+                          {pg.propertyType === 'house' ? `🏠 ${pg.bhk || 'Rental House'}` : pg.propertyType === 'room' ? `🛏️ ${pg.bhk || 'Rental Room'}` : `🏢 ${pg.gender} PG`}
+                        </span>
+                        {pg.suitableFor && (
+                          <span className="badge badge-purple" style={{ fontSize: '0.75rem', padding: '3px 8px' }}>
+                            👤 {pg.suitableFor}
+                          </span>
+                        )}
                         <span className="badge badge-gold">Pending Approval</span>
-                        <span className="badge badge-blue">{pg.gender}</span>
                       </div>
 
                       <p style={{ color: 'var(--gold-light)', fontSize: '0.9rem', marginBottom: '6px' }}>
@@ -409,7 +468,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                         <span>👤 Host: <strong style={{ color: '#fff' }}>{pg.ownerName}</strong> ({pg.ownerPhone})</span>
                         <span>💰 Rent: <strong style={{ color: 'var(--gold-primary)' }}>₹{pg.rent.toLocaleString('en-IN')}/mo</strong></span>
                         <span>🛡️ Deposit: ₹{pg.deposit.toLocaleString('en-IN')}</span>
-                        <span>🛏️ Rooms: {pg.rooms?.length || 2} Configs</span>
+                        {pg.furnishing && <span>🛋️ {pg.furnishing}</span>}
                       </div>
                     </div>
 
@@ -424,7 +483,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
 
                       <button 
                         onClick={() => {
-                          const reason = window.prompt("Enter rejection reason for PG Host:", "Incomplete photos or invalid address proof");
+                          const reason = window.prompt("Enter rejection reason for Property Host:", "Incomplete photos or invalid address proof");
                           if (reason !== null) {
                             handleUpdateStatus(pg.id, 'rejected', reason);
                           }
@@ -461,10 +520,10 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
               gap: '14px',
               marginBottom: '20px'
             }}>
-              <div style={{ display: 'flex', gap: '10px', flex: 1, maxWidth: '400px' }}>
+              <div style={{ display: 'flex', gap: '10px', flex: 1, minWidth: '280px', maxWidth: '400px' }}>
                 <input 
                   type="text" 
-                  placeholder="Search PG name, city, or owner..."
+                  placeholder="Search property name, city, or owner..."
                   className="form-input"
                   style={{ padding: '8px 12px' }}
                   value={searchTerm}
@@ -472,19 +531,39 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                 />
               </div>
 
-              <div style={{ display: 'flex', gap: '10px' }}>
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+                {/* Category Filter Pills */}
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                  {[
+                    { id: 'all', label: `All (${allPgs.length})` },
+                    { id: 'house', label: `🏠 Houses (${allPgs.filter(p => p.propertyType === 'house').length})` },
+                    { id: 'room', label: `🛏️ Rooms (${allPgs.filter(p => p.propertyType === 'room').length})` },
+                    { id: 'pg', label: `🏢 PGs (${allPgs.filter(p => !p.propertyType || p.propertyType === 'pg').length})` }
+                  ].map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setFilterType(tab.id)}
+                      className={`btn btn-sm ${filterType === tab.id ? 'btn-gold' : 'btn-ghost'}`}
+                      style={{ fontSize: '0.78rem', padding: '5px 10px' }}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+
                 <select 
                   className="form-select"
-                  style={{ padding: '8px 14px' }}
+                  style={{ padding: '8px 14px', width: 'auto' }}
                   value={filterCity}
                   onChange={(e) => setFilterCity(e.target.value)}
                 >
                   <option value="all">All Cities</option>
+                  <option value="Rajkot">Rajkot</option>
                   <option value="Bengaluru">Bengaluru</option>
-                  <option value="Hyderabad">Hyderabad</option>
                   <option value="Pune">Pune</option>
                   <option value="Gurugram">Gurugram</option>
                   <option value="Mumbai">Mumbai</option>
+                  <option value="Hyderabad">Hyderabad</option>
                 </select>
               </div>
             </div>
@@ -495,6 +574,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                 <thead>
                   <tr style={{ background: '#121212', borderBottom: '1px solid rgba(212,175,55,0.2)', color: 'var(--gold-primary)' }}>
                     <th style={{ padding: '14px 18px' }}>Property</th>
+                    <th style={{ padding: '14px 18px' }}>Type & Suitability</th>
                     <th style={{ padding: '14px 18px' }}>Location</th>
                     <th style={{ padding: '14px 18px' }}>Host</th>
                     <th style={{ padding: '14px 18px' }}>Rent</th>
@@ -514,9 +594,21 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                           />
                           <div>
                             <strong style={{ color: '#fff', display: 'block' }}>{pg.name}</strong>
-                            <span style={{ fontSize: '0.75rem', color: '#888' }}>{pg.gender}</span>
+                            <span style={{ fontSize: '0.75rem', color: '#888' }}>{pg.address.apartment || pg.address.area}</span>
                           </div>
                         </div>
+                      </td>
+                      <td style={{ padding: '14px 18px' }}>
+                        <span className={`badge ${
+                          pg.propertyType === 'house' ? 'badge-gold' : pg.propertyType === 'room' ? 'badge-peacock' : 'badge-blue'
+                        }`} style={{ fontSize: '0.75rem', padding: '2px 8px', display: 'inline-block', marginBottom: '3px' }}>
+                          {pg.propertyType === 'house' ? `🏠 ${pg.bhk || 'House'}` : pg.propertyType === 'room' ? `🛏️ ${pg.bhk || 'Room'}` : `🏢 ${pg.gender} PG`}
+                        </span>
+                        {pg.suitableFor && (
+                          <div style={{ fontSize: '0.72rem', color: '#aaa' }}>
+                            👤 {pg.suitableFor}
+                          </div>
+                        )}
                       </td>
                       <td style={{ padding: '14px 18px', color: '#ccc' }}>
                         {pg.address.area}, {pg.address.city}
@@ -531,7 +623,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                         <span className={`badge ${
                           pg.status === 'approved' ? 'badge-green' : pg.status === 'pending_review' ? 'badge-gold' : 'badge-crimson'
                         }`}>
-                          {pg.status.replace('_', ' ')}
+                          {pg.status === 'pending_review' ? 'Pending' : pg.status}
                         </span>
                       </td>
                       <td style={{ padding: '14px 18px', textAlign: 'right' }}>
@@ -568,6 +660,89 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                 </tbody>
               </table>
             </div>
+          </div>
+        )}
+
+        {/* TAB: TENANT INQUIRIES & LEADS */}
+        {activeTab === 'inquiries' && (
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
+              <div>
+                <h3 style={{ color: '#fff', fontSize: '1.3rem' }}>Platform-Wide Tenant Leads</h3>
+                <p style={{ color: '#888', fontSize: '0.85rem' }}>All inquiries submitted by tenants, bachelors, families, and students.</p>
+              </div>
+              <span className="badge badge-blue" style={{ fontSize: '0.85rem', padding: '6px 14px' }}>
+                {inquiries.length} Total Inquiries Recorded
+              </span>
+            </div>
+
+            {inquiries.length === 0 ? (
+              <div className="luxury-card" style={{ padding: '50px 20px', textAlign: 'center' }}>
+                <Users size={40} style={{ color: 'var(--gold-primary)', margin: '0 auto 12px auto' }} />
+                <h4 style={{ color: '#fff', fontSize: '1.1rem' }}>No Tenant Inquiries Yet</h4>
+                <p style={{ color: '#888', fontSize: '0.85rem' }}>When users click Schedule Visit on any property, inquiries will be logged here.</p>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                {inquiries.map((inq) => (
+                  <div 
+                    key={inq.id}
+                    className="luxury-card"
+                    style={{
+                      padding: '20px',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
+                      gap: '16px'
+                    }}
+                  >
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
+                        <h4 style={{ color: '#fff', fontSize: '1.15rem' }}>
+                          {inq.userName}
+                        </h4>
+                        <span className="badge badge-green">New Lead</span>
+                        <span className="badge badge-gold">{inq.sharingType || 'Standard'}</span>
+                      </div>
+                      <p style={{ color: 'var(--gold-primary)', fontSize: '0.9rem', marginBottom: '6px' }}>
+                        Interested in: <strong>{inq.pgName}</strong>
+                      </p>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', color: '#aaa', fontSize: '0.85rem' }}>
+                        <span>📞 Phone: <strong style={{ color: '#fff' }}>{inq.userPhone}</strong></span>
+                        {inq.userEmail && <span>✉️ Email: {inq.userEmail}</span>}
+                        {inq.visitDate && <span>📅 Visit Date: <strong style={{ color: 'var(--gold-light)' }}>{inq.visitDate}</strong></span>}
+                        <span>🕒 Received: {new Date(inq.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+                      </div>
+                      {inq.message && (
+                        <p style={{ color: '#bbb', fontSize: '0.88rem', marginTop: '8px', background: '#111', padding: '8px 12px', borderRadius: '6px', border: '1px solid #222' }}>
+                          💬 "{inq.message}"
+                        </p>
+                      )}
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <a 
+                        href={`https://wa.me/${inq.userPhone?.replace(/[^0-9]/g, '')}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="btn btn-outline-gold btn-sm"
+                        style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                      >
+                        <MessageCircle size={15} style={{ color: '#25D366' }} /> WhatsApp Lead
+                      </a>
+                      <a 
+                        href={`tel:${inq.userPhone}`} 
+                        className="btn btn-gold btn-sm"
+                        style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                      >
+                        <Phone size={15} /> Call
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

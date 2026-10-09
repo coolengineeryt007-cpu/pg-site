@@ -302,7 +302,11 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
   const handleEditPg = (pg) => {
     setFormData({
       name: pg.name,
-      gender: pg.gender,
+      propertyType: pg.propertyType || 'house',
+      bhk: pg.bhk || (pg.propertyType === 'room' ? '1RK' : '2BHK'),
+      furnishing: pg.furnishing || 'Furnished',
+      suitableFor: pg.suitableFor || 'All',
+      gender: pg.gender || 'All',
       rent: pg.rent,
       deposit: pg.deposit,
       noticePeriodDays: pg.noticePeriodDays || 30,
@@ -511,7 +515,7 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
                 className="btn btn-crimson btn-sm"
                 style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
               >
-                <PlusCircle size={15} /> Add PG Listing
+                <PlusCircle size={15} /> Add Property Listing
               </button>
             )}
           </div>
@@ -581,7 +585,7 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
                 </p>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <button onClick={() => setActiveTab('add')} className="btn btn-gold btn-sm">
-                    <PlusCircle size={15} /> Add New PG Listing
+                    <PlusCircle size={15} /> Add New Property Listing
                   </button>
                   <button onClick={() => setActiveTab('listings')} className="btn btn-ghost btn-sm">
                     Manage Properties
@@ -637,10 +641,10 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
                 <Building size={48} style={{ color: 'var(--gold-primary)', margin: '0 auto 16px auto', display: 'block' }} />
                 <h3 style={{ color: '#fff', fontSize: '1.25rem', marginBottom: '8px' }}>No Listings Under Current Filter</h3>
                 <p style={{ color: '#888', maxWidth: '400px', margin: '0 auto 20px auto', fontSize: '0.9rem' }}>
-                  Create a new PG accommodation with Google Maps autocomplete to start receiving tenant visits.
+                  Create a new rental accommodation with Google Maps autocomplete to start receiving tenant visits.
                 </p>
                 <button onClick={() => setActiveTab('add')} className="btn btn-gold btn-sm">
-                  <PlusCircle size={15} /> Add New PG Listing
+                  <PlusCircle size={15} /> Add New Property Listing
                 </button>
               </div>
             ) : (
@@ -665,8 +669,18 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
                         style={{ width: '90px', height: '70px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #333' }}
                       />
                       <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                           <h4 style={{ color: '#fff', fontSize: '1.15rem' }}>{pg.name}</h4>
+                          <span className={`badge ${
+                            pg.propertyType === 'house' ? 'badge-gold' : pg.propertyType === 'room' ? 'badge-peacock' : 'badge-blue'
+                          }`} style={{ fontSize: '0.75rem', padding: '2px 8px' }}>
+                            {pg.propertyType === 'house' ? `🏠 ${pg.bhk || 'Rental House'}` : pg.propertyType === 'room' ? `🛏️ ${pg.bhk || 'Rental Room'}` : `🏢 ${pg.gender} PG`}
+                          </span>
+                          {pg.suitableFor && (
+                            <span className="badge badge-purple" style={{ fontSize: '0.72rem', padding: '2px 8px' }}>
+                              👤 {pg.suitableFor}
+                            </span>
+                          )}
                           <span className={`badge ${
                             pg.status === 'approved' 
                               ? 'badge-green' 
@@ -674,13 +688,14 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
                               ? 'badge-gold' 
                               : 'badge-crimson'
                           }`}>
-                            {pg.status === 'pending_review' ? 'Pending Super Admin Review' : pg.status}
+                            {pg.status === 'pending_review' ? 'Pending Review' : pg.status}
                           </span>
                         </div>
-                        <div style={{ display: 'flex', gap: '12px', color: '#999', fontSize: '0.85rem' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', color: '#999', fontSize: '0.85rem' }}>
                           <span>📍 {pg.address.area}, {pg.address.city}</span>
-                          <span>• Starting ₹{pg.rent.toLocaleString('en-IN')}/mo</span>
-                          <span>• {pg.gender}</span>
+                          <span>• Monthly: ₹{pg.rent.toLocaleString('en-IN')}/mo</span>
+                          <span>• Deposit: ₹{pg.deposit.toLocaleString('en-IN')}</span>
+                          {pg.furnishing && <span>• {pg.furnishing}</span>}
                         </div>
                       </div>
                     </div>
@@ -698,7 +713,7 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
                         onClick={() => handleEditPg(pg)}
                         className="btn btn-outline-gold btn-sm"
                         style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-                        title="Edit PG listing"
+                        title="Edit property listing"
                       >
                         <FileEdit size={14} /> Edit
                       </button>
@@ -706,7 +721,7 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
                         onClick={() => handleDeleteOwnerPg(pg.id)}
                         className="btn btn-ghost btn-sm"
                         style={{ color: '#ef4444', padding: '6px 8px' }}
-                        title="Delete PG listing"
+                        title="Delete property listing"
                       >
                         <Trash2 size={14} />
                       </button>
@@ -725,7 +740,7 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <h2 className="font-serif gold-gradient-text" style={{ fontSize: '1.5rem' }}>
-                    {editingPgId ? 'Modify Property Listing' : 'Add New Paying Guest Accommodation'}
+                    {editingPgId ? 'Modify Property Listing' : 'Add New Property (House, Room, or PG)'}
                   </h2>
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem' }}>
                     Utilize official Google Maps API to autofill exact building name, street address, state, district, and pincode.
@@ -1066,10 +1081,10 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
                   <h3 style={{ color: '#fff', fontSize: '1.15rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <Bed size={18} style={{ color: 'var(--gold-primary)' }} />
-                    3. Rooms & Bed Configurations
+                    {formData.propertyType === 'house' ? '3. Bedrooms & Layout Configuration' : formData.propertyType === 'room' ? '3. Room Specifications & Features' : '3. Rooms & Bed Configurations'}
                   </h3>
                   <button type="button" onClick={handleAddRoom} className="btn btn-outline-gold btn-sm">
-                    + Add Room Type
+                    {formData.propertyType === 'house' ? '+ Add Bedroom / Unit' : formData.propertyType === 'room' ? '+ Add Room Feature' : '+ Add Room Type'}
                   </button>
                 </div>
 
