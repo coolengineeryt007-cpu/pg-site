@@ -63,42 +63,18 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
           flexWrap: 'wrap',
           gap: '16px'
         }}>
-          {/* Brand Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {/* Brand Logo - Only Logo, No Extra Text */}
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <img 
               src="/logo.png" 
               alt="Vrundavan Ventures" 
               style={{ 
-                height: '48px', 
+                height: '54px', 
                 width: 'auto', 
                 objectFit: 'contain',
                 filter: 'drop-shadow(0 2px 10px rgba(14, 116, 237, 0.5))'
               }} 
             />
-            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1 }}>
-              <span style={{ 
-                background: 'linear-gradient(135deg, #93C5FD 0%, #3B82F6 40%, #00D2B4 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontSize: '1.4rem',
-                fontWeight: 900,
-                letterSpacing: '0.06em',
-                fontFamily: 'var(--font-serif)'
-              }}>
-                VRUNDAVAN
-              </span>
-              <span style={{ 
-                background: 'linear-gradient(135deg, #FFDF70 0%, #D4AF37 60%, #B45309 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontSize: '0.7rem',
-                letterSpacing: '0.3em',
-                fontWeight: 800,
-                paddingLeft: '2px'
-              }}>
-                VENTURES
-              </span>
-            </div>
           </div>
 
           {/* Quick Concierge Support Info */}

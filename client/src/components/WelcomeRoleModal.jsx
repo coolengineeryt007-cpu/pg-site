@@ -58,41 +58,17 @@ export default function WelcomeRoleModal({ isOpen, onSelectRole }) {
       }}>
         {/* Brand Header */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', marginBottom: '16px' }}>
             <img 
               src="/logo.png" 
               alt="Vrundavan Ventures" 
               style={{ 
-                height: '54px', 
+                height: '58px', 
                 width: 'auto', 
                 objectFit: 'contain',
                 filter: 'drop-shadow(0 4px 14px rgba(14, 116, 237, 0.55))'
               }} 
             />
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1.1 }}>
-              <span style={{ 
-                background: 'linear-gradient(135deg, #93C5FD 0%, #3B82F6 40%, #00D2B4 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontSize: '1.6rem',
-                fontWeight: 900,
-                letterSpacing: '0.06em',
-                fontFamily: 'var(--font-serif)'
-              }}>
-                VRUNDAVAN
-              </span>
-              <span style={{ 
-                background: 'linear-gradient(135deg, #FFDF70 0%, #D4AF37 60%, #B45309 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontSize: '0.78rem',
-                letterSpacing: '0.3em',
-                fontWeight: 800,
-                paddingLeft: '2px'
-              }}>
-                VENTURES
-              </span>
-            </div>
           </div>
 
           <h1 className="font-serif" style={{ 

@@ -19,40 +19,17 @@ export default function Footer({ onNavigate }) {
         }}>
           {/* Brand Info */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
               <img 
                 src="/logo.png" 
                 alt="Vrundavan Ventures" 
                 style={{ 
-                  height: '46px', 
+                  height: '52px', 
                   width: 'auto', 
                   objectFit: 'contain',
                   filter: 'drop-shadow(0 2px 8px rgba(14, 116, 237, 0.45))'
                 }} 
               />
-              <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1 }}>
-                <span style={{ 
-                  background: 'linear-gradient(135deg, #93C5FD 0%, #3B82F6 40%, #00D2B4 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  fontSize: '1.25rem',
-                  fontWeight: 900,
-                  letterSpacing: '0.06em',
-                  fontFamily: 'var(--font-serif)'
-                }}>
-                  VRUNDAVAN
-                </span>
-                <span style={{ 
-                  background: 'linear-gradient(135deg, #FFDF70 0%, #D4AF37 60%, #B45309 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  fontSize: '0.62rem',
-                  letterSpacing: '0.28em',
-                  fontWeight: 800
-                }}>
-                  VENTURES
-                </span>
-              </div>
             </div>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: '1.7', marginBottom: '20px' }}>
               Vrundavan Ventures elevates paying guest & executive coliving across India. Handpicked verified accommodations with chef-crafted nutrition, biometric safety, high-speed connectivity, and prime connectivity.

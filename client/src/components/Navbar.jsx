@@ -37,48 +37,24 @@ export default function Navbar({
   return (
     <header className="navbar">
       <div className="container nav-inner">
-        {/* Left Side: Brand Logo */}
+        {/* Left Side: Brand Logo - Only Logo, No Extra Text */}
         <a 
           href="#portal" 
           onClick={(e) => { e.preventDefault(); handleNav('portal'); }} 
           className="brand-logo"
           title="Return to Main Portal Selection"
-          style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}
+          style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
         >
           <img 
             src="/logo.png" 
             alt="Vrundavan Ventures" 
             style={{ 
-              height: '44px', 
+              height: '48px', 
               width: 'auto', 
               objectFit: 'contain',
               filter: 'drop-shadow(0 2px 8px rgba(14, 116, 237, 0.5))'
             }} 
           />
-          <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1 }}>
-            <span style={{ 
-              background: 'linear-gradient(135deg, #93C5FD 0%, #3B82F6 40%, #00D2B4 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontSize: '1.3rem',
-              fontWeight: 900,
-              letterSpacing: '0.06em',
-              fontFamily: 'var(--font-serif)'
-            }}>
-              VRUNDAVAN
-            </span>
-            <span style={{ 
-              background: 'linear-gradient(135deg, #FFDF70 0%, #D4AF37 60%, #B45309 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontSize: '0.64rem',
-              letterSpacing: '0.28em',
-              fontWeight: 800,
-              paddingLeft: '2px'
-            }}>
-              VENTURES
-            </span>
-          </div>
         </a>
 
         {/* Center: Nicer, Luxury Desktop Navigation Menu */}
