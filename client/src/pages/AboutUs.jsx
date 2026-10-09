@@ -114,12 +114,12 @@ export default function AboutUs() {
                 borderTop: '1px solid rgba(255,255,255,0.06)',
                 paddingTop: '16px'
               }}>
-                <a href="#profile" style={{ color: 'var(--gold-primary)' }} title="Executive Profile">
+                <button type="button" onClick={(e) => e.preventDefault()} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--gold-primary)' }} title="Executive Profile">
                   <Globe size={18} />
-                </a>
-                <a href="#share" style={{ color: 'var(--gold-primary)' }} title="Share Profile">
+                </button>
+                <button type="button" onClick={(e) => e.preventDefault()} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--gold-primary)' }} title="Share Profile">
                   <Share2 size={18} />
-                </a>
+                </button>
               </div>
             </div>
           ))}

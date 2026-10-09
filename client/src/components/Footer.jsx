@@ -48,27 +48,27 @@ export default function Footer({ onNavigate }) {
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.9rem' }}>
               <li>
-                <a href="#explore" onClick={(e) => { e.preventDefault(); onNavigate('explore'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
+                <a href="/explore" onClick={(e) => { e.preventDefault(); onNavigate('explore'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
                   All Approved PGs
                 </a>
               </li>
               <li>
-                <a href="#nearme" onClick={(e) => { e.preventDefault(); onNavigate('nearme'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
+                <a href="/nearme" onClick={(e) => { e.preventDefault(); onNavigate('nearme'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
                   Find Near My Location
                 </a>
               </li>
               <li>
-                <a href="#explore" onClick={(e) => { e.preventDefault(); onNavigate('explore', { gender: 'Girls' }); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
+                <a href="/explore" onClick={(e) => { e.preventDefault(); onNavigate('explore', { gender: 'Girls' }); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
                   Luxury Ladies PGs
                 </a>
               </li>
               <li>
-                <a href="#explore" onClick={(e) => { e.preventDefault(); onNavigate('explore', { gender: 'Boys' }); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
+                <a href="/explore" onClick={(e) => { e.preventDefault(); onNavigate('explore', { gender: 'Boys' }); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
                   Executive Gents PGs
                 </a>
               </li>
               <li>
-                <a href="#explore" onClick={(e) => { e.preventDefault(); onNavigate('explore', { gender: 'Co-ed' }); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
+                <a href="/explore" onClick={(e) => { e.preventDefault(); onNavigate('explore', { gender: 'Co-ed' }); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
                   Modern Co-ed Suites
                 </a>
               </li>
@@ -82,32 +82,32 @@ export default function Footer({ onNavigate }) {
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.9rem' }}>
               <li>
-                <a href="#about" onClick={(e) => { e.preventDefault(); onNavigate('about'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
+                <a href="/about" onClick={(e) => { e.preventDefault(); onNavigate('about'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
                   About Founders & Vision
                 </a>
               </li>
               <li>
-                <a href="#blogs" onClick={(e) => { e.preventDefault(); onNavigate('blogs'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
+                <a href="/blogs" onClick={(e) => { e.preventDefault(); onNavigate('blogs'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
                   Coliving Blog & Guides
                 </a>
               </li>
               <li>
-                <a href="#contact" onClick={(e) => { e.preventDefault(); onNavigate('contact'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
+                <a href="/contact" onClick={(e) => { e.preventDefault(); onNavigate('contact'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
                   Contact Support & Helpdesk
                 </a>
               </li>
               <li>
-                <a href="#owner-portal" onClick={(e) => { e.preventDefault(); onNavigate('owner-portal'); }} style={{ color: 'var(--gold-light)', textDecoration: 'none', fontWeight: 600 }} className="nav-link">
+                <a href="/owner" onClick={(e) => { e.preventDefault(); onNavigate('owner-portal'); }} style={{ color: 'var(--gold-light)', textDecoration: 'none', fontWeight: 600 }} className="nav-link">
                   🏢 For PG Owners & Hosts
                 </a>
               </li>
               <li>
-                <a href="#terms" onClick={(e) => { e.preventDefault(); onNavigate('terms'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
+                <a href="/terms" onClick={(e) => { e.preventDefault(); onNavigate('terms'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
                   Terms & Conditions
                 </a>
               </li>
               <li>
-                <a href="#privacy" onClick={(e) => { e.preventDefault(); onNavigate('privacy'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
+                <a href="/privacy" onClick={(e) => { e.preventDefault(); onNavigate('privacy'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
                   Privacy Policy
                 </a>
               </li>

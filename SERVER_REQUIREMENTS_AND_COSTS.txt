@@ -1,0 +1,148 @@
+================================================================================
+          VRUNDAVAN VENTURES - SERVER REQUIREMENTS & HOSTING COST GUIDE
+================================================================================
+Generated Date: 2026-10-09
+Project Architecture: Full-Stack Web Application
+  - Frontend: React 19 + Vite (Single Page Application with HTML5 Clean URLs)
+  - Backend:  Node.js + Express REST API (Runs on port 5050)
+  - Database: JSON File Store / MongoDB Compatible
+
+================================================================================
+1. RECOMMENDED SERVER SPECIFICATIONS
+================================================================================
+
+A. HARDWARE CONFIGURATION:
+   - Operating System: Linux (Ubuntu 22.04 LTS or Ubuntu 24.04 LTS)
+   - RAM (Memory):     Minimum 1 GB RAM | Recommended 2 GB RAM
+   - Processor (CPU):  1 vCPU Core (2 Cores recommended for high traffic)
+   - Storage Disk:     25 GB to 50 GB SSD or NVMe Storage
+   - Bandwidth:        1 TB/month or Unmetered
+
+B. SOFTWARE & RUNTIME REQUIREMENTS:
+   - Node.js:          Version 20.x LTS or 18.x LTS
+   - NPM:              Version 10.x+
+   - Web Server:       Nginx (Acts as reverse proxy and static asset server)
+   - Process Manager:  PM2 (Keeps backend server running 24/7 with auto-restarts)
+   - SSL Certificate:  Let's Encrypt Free SSL (HTTPS with auto-renewal via Certbot)
+
+================================================================================
+2. HOSTING COST & PRICING BREAKDOWN (ESTIMATED)
+================================================================================
+
+--------------------------------------------------------------------------------
+OPTION 1: GODADDY VPS (VIRTUAL PRIVATE SERVER) - [RECOMMENDED GODADDY OPTION]
+--------------------------------------------------------------------------------
+Provides full root SSH access to install Node.js, PM2, Nginx, and free SSL.
+No shared hosting restrictions.
+
+  - Domain Name (.in or .com):         Rs. 499 - Rs. 899 / 1st Year
+  - GoDaddy Linux VPS (1 vCPU, 2GB):   Rs. 649 - Rs. 999 / Month
+                                       (Approx. Rs. 7,800 - Rs. 11,900 / Year)
+  - SSL Certificate:                   Rs. 0 (FREE via Let's Encrypt Certbot)
+  ------------------------------------------------------------------------------
+  TOTAL YEAR 1 ESTIMATE:               Rs. 8,300 - Rs. 12,800 / Year
+  RENEWAL ANNUAL ESTIMATE:             Rs. 9,500 - Rs. 14,000 / Year
+
+
+--------------------------------------------------------------------------------
+OPTION 2: GODADDY CPANEL SHARED HOSTING (DELUXE / ULTIMATE)
+--------------------------------------------------------------------------------
+Uses cPanel "Setup Node.js App" module. Simpler GUI, but has strict memory limits.
+
+  - Domain Name (.in or .com):         Rs. 499 - Rs. 899 / 1st Year
+  - GoDaddy cPanel Web Hosting:        Rs. 299 - Rs. 499 / Month
+                                       (Approx. Rs. 3,600 - Rs. 5,900 / Year)
+  - SSL Certificate:                   Rs. 0 (cPanel AutoSSL or Let's Encrypt)
+  ------------------------------------------------------------------------------
+  TOTAL YEAR 1 ESTIMATE:               Rs. 4,100 - Rs. 6,800 / Year
+  RENEWAL ANNUAL ESTIMATE:             Rs. 6,500 - Rs. 9,500 / Year
+
+
+--------------------------------------------------------------------------------
+OPTION 3: HYBRID CLOUD SETUP - [BEST VALUE & HIGHEST SPEED]
+--------------------------------------------------------------------------------
+Industry standard approach: Domain from GoDaddy + Frontend on Vercel + API on VPS.
+
+  - Domain from GoDaddy (.in/.com):    Rs. 499 - Rs. 899 / Year
+  - Frontend (React SPA) on Vercel:    Rs. 0 (100% FREE with global fast CDN)
+  - Backend API on Cloud/VPS:          Rs. 0 to Rs. 400 / Month ($0 - $5/mo)
+    (Options: Render.com, Railway, or Hostinger VPS)
+  ------------------------------------------------------------------------------
+  TOTAL YEAR 1 ESTIMATE:               Rs. 500 - Rs. 4,500 / Year
+
+
+================================================================================
+3. STEP-BY-STEP SERVER DEPLOYMENT GUIDE (FOR LINUX VPS)
+================================================================================
+
+STEP 1: POINT DOMAIN TO SERVER
+   - Go to GoDaddy -> DNS Management -> Add/Edit 'A' Record:
+     Type:  A
+     Host:  @
+     Value: <Your Server Public IP Address>
+     TTL:   Default / 600 seconds
+
+STEP 2: INSTALL CORE SOFTWARE ON VPS (Run via SSH Terminal)
+   sudo apt update && sudo apt upgrade -y
+   curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+   sudo apt install -y nodejs nginx git certbot python3-certbot-nginx
+   sudo npm install -g pm2
+
+STEP 3: DEPLOY BACKEND API
+   cd /var/www
+   # Upload or clone your project files here
+   cd /var/www/pg-site/server
+   npm install --production
+   pm2 start server.js --name "pg-backend"
+   pm2 save
+   pm2 startup
+
+STEP 4: BUILD & DEPLOY FRONTEND
+   cd /var/www/pg-site/client
+   npm install
+   npm run build
+   # Build output will be created in /var/www/pg-site/client/dist
+
+STEP 5: CONFIGURE NGINX WEB SERVER
+   Create config file: sudo nano /etc/nginx/sites-available/pg-site
+   Insert following configuration:
+
+   server {
+       listen 80;
+       server_name yourdomain.com www.yourdomain.com;
+
+       # Frontend React Single Page Application (Clean URLs)
+       location / {
+           root /var/www/pg-site/client/dist;
+           index index.html;
+           try_files $uri $uri/ /index.html;
+       }
+
+       # Backend Express API Proxy
+       location /api/ {
+           proxy_pass http://127.0.0.1:5050;
+           proxy_http_version 1.1;
+           proxy_set_header Upgrade $http_upgrade;
+           proxy_set_header Connection 'upgrade';
+           proxy_set_header Host $host;
+           proxy_cache_bypass $http_upgrade;
+       }
+   }
+
+   Enable site & reload Nginx:
+   sudo ln -s /etc/nginx/sites-available/pg-site /etc/nginx/sites-enabled/
+   sudo nginx -t
+   sudo systemctl restart nginx
+
+STEP 6: SECURE SITE WITH FREE SSL (HTTPS)
+   sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+   (Certbot will automatically configure HTTPS and renew certificates)
+
+================================================================================
+4. CHECKLIST BEFORE PURCHASING
+================================================================================
+[ ] Choose and purchase Domain name (e.g. .com or .in) on GoDaddy.
+[ ] Select server hosting plan (GoDaddy Linux VPS recommended over shared).
+[ ] Make sure OS is selected as "Ubuntu 22.04 LTS".
+[ ] Keep SSH root login credentials safe for server setup.
+================================================================================

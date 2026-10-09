@@ -20,54 +20,85 @@ import Legal from './pages/Legal';
 import { api } from './services/api';
 
 export default function App() {
-  // Determine initial page: Main page load displays MainGateway ('portal') with ONLY TWO OPTIONS
-  const getInitialPage = () => {
+  // Route Parser: HTML5 Clean Path-Based Routing (NO # symbols)
+  // Maps URLs like /student, /owner, /explore, /nearme, /superadmin, /about, /contact, /blogs, /terms, /privacy
+  const parseCurrentRoute = () => {
     try {
-      const hash = window.location.hash.toLowerCase();
-      const params = new URLSearchParams(window.location.search);
-      if (hash === '#admin-secret' || hash === '#superadmin' || hash === '#secret-admin' || params.get('admin') === 'secret') {
-        return 'superadmin';
-      }
-      if (hash === '#student' || hash === '#student-home') {
-        return 'home';
-      }
-      if (hash === '#explore') {
-        return 'explore';
-      }
-      if (hash === '#nearme') {
-        return 'nearme';
-      }
-      if (hash === '#owner' || hash === '#owner-portal') {
-        return 'owner-portal';
-      }
-      if (hash === '#about') return 'about';
-      if (hash === '#contact') return 'contact';
-      if (hash === '#blogs') return 'blogs';
-      if (hash === '#terms' || hash === '#privacy') return hash.replace('#', '');
+      let path = window.location.pathname.toLowerCase().replace(/\/+$/, '') || '/';
       
-      // Default: main page has ONLY the two options
-      return 'portal';
+      // Auto-migrate legacy hash if any user visits old bookmark (e.g., /#owner -> /owner)
+      if (window.location.hash) {
+        const legacy = window.location.hash.toLowerCase().replace('#', '').replace(/\/+$/, '');
+        if (legacy) {
+          path = `/${legacy}`;
+          window.history.replaceState(null, '', path + window.location.search);
+        }
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      if (
+        path === '/admin-secret' || 
+        path === '/superadmin' || 
+        path === '/secret-admin' || 
+        params.get('admin') === 'secret'
+      ) {
+        return { page: 'superadmin', role: 'student' };
+      }
+
+      if (path === '/owner' || path === '/owner-portal' || path === '/host') {
+        return { page: 'owner-portal', role: 'owner' };
+      }
+
+      if (path === '/student' || path === '/student-home') {
+        return { page: 'home', role: 'student' };
+      }
+
+      if (path === '/explore') {
+        return { page: 'explore', role: 'student' };
+      }
+
+      if (path === '/nearme') {
+        return { page: 'nearme', role: 'student' };
+      }
+
+      if (path === '/about') {
+        return { page: 'about', role: 'student' };
+      }
+
+      if (path === '/contact') {
+        return { page: 'contact', role: 'student' };
+      }
+
+      if (path === '/blogs') {
+        return { page: 'blogs', role: 'student' };
+      }
+
+      if (path === '/terms') {
+        return { page: 'terms', role: 'student' };
+      }
+
+      if (path === '/privacy') {
+        return { page: 'privacy', role: 'student' };
+      }
+
+      // Root path '/' loads the two-option Gateway
+      return { page: 'portal', role: 'student' };
     } catch {
-      return 'portal';
+      return { page: 'portal', role: 'student' };
     }
   };
 
-  const [activePage, setActivePage] = useState(getInitialPage);
+  const initialRoute = parseCurrentRoute();
+  const [activePage, setActivePage] = useState(initialRoute.page);
   const [selectedPg, setSelectedPg] = useState(null);
   const [selectedBlog, setSelectedBlog] = useState(null);
-  const [exploreFilter, setExploreFilter] = useState({});
+  const [exploreFilter, setExploreFilter] = useState(() => {
+    return initialRoute.page === 'nearme' ? { nearMeNow: true } : {};
+  });
   const [allPgs, setAllPgs] = useState([]);
 
   // Two-Option Role Switcher State: 'student' (zero login) vs 'owner' (host workflow)
-  const [userRoleMode, setUserRoleMode] = useState(() => {
-    try {
-      const hash = window.location.hash.toLowerCase();
-      if (hash === '#owner' || hash === '#owner-portal') return 'owner';
-      return 'student';
-    } catch {
-      return 'student';
-    }
-  });
+  const [userRoleMode, setUserRoleMode] = useState(initialRoute.role);
 
   // Auth state
   const [currentUser, setCurrentUser] = useState(() => {
@@ -88,46 +119,23 @@ export default function App() {
       .catch((err) => console.error("Error loading initial PGs:", err));
   }, []);
 
-  // Hash-based URL router
-  // When main page loads (empty hash or #portal): loads MainGateway with ONLY TWO OPTIONS
-  // Student functionality: /#student or /#explore (zero login required)
-  // Owner functionality: /#owner (login, register, dashboard)
-  // Super Admin functionality: /#admin-secret (secret URL only)
+  // HTML5 History Popstate listener (supports browser Back / Forward buttons smoothly)
   useEffect(() => {
-    const handleRouteByHash = () => {
-      const hash = window.location.hash.toLowerCase();
-      const params = new URLSearchParams(window.location.search);
-
-      if (hash === '#admin-secret' || hash === '#superadmin' || hash === '#secret-admin' || params.get('admin') === 'secret') {
-        setActivePage('superadmin');
-      } else if (hash === '#student' || hash === '#student-home') {
-        setUserRoleMode('student');
-        setActivePage('home');
-      } else if (hash === '#explore') {
-        setUserRoleMode('student');
-        setActivePage('explore');
-      } else if (hash === '#nearme') {
-        setUserRoleMode('student');
+    const handlePopState = () => {
+      const route = parseCurrentRoute();
+      setUserRoleMode(route.role);
+      if (route.page === 'nearme') {
         setActivePage('explore');
         setExploreFilter({ nearMeNow: true });
-      } else if (hash === '#owner' || hash === '#owner-portal') {
-        setUserRoleMode('owner');
+      } else if (route.page === 'owner-portal') {
         setActivePage(currentUser?.role === 'owner' ? 'owner' : 'owner-portal');
-      } else if (hash === '#about') {
-        setActivePage('about');
-      } else if (hash === '#contact') {
-        setActivePage('contact');
-      } else if (hash === '#blogs') {
-        setActivePage('blogs');
-      } else if (hash === '#terms' || hash === '#privacy') {
-        setActivePage(hash.replace('#', ''));
-      } else if (hash === '' || hash === '#' || hash === '#portal') {
-        setActivePage('portal');
+      } else {
+        setActivePage(route.page);
       }
     };
 
-    window.addEventListener('hashchange', handleRouteByHash);
-    return () => window.removeEventListener('hashchange', handleRouteByHash);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, [currentUser]);
 
   // 100% On-Page SEO: Dynamic Title and Meta Management
@@ -161,22 +169,27 @@ export default function App() {
     document.title = title;
   }, [activePage, selectedPg, selectedBlog]);
 
-  const handleSelectStudentPortal = () => {
-    window.location.hash = '#student';
-    setUserRoleMode('student');
-    setActivePage('home');
+  // PushState Navigation Helper for clean professional URLs
+  const navigateTo = (path, targetPage, filter = {}) => {
+    if (window.location.pathname !== path) {
+      window.history.pushState(null, '', path);
+    }
+    setActivePage(targetPage);
+    if (filter && Object.keys(filter).length > 0) {
+      setExploreFilter(filter);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleSelectStudentPortal = () => {
+    setUserRoleMode('student');
+    navigateTo('/student', 'home');
+  };
+
   const handleSelectOwnerPortal = () => {
-    window.location.hash = '#owner';
     setUserRoleMode('owner');
-    if (currentUser && currentUser.role === 'owner') {
-      setActivePage('owner');
-    } else {
-      setActivePage('owner-portal');
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const target = currentUser?.role === 'owner' ? 'owner' : 'owner-portal';
+    navigateTo('/owner', target);
   };
 
   const handleRoleModeChange = (mode) => {
@@ -190,27 +203,35 @@ export default function App() {
 
   const handleNavigate = (page, filter = {}) => {
     if (page === 'portal') {
-      window.location.hash = '#portal';
-      setActivePage('portal');
+      navigateTo('/', 'portal');
     } else if (page === 'nearme') {
-      window.location.hash = '#nearme';
-      setActivePage('explore');
-      setExploreFilter({ nearMeNow: true });
+      setUserRoleMode('student');
+      navigateTo('/nearme', 'explore', { nearMeNow: true });
     } else if (page === 'explore') {
-      window.location.hash = '#explore';
-      setActivePage('explore');
-      setExploreFilter(filter);
-    } else if (page === 'home') {
-      window.location.hash = '#student';
-      setActivePage('home');
+      setUserRoleMode('student');
+      navigateTo('/explore', 'explore', filter);
+    } else if (page === 'home' || page === 'student') {
+      setUserRoleMode('student');
+      navigateTo('/student', 'home');
     } else if (page === 'owner' || page === 'owner-portal') {
-      window.location.hash = '#owner';
-      setActivePage(currentUser?.role === 'owner' ? 'owner' : 'owner-portal');
+      setUserRoleMode('owner');
+      const target = currentUser?.role === 'owner' ? 'owner' : 'owner-portal';
+      navigateTo('/owner', target);
+    } else if (page === 'superadmin' || page === 'admin-secret') {
+      navigateTo('/superadmin', 'superadmin');
+    } else if (page === 'about') {
+      navigateTo('/about', 'about');
+    } else if (page === 'contact') {
+      navigateTo('/contact', 'contact');
+    } else if (page === 'blogs') {
+      navigateTo('/blogs', 'blogs');
+    } else if (page === 'terms') {
+      navigateTo('/terms', 'terms');
+    } else if (page === 'privacy') {
+      navigateTo('/privacy', 'privacy');
     } else {
-      window.location.hash = `#${page}`;
-      setActivePage(page);
+      navigateTo(`/${page}`, page);
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSelectPg = (pg) => {
@@ -232,12 +253,10 @@ export default function App() {
     } catch {}
 
     if (user.role === 'superadmin') {
-      window.location.hash = '#admin-secret';
-      setActivePage('superadmin');
+      navigateTo('/superadmin', 'superadmin');
     } else if (user.role === 'owner') {
-      window.location.hash = '#owner';
       setUserRoleMode('owner');
-      setActivePage('owner');
+      navigateTo('/owner', 'owner');
     }
   };
 
@@ -257,17 +276,14 @@ export default function App() {
     } catch {}
 
     if (userRoleMode === 'owner') {
-      window.location.hash = '#owner';
-      setActivePage('owner-portal');
+      navigateTo('/owner', 'owner-portal');
     } else {
-      window.location.hash = '#portal';
-      setActivePage('portal');
+      navigateTo('/', 'portal');
     }
   };
 
   const handleExitSuperAdmin = () => {
-    window.location.hash = '#portal';
-    setActivePage('portal');
+    navigateTo('/', 'portal');
   };
 
   // 1. MAIN PAGE LOAD: ONLY THE TWO OPTIONS (FOR STUDENT AND FOR OWNERS)

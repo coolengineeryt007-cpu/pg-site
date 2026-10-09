@@ -39,7 +39,7 @@ export default function Navbar({
       <div className="container nav-inner">
         {/* Left Side: Brand Logo - Only Logo, No Extra Text */}
         <a 
-          href="#portal" 
+          href="/" 
           onClick={(e) => { e.preventDefault(); handleNav('portal'); }} 
           className="brand-logo"
           title="Return to Main Portal Selection"
@@ -63,7 +63,7 @@ export default function Navbar({
             /* STUDENT PAGE MENU: 100% Student-Centric, Zero Login */
             <>
               <a 
-                href="#explore" 
+                href="/explore" 
                 onClick={(e) => { e.preventDefault(); handleNav('explore'); }}
                 className={`luxury-menu-link ${activePage === 'explore' ? 'active' : ''}`}
               >
@@ -72,7 +72,7 @@ export default function Navbar({
               </a>
 
               <a 
-                href="#nearme" 
+                href="/nearme" 
                 onClick={(e) => { e.preventDefault(); handleNav('nearme'); }}
                 className={`luxury-menu-link ${activePage === 'nearme' ? 'active' : ''}`}
               >
@@ -81,7 +81,7 @@ export default function Navbar({
               </a>
 
               <a 
-                href="#blogs" 
+                href="/blogs" 
                 onClick={(e) => { e.preventDefault(); handleNav('blogs'); }}
                 className={`luxury-menu-link ${activePage === 'blogs' ? 'active' : ''}`}
               >
@@ -90,7 +90,7 @@ export default function Navbar({
               </a>
 
               <a 
-                href="#about" 
+                href="/about" 
                 onClick={(e) => { e.preventDefault(); handleNav('about'); }}
                 className={`luxury-menu-link ${activePage === 'about' ? 'active' : ''}`}
               >
@@ -99,7 +99,7 @@ export default function Navbar({
               </a>
 
               <a 
-                href="#contact" 
+                href="/contact" 
                 onClick={(e) => { e.preventDefault(); handleNav('contact'); }}
                 className={`luxury-menu-link ${activePage === 'contact' ? 'active' : ''}`}
               >
@@ -113,7 +113,7 @@ export default function Navbar({
               {currentUser && currentUser.role === 'owner' ? (
                 <>
                   <a 
-                    href="#owner" 
+                    href="/owner" 
                     onClick={(e) => { e.preventDefault(); handleNav('owner'); }}
                     className={`luxury-menu-link ${activePage === 'owner' ? 'active' : ''}`}
                   >
@@ -121,7 +121,7 @@ export default function Navbar({
                     <span>Host Dashboard</span>
                   </a>
                   <a 
-                    href="#owner-listings" 
+                    href="/owner" 
                     onClick={(e) => { e.preventDefault(); handleNav('owner'); }}
                     className="luxury-menu-link"
                   >
@@ -132,7 +132,7 @@ export default function Navbar({
               ) : (
                 <>
                   <a 
-                    href="#owner-portal" 
+                    href="/owner" 
                     onClick={(e) => { e.preventDefault(); handleNav('owner-portal'); }}
                     className={`luxury-menu-link ${activePage === 'owner-portal' ? 'active' : ''}`}
                   >
@@ -140,7 +140,7 @@ export default function Navbar({
                     <span>Host Overview</span>
                   </a>
                   <a 
-                    href="#contact" 
+                    href="/contact" 
                     onClick={(e) => { e.preventDefault(); handleNav('contact'); }}
                     className="luxury-menu-link"
                   >
@@ -169,7 +169,7 @@ export default function Navbar({
 
               {/* Clean link to the separate PG Owner page */}
               <a 
-                href="#owner" 
+                href="/owner" 
                 onClick={(e) => { e.preventDefault(); handleNav('owner-portal'); }}
                 className="portal-switch-link"
                 title="Switch to PG Owner Portal"
@@ -215,7 +215,7 @@ export default function Navbar({
                   </div>
 
                   <a 
-                    href="#student" 
+                    href="/student" 
                     onClick={(e) => { e.preventDefault(); handleNav('home'); }}
                     className="portal-switch-link"
                     title="Switch to Student Portal"
@@ -244,7 +244,7 @@ export default function Navbar({
 
                   {/* Clean link to the separate Student page */}
                   <a 
-                    href="#student" 
+                    href="/student" 
                     onClick={(e) => { e.preventDefault(); handleNav('home'); }}
                     className="portal-switch-link"
                     title="Switch to Student Portal"
@@ -292,30 +292,30 @@ export default function Navbar({
           {userRoleMode === 'student' ? (
             /* Mobile Student Navigation */
             <>
-              <a href="#explore" onClick={() => handleNav('explore')} className="mobile-nav-item">
+              <a href="/explore" onClick={(e) => { e.preventDefault(); handleNav('explore'); }} className="mobile-nav-item">
                 <Compass size={20} style={{ color: 'var(--gold-primary)' }} />
                 <span>Explore PGs</span>
               </a>
-              <a href="#nearme" onClick={() => handleNav('nearme')} className="mobile-nav-item">
+              <a href="/nearme" onClick={(e) => { e.preventDefault(); handleNav('nearme'); }} className="mobile-nav-item">
                 <MapPin size={20} style={{ color: 'var(--blue-light)' }} />
                 <span>Find Near Me (GPS)</span>
               </a>
-              <a href="#blogs" onClick={() => handleNav('blogs')} className="mobile-nav-item">
+              <a href="/blogs" onClick={(e) => { e.preventDefault(); handleNav('blogs'); }} className="mobile-nav-item">
                 <BookOpen size={20} style={{ color: '#00D2B4' }} />
                 <span>Guides & Blogs</span>
               </a>
-              <a href="#about" onClick={() => handleNav('about')} className="mobile-nav-item">
+              <a href="/about" onClick={(e) => { e.preventDefault(); handleNav('about'); }} className="mobile-nav-item">
                 <Info size={20} style={{ color: '#94A3B8' }} />
                 <span>About Us</span>
               </a>
-              <a href="#contact" onClick={() => handleNav('contact')} className="mobile-nav-item">
+              <a href="/contact" onClick={(e) => { e.preventDefault(); handleNav('contact'); }} className="mobile-nav-item">
                 <PhoneCall size={20} style={{ color: 'var(--gold-light)' }} />
                 <span>Contact Concierge</span>
               </a>
 
               <div style={{ borderTop: '1px solid rgba(14, 116, 237, 0.2)', paddingTop: '16px', marginTop: '6px' }}>
                 <a 
-                  href="#owner" 
+                  href="/owner" 
                   onClick={(e) => { e.preventDefault(); handleNav('owner-portal'); }} 
                   className="mobile-nav-item"
                   style={{ color: 'var(--gold-light)', fontWeight: 700 }}
@@ -330,7 +330,7 @@ export default function Navbar({
             <>
               {currentUser && currentUser.role === 'owner' ? (
                 <>
-                  <a href="#owner" onClick={() => handleNav('owner')} className="mobile-nav-item" style={{ color: 'var(--gold-light)', fontWeight: 700 }}>
+                  <a href="/owner" onClick={(e) => { e.preventDefault(); handleNav('owner'); }} className="mobile-nav-item" style={{ color: 'var(--gold-light)', fontWeight: 700 }}>
                     <LayoutDashboard size={20} />
                     <span>Host Dashboard</span>
                   </a>
@@ -344,7 +344,7 @@ export default function Navbar({
                 </>
               ) : (
                 <>
-                  <a href="#owner-portal" onClick={() => handleNav('owner-portal')} className="mobile-nav-item" style={{ color: 'var(--gold-light)', fontWeight: 700 }}>
+                  <a href="/owner" onClick={(e) => { e.preventDefault(); handleNav('owner-portal'); }} className="mobile-nav-item" style={{ color: 'var(--gold-light)', fontWeight: 700 }}>
                     <Building2 size={20} />
                     <span>Host Benefits & Portal</span>
                   </a>
@@ -367,7 +367,7 @@ export default function Navbar({
 
               <div style={{ borderTop: '1px solid rgba(14, 116, 237, 0.2)', paddingTop: '16px', marginTop: '6px' }}>
                 <a 
-                  href="#student" 
+                  href="/student" 
                   onClick={(e) => { e.preventDefault(); handleNav('home'); }} 
                   className="mobile-nav-item"
                   style={{ color: 'var(--blue-light)', fontWeight: 700 }}
