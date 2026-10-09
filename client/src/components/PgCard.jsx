@@ -43,12 +43,21 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
           justifyContent: 'space-between',
           alignItems: 'center'
         }}>
-          <div style={{ display: 'flex', gap: '6px' }}>
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
             <span className={`badge ${
-              pg.gender === 'Girls' ? 'badge-peacock' : pg.gender === 'Boys' ? 'badge-blue' : 'badge-purple'
+              pg.propertyType === 'house' ? 'badge-gold' : pg.propertyType === 'room' ? 'badge-peacock' : pg.gender === 'Girls' ? 'badge-peacock' : 'badge-blue'
             }`}>
-              {pg.gender} PG
+              {pg.propertyType === 'house' 
+                ? `🏠 ${pg.bhk || 'Rental House'}` 
+                : pg.propertyType === 'room' 
+                ? `🛏️ ${pg.bhk || 'Rental Room'}` 
+                : `🏢 ${pg.gender || 'Co-ed'} PG`}
             </span>
+            {pg.suitableFor && (
+              <span className="badge badge-purple" style={{ fontSize: '0.7rem' }}>
+                {pg.suitableFor.includes('Family') ? '👨‍👩‍👧 Family' : pg.suitableFor.includes('Student') ? '🎓 Students' : '💼 Working'}
+              </span>
+            )}
             {pg.featured && (
               <span className="badge badge-gold animate-pulse-gold">
                 👑 PRIME
@@ -138,27 +147,53 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
           </span>
         </div>
 
-        {/* Room / Bed sharing chips */}
+        {/* Room / Unit configuration chips */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '14px' }}>
-          {pg.rooms && pg.rooms.map((room) => (
-            <span 
-              key={room.id}
-              style={{
-                background: 'rgba(14, 116, 237, 0.08)',
-                border: '1px solid rgba(14, 116, 237, 0.2)',
-                padding: '3px 8px',
-                borderRadius: '4px',
-                fontSize: '0.75rem',
-                color: '#CBD5E1',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px'
-              }}
-            >
-              <Bed size={12} style={{ color: 'var(--gold-primary)' }} />
-              {room.beds === 1 ? 'Single' : `${room.beds}-Bed`}
-            </span>
-          ))}
+          {pg.propertyType === 'house' ? (
+            <>
+              <span style={{ background: 'rgba(212, 175, 55, 0.12)', border: '1px solid rgba(212, 175, 55, 0.3)', padding: '3px 8px', borderRadius: '4px', fontSize: '0.75rem', color: '#FDE68A' }}>
+                🏠 {pg.bhk || '2BHK'} Residence
+              </span>
+              <span style={{ background: 'rgba(14, 116, 237, 0.08)', border: '1px solid rgba(14, 116, 237, 0.2)', padding: '3px 8px', borderRadius: '4px', fontSize: '0.75rem', color: '#CBD5E1' }}>
+                🛋️ {pg.furnishing || 'Furnished'}
+              </span>
+              <span style={{ background: 'rgba(0, 210, 180, 0.08)', border: '1px solid rgba(0, 210, 180, 0.2)', padding: '3px 8px', borderRadius: '4px', fontSize: '0.75rem', color: '#A7F3D0' }}>
+                👨‍👩‍👧 Family Friendly
+              </span>
+            </>
+          ) : pg.propertyType === 'room' ? (
+            <>
+              <span style={{ background: 'rgba(0, 210, 180, 0.12)', border: '1px solid rgba(0, 210, 180, 0.3)', padding: '3px 8px', borderRadius: '4px', fontSize: '0.75rem', color: '#A7F3D0' }}>
+                🛏️ Private 1RK Room
+              </span>
+              <span style={{ background: 'rgba(14, 116, 237, 0.08)', border: '1px solid rgba(14, 116, 237, 0.2)', padding: '3px 8px', borderRadius: '4px', fontSize: '0.75rem', color: '#CBD5E1' }}>
+                🚿 Attached Bath
+              </span>
+              <span style={{ background: 'rgba(212, 175, 55, 0.08)', border: '1px solid rgba(212, 175, 55, 0.2)', padding: '3px 8px', borderRadius: '4px', fontSize: '0.75rem', color: '#FDE68A' }}>
+                🔑 Independent Entry
+              </span>
+            </>
+          ) : (
+            pg.rooms && pg.rooms.map((room) => (
+              <span 
+                key={room.id}
+                style={{
+                  background: 'rgba(14, 116, 237, 0.08)',
+                  border: '1px solid rgba(14, 116, 237, 0.2)',
+                  padding: '3px 8px',
+                  borderRadius: '4px',
+                  fontSize: '0.75rem',
+                  color: '#CBD5E1',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}
+              >
+                <Bed size={12} style={{ color: 'var(--gold-primary)' }} />
+                {room.beds === 1 ? 'Single' : `${room.beds}-Bed`}
+              </span>
+            ))
+          )}
         </div>
 
         {/* Amenities Highlights */}
@@ -177,7 +212,7 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             <Utensils size={13} style={{ color: 'var(--gold-primary)' }} />
-            <span>Food</span>
+            <span>{pg.propertyType === 'house' ? 'Modular Kitchen' : pg.propertyType === 'room' ? 'Pantry' : 'Food'}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             <Zap size={13} style={{ color: 'var(--blue-cyan)' }} />

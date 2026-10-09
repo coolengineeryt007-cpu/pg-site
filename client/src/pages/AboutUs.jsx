@@ -36,10 +36,10 @@ export default function AboutUs() {
           </span>
         </div>
         <h1 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(2.2rem, 4vw, 3.2rem)', marginBottom: '18px' }}>
-          Transforming Student & Corporate Living into a Royal Experience
+          Transforming Rental Housing & Living into a Royal Experience
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', lineHeight: 1.8 }}>
-          We believe where you live shapes who you become. Vrundavan Ventures was born out of a mission to replace subpar hostels with 5-star, biometric-secured, gourmet-serviced living sanctuaries across India.
+          We believe where you live shapes who you become. Vrundavan Ventures was born out of a mission to connect tenants with verified rental houses, flats, private rooms, and luxury PGs across India with 100% transparency and zero brokerage.
         </p>
       </div>
 
@@ -51,7 +51,7 @@ export default function AboutUs() {
         </div>
         <div className="luxury-card" style={{ padding: '26px', textAlign: 'center' }}>
           <h2 className="gold-gradient-text font-serif" style={{ fontSize: '2.5rem', fontWeight: 900 }}>1,200+</h2>
-          <span style={{ color: '#aaa', fontSize: '0.9rem' }}>Verified Luxury Suites</span>
+          <span style={{ color: '#aaa', fontSize: '0.9rem' }}>Verified Rental Properties</span>
         </div>
         <div className="luxury-card" style={{ padding: '26px', textAlign: 'center' }}>
           <h2 className="gold-gradient-text font-serif" style={{ fontSize: '2.5rem', fontWeight: 900 }}>99.8%</h2>
@@ -59,7 +59,7 @@ export default function AboutUs() {
         </div>
         <div className="luxury-card" style={{ padding: '26px', textAlign: 'center' }}>
           <h2 className="gold-gradient-text font-serif" style={{ fontSize: '2.5rem', fontWeight: 900 }}>4.92 ★</h2>
-          <span style={{ color: '#aaa', fontSize: '0.9rem' }}>Average Student Rating</span>
+          <span style={{ color: '#aaa', fontSize: '0.9rem' }}>Average Resident Rating</span>
         </div>
       </div>
 

@@ -98,11 +98,16 @@ export default function PgDetailView({ pg, onBack, onScheduleVisit }) {
             {pg.name}
           </h1>
           <span className={`badge ${
-            pg.gender === 'Girls' ? 'badge-crimson' : pg.gender === 'Boys' ? 'badge-blue' : 'badge-purple'
+            pg.propertyType === 'house' ? 'badge-gold' : pg.propertyType === 'room' ? 'badge-peacock' : pg.gender === 'Girls' ? 'badge-crimson' : 'badge-blue'
           }`} style={{ fontSize: '0.85rem', padding: '6px 12px' }}>
-            {pg.gender} PG
+            {pg.propertyType === 'house' ? `🏠 ${pg.bhk || 'Rental House/Flat'}` : pg.propertyType === 'room' ? `🛏️ ${pg.bhk || 'Rental Room'}` : `🏢 ${pg.gender} PG`}
           </span>
-          {pg.featured && <span className="badge badge-gold">👑 VIP Prime</span>}
+          {pg.suitableFor && (
+            <span className="badge badge-purple" style={{ fontSize: '0.82rem', padding: '6px 12px' }}>
+              👤 Ideal for: {pg.suitableFor}
+            </span>
+          )}
+          {pg.featured && <span className="badge badge-gold">👑 Verified Prime</span>}
         </div>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px', color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
@@ -417,7 +422,7 @@ export default function PgDetailView({ pg, onBack, onScheduleVisit }) {
               </button>
 
               <a 
-                href={`https://wa.me/${pg.ownerWhatsapp?.replace(/[^0-9]/g, '') || '919876543210'}?text=${encodeURIComponent(`Hello, I am interested in booking a room at ${pg.name} (${pg.address.city}). Could you share current vacancy?`)}`}
+                href={`https://wa.me/${pg.ownerWhatsapp?.replace(/[^0-9]/g, '') || '919876543210'}?text=${encodeURIComponent(`Hello, I am interested in ${pg.name} (${pg.address.city}). Could you share current availability and booking details?`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-outline-gold"
@@ -515,7 +520,7 @@ export default function PgDetailView({ pg, onBack, onScheduleVisit }) {
 
                 <div className="grid-2">
                   <div className="form-group">
-                    <label className="form-label">Preferred Sharing Type</label>
+                    <label className="form-label">{pg.propertyType === 'house' ? 'Unit / Configuration' : pg.propertyType === 'room' ? 'Room Preference' : 'Preferred Sharing Type'}</label>
                     <select 
                       className="form-select"
                       value={inquiryForm.sharingType}
@@ -542,7 +547,7 @@ export default function PgDetailView({ pg, onBack, onScheduleVisit }) {
                   <textarea 
                     rows={3} 
                     className="form-textarea" 
-                    placeholder="e.g. When can I view the room? Need move-in from 1st of next month."
+                    placeholder="e.g. When can I view the property? Need move-in from 1st of next month."
                     value={inquiryForm.message}
                     onChange={(e) => setInquiryForm({ ...inquiryForm, message: e.target.value })}
                   />

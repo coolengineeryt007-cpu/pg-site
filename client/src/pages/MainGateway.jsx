@@ -1,5 +1,6 @@
 import React from 'react';
 import { 
+  Home as HomeIcon,
   GraduationCap, 
   Building2, 
   CheckCircle2, 
@@ -12,7 +13,8 @@ import {
   Crown,
   Compass,
   PlusCircle,
-  HelpCircle
+  HelpCircle,
+  Users
 } from 'lucide-react';
 
 export default function MainGateway({ onSelectStudent, onSelectOwner }) {
@@ -100,7 +102,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
         {/* Prestige Badge */}
         <div style={{ marginBottom: '16px' }}>
           <span className="badge badge-gold" style={{ fontSize: '0.8rem', padding: '6px 14px' }}>
-            <Crown size={14} /> Official Residences Access Portal
+            <Crown size={14} /> Official Rental Residences & Housing Access Portal
           </span>
         </div>
 
@@ -112,18 +114,18 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
           lineHeight: 1.2,
           marginBottom: '16px'
         }}>
-          Choose Your Living Experience <br />
-          <span className="gold-gradient-text">Select How You Wish to Continue</span>
+          Find PGs, Rental Rooms & Houses <br />
+          <span className="gold-gradient-text">Choose Your Portal to Continue</span>
         </h1>
 
         <p style={{
           color: 'var(--text-secondary)',
           fontSize: 'clamp(1rem, 2vw, 1.25rem)',
-          maxWidth: '720px',
+          maxWidth: '740px',
           margin: '0 auto 46px auto',
           lineHeight: 1.6
         }}>
-          Directly connecting students & executive professionals with verified PG hosts across India. Zero brokerage, guaranteed quality, and authentic residences.
+          India's trusted 0% brokerage rental platform connecting tenants, families, working professionals, and students directly with verified property owners.
         </p>
 
         {/* The TWO Interactive Portal Cards */}
@@ -135,7 +137,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
           margin: '0 auto',
           width: '100%'
         }}>
-          {/* OPTION 1: FOR STUDENTS */}
+          {/* OPTION 1: FOR TENANTS & HOME SEEKERS (PGs, Rooms, Houses) */}
           <div 
             onClick={onSelectStudent}
             role="button"
@@ -172,7 +174,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
                   color: '#60A5FA',
                   boxShadow: '0 4px 20px rgba(14, 116, 237, 0.4)'
                 }}>
-                  <GraduationCap size={38} />
+                  <HomeIcon size={38} />
                 </div>
                 <span className="badge badge-peacock" style={{ fontSize: '0.78rem', padding: '6px 14px' }}>
                   <Zap size={12} /> Instant Access • Zero Login
@@ -181,29 +183,33 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
 
               {/* Title & Description */}
               <h2 className="font-serif" style={{ fontSize: '1.85rem', fontWeight: 800, color: '#ffffff', marginBottom: '10px' }}>
-                For Students & Tenants
+                For Tenants & Home Seekers
               </h2>
               <p style={{ color: '#CBD5E1', fontSize: '0.96rem', lineHeight: 1.6, marginBottom: '26px' }}>
-                Looking for a Paying Guest, hostel, or executive coliving suite. 100% friction-free with zero login or password requirements.
+                Find verified PGs, private rental rooms (1RK), and rental houses/flats (1BHK/2BHK/3BHK) for families, working professionals, and students.
               </p>
 
               {/* Bullet Points */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '32px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
                   <CheckCircle2 size={17} style={{ color: '#00D2B4', flexShrink: 0 }} />
-                  <span><strong>Zero Login Required:</strong> Browse rooms instantly</span>
+                  <span><strong>Zero Login Required:</strong> Browse rooms & houses instantly</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
                   <CheckCircle2 size={17} style={{ color: '#00D2B4', flexShrink: 0 }} />
-                  <span><strong>GPS "Near Me":</strong> Sort by distance to your college / office</span>
+                  <span><strong>All Rental Categories:</strong> PGs, 1RK Rooms, Flats & Houses</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
                   <CheckCircle2 size={17} style={{ color: '#00D2B4', flexShrink: 0 }} />
-                  <span><strong>Direct WhatsApp & Call:</strong> Connect with host directly</span>
+                  <span><strong>For Everyone:</strong> Families, Working Bachelors & Students</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
                   <CheckCircle2 size={17} style={{ color: '#00D2B4', flexShrink: 0 }} />
-                  <span><strong>100% Zero Brokerage:</strong> No middleman fees</span>
+                  <span><strong>Direct Owner Contact:</strong> 100% Free WhatsApp & Phone Calling</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
+                  <CheckCircle2 size={17} style={{ color: '#00D2B4', flexShrink: 0 }} />
+                  <span><strong>0% Brokerage:</strong> No middleman commission or hidden charges</span>
                 </div>
               </div>
             </div>
@@ -223,12 +229,12 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
               }}
             >
               <Compass size={20} />
-              <span>Enter Student Portal</span>
+              <span>Explore PGs, Rooms & Houses</span>
               <ArrowRight size={18} />
             </button>
           </div>
 
-          {/* OPTION 2: FOR PG OWNERS */}
+          {/* OPTION 2: FOR PROPERTY OWNERS & HOSTS */}
           <div 
             onClick={onSelectOwner}
             role="button"
@@ -268,23 +274,27 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
                   <Building2 size={38} />
                 </div>
                 <span className="badge badge-gold" style={{ fontSize: '0.78rem', padding: '6px 14px' }}>
-                  <Sparkles size={12} /> Host Portal • 0% Brokerage
+                  <Sparkles size={12} /> Host Portal • 0% Commission
                 </span>
               </div>
 
               {/* Title & Description */}
               <h2 className="font-serif" style={{ fontSize: '1.85rem', fontWeight: 800, color: '#ffffff', marginBottom: '10px' }}>
-                For PG Owners & Hosts
+                For Property Owners & Hosts
               </h2>
               <p style={{ color: '#CBD5E1', fontSize: '0.96rem', lineHeight: 1.6, marginBottom: '26px' }}>
-                Manage your properties, fill vacant beds faster, and receive direct student leads straight to your phone.
+                List your PG, rental room, flat, or independent house. Connect with verified tenants, fill vacancies fast, and keep 100% rental income.
               </p>
 
               {/* Bullet Points */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '32px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
                   <CheckCircle2 size={17} style={{ color: '#D4AF37', flexShrink: 0 }} />
-                  <span><strong>0% Commission:</strong> Keep 100% of your room rental fees</span>
+                  <span><strong>0% Commission:</strong> Zero brokerage, keep 100% rental revenue</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#D4AF37', flexShrink: 0 }}>
+                  <CheckCircle2 size={17} style={{ color: '#D4AF37', flexShrink: 0 }} />
+                  <span><strong>List Any Property:</strong> PGs, 1RK rooms, flats, houses & villas</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#D4AF37', flexShrink: 0 }}>
                   <CheckCircle2 size={17} style={{ color: '#D4AF37', flexShrink: 0 }} />
@@ -292,11 +302,11 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
                   <CheckCircle2 size={17} style={{ color: '#D4AF37', flexShrink: 0 }} />
-                  <span><strong>Direct Tenant Leads:</strong> Direct WhatsApp & phone inquiries</span>
+                  <span><strong>Direct Tenant Calls:</strong> Inquiries delivered straight to WhatsApp</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
                   <CheckCircle2 size={17} style={{ color: '#D4AF37', flexShrink: 0 }} />
-                  <span><strong>Host Control Panel:</strong> Manage room types, rent & availability</span>
+                  <span><strong>Host Control Panel:</strong> Manage photos, rent, deposits & status</span>
                 </div>
               </div>
             </div>
@@ -316,7 +326,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
               }}
             >
               <PlusCircle size={20} />
-              <span>Enter PG Owner Portal</span>
+              <span>Enter Owner Portal / List Property</span>
               <ArrowRight size={18} />
             </button>
           </div>

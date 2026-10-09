@@ -49,7 +49,11 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
   // PG Add Form State
   const initialFormState = {
     name: '',
-    gender: 'Co-ed',
+    propertyType: 'house',
+    bhk: '2BHK',
+    furnishing: 'Furnished',
+    suitableFor: 'All',
+    gender: 'All',
     rent: '',
     deposit: '',
     noticePeriodDays: '30',
@@ -752,37 +756,84 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
 
               <div className="grid-3">
                 <div className="form-group">
-                  <label className="form-label">PG Name *</label>
+                  <label className="form-label">Property Title / Name *</label>
                   <input 
                     type="text" 
                     required 
                     className="form-input" 
-                    placeholder="e.g. Royal Crown Luxury Stays"
+                    placeholder="e.g. Harmony Heights 2BHK Flat or Greenview Room"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   />
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Gender Category *</label>
+                  <label className="form-label">Property Type *</label>
                   <select 
                     className="form-select"
-                    value={formData.gender}
-                    onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                    value={formData.propertyType || 'house'}
+                    onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
                   >
-                    <option value="Co-ed">Co-ed / Unisex</option>
-                    <option value="Girls">Girls Only</option>
-                    <option value="Boys">Boys Only</option>
+                    <option value="house">🏠 Rental House / Flat (1/2/3 BHK)</option>
+                    <option value="room">🛏️ Private Rental Room (1RK / Studio)</option>
+                    <option value="pg">🏢 PG & Coliving Residence</option>
                   </select>
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Starting Rent (₹ / Month) *</label>
+                  <label className="form-label">Configuration / BHK *</label>
+                  <select 
+                    className="form-select"
+                    value={formData.bhk || '2BHK'}
+                    onChange={(e) => setFormData({ ...formData, bhk: e.target.value })}
+                  >
+                    <option value="1RK">1RK Studio Room</option>
+                    <option value="1BHK">1BHK Flat / House</option>
+                    <option value="2BHK">2BHK Flat / House</option>
+                    <option value="3BHK">3BHK Luxury Residence</option>
+                    <option value="Villa">Independent Villa / Bunglow</option>
+                    <option value="Single/Shared Bed">Single / Shared Bed (PG)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid-3">
+                <div className="form-group">
+                  <label className="form-label">Tenant Preference (Suitable For)</label>
+                  <select 
+                    className="form-select"
+                    value={formData.suitableFor || 'All'}
+                    onChange={(e) => setFormData({ ...formData, suitableFor: e.target.value })}
+                  >
+                    <option value="All">All Tenants Welcome</option>
+                    <option value="Families & Working Professionals">👨‍👩‍👧 Families & Working Professionals</option>
+                    <option value="Family Only">👨‍👩‍👧 Family Only</option>
+                    <option value="Working Professionals">💼 Working Professionals</option>
+                    <option value="Students & Scholars">🎓 Students & Scholars</option>
+                    <option value="Bachelors Only">🧑‍🤝‍🧑 Bachelors / Singles</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Furnishing Status</label>
+                  <select 
+                    className="form-select"
+                    value={formData.furnishing || 'Furnished'}
+                    onChange={(e) => setFormData({ ...formData, furnishing: e.target.value })}
+                  >
+                    <option value="Fully Furnished">Fully Furnished</option>
+                    <option value="Semi-Furnished">Semi-Furnished</option>
+                    <option value="Unfurnished">Unfurnished</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Monthly Rent (₹ / Month) *</label>
                   <input 
                     type="number" 
                     required 
                     className="form-input" 
-                    placeholder="e.g. 14500"
+                    placeholder="e.g. 18500"
                     value={formData.rent}
                     onChange={(e) => setFormData({ ...formData, rent: e.target.value })}
                   />

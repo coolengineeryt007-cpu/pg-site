@@ -29,9 +29,11 @@ export default function Explore({ onSelectPg, initialFilter = {} }) {
   // Filters
   const [search, setSearch] = useState(initialFilter.search || '');
   const [city, setCity] = useState(initialFilter.city || 'all');
+  const [propertyType, setPropertyType] = useState(initialFilter.propertyType || 'all');
+  const [suitableFor, setSuitableFor] = useState(initialFilter.suitableFor || 'all');
   const [gender, setGender] = useState(initialFilter.gender || 'all');
   const [sharing, setSharing] = useState('all');
-  const [maxRent, setMaxRent] = useState(30000);
+  const [maxRent, setMaxRent] = useState(50000);
   const [sortBy, setSortBy] = useState(initialFilter.lat ? 'distance' : 'featured');
   const [showMap, setShowMap] = useState(true);
   const [detectingGps, setDetectingGps] = useState(false);
@@ -42,6 +44,8 @@ export default function Explore({ onSelectPg, initialFilter = {} }) {
       const params = {
         search,
         city: city !== 'all' ? city : undefined,
+        propertyType: propertyType !== 'all' ? propertyType : undefined,
+        suitableFor: suitableFor !== 'all' ? suitableFor : undefined,
         gender: gender !== 'all' ? gender : undefined,
         sharing: sharing !== 'all' ? sharing : undefined,
         maxRent,
@@ -73,7 +77,7 @@ export default function Explore({ onSelectPg, initialFilter = {} }) {
 
   useEffect(() => {
     fetchPgs();
-  }, [search, city, gender, sharing, maxRent, userCoords, sortBy]);
+  }, [search, city, propertyType, suitableFor, gender, sharing, maxRent, userCoords, sortBy]);
 
   const handleGpsNearMe = async () => {
     setDetectingGps(true);
@@ -91,9 +95,11 @@ export default function Explore({ onSelectPg, initialFilter = {} }) {
   const handleResetFilters = () => {
     setSearch('');
     setCity('all');
+    setPropertyType('all');
+    setSuitableFor('all');
     setGender('all');
     setSharing('all');
-    setMaxRent(30000);
+    setMaxRent(50000);
     setUserCoords(null);
     setSortBy('featured');
   };
@@ -101,13 +107,51 @@ export default function Explore({ onSelectPg, initialFilter = {} }) {
   return (
     <div className="container" style={{ paddingTop: '35px', paddingBottom: '80px' }}>
       {/* Header Banner */}
-      <div style={{ marginBottom: '30px' }}>
+      <div style={{ marginBottom: '24px' }}>
         <h1 className="font-serif gold-gradient-text" style={{ fontSize: '2.2rem', marginBottom: '8px' }}>
-          Explore Luxury Paying Guest Residences
+          Explore PGs, Rental Rooms & Houses
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
-          Filter by proximity, sharing type, gender category, and budget with real-time Google Maps coordinates.
+          Discover verified paying guests, 1RK private rooms, flats, and houses for families, working professionals, and students.
         </p>
+      </div>
+
+      {/* Property Category Switcher Tabs */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        flexWrap: 'wrap',
+        marginBottom: '20px'
+      }}>
+        <button
+          onClick={() => setPropertyType('all')}
+          className={`btn btn-sm ${propertyType === 'all' ? 'btn-gold' : 'btn-ghost'}`}
+          style={{ borderRadius: 'var(--radius-full)', padding: '7px 18px', fontWeight: 600 }}
+        >
+          🌟 All Properties
+        </button>
+        <button
+          onClick={() => setPropertyType('house')}
+          className={`btn btn-sm ${propertyType === 'house' ? 'btn-gold' : 'btn-ghost'}`}
+          style={{ borderRadius: 'var(--radius-full)', padding: '7px 18px', fontWeight: 600 }}
+        >
+          🏠 Houses & Flats (1/2/3 BHK)
+        </button>
+        <button
+          onClick={() => setPropertyType('room')}
+          className={`btn btn-sm ${propertyType === 'room' ? 'btn-gold' : 'btn-ghost'}`}
+          style={{ borderRadius: 'var(--radius-full)', padding: '7px 18px', fontWeight: 600 }}
+        >
+          🛏️ Private Rental Rooms (1RK)
+        </button>
+        <button
+          onClick={() => setPropertyType('pg')}
+          className={`btn btn-sm ${propertyType === 'pg' ? 'btn-gold' : 'btn-ghost'}`}
+          style={{ borderRadius: 'var(--radius-full)', padding: '7px 18px', fontWeight: 600 }}
+        >
+          🏢 PGs & Coliving
+        </button>
       </div>
 
       {/* Main Filter & Search Control Panel */}
@@ -121,7 +165,7 @@ export default function Explore({ onSelectPg, initialFilter = {} }) {
               setUserCoords({ lat: parsed.lat, lng: parsed.lng });
               setSortBy('distance');
             }}
-            placeholder="Search locality, university, or landmark..."
+            placeholder="Search locality, landmark, or city..."
             showCurrentLocationBtn={false}
           />
 
@@ -140,16 +184,18 @@ export default function Explore({ onSelectPg, initialFilter = {} }) {
             <option value="Mumbai">Mumbai</option>
           </select>
 
-          {/* Gender Filter */}
+          {/* Suitable For / Occupant Filter */}
           <select 
             className="form-select"
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
+            value={suitableFor}
+            onChange={(e) => setSuitableFor(e.target.value)}
           >
-            <option value="all">All Genders</option>
-            <option value="Girls">Girls Only PG</option>
-            <option value="Boys">Boys Only PG</option>
-            <option value="Co-ed">Co-ed / Unisex</option>
+            <option value="all">All Occupants</option>
+            <option value="Family">👨‍👩‍👧 Families</option>
+            <option value="Working Professionals">💼 Working Professionals</option>
+            <option value="Students">🎓 Students & Scholars</option>
+            <option value="Girls">👩 Girls / Ladies Only</option>
+            <option value="Boys">👨 Boys / Bachelors Only</option>
           </select>
 
           {/* GPS Near Me Action Button */}
@@ -176,7 +222,7 @@ export default function Explore({ onSelectPg, initialFilter = {} }) {
         }}>
           {/* Sharing Buttons */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '0.8rem', color: '#888' }}>Sharing:</span>
+            <span style={{ fontSize: '0.8rem', color: '#888' }}>Unit Type:</span>
             {['all', '1', '2', '3'].map((val) => (
               <button
                 key={val}
@@ -184,7 +230,7 @@ export default function Explore({ onSelectPg, initialFilter = {} }) {
                 className={`btn btn-sm ${sharing === val ? 'btn-gold' : 'btn-ghost'}`}
                 style={{ padding: '5px 12px', fontSize: '0.8rem' }}
               >
-                {val === 'all' ? 'All' : val === '1' ? 'Single Room' : `${val}-Bed`}
+                {val === 'all' ? 'All Units' : val === '1' ? 'Single / 1BHK' : val === '2' ? 'Twin / 2BHK' : '3-Bed / 3BHK'}
               </button>
             ))}
           </div>

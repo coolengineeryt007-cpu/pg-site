@@ -304,6 +304,8 @@ app.get('/api/pgs', (req, res) => {
     search,
     city,
     gender,
+    propertyType,
+    suitableFor,
     maxRent,
     minRent,
     sharing,
@@ -330,6 +332,27 @@ app.get('/api/pgs', (req, res) => {
     list = list.filter(pg => pg.status === 'approved');
   }
 
+  // Filter by Property Type ('pg', 'room', 'house', 'flat')
+  if (propertyType && propertyType !== 'all') {
+    list = list.filter(pg => {
+      const type = (pg.propertyType || 'pg').toLowerCase();
+      if (propertyType === 'house' || propertyType === 'flat') {
+        return type === 'house' || type === 'flat' || type === 'apartment';
+      }
+      return type === propertyType.toLowerCase();
+    });
+  }
+
+  // Filter by Suitable For / Tenant Preference ('Family', 'Working Professionals', 'Students', 'All')
+  if (suitableFor && suitableFor !== 'all') {
+    const sTerm = suitableFor.toLowerCase();
+    list = list.filter(pg => {
+      const suit = (pg.suitableFor || 'All').toLowerCase();
+      const gend = (pg.gender || '').toLowerCase();
+      return suit.includes(sTerm) || suit === 'all' || gend.includes(sTerm);
+    });
+  }
+
   // Text search
   if (search) {
     const q = search.toLowerCase().trim();
@@ -339,7 +362,10 @@ app.get('/api/pgs', (req, res) => {
       pg.address.area.toLowerCase().includes(q) ||
       pg.address.state.toLowerCase().includes(q) ||
       pg.address.apartment?.toLowerCase().includes(q) ||
-      pg.address.pincode?.includes(q)
+      pg.address.pincode?.includes(q) ||
+      (pg.propertyType && pg.propertyType.toLowerCase().includes(q)) ||
+      (pg.suitableFor && pg.suitableFor.toLowerCase().includes(q)) ||
+      (pg.bhk && pg.bhk.toLowerCase().includes(q))
     );
   }
 
@@ -432,6 +458,10 @@ app.post('/api/pgs', (req, res) => {
     ownerPhone: data.ownerPhone || '+91 98765 43210',
     ownerWhatsapp: data.ownerWhatsapp || data.ownerPhone || '+919876543210',
     gender: data.gender || 'Co-ed',
+    propertyType: data.propertyType || 'pg', // 'pg', 'room', 'house', 'flat'
+    bhk: data.bhk || '',
+    furnishing: data.furnishing || 'Furnished',
+    suitableFor: data.suitableFor || 'All',
     status: data.isDraft ? 'draft' : 'pending_review', // Pending Super Admin Approval!
     featured: false,
     rating: 5.0,
@@ -439,7 +469,7 @@ app.post('/api/pgs', (req, res) => {
     rent: Number(data.rent),
     deposit: Number(data.deposit || data.rent * 1.5),
     noticePeriodDays: Number(data.noticePeriodDays || 30),
-    description: data.description || 'Modern luxury PG accommodation.',
+    description: data.description || 'Modern rental property accommodation.',
     photos: Array.isArray(data.photos) && data.photos.length > 0 
       ? data.photos 
       : ['https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80'],

@@ -12,8 +12,12 @@ import {
   CheckCircle, 
   HelpCircle,
   Building,
+  Building2,
   Sparkles,
-  BedDouble
+  BedDouble,
+  Home as HomeIcon,
+  Bed,
+  Users
 } from 'lucide-react';
 import LocationSearchBar from '../components/LocationSearchBar';
 import PgCard from '../components/PgCard';
@@ -36,24 +40,24 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
 
   const FAQS = [
     {
-      q: "How does the 'Near Me' GPS feature find the closest PG accommodations?",
-      a: "When you tap the 'Near Me' button, Vrundavan Ventures utilizes high-accuracy browser satellite geolocation combined with our backend Haversine distance engine. We instantly sort available verified properties based on exact road proximity (e.g. 0.8 km away) and provide turn-by-turn Google Maps navigation."
+      q: "What types of rental properties can I find on Vrundavan Ventures?",
+      a: "Our platform features 3 verified rental categories: (1) PGs & Coliving for students and single professionals, (2) Private Rental Rooms (1RK / single rooms) for budget-friendly independent living, and (3) Rental Houses & Flats (1BHK, 2BHK, 3BHK, and independent houses) for families and corporate executives."
     },
     {
-      q: "Are the PG photos and pricing 100% verified?",
-      a: "Yes. Every property undergoes strict multi-step vetting by our quality verification team before being approved. All room configurations, starting rents, deposit terms, and amenities are verified against physical site inspections."
+      q: "Is this platform only for students, or can families and professionals also rent?",
+      a: "Vrundavan Ventures is built for everyone looking for a rental home: families searching for 2BHK/3BHK flats, working professionals seeking executive coliving or 1RK rooms, and students seeking verified hostels & PGs."
     },
     {
       q: "Is there any brokerage or hidden agent commission?",
-      a: "Absolutely zero brokerage. You connect directly with the verified property host via Phone or WhatsApp with 100% transparent pricing and guaranteed security deposit refund rules."
+      a: "Absolutely zero brokerage. You connect directly with the verified property owner or host via Phone or WhatsApp with 100% transparent pricing and direct deposit agreements."
     },
     {
-      q: "What food and dining options are provided in luxury PGs?",
-      a: "Most listed residences provide dietitian-approved 3-time buffet meals (North and South Indian options), along with evening high-tea and 24x7 access to RO water dispensers and refrigerators."
+      q: "How does the 'Near Me' GPS feature find the closest rental properties?",
+      a: "When you tap 'Near Me', Vrundavan Ventures calculates road distance between your current location and all verified listings. You can immediately sort by distance and open turn-by-turn Google Maps navigation to visit the property."
     },
     {
-      q: "How can PG property owners list their properties?",
-      a: "Property hosts can select the 'For PG Owners' option at the top to access the dedicated Host Portal. Our integrated Google Maps API automatically populates building name, street line, pincode, state, and coordinates for lightning-fast onboarding."
+      q: "How can property owners (PGs, rooms, flats, houses) list their property?",
+      a: "Landlords and PG owners can click the 'Host Portal' button to list properties in minutes. With our automated address geocoder, entering your landmark auto-populates coordinates, area, city, and pincode."
     }
   ];
 
@@ -78,30 +82,69 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
           {/* Prestige Tag */}
           <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: '22px' }}>
             <span className="badge badge-gold animate-pulse-gold">
-              <Crown size={14} /> Vrundavan Ventures • Luxury PG & Coliving Portal
+              <Crown size={14} /> Vrundavan Ventures • PGs, Rental Rooms & Houses
             </span>
           </div>
 
           {/* Main H1 */}
           <h1 className="font-serif" style={{ fontSize: 'clamp(1.85rem, 5vw, 4.2rem)', lineHeight: 1.15, marginBottom: '20px', fontWeight: 900, color: '#ffffff' }}>
-            Live Like Royalty in <br />
-            <span className="gold-gradient-text">Curated Coliving Suites</span>
+            Find Your Ideal Rental Space: <br />
+            <span className="gold-gradient-text">PGs, Private Rooms & Houses</span>
           </h1>
 
           <p style={{
             color: 'var(--text-secondary)',
             fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
-            maxWidth: '720px',
-            margin: '0 auto 40px auto',
+            maxWidth: '760px',
+            margin: '0 auto 36px auto',
             lineHeight: 1.7
           }}>
-            Chef-crafted gourmet buffets, ergonomic high-speed workspaces, biometric safety, and prime locations next to top universities & IT parks.
+            Explore verified paying guest coliving, 1RK furnished rental rooms, flats, and family houses across India. Zero brokerage, transparent deposits, and direct owner WhatsApp & phone connections.
           </p>
+
+          {/* Quick Property Type Category Selector */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '12px',
+            marginBottom: '26px'
+          }}>
+            <button
+              onClick={() => onNavigate('explore', { propertyType: 'all' })}
+              className="btn btn-gold btn-sm"
+              style={{ borderRadius: 'var(--radius-full)', padding: '8px 18px', fontWeight: 700 }}
+            >
+              🌟 All Rentals
+            </button>
+            <button
+              onClick={() => onNavigate('explore', { propertyType: 'house' })}
+              className="btn btn-outline-gold btn-sm"
+              style={{ borderRadius: 'var(--radius-full)', padding: '8px 18px', fontWeight: 600 }}
+            >
+              🏠 Houses & Flats (1/2/3 BHK)
+            </button>
+            <button
+              onClick={() => onNavigate('explore', { propertyType: 'room' })}
+              className="btn btn-outline-gold btn-sm"
+              style={{ borderRadius: 'var(--radius-full)', padding: '8px 18px', fontWeight: 600 }}
+            >
+              🛏️ Rental Rooms (1RK / Studio)
+            </button>
+            <button
+              onClick={() => onNavigate('explore', { propertyType: 'pg' })}
+              className="btn btn-outline-gold btn-sm"
+              style={{ borderRadius: 'var(--radius-full)', padding: '8px 18px', fontWeight: 600 }}
+            >
+              🏢 PGs & Coliving
+            </button>
+          </div>
 
           {/* Luxury Search & Near Me Bar */}
           <div style={{
             maxWidth: '680px',
-            margin: '0 auto 30px auto'
+            margin: '0 auto 26px auto'
           }}>
             <LocationSearchBar 
               onLocationSelect={handleHeroLocationSelect}
@@ -110,15 +153,48 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
             />
           </div>
 
+          {/* Tenant Category Preferences */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '14px' }}>
+            <span style={{ fontSize: '0.82rem', color: '#8E9DB2', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Ideal For:</span>
+            <button
+              onClick={() => onNavigate('explore', { suitableFor: 'Family' })}
+              className="btn btn-ghost btn-sm"
+              style={{ borderRadius: 'var(--radius-full)', padding: '4px 12px', fontSize: '0.8rem', color: '#FCD34D' }}
+            >
+              👨‍👩‍👧 Families
+            </button>
+            <button
+              onClick={() => onNavigate('explore', { suitableFor: 'Working Professionals' })}
+              className="btn btn-ghost btn-sm"
+              style={{ borderRadius: 'var(--radius-full)', padding: '4px 12px', fontSize: '0.8rem', color: '#60A5FA' }}
+            >
+              💼 Working Professionals
+            </button>
+            <button
+              onClick={() => onNavigate('explore', { suitableFor: 'Students' })}
+              className="btn btn-ghost btn-sm"
+              style={{ borderRadius: 'var(--radius-full)', padding: '4px 12px', fontSize: '0.8rem', color: '#34D399' }}
+            >
+              🎓 Students & Scholars
+            </button>
+            <button
+              onClick={() => onNavigate('explore', { suitableFor: 'All' })}
+              className="btn btn-ghost btn-sm"
+              style={{ borderRadius: 'var(--radius-full)', padding: '4px 12px', fontSize: '0.8rem', color: '#E2E8F0' }}
+            >
+              ✨ All Welcome
+            </button>
+          </div>
+
           {/* Quick Hub Pills */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '10px' }}>
-            <span style={{ fontSize: '0.85rem', color: '#8E9DB2' }}>Popular Hubs:</span>
-            {['Rajkot (Pride Classic)', 'Koramangala', 'Hitech City', 'Hinjewadi', 'Bandra', 'DLF Cyber City'].map((city) => (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '8px' }}>
+            <span style={{ fontSize: '0.82rem', color: '#8E9DB2' }}>Popular Locations:</span>
+            {['Rajkot (Kalawad / Raiya)', 'Koramangala (Bengaluru)', 'Hitech City (Hyderabad)', 'Hinjewadi (Pune)', 'Bandra (Mumbai)', 'DLF Cyber City (Gurugram)'].map((city) => (
               <button
                 key={city}
-                onClick={() => onNavigate('explore', { search: city.includes('Rajkot') ? 'Rajkot' : city })}
+                onClick={() => onNavigate('explore', { search: city.includes('Rajkot') ? 'Rajkot' : city.includes('Koramangala') ? 'Koramangala' : city.split(' ')[0] })}
                 className="btn btn-ghost btn-sm"
-                style={{ borderRadius: 'var(--radius-full)', padding: '5px 14px', fontSize: '0.8rem', borderColor: 'rgba(14, 116, 237, 0.3)' }}
+                style={{ borderRadius: 'var(--radius-full)', padding: '4px 12px', fontSize: '0.78rem', borderColor: 'rgba(14, 116, 237, 0.3)' }}
               >
                 📍 {city}
               </button>
@@ -135,10 +211,10 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
               <span className="badge badge-peacock">The Vrundavan Standard</span>
             </div>
             <h2 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.4rem)' }}>
-              Why Students & Professionals Choose Us
+              Why Home Seekers & Property Owners Choose Us
             </h2>
             <p>
-              Curated 5-star living standards, zero broker commissions, and verified property quality.
+              Verified rental properties, zero broker commissions, and direct transparent communication.
             </p>
           </div>
 
@@ -220,10 +296,10 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
                 </span>
               </div>
               <h2 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.4rem)', margin: '0 0 8px 0' }}>
-                Featured Prime Residences
+                Featured Rentals: PGs, Rooms & Houses
               </h2>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', margin: 0 }}>
-                The highest rated coliving spaces with single and shared luxury suites.
+                Top-rated properties including family flats, private 1RK rooms, and luxury coliving suites.
               </p>
             </div>
 

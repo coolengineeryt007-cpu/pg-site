@@ -32,10 +32,10 @@ export default function Footer({ onNavigate }) {
               />
             </div>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: '1.7', marginBottom: '20px' }}>
-              Vrundavan Ventures elevates paying guest & executive coliving across India. Handpicked verified accommodations with chef-crafted nutrition, biometric safety, high-speed connectivity, and prime connectivity.
+              Vrundavan Ventures is your premier rental discovery platform across India. Handpicked verified rental houses, flats, private rooms, and PGs for families, working professionals, bachelors, and students with 0% brokerage.
             </p>
             <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-              <span className="badge badge-gold">Verified Residences</span>
+              <span className="badge badge-gold">Verified Properties</span>
               <span className="badge badge-blue">Zero Brokerage</span>
               <span className="badge badge-peacock">Direct Host Connect</span>
             </div>
@@ -44,32 +44,32 @@ export default function Footer({ onNavigate }) {
           {/* Quick Navigation */}
           <div>
             <h4 style={{ color: '#fff', fontSize: '1.05rem', marginBottom: '18px', letterSpacing: '0.04em' }}>
-              EXPLORE RESIDENCES
+              EXPLORE RENTALS & HOMES
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.9rem' }}>
               <li>
                 <a href="/explore" onClick={(e) => { e.preventDefault(); onNavigate('explore'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
-                  All Approved PGs
+                  All Rental Properties
+                </a>
+              </li>
+              <li>
+                <a href="/explore" onClick={(e) => { e.preventDefault(); onNavigate('explore', { propertyType: 'house' }); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
+                  🏠 Houses & Flats for Rent
+                </a>
+              </li>
+              <li>
+                <a href="/explore" onClick={(e) => { e.preventDefault(); onNavigate('explore', { propertyType: 'room' }); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
+                  🛏️ Private Rental Rooms & Studios
+                </a>
+              </li>
+              <li>
+                <a href="/explore" onClick={(e) => { e.preventDefault(); onNavigate('explore', { propertyType: 'pg' }); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
+                  🏢 PGs & Coliving Spaces
                 </a>
               </li>
               <li>
                 <a href="/nearme" onClick={(e) => { e.preventDefault(); onNavigate('nearme'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
-                  Find Near My Location
-                </a>
-              </li>
-              <li>
-                <a href="/explore" onClick={(e) => { e.preventDefault(); onNavigate('explore', { gender: 'Girls' }); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
-                  Luxury Ladies PGs
-                </a>
-              </li>
-              <li>
-                <a href="/explore" onClick={(e) => { e.preventDefault(); onNavigate('explore', { gender: 'Boys' }); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
-                  Executive Gents PGs
-                </a>
-              </li>
-              <li>
-                <a href="/explore" onClick={(e) => { e.preventDefault(); onNavigate('explore', { gender: 'Co-ed' }); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
-                  Modern Co-ed Suites
+                  📍 Find Near My Location (GPS)
                 </a>
               </li>
             </ul>
@@ -88,7 +88,7 @@ export default function Footer({ onNavigate }) {
               </li>
               <li>
                 <a href="/blogs" onClick={(e) => { e.preventDefault(); onNavigate('blogs'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
-                  Coliving Blog & Guides
+                  Rental & Coliving Guides
                 </a>
               </li>
               <li>
@@ -98,7 +98,7 @@ export default function Footer({ onNavigate }) {
               </li>
               <li>
                 <a href="/owner" onClick={(e) => { e.preventDefault(); onNavigate('owner-portal'); }} style={{ color: 'var(--gold-light)', textDecoration: 'none', fontWeight: 600 }} className="nav-link">
-                  🏢 For PG Owners & Hosts
+                  🏢 For Property Owners & Landlords
                 </a>
               </li>
               <li>

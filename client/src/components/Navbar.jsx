@@ -7,6 +7,7 @@ import {
   Info,
   Building2,
   GraduationCap,
+  Home as HomeIcon,
   PlusCircle,
   User,
   LogOut,
@@ -60,7 +61,7 @@ export default function Navbar({
         {/* Center: Nicer, Luxury Desktop Navigation Menu */}
         <nav className="nav-links">
           {userRoleMode === 'student' ? (
-            /* STUDENT PAGE MENU: 100% Student-Centric, Zero Login */
+            /* TENANT & HOME SEEKER PAGE MENU: Zero Login */
             <>
               <a 
                 href="/explore" 
@@ -68,7 +69,7 @@ export default function Navbar({
                 className={`luxury-menu-link ${activePage === 'explore' ? 'active' : ''}`}
               >
                 <Compass size={17} style={{ color: 'var(--gold-primary)' }} />
-                <span>Explore PGs</span>
+                <span>Explore Rentals</span>
               </a>
 
               <a 
@@ -156,7 +157,7 @@ export default function Navbar({
         {/* Right Side: CTAs & Separate Page Switcher Links (NO TAB SWITCHER) */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           {userRoleMode === 'student' ? (
-            /* Student Page Actions */
+            /* Tenant Page Actions */
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <button 
                 onClick={() => handleNav('explore')}
@@ -164,7 +165,7 @@ export default function Navbar({
                 style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
               >
                 <Compass size={15} />
-                <span>Find Rooms</span>
+                <span>Browse Rentals</span>
               </button>
 
               {/* Clean link to the separate PG Owner page */}
@@ -172,7 +173,7 @@ export default function Navbar({
                 href="/owner" 
                 onClick={(e) => { e.preventDefault(); handleNav('owner-portal'); }}
                 className="portal-switch-link"
-                title="Switch to PG Owner Portal"
+                title="Switch to Property Owner Portal"
               >
                 <Building2 size={14} />
                 <span>Host Portal</span>
@@ -218,10 +219,10 @@ export default function Navbar({
                     href="/student" 
                     onClick={(e) => { e.preventDefault(); handleNav('home'); }}
                     className="portal-switch-link"
-                    title="Switch to Student Portal"
+                    title="Switch to Tenant Rental Search"
                   >
-                    <GraduationCap size={14} />
-                    <span>Student View</span>
+                    <HomeIcon size={14} />
+                    <span>Rentals View</span>
                   </a>
                 </div>
               ) : (
@@ -239,7 +240,7 @@ export default function Navbar({
                     className="btn btn-gold btn-sm"
                     style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
                   >
-                    <PlusCircle size={15} /> List Your PG
+                    <PlusCircle size={15} /> List Property
                   </button>
 
                   {/* Clean link to the separate Student page */}
@@ -247,10 +248,10 @@ export default function Navbar({
                     href="/student" 
                     onClick={(e) => { e.preventDefault(); handleNav('home'); }}
                     className="portal-switch-link"
-                    title="Switch to Student Portal"
+                    title="Switch to Tenant Rental Search"
                   >
-                    <GraduationCap size={14} />
-                    <span>Students</span>
+                    <HomeIcon size={14} />
+                    <span>Find Rentals</span>
                     <ArrowRight size={13} />
                   </a>
                 </div>
@@ -294,7 +295,7 @@ export default function Navbar({
             <>
               <a href="/explore" onClick={(e) => { e.preventDefault(); handleNav('explore'); }} className="mobile-nav-item">
                 <Compass size={20} style={{ color: 'var(--gold-primary)' }} />
-                <span>Explore PGs</span>
+                <span>Explore Rentals (PGs, Rooms, Flats)</span>
               </a>
               <a href="/nearme" onClick={(e) => { e.preventDefault(); handleNav('nearme'); }} className="mobile-nav-item">
                 <MapPin size={20} style={{ color: 'var(--blue-light)' }} />
@@ -321,7 +322,7 @@ export default function Navbar({
                   style={{ color: 'var(--gold-light)', fontWeight: 700 }}
                 >
                   <Building2 size={20} />
-                  <span>Go to PG Owner Portal →</span>
+                  <span>Go to Property Owner Portal →</span>
                 </a>
               </div>
             </>
@@ -360,7 +361,7 @@ export default function Navbar({
                     className="btn btn-gold"
                     style={{ width: '100%', justifyContent: 'center' }}
                   >
-                    <PlusCircle size={16} /> List Your PG Free
+                    <PlusCircle size={16} /> List Your Property Free
                   </button>
                 </>
               )}
@@ -372,8 +373,8 @@ export default function Navbar({
                   className="mobile-nav-item"
                   style={{ color: 'var(--blue-light)', fontWeight: 700 }}
                 >
-                  <GraduationCap size={20} />
-                  <span>Go to Student Residences →</span>
+                  <Home size={20} />
+                  <span>Go to Rental Search →</span>
                 </a>
               </div>
             </>

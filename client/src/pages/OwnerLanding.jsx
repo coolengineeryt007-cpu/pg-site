@@ -66,7 +66,7 @@ export default function OwnerLanding({ onOpenLogin, onOpenRegister, onDemoLogin,
           borderRadius: 'var(--radius-full)',
           fontSize: '0.88rem'
         }}>
-          <span style={{ color: 'var(--gold-light)', fontWeight: 700 }}>🏢 Dedicated Portal for PG & Coliving Owners</span>
+          <span style={{ color: 'var(--gold-light)', fontWeight: 700 }}>🏢 Dedicated Portal for PG Owners, Flat & House Landlords</span>
           <span style={{ color: '#64748B' }}>•</span>
           <button 
             onClick={onSwitchToStudent}
@@ -82,7 +82,7 @@ export default function OwnerLanding({ onOpenLogin, onOpenRegister, onDemoLogin,
               padding: 0
             }}
           >
-            <GraduationCap size={15} /> Looking for a PG? Switch to Student View
+            <GraduationCap size={15} /> Looking to rent a room or house? Switch to Tenant View
           </button>
         </div>
       </div>
@@ -118,8 +118,8 @@ export default function OwnerLanding({ onOpenLogin, onOpenRegister, onDemoLogin,
             </span>
 
             <h1 className="font-serif" style={{ fontSize: 'clamp(1.75rem, 4.5vw, 3.4rem)', lineHeight: 1.2, marginBottom: '18px', fontWeight: 900, color: '#ffffff' }}>
-              Fill Your Rooms Faster & <br />
-              <span className="gold-gradient-text">Manage Your PG Properties</span>
+              Fill Your Vacancies Faster & <br />
+              <span className="gold-gradient-text">Manage Your Rental Properties</span>
             </h1>
 
             <p style={{
@@ -129,7 +129,7 @@ export default function OwnerLanding({ onOpenLogin, onOpenRegister, onDemoLogin,
               margin: '0 auto 36px auto',
               lineHeight: 1.6
             }}>
-              Join hundreds of successful PG hosts on Vrundavan Ventures. List your property in minutes with Google Maps autofill, receive instant tenant calls, and maximize occupancy.
+              Join hundreds of property owners on Vrundavan Ventures. List your PG, 1RK rental room, flat, or independent house in minutes with Google Maps autofill, receive direct tenant calls, and keep 100% rental income.
             </p>
 
             {/* CTA Buttons */}

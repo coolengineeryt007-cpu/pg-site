@@ -132,7 +132,12 @@
         "Lobby guest visiting allowed until 9:00 PM"
       ],
       "createdAt": "2026-10-08T07:00:00.000Z",
-      "statusUpdatedAt": "2026-10-08T07:00:00.000Z"
+      "statusUpdatedAt": "2026-10-08T07:00:00.000Z",
+      "propertyType": "pg",
+      "propertyTypeLabel": "Luxury PG & Coliving",
+      "bhk": "Single / Shared",
+      "furnishing": "Fully Furnished",
+      "suitableFor": "Students & Working Professionals"
     },
     {
       "id": "pg-1791400226514",
@@ -199,7 +204,12 @@
         "No smoking in bedrooms"
       ],
       "createdAt": "2026-10-07T19:10:26.514Z",
-      "statusUpdatedAt": "2026-10-07T19:10:26.522Z"
+      "statusUpdatedAt": "2026-10-07T19:10:26.522Z",
+      "propertyType": "pg",
+      "propertyTypeLabel": "Luxury PG & Coliving",
+      "bhk": "Single / Shared",
+      "furnishing": "Fully Furnished",
+      "suitableFor": "Students & Working Professionals"
     },
     {
       "id": "pg-101",
@@ -286,7 +296,12 @@
         "Strictly non-smoking interior zones",
         "Guests allowed in ground floor luxury lounge until 9:00 PM"
       ],
-      "createdAt": "2025-01-12T10:00:00.000Z"
+      "createdAt": "2025-01-12T10:00:00.000Z",
+      "propertyType": "pg",
+      "propertyTypeLabel": "Luxury PG & Coliving",
+      "bhk": "Single / Shared",
+      "furnishing": "Fully Furnished",
+      "suitableFor": "Students & Working Professionals"
     },
     {
       "id": "pg-102",
@@ -371,7 +386,12 @@
         "Gate closes at 11:00 PM (Prior notification required)",
         "Alcohol and smoking strictly banned"
       ],
-      "createdAt": "2025-01-18T10:00:00.000Z"
+      "createdAt": "2025-01-18T10:00:00.000Z",
+      "propertyType": "pg",
+      "propertyTypeLabel": "Luxury PG & Coliving",
+      "bhk": "Single / Shared",
+      "furnishing": "Fully Furnished",
+      "suitableFor": "Female Students & Working Women"
     },
     {
       "id": "pg-103",
@@ -443,7 +463,12 @@
         "Quiet hours 11:00 PM to 6:00 AM",
         "Zero drug policy"
       ],
-      "createdAt": "2025-01-20T10:00:00.000Z"
+      "createdAt": "2025-01-20T10:00:00.000Z",
+      "propertyType": "pg",
+      "propertyTypeLabel": "Luxury PG & Coliving",
+      "bhk": "Single / Shared",
+      "furnishing": "Fully Furnished",
+      "suitableFor": "Bachelors & Students"
     },
     {
       "id": "pg-104",
@@ -525,7 +550,12 @@
         "Gate closes at 12:00 AM",
         "Visitors welcome till 8:30 PM"
       ],
-      "createdAt": "2025-01-25T10:00:00.000Z"
+      "createdAt": "2025-01-25T10:00:00.000Z",
+      "propertyType": "pg",
+      "propertyTypeLabel": "Luxury PG & Coliving",
+      "bhk": "Single / Shared",
+      "furnishing": "Fully Furnished",
+      "suitableFor": "Students & Working Professionals"
     },
     {
       "id": "pg-105",
@@ -586,7 +616,12 @@
       ],
       "createdAt": "2025-02-05T14:30:00.000Z",
       "statusReason": "",
-      "statusUpdatedAt": "2026-10-07T19:43:45.985Z"
+      "statusUpdatedAt": "2026-10-07T19:43:45.985Z",
+      "propertyType": "pg",
+      "propertyTypeLabel": "Luxury PG & Coliving",
+      "bhk": "Single / Shared",
+      "furnishing": "Fully Furnished",
+      "suitableFor": "Students & Working Professionals"
     },
     {
       "id": "pg-106",
@@ -656,7 +691,305 @@
       ],
       "createdAt": "2025-02-06T09:15:00.000Z",
       "statusReason": "",
-      "statusUpdatedAt": "2026-10-07T19:43:47.591Z"
+      "statusUpdatedAt": "2026-10-07T19:43:47.591Z",
+      "propertyType": "pg",
+      "propertyTypeLabel": "Luxury PG & Coliving",
+      "bhk": "Single / Shared",
+      "furnishing": "Fully Furnished",
+      "suitableFor": "Female Students & Working Women"
+    },
+    {
+      "id": "house-rajkot-harmony",
+      "name": "Harmony Heights 2BHK Family Flat",
+      "ownerId": "usr-owner-1",
+      "ownerName": "Rajesh Sharma",
+      "ownerPhone": "+91 98765 43210",
+      "ownerWhatsapp": "+919876543210",
+      "propertyType": "house",
+      "propertyTypeLabel": "Rental House / Flat",
+      "bhk": "2BHK",
+      "furnishing": "Semi-Furnished",
+      "suitableFor": "Families & Working Professionals",
+      "gender": "Family",
+      "status": "approved",
+      "featured": true,
+      "rating": 4.95,
+      "reviewsCount": 22,
+      "rent": 18500,
+      "deposit": 35000,
+      "noticePeriodDays": 30,
+      "description": "Spacious and well-ventilated 2BHK flat in prime Yogi Nagar / Kalawad Road, Rajkot. Perfect for families and working executives with modular kitchen, private balconies, 24-hr water supply, lift, and covered parking.",
+      "photos": [
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "address": {
+        "apartment": "Harmony Heights Flat 402",
+        "addressLine1": "Kalawad Road, Near Swaminarayan Temple",
+        "addressLine2": "Beside 150 Feet Ring Road",
+        "area": "Yogi Nagar",
+        "city": "Rajkot",
+        "district": "Rajkot",
+        "state": "Gujarat",
+        "pincode": "360005",
+        "lat": 22.289,
+        "lng": 70.761
+      },
+      "rooms": [
+        {
+          "id": "r1",
+          "type": "Master Bedroom + Attached Bath",
+          "beds": 1,
+          "rent": 18500,
+          "available": 1,
+          "washroom": "Attached",
+          "ac": true,
+          "balcony": true
+        },
+        {
+          "id": "r2",
+          "type": "Children / Guest Bedroom",
+          "beds": 1,
+          "rent": 0,
+          "available": 1,
+          "washroom": "Common",
+          "ac": false,
+          "balcony": true
+        }
+      ],
+      "facilities": [
+        "Reserved Covered Car Parking",
+        "24x7 Municipal & Borewell Water",
+        "Elevator (Lift) with Inverter Backup",
+        "Modular Kitchen with Piped Gas",
+        "2 Spacious Balconies with Open View",
+        "Gated Society with CCTV Security",
+        "Children Play Area & Society Garden"
+      ],
+      "rules": [
+        "Family or working corporate tenants preferred",
+        "Society maintenance due on 5th of each month",
+        "Quiet residential community decorum"
+      ],
+      "createdAt": "2026-10-09T08:00:00.000Z"
+    },
+    {
+      "id": "room-rajkot-greenview",
+      "name": "Greenview 1RK Furnished Rental Room",
+      "ownerId": "usr-owner-1",
+      "ownerName": "Rajesh Sharma",
+      "ownerPhone": "+91 98765 43210",
+      "ownerWhatsapp": "+919876543210",
+      "propertyType": "room",
+      "propertyTypeLabel": "Private Rental Room",
+      "bhk": "1RK Studio",
+      "furnishing": "Fully Furnished",
+      "suitableFor": "Students & Working Bachelors",
+      "gender": "Co-ed",
+      "status": "approved",
+      "featured": true,
+      "rating": 4.88,
+      "reviewsCount": 16,
+      "rent": 8000,
+      "deposit": 15000,
+      "noticePeriodDays": 30,
+      "description": "Independent fully furnished 1RK studio room on Raiya Road, Rajkot. Features private entrance, attached western bathroom, comfortable wooden bed with mattress, wardrobe, study table, and high-speed WiFi.",
+      "photos": [
+        "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1540518614846-7ede433c4550?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "address": {
+        "apartment": "Greenview Residency, 2nd Floor",
+        "addressLine1": "Raiya Road, Near Telephone Exchange",
+        "addressLine2": "Opposite Reliance Fresh",
+        "area": "Raiya Road",
+        "city": "Rajkot",
+        "district": "Rajkot",
+        "state": "Gujarat",
+        "pincode": "360007",
+        "lat": 22.2965,
+        "lng": 70.768
+      },
+      "rooms": [
+        {
+          "id": "r1",
+          "type": "1RK Private Furnished Studio",
+          "beds": 1,
+          "rent": 8000,
+          "available": 1,
+          "washroom": "Attached",
+          "ac": true,
+          "balcony": false
+        }
+      ],
+      "facilities": [
+        "High-Speed Fiber WiFi (200 Mbps)",
+        "Attached Western Washroom & Geyser",
+        "Comfortable Bed with Orthopedic Mattress",
+        "Work Desk, Chair & Wardrobe",
+        "RO Purified Water Supply",
+        "Two-Wheeler Dedicated Parking",
+        "Independent Private Access Key"
+      ],
+      "rules": [
+        "Single working bachelor or student",
+        "Clean and hygienic upkeep of private room",
+        "No loud parties post 11:00 PM"
+      ],
+      "createdAt": "2026-10-09T08:30:00.000Z"
+    },
+    {
+      "id": "house-bengaluru-prestige",
+      "name": "Prestige Silver Oak 3BHK Luxury Residence",
+      "ownerId": "usr-owner-2",
+      "ownerName": "Priya Malhotra",
+      "ownerPhone": "+91 98111 87654",
+      "ownerWhatsapp": "+919811187654",
+      "propertyType": "house",
+      "propertyTypeLabel": "Rental House / Flat",
+      "bhk": "3BHK",
+      "furnishing": "Fully Furnished",
+      "suitableFor": "Families & Corporate Executives",
+      "gender": "Family",
+      "status": "approved",
+      "featured": true,
+      "rating": 4.97,
+      "reviewsCount": 31,
+      "rent": 46000,
+      "deposit": 90000,
+      "noticePeriodDays": 30,
+      "description": "Premium fully-furnished 3BHK flat in Koramangala 4th Block, Bengaluru. Equipped with Italian marble flooring, 3 AC bedrooms, smart home lighting, modular kitchen with chimney, and 2 covered car parks.",
+      "photos": [
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "address": {
+        "apartment": "Prestige Silver Oak Tower C",
+        "addressLine1": "80 Feet Road, 4th Block",
+        "addressLine2": "Near Maharaja Signal",
+        "area": "Koramangala",
+        "city": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "state": "Karnataka",
+        "pincode": "560034",
+        "lat": 12.934,
+        "lng": 77.629
+      },
+      "rooms": [
+        {
+          "id": "r1",
+          "type": "Master Suite + Bathtub",
+          "beds": 1,
+          "rent": 46000,
+          "available": 1,
+          "washroom": "Attached",
+          "ac": true,
+          "balcony": true
+        },
+        {
+          "id": "r2",
+          "type": "2nd Bedroom + Attached Bath",
+          "beds": 1,
+          "rent": 0,
+          "available": 1,
+          "washroom": "Attached",
+          "ac": true,
+          "balcony": true
+        },
+        {
+          "id": "r3",
+          "type": "3rd Guest/Study Room",
+          "beds": 1,
+          "rent": 0,
+          "available": 1,
+          "washroom": "Attached",
+          "ac": true,
+          "balcony": false
+        }
+      ],
+      "facilities": [
+        "2 Covered Car Parking Slots",
+        "Clubhouse, Swimming Pool & Gym Access",
+        "100% Full Power Backup (Generators)",
+        "High-Speed Fiber WiFi Ready",
+        "Modular Kitchen with Chimney & Piped Gas",
+        "3 Attached Balconies with Skyline View",
+        "24x7 Security Guards & Intercom"
+      ],
+      "rules": [
+        "Family or corporate working executives preferred",
+        "Standard agreement with 1-month notice",
+        "Gated community bylaws apply"
+      ],
+      "createdAt": "2026-10-09T08:45:00.000Z"
+    },
+    {
+      "id": "room-pune-studio",
+      "name": "Tech Hub 1RK Executive Studio",
+      "ownerId": "usr-owner-2",
+      "ownerName": "Priya Malhotra",
+      "ownerPhone": "+91 98111 87654",
+      "ownerWhatsapp": "+919811187654",
+      "propertyType": "room",
+      "propertyTypeLabel": "Private Rental Room",
+      "bhk": "1RK Studio",
+      "furnishing": "Fully Furnished",
+      "suitableFor": "Working Professionals & IT Executives",
+      "gender": "Co-ed",
+      "status": "approved",
+      "featured": false,
+      "rating": 4.84,
+      "reviewsCount": 14,
+      "rent": 11500,
+      "deposit": 20000,
+      "noticePeriodDays": 30,
+      "description": "Modern independent 1RK studio room in Hinjewadi Phase 1, Pune. Custom designed for IT professionals working at Wipro, Infosys, and TCS. Includes high-speed Wi-Fi, air conditioning, microwave, mini-fridge, and daily maintenance.",
+      "photos": [
+        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1540518614846-7ede433c4550?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "address": {
+        "apartment": "Tech Horizon Suites",
+        "addressLine1": "Hinjewadi IT Park Road, Phase 1",
+        "addressLine2": "Opposite Cognizant Campus",
+        "area": "Hinjewadi",
+        "city": "Pune",
+        "district": "Pune",
+        "state": "Maharashtra",
+        "pincode": "411057",
+        "lat": 18.594,
+        "lng": 73.735
+      },
+      "rooms": [
+        {
+          "id": "r1",
+          "type": "Executive 1RK Furnished Studio",
+          "beds": 1,
+          "rent": 11500,
+          "available": 1,
+          "washroom": "Attached",
+          "ac": true,
+          "balcony": true
+        }
+      ],
+      "facilities": [
+        "High-Speed Fiber Internet (300 Mbps)",
+        "Air Conditioning (AC)",
+        "Work Desk & Ergonomic Chair",
+        "Mini Fridge & Microwave Access",
+        "Attached Western Washroom & Geyser",
+        "Power Backup & Inverter",
+        "Reserved Two-Wheeler Parking"
+      ],
+      "rules": [
+        "Working IT / Corporate professionals",
+        "No loud noise during night hours",
+        "Visitor entry allowed during daytime"
+      ],
+      "createdAt": "2026-10-09T09:00:00.000Z"
     }
   ],
   "blogs": [

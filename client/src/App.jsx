@@ -140,22 +140,22 @@ export default function App() {
 
   // 100% On-Page SEO: Dynamic Title and Meta Management
   useEffect(() => {
-    let title = "Vrundavan Ventures | Luxury PG & Coliving Residences";
-    let desc = "Discover India's most prestigious Paying Guest & Coliving spaces with chef-curated dining, biometric security, and fiber WiFi.";
+    let title = "Vrundavan Ventures | PGs, Rental Rooms & Houses for Rent";
+    let desc = "Discover India's most verified PGs, private rental rooms, flats, and houses for families, working professionals, and students with zero brokerage.";
 
     if (activePage === 'portal') {
-      title = "Vrundavan Ventures | Select Student or PG Owner Portal";
-      desc = "Choose your portal: Find verified student and executive PGs with zero login, or list your property with 0% brokerage.";
+      title = "Vrundavan Ventures | Find Rentals or List Your Property";
+      desc = "Choose your portal: Find verified rental houses, rooms, and PGs with zero login, or list your property with 0% brokerage.";
     } else if (activePage === 'home') {
-      title = "Student Residences & Luxury PGs | Vrundavan Ventures";
+      title = "Find Rental Houses, Private Rooms & PGs | Vrundavan Ventures";
     } else if (activePage === 'explore' || activePage === 'nearme') {
-      title = "Explore Luxury PGs Near You | Real-time GPS Proximity | Vrundavan Ventures";
-      desc = "Browse verified executive and student Paying Guest accommodations with single/shared rooms and Google Maps live directions.";
+      title = "Explore Rental Properties Near You | GPS Proximity | Vrundavan Ventures";
+      desc = "Browse verified rental houses, flats, private rooms, and PGs with live GPS distances and direct owner contact.";
     } else if (activePage === 'detail' && selectedPg) {
       title = `${selectedPg.name} in ${selectedPg.address?.area}, ${selectedPg.address?.city} | Vrundavan Ventures`;
-      desc = `Book ${selectedPg.name} with Starting Rent ₹${selectedPg.rent}/mo. Verified ${selectedPg.gender} PG with gourmet dining, AC, and 100% deposit guarantee.`;
+      desc = `Book ${selectedPg.name} with Starting Rent ₹${selectedPg.rent}/mo. Verified ${selectedPg.propertyType === 'house' ? 'Rental House' : selectedPg.propertyType === 'room' ? 'Private Room' : 'PG'} with direct owner connect.`;
     } else if (activePage === 'owner' || activePage === 'owner-portal') {
-      title = "PG Owner Host Portal | List Your Property with 0% Brokerage | Vrundavan Ventures";
+      title = "Property Owner & Landlord Portal | List PGs, Rooms & Houses Free | Vrundavan Ventures";
     } else if (activePage === 'superadmin') {
       title = "Master Control Portal | Restricted Admin Access | Vrundavan Ventures";
     } else if (activePage === 'about') {
@@ -163,7 +163,7 @@ export default function App() {
     } else if (activePage === 'contact') {
       title = "Contact Us & Concierge | Vrundavan Ventures";
     } else if (activePage === 'blogs') {
-      title = "Coliving & PG Living Guides | Vrundavan Ventures Blog";
+      title = "Rental Guides & Living Advice | Vrundavan Ventures Blog";
     }
 
     document.title = title;

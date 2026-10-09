@@ -20,10 +20,10 @@ export default function Blogs({ onSelectBlog }) {
           Knowledge & Insights
         </span>
         <h1 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(2.2rem, 4vw, 3.2rem)', marginBottom: '16px' }}>
-          Coliving & PG Living Master Guides
+          Rental Living, PG & Housing Master Guides
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: 1.7 }}>
-          Actionable advice on finding the best luxury accommodation, saving on deposits, inspecting room infrastructure, and thriving in India's top tech corridors.
+          Actionable advice on finding the best rental houses, private rooms, and PGs, saving on deposits, inspecting property infrastructure, and leasing contracts in India's top cities.
         </p>
       </div>
 
