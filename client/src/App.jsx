@@ -111,6 +111,7 @@ export default function App() {
   });
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalRole, setAuthModalRole] = useState('owner');
+  const [guestSkipped, setGuestSkipped] = useState(false);
 
   // Load initial approved PGs for exploration
   useEffect(() => {
@@ -184,12 +185,25 @@ export default function App() {
   const handleSelectStudentPortal = () => {
     setUserRoleMode('student');
     navigateTo('/student', 'home');
+    if (!currentUser) {
+      setAuthModalRole('tenant');
+      setAuthModalOpen(true);
+    }
   };
 
   const handleSelectOwnerPortal = () => {
     setUserRoleMode('owner');
     const target = currentUser?.role === 'owner' ? 'owner' : 'owner-portal';
     navigateTo('/owner', target);
+    if (!currentUser) {
+      setAuthModalRole('owner');
+      setAuthModalOpen(true);
+    }
+  };
+
+  const handleSkipLogin = () => {
+    setGuestSkipped(true);
+    setAuthModalOpen(false);
   };
 
   const handleRoleModeChange = (mode) => {
@@ -313,6 +327,46 @@ export default function App() {
         onLogout={handleLogout}
       />
 
+      {/* Guest Mode Half-Information Notification Banner */}
+      {!currentUser && (
+        <div style={{
+          background: 'linear-gradient(90deg, rgba(14, 116, 237, 0.22) 0%, rgba(212, 175, 55, 0.22) 100%)',
+          borderBottom: '1px solid rgba(212, 175, 55, 0.35)',
+          padding: '10px 16px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '12px',
+          flexWrap: 'wrap',
+          fontSize: '0.86rem',
+          color: '#E2E8F0',
+          textAlign: 'center',
+          position: 'sticky',
+          top: 0,
+          zIndex: 999
+        }}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ fontSize: '1.1rem' }}>🔒</span>
+            <strong>Guest Preview Mode:</strong> Half / Partial information is showing.
+          </span>
+          <button
+            onClick={() => {
+              setAuthModalRole(userRoleMode === 'owner' ? 'owner' : 'tenant');
+              setAuthModalOpen(true);
+            }}
+            className="btn btn-gold btn-sm"
+            style={{
+              padding: '4px 14px',
+              fontSize: '0.8rem',
+              fontWeight: 700,
+              borderRadius: 'var(--radius-full)'
+            }}
+          >
+            🔑 Do login for more information
+          </button>
+        </div>
+      )}
+
       {/* Main Content Router */}
       <main style={{ flex: 1 }}>
         {/* STUDENT MODE (URL: /#student, /#explore, /#nearme) - ZERO LOGIN REQUIRED */}
@@ -321,6 +375,11 @@ export default function App() {
             pgs={allPgs}
             onSelectPg={handleSelectPg}
             onNavigate={handleNavigate}
+            currentUser={currentUser}
+            onOpenLogin={(role = 'tenant') => {
+              setAuthModalRole(role);
+              setAuthModalOpen(true);
+            }}
           />
         )}
 
@@ -328,6 +387,11 @@ export default function App() {
           <Explore 
             onSelectPg={handleSelectPg}
             initialFilter={exploreFilter}
+            currentUser={currentUser}
+            onOpenLogin={(role = 'tenant') => {
+              setAuthModalRole(role);
+              setAuthModalOpen(true);
+            }}
           />
         )}
 
@@ -335,6 +399,11 @@ export default function App() {
           <PgDetailView 
             pg={selectedPg}
             onBack={() => handleNavigate('explore')}
+            currentUser={currentUser}
+            onOpenLogin={(role = 'tenant') => {
+              setAuthModalRole(role);
+              setAuthModalOpen(true);
+            }}
           />
         )}
 
@@ -431,12 +500,13 @@ export default function App() {
         onNavigate={handleNavigate} 
       />
 
-      {/* Auth Modal for PG Owners */}
+      {/* Auth Modal for Both Tenants and PG Owners */}
       <AuthModal 
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
         initialRole={authModalRole}
         onLoginSuccess={handleLoginSuccess}
+        onSkipLogin={handleSkipLogin}
       />
     </div>
   );

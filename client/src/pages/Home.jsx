@@ -23,7 +23,7 @@ import LocationSearchBar from '../components/LocationSearchBar';
 import PgCard from '../components/PgCard';
 import GoogleMapView from '../components/GoogleMapView';
 
-export default function Home({ pgs, onSelectPg, onNavigate }) {
+export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenLogin }) {
   const [activeFaq, setActiveFaq] = useState(null);
 
   const featuredPgs = pgs.filter(p => p.featured || p.rating >= 4.8).slice(0, 3);
@@ -315,7 +315,13 @@ export default function Home({ pgs, onSelectPg, onNavigate }) {
 
           <div className="grid-3">
             {featuredPgs.map((pg) => (
-              <PgCard key={pg.id} pg={pg} onSelect={onSelectPg} />
+              <PgCard 
+                key={pg.id} 
+                pg={pg} 
+                onSelect={onSelectPg} 
+                currentUser={currentUser}
+                onOpenLogin={onOpenLogin}
+              />
             ))}
           </div>
         </div>

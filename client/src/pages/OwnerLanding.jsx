@@ -87,6 +87,40 @@ export default function OwnerLanding({ onOpenLogin, onOpenRegister, onDemoLogin,
         </div>
       </div>
 
+      {/* Guest Mode Notice Banner */}
+      <div className="container" style={{ marginBottom: '24px' }}>
+        <div style={{
+          background: 'linear-gradient(90deg, rgba(245, 158, 11, 0.16) 0%, rgba(14, 116, 237, 0.16) 100%)',
+          border: '1.5px solid rgba(245, 158, 11, 0.45)',
+          borderRadius: 'var(--radius-md)',
+          padding: '16px 20px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '14px'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <span style={{ fontSize: '1.6rem' }}>🔒</span>
+            <div style={{ textAlign: 'left' }}>
+              <h4 style={{ color: '#fff', fontSize: '1rem', fontWeight: 700, margin: '0 0 2px 0' }}>
+                Guest Mode: Half Information Shown
+              </h4>
+              <p style={{ color: '#CBD5E1', fontSize: '0.85rem', margin: 0 }}>
+                Live tenant leads, property listing manager, and occupancy controls are locked.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={onOpenLogin}
+            className="btn btn-gold btn-sm"
+            style={{ padding: '8px 20px', fontWeight: 800, fontSize: '0.88rem' }}
+          >
+            🔑 Do login for more information
+          </button>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <section className="container" style={{ textAlign: 'center', marginBottom: '60px' }}>
         <div style={{

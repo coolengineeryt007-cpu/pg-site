@@ -15,13 +15,15 @@ import {
   FileText, 
   Send,
   Building,
-  Share2
+  Share2,
+  Lock
 } from 'lucide-react';
 import GoogleMapView from './GoogleMapView';
 import { getDirectionsUrl } from '../services/googleMaps';
 import { api } from '../services/api';
 
-export default function PgDetailView({ pg, onBack, onScheduleVisit }) {
+export default function PgDetailView({ pg, onBack, onScheduleVisit, currentUser, onOpenLogin }) {
+  const isGuest = !currentUser;
   const [selectedPhoto, setSelectedPhoto] = useState(0);
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
   const [inquiryForm, setInquiryForm] = useState({
@@ -68,6 +70,41 @@ export default function PgDetailView({ pg, onBack, onScheduleVisit }) {
 
   return (
     <div className="container" style={{ paddingTop: '30px', paddingBottom: '70px' }}>
+      {/* Top Guest Notice: Half Information Displayed */}
+      {isGuest && (
+        <div style={{
+          background: 'linear-gradient(90deg, rgba(245, 158, 11, 0.16) 0%, rgba(14, 116, 237, 0.16) 100%)',
+          border: '1.5px solid rgba(245, 158, 11, 0.45)',
+          borderRadius: 'var(--radius-md)',
+          padding: '16px 20px',
+          marginBottom: '22px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '14px'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <span style={{ fontSize: '1.6rem' }}>🔒</span>
+            <div>
+              <h4 style={{ color: '#fff', fontSize: '1rem', fontWeight: 700, margin: '0 0 2px 0' }}>
+                Guest Mode: Half Information Displayed
+              </h4>
+              <p style={{ color: '#CBD5E1', fontSize: '0.85rem', margin: 0 }}>
+                Exact building address, direct owner contact (Phone & WhatsApp), and visit booking are locked.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => onOpenLogin && onOpenLogin('tenant')}
+            className="btn btn-gold btn-sm"
+            style={{ padding: '8px 20px', fontWeight: 800, fontSize: '0.88rem' }}
+          >
+            🔑 Do login for more information
+          </button>
+        </div>
+      )}
+
       {/* Top Navigation Bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
         <button 
@@ -79,15 +116,25 @@ export default function PgDetailView({ pg, onBack, onScheduleVisit }) {
         </button>
 
         <div style={{ display: 'flex', gap: '10px' }}>
-          <a 
-            href={directionsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-outline-gold btn-sm"
-          >
-            <Navigation size={15} style={{ color: 'var(--red-crimson)' }} />
-            <span>Get Live Directions</span>
-          </a>
+          {isGuest ? (
+            <button 
+              onClick={() => onOpenLogin && onOpenLogin('tenant')}
+              className="btn btn-outline-gold btn-sm"
+            >
+              <Navigation size={15} style={{ color: 'var(--gold-primary)' }} />
+              <span>🔒 Directions (Do login for more info)</span>
+            </button>
+          ) : (
+            <a 
+              href={directionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline-gold btn-sm"
+            >
+              <Navigation size={15} style={{ color: 'var(--red-crimson)' }} />
+              <span>Get Live Directions</span>
+            </a>
+          )}
         </div>
       </div>
 
@@ -113,7 +160,17 @@ export default function PgDetailView({ pg, onBack, onScheduleVisit }) {
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px', color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <MapPin size={16} style={{ color: 'var(--red-crimson)' }} />
-            <span>{pg.address.apartment ? `${pg.address.apartment}, ` : ''}{pg.address.area}, {pg.address.city}</span>
+            <span>
+              {!isGuest && pg.address.apartment ? `${pg.address.apartment}, ` : ''}{pg.address.area}, {pg.address.city}
+              {isGuest && (
+                <span 
+                  onClick={() => onOpenLogin && onOpenLogin('tenant')}
+                  style={{ color: '#F59E0B', marginLeft: '8px', cursor: 'pointer', fontWeight: 600, fontSize: '0.82rem' }}
+                >
+                  • [🔒 Street Address Locked — Do login for more info]
+                </span>
+              )}
+            </span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -297,7 +354,9 @@ export default function PgDetailView({ pg, onBack, onScheduleVisit }) {
 
               <div style={{ background: '#111', padding: '12px 16px', borderRadius: '8px', border: '1px solid #222' }}>
                 <span style={{ fontSize: '0.75rem', color: 'var(--gold-primary)', textTransform: 'uppercase', display: 'block' }}>GPS Coordinates</span>
-                <span style={{ color: 'var(--gold-light)', fontSize: '0.85rem' }}>{pg.address.lat.toFixed(4)}, {pg.address.lng.toFixed(4)}</span>
+                <span style={{ color: isGuest ? '#F59E0B' : 'var(--gold-light)', fontSize: '0.85rem' }}>
+                  {isGuest ? '🔒 Locked (Do login for info)' : `${pg.address.lat.toFixed(4)}, ${pg.address.lng.toFixed(4)}`}
+                </span>
               </div>
             </div>
 
@@ -310,16 +369,27 @@ export default function PgDetailView({ pg, onBack, onScheduleVisit }) {
                 markers={[pg]}
               />
               <div style={{ marginTop: '12px', display: 'flex', justifyContent: 'flex-end' }}>
-                <a 
-                  href={directionsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-crimson btn-sm"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
-                >
-                  <Navigation size={15} />
-                  <span>Navigate with Google Maps</span>
-                </a>
+                {isGuest ? (
+                  <button 
+                    onClick={() => onOpenLogin && onOpenLogin('tenant')}
+                    className="btn btn-crimson btn-sm"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+                  >
+                    <Navigation size={15} />
+                    <span>🔒 Navigation Locked • Do Login for More Info</span>
+                  </button>
+                ) : (
+                  <a 
+                    href={directionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-crimson btn-sm"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+                  >
+                    <Navigation size={15} />
+                    <span>Navigate with Google Maps</span>
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -411,34 +481,84 @@ export default function PgDetailView({ pg, onBack, onScheduleVisit }) {
               </div>
             </div>
 
-            {/* CTAs */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
-              <button 
-                onClick={() => setInquiryModalOpen(true)}
-                className="btn btn-gold btn-lg"
-                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-              >
-                <Calendar size={18} /> Schedule Visit / Inquire
-              </button>
+            {/* CTAs / Locked Guest Gating */}
+            {isGuest ? (
+              <div style={{
+                background: 'linear-gradient(180deg, rgba(14, 116, 237, 0.12) 0%, rgba(212, 175, 55, 0.12) 100%)',
+                border: '1.5px solid rgba(212, 175, 55, 0.45)',
+                borderRadius: 'var(--radius-md)',
+                padding: '24px 18px',
+                textAlign: 'center',
+                marginBottom: '24px'
+              }}>
+                <div style={{
+                  width: '52px', height: '52px', borderRadius: '50%',
+                  background: 'rgba(212, 175, 55, 0.15)',
+                  border: '1px solid rgba(212, 175, 55, 0.4)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  margin: '0 auto 12px auto', color: 'var(--gold-light)'
+                }}>
+                  <Lock size={26} />
+                </div>
+                <h4 style={{ color: '#fff', fontSize: '1.15rem', fontWeight: 800, marginBottom: '8px' }}>
+                  Owner Contact & Booking Locked
+                </h4>
+                <p style={{ color: '#CBD5E1', fontSize: '0.86rem', lineHeight: 1.5, marginBottom: '18px' }}>
+                  You are viewing partial / half information in Guest Mode. <strong>Do login for more information</strong> to reveal verified owner contact, direct WhatsApp chat, exact building address, and schedule physical visits.
+                </p>
+                <button 
+                  onClick={() => onOpenLogin && onOpenLogin('tenant')}
+                  className="btn btn-gold btn-lg"
+                  style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 800 }}
+                >
+                  <span>🔑 Do Login for More Information</span>
+                </button>
+                
+                <div style={{
+                  marginTop: '16px',
+                  paddingTop: '12px',
+                  borderTop: '1px dashed rgba(255, 255, 255, 0.12)',
+                  fontSize: '0.82rem',
+                  color: 'var(--text-muted)',
+                  textAlign: 'left',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '6px'
+                }}>
+                  <div>📞 Direct Phone: <span style={{ color: '#F59E0B' }}>+91 98765 ••••• [Locked]</span></div>
+                  <div>💬 WhatsApp Chat: <span style={{ color: '#F59E0B' }}>Direct Connect [Locked]</span></div>
+                  <div>📅 Schedule Visit: <span style={{ color: '#F59E0B' }}>Calendar Booking [Locked]</span></div>
+                </div>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
+                <button 
+                  onClick={() => setInquiryModalOpen(true)}
+                  className="btn btn-gold btn-lg"
+                  style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                >
+                  <Calendar size={18} /> Schedule Visit / Inquire
+                </button>
 
-              <a 
-                href={`https://wa.me/${pg.ownerWhatsapp?.replace(/[^0-9]/g, '') || '919876543210'}?text=${encodeURIComponent(`Hello, I am interested in ${pg.name} (${pg.address.city}). Could you share current availability and booking details?`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-outline-gold"
-                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-              >
-                <MessageCircle size={18} style={{ color: '#25D366' }} /> WhatsApp Host
-              </a>
+                <a 
+                  href={`https://wa.me/${pg.ownerWhatsapp?.replace(/[^0-9]/g, '') || '919876543210'}?text=${encodeURIComponent(`Hello, I am interested in ${pg.name} (${pg.address.city}). Could you share current availability and booking details?`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-outline-gold"
+                  style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                >
+                  <MessageCircle size={18} style={{ color: '#25D366' }} /> WhatsApp Host
+                </a>
 
-              <a 
-                href={`tel:${pg.ownerPhone || '+919876543210'}`}
-                className="btn btn-ghost"
-                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-              >
-                <Phone size={16} /> Call Host: {pg.ownerPhone || '+91 98765 43210'}
-              </a>
-            </div>
+                <a 
+                  href={`tel:${pg.ownerPhone || '+919876543210'}`}
+                  className="btn btn-ghost"
+                  style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                >
+                  <Phone size={16} /> Call Host: {pg.ownerPhone || '+91 98765 43210'}
+                </a>
+              </div>
+            )}
 
             {/* Host Credentials */}
             <div style={{

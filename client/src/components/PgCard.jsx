@@ -2,7 +2,8 @@ import React from 'react';
 import { MapPin, Star, ShieldCheck, Navigation, ArrowRight, Bed, Wifi, Utensils, Zap } from 'lucide-react';
 import { getDirectionsUrl } from '../services/googleMaps';
 
-export default function PgCard({ pg, onSelect, showStatus = false }) {
+export default function PgCard({ pg, onSelect, showStatus = false, currentUser, onOpenLogin }) {
+  const isGuest = !currentUser;
   const coverPhoto = (pg.photos && pg.photos.length > 0) 
     ? pg.photos[0] 
     : 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80';
@@ -133,18 +134,43 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
         </h3>
 
         {/* Address Location */}
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: '6px', 
-          color: 'var(--text-muted)', 
-          fontSize: '0.85rem',
-          marginBottom: '14px' 
-        }}>
-          <MapPin size={15} style={{ color: 'var(--blue-light)', flexShrink: 0 }} />
-          <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-            {pg.address.apartment ? `${pg.address.apartment}, ` : ''}{pg.address.area}, {pg.address.city}
-          </span>
+        <div style={{ marginBottom: '14px' }}>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '6px', 
+            color: 'var(--text-muted)', 
+            fontSize: '0.85rem'
+          }}>
+            <MapPin size={15} style={{ color: 'var(--blue-light)', flexShrink: 0 }} />
+            <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+              {!isGuest && pg.address.apartment ? `${pg.address.apartment}, ` : ''}{pg.address.area}, {pg.address.city}
+            </span>
+          </div>
+          {isGuest && (
+            <div 
+              onClick={(e) => {
+                e.stopPropagation();
+                if (onOpenLogin) onOpenLogin('tenant');
+              }}
+              style={{
+                marginTop: '4px',
+                fontSize: '0.74rem',
+                color: '#F59E0B',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                cursor: 'pointer',
+                background: 'rgba(245, 158, 11, 0.08)',
+                padding: '2px 8px',
+                borderRadius: '4px',
+                border: '1px dashed rgba(245, 158, 11, 0.3)'
+              }}
+              title="Click to sign in and view full address"
+            >
+              <span>🔒 Building & Street Locked • Do login for more info</span>
+            </div>
+          )}
         </div>
 
         {/* Room / Unit configuration chips */}
@@ -241,25 +267,40 @@ export default function PgCard({ pg, onSelect, showStatus = false }) {
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <a 
-              href={directionsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-ghost btn-sm"
-              title="Get Google Maps Route Directions"
-              style={{ padding: '8px 10px', background: 'rgba(14, 116, 237, 0.12)', borderColor: 'rgba(14, 116, 237, 0.3)' }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Navigation size={14} style={{ color: 'var(--blue-light)' }} />
-            </a>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            {isGuest ? (
+              <button 
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (onOpenLogin) onOpenLogin('tenant');
+                }}
+                className="btn btn-ghost btn-sm"
+                title="Exact route locked: Do login for full GPS navigation"
+                style={{ padding: '8px 10px', background: 'rgba(245, 158, 11, 0.1)', borderColor: 'rgba(245, 158, 11, 0.3)', color: '#F59E0B' }}
+              >
+                <Navigation size={14} />
+              </button>
+            ) : (
+              <a 
+                href={directionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost btn-sm"
+                title="Get Google Maps Route Directions"
+                style={{ padding: '8px 10px', background: 'rgba(14, 116, 237, 0.12)', borderColor: 'rgba(14, 116, 237, 0.3)' }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Navigation size={14} style={{ color: 'var(--blue-light)' }} />
+              </a>
+            )}
 
             <button 
               onClick={() => onSelect(pg)}
               className="btn btn-gold btn-sm"
-              style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+              style={{ padding: '8px 14px', fontSize: '0.85rem' }}
             >
-              <span>Explore</span>
+              <span>{isGuest ? 'View Details' : 'Explore'}</span>
               <ArrowRight size={14} />
             </button>
           </div>

@@ -17,7 +17,7 @@ import LocationSearchBar from '../components/LocationSearchBar';
 import { api } from '../services/api';
 import { getCurrentPosition } from '../services/googleMaps';
 
-export default function Explore({ onSelectPg, initialFilter = {} }) {
+export default function Explore({ onSelectPg, initialFilter = {}, currentUser, onOpenLogin }) {
   const [pgs, setPgs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userCoords, setUserCoords] = useState(
@@ -359,7 +359,13 @@ export default function Explore({ onSelectPg, initialFilter = {} }) {
         ) : (
           <div className="grid-3">
             {pgs.map((pg) => (
-              <PgCard key={pg.id} pg={pg} onSelect={onSelectPg} />
+              <PgCard 
+                key={pg.id} 
+                pg={pg} 
+                onSelect={onSelectPg} 
+                currentUser={currentUser}
+                onOpenLogin={onOpenLogin}
+              />
             ))}
           </div>
         )}
