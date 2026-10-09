@@ -108,18 +108,25 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
       <aside className={`admin-sidebar ${sidebarOpen ? 'open' : ''}`}>
         {/* Brand Header */}
         <div className="admin-sidebar-brand">
-          <div style={{
-            width: '36px', height: '36px', background: 'var(--red-gradient)',
-            borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff'
-          }}>
-            <ShieldCheck size={22} />
-          </div>
+          <img 
+            src="/logo.png" 
+            alt="Vrundavan Ventures" 
+            style={{ 
+              height: '42px', 
+              width: '42px', 
+              borderRadius: '50%',
+              objectFit: 'cover',
+              border: '1.5px solid rgba(212, 175, 55, 0.75)',
+              boxShadow: '0 0 10px rgba(212, 175, 55, 0.4)',
+              display: 'block'
+            }} 
+          />
           <div>
             <span className="gold-gradient-text font-serif" style={{ fontSize: '1.15rem', fontWeight: 800, display: 'block', lineHeight: 1.1 }}>
               SUPER ADMIN
             </span>
             <span style={{ fontSize: '0.65rem', color: '#F87171', letterSpacing: '0.15em', fontWeight: 700 }}>
-              ROOT CONTROL CENTER
+              VRUNDAVAN VENTURES
             </span>
           </div>
         </div>

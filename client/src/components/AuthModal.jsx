@@ -150,10 +150,13 @@ export default function AuthModal({
             src="/logo.png" 
             alt="Vrundavan Ventures" 
             style={{ 
-              height: '46px', 
-              width: 'auto', 
-              objectFit: 'contain',
-              filter: 'drop-shadow(0 2px 8px rgba(14, 116, 237, 0.4))'
+              height: '52px', 
+              width: '52px', 
+              borderRadius: '50%',
+              objectFit: 'cover',
+              border: '2px solid rgba(212, 175, 55, 0.75)',
+              boxShadow: '0 0 15px rgba(212, 175, 55, 0.45)',
+              display: 'block'
             }} 
           />
 

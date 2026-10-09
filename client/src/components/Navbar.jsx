@@ -51,10 +51,13 @@ export default function Navbar({
             src="/logo.png" 
             alt="Vrundavan Ventures" 
             style={{ 
-              height: '48px', 
-              width: 'auto', 
-              objectFit: 'contain',
-              filter: 'drop-shadow(0 2px 8px rgba(14, 116, 237, 0.5))'
+              height: '52px', 
+              width: '52px', 
+              borderRadius: '50%',
+              objectFit: 'cover',
+              border: '2px solid rgba(212, 175, 55, 0.75)',
+              boxShadow: '0 0 15px rgba(212, 175, 55, 0.45)',
+              display: 'block'
             }} 
           />
         </a>
@@ -480,7 +483,8 @@ export default function Navbar({
 
         @media (max-width: 480px) {
           .brand-logo img {
-            height: 36px !important;
+            height: 40px !important;
+            width: 40px !important;
           }
           .brand-logo span:first-of-type {
             font-size: 1.15rem !important;

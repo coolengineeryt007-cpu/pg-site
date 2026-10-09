@@ -343,9 +343,8 @@ export default function App() {
           fontSize: '0.86rem',
           color: '#E2E8F0',
           textAlign: 'center',
-          position: 'sticky',
-          top: 0,
-          zIndex: 999
+          position: 'relative',
+          zIndex: 9990
         }}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
             <span style={{ fontSize: '1.1rem' }}>🔒</span>
@@ -495,22 +494,31 @@ export default function App() {
           )
         )}
 
-        {/* OWNER MODE: ONLY SHOWN IF LOGGED IN AS OWNER */}
+        {/* OWNER MODE: SHOWS ADMIN PREVIEW WITH HALF DATA IF NOT LOGGED IN */}
         {(activePage === 'owner-portal' || activePage === 'owner') && (
           !currentUser ? (
-            <LockedPageGate 
-              title="Please Login to Access Host Portal"
-              message="The Property Host Portal is reserved for property owners, landlords, and PG managers. Please log in with your host credentials to manage your properties."
-              role="owner"
-              onOpenLogin={(r) => { setAuthModalRole('owner'); setAuthModalOpen(true); }}
-              onGoHome={() => handleNavigate('home')}
+            <OwnerPanel 
+              currentUser={null}
+              isGuestPreview={true}
+              onSelectPg={handleSelectPg}
+              onNavigateHome={() => handleNavigate('home')}
+              onLogout={handleLogout}
+              onOpenLogin={(role = 'owner') => {
+                setAuthModalRole(role);
+                setAuthModalOpen(true);
+              }}
             />
           ) : currentUser.role === 'owner' ? (
             <OwnerPanel 
               currentUser={currentUser}
+              isGuestPreview={false}
               onSelectPg={handleSelectPg}
               onNavigateHome={() => handleNavigate('home')}
               onLogout={handleLogout}
+              onOpenLogin={(role = 'owner') => {
+                setAuthModalRole(role);
+                setAuthModalOpen(true);
+              }}
             />
           ) : (
             <OwnerLanding 

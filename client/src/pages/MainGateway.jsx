@@ -71,10 +71,13 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
               src="/logo.png" 
               alt="Vrundavan Ventures" 
               style={{ 
-                height: '54px', 
-                width: 'auto', 
-                objectFit: 'contain',
-                filter: 'drop-shadow(0 2px 10px rgba(14, 116, 237, 0.5))'
+                height: '56px', 
+                width: '56px', 
+                borderRadius: '50%',
+                objectFit: 'cover',
+                border: '2px solid rgba(212, 175, 55, 0.75)',
+                boxShadow: '0 0 18px rgba(212, 175, 55, 0.45)',
+                display: 'block'
               }} 
             />
           </div>

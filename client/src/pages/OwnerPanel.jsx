@@ -34,7 +34,15 @@ import LocationSearchBar from '../components/LocationSearchBar';
 import GoogleMapView from '../components/GoogleMapView';
 import { reverseGeocodeCoords, getCurrentPosition, getIpLocation } from '../services/googleMaps';
 
-export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, onLogout }) {
+export default function OwnerPanel({ 
+  currentUser, 
+  onSelectPg, 
+  onNavigateHome, 
+  onLogout,
+  onOpenLogin,
+  isGuestPreview = false
+}) {
+  const isGuest = isGuestPreview || !currentUser || currentUser?.role !== 'owner';
   const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard', 'listings', 'add', 'inquiries', 'profile'
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [pgs, setPgs] = useState([]);
@@ -121,11 +129,37 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
   const loadOwnerData = async () => {
     setLoading(true);
     try {
-      const pgRes = await api.getPgs({ ownerId: currentUser?.id });
+      const pgRes = await api.getPgs(currentUser?.id ? { ownerId: currentUser?.id } : {});
       setPgs(pgRes.pgs || []);
 
-      const inqRes = await api.getInquiries(currentUser?.id);
-      setInquiries(inqRes || []);
+      if (currentUser?.id) {
+        const inqRes = await api.getInquiries(currentUser?.id);
+        setInquiries(inqRes || []);
+      } else {
+        // Preview inquiries for guest mode
+        setInquiries([
+          {
+            id: 'inq_preview_1',
+            pgName: 'Royal Heritage Villa',
+            userName: 'Priya Patel',
+            userPhone: '+91 98765 43210',
+            sharingType: 'Single Executive Suite',
+            visitDate: 'Tomorrow, 4:00 PM',
+            message: 'Looking to move in this weekend. Is room available?',
+            createdAt: new Date().toISOString()
+          },
+          {
+            id: 'inq_preview_2',
+            pgName: 'Silver Palms 2BHK Residence',
+            userName: 'Rahul Verma',
+            userPhone: '+91 91234 56789',
+            sharingType: 'Entire Flat',
+            visitDate: 'Saturday, 11:00 AM',
+            message: 'Family with 2 adults. Requesting physical visit.',
+            createdAt: new Date(Date.now() - 86400000).toISOString()
+          }
+        ]);
+      }
     } catch (err) {
       console.error("Error loading owner data:", err);
     } finally {
@@ -255,6 +289,11 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
   };
 
   const handleSubmitPg = async (isDraft = false) => {
+    if (isGuest) {
+      if (onOpenLogin) onOpenLogin('owner');
+      return;
+    }
+
     if (!formData.name || !formData.rent || !formData.address.city) {
       alert("Please fill in PG Name, Monthly Rent, and City.");
       return;
@@ -300,6 +339,10 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
   };
 
   const handleEditPg = (pg) => {
+    if (isGuest) {
+      if (onOpenLogin) onOpenLogin('owner');
+      return;
+    }
     setFormData({
       name: pg.name,
       propertyType: pg.propertyType || 'house',
@@ -326,6 +369,10 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
   };
 
   const handleDeleteOwnerPg = async (pgId) => {
+    if (isGuest) {
+      if (onOpenLogin) onOpenLogin('owner');
+      return;
+    }
     if (!window.confirm("Are you sure you want to remove this PG listing?")) return;
     try {
       await api.deletePg(pgId);
@@ -348,18 +395,25 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
       <aside className={`admin-sidebar ${sidebarOpen ? 'open' : ''}`}>
         {/* Brand Header */}
         <div className="admin-sidebar-brand">
-          <div style={{
-            width: '36px', height: '36px', background: 'var(--gold-gradient)',
-            borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#080808'
-          }}>
-            <Building2 size={20} />
-          </div>
+          <img 
+            src="/logo.png" 
+            alt="Vrundavan Ventures" 
+            style={{ 
+              height: '42px', 
+              width: '42px', 
+              borderRadius: '50%',
+              objectFit: 'cover',
+              border: '1.5px solid rgba(212, 175, 55, 0.75)',
+              boxShadow: '0 0 10px rgba(212, 175, 55, 0.4)',
+              display: 'block'
+            }} 
+          />
           <div>
             <span className="gold-gradient-text font-serif" style={{ fontSize: '1.15rem', fontWeight: 800, display: 'block', lineHeight: 1.1 }}>
               HOST PORTAL
             </span>
             <span style={{ fontSize: '0.65rem', color: '#888', letterSpacing: '0.15em', fontWeight: 600 }}>
-              PG OWNER ADMIN
+              VRUNDAVAN VENTURES
             </span>
           </div>
         </div>
@@ -511,7 +565,15 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             {activeTab !== 'add' && (
               <button 
-                onClick={() => { setEditingPgId(null); setFormData(initialFormState); setActiveTab('add'); }}
+                onClick={() => { 
+                  if (isGuest) {
+                    if (onOpenLogin) onOpenLogin('owner');
+                    return;
+                  }
+                  setEditingPgId(null); 
+                  setFormData(initialFormState); 
+                  setActiveTab('add'); 
+                }}
                 className="btn btn-crimson btn-sm"
                 style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
               >
@@ -520,6 +582,41 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
             )}
           </div>
         </div>
+
+        {/* Owner Guest Mode Notice Banner */}
+        {isGuest && (
+          <div style={{
+            background: 'linear-gradient(90deg, rgba(245, 158, 11, 0.16) 0%, rgba(14, 116, 237, 0.16) 100%)',
+            border: '1.5px solid rgba(245, 158, 11, 0.45)',
+            borderRadius: 'var(--radius-md)',
+            padding: '16px 20px',
+            marginBottom: '24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '14px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <span style={{ fontSize: '1.8rem' }}>🔒</span>
+              <div>
+                <h4 style={{ color: '#fff', fontSize: '1rem', fontWeight: 800, margin: '0 0 3px 0' }}>
+                  Owner Admin Preview Mode (Half Information)
+                </h4>
+                <p style={{ color: '#CBD5E1', fontSize: '0.86rem', margin: 0 }}>
+                  Showing how properties, occupancy, and metrics appear in the host panel. Adding/editing properties and full tenant lead contacts are locked.
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => onOpenLogin && onOpenLogin('owner')}
+              className="btn btn-gold btn-sm"
+              style={{ padding: '8px 22px', fontWeight: 800, fontSize: '0.9rem' }}
+            >
+              🔑 Login as Property Owner
+            </button>
+          </div>
+        )}
 
         {/* Global Alert */}
         {message && (
@@ -1345,7 +1442,7 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
                         Interested in: <strong>{inq.pgName}</strong> ({inq.sharingType})
                       </p>
                       <div style={{ display: 'flex', gap: '14px', color: '#999', fontSize: '0.85rem' }}>
-                        <span>📞 {inq.userPhone}</span>
+                        <span>📞 {isGuest ? '+91 98765 ••••• [Locked]' : inq.userPhone}</span>
                         {inq.visitDate && <span>📅 Visit Date: {inq.visitDate}</span>}
                       </div>
                       {inq.message && (
@@ -1356,20 +1453,31 @@ export default function OwnerPanel({ currentUser, onSelectPg, onNavigateHome, on
                     </div>
 
                     <div style={{ display: 'flex', gap: '10px' }}>
-                      <a 
-                        href={`https://wa.me/${inq.userPhone.replace(/[^0-9]/g, '')}`} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="btn btn-outline-gold btn-sm"
-                      >
-                        <MessageCircle size={14} style={{ color: '#25D366' }} /> WhatsApp Tenant
-                      </a>
-                      <a 
-                        href={`tel:${inq.userPhone}`} 
-                        className="btn btn-gold btn-sm"
-                      >
-                        <Phone size={14} /> Call
-                      </a>
+                      {isGuest ? (
+                        <button 
+                          onClick={() => onOpenLogin && onOpenLogin('owner')}
+                          className="btn btn-outline-gold btn-sm"
+                        >
+                          🔒 Login to View Contact
+                        </button>
+                      ) : (
+                        <>
+                          <a 
+                            href={`https://wa.me/${inq.userPhone?.replace(/[^0-9]/g, '')}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="btn btn-outline-gold btn-sm"
+                          >
+                            <MessageCircle size={14} style={{ color: '#25D366' }} /> WhatsApp Tenant
+                          </a>
+                          <a 
+                            href={`tel:${inq.userPhone}`} 
+                            className="btn btn-gold btn-sm"
+                          >
+                            <Phone size={14} /> Call
+                          </a>
+                        </>
+                      )}
                     </div>
                   </div>
                 ))}
