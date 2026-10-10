@@ -75,7 +75,62 @@ export default function OwnerLanding({
   ];
 
   return (
-    <div style={{ paddingTop: '16px', paddingBottom: '90px' }}>
+    <div style={{ paddingBottom: '40px' }}>
+      {/* HOST PORTAL TOPBAR: SELF-CONTAINED BRAND & ACTIONS */}
+      <header style={{
+        background: 'rgba(5, 19, 45, 0.98)',
+        backdropFilter: 'blur(16px)',
+        borderBottom: '1px solid rgba(212, 175, 55, 0.3)',
+        padding: '12px 24px',
+        marginBottom: '20px',
+        position: 'sticky',
+        top: 0,
+        zIndex: 100,
+        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.6)'
+      }}>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <img 
+              src="/logo.png" 
+              alt="Vrundavan Ventures" 
+              style={{ width: '42px', height: '42px', borderRadius: '50%', border: '1.5px solid var(--gold-primary)', objectFit: 'cover' }}
+            />
+            <div>
+              <span className="gold-gradient-text font-serif" style={{ fontSize: '1.15rem', fontWeight: 800, display: 'block', lineHeight: 1.1 }}>
+                HOST & LANDLORD PORTAL
+              </span>
+              <span style={{ fontSize: '0.65rem', color: '#94A3B8', letterSpacing: '0.12em', fontWeight: 600 }}>
+                VRUNDAVAN VENTURES
+              </span>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+            <button 
+              onClick={onSwitchToStudent}
+              className="btn btn-ghost btn-sm"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.82rem', color: 'var(--blue-light)' }}
+            >
+              <GraduationCap size={15} /> Switch to Tenant View
+            </button>
+            <button 
+              onClick={onOpenLogin}
+              className="btn btn-primary btn-sm"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.82rem' }}
+            >
+              <LogIn size={15} /> Host Sign In
+            </button>
+            <button 
+              onClick={onOpenRegister}
+              className="btn btn-gold btn-sm"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.82rem', fontWeight: 700 }}
+            >
+              <PlusCircle size={15} /> List Property Free
+            </button>
+          </div>
+        </div>
+      </header>
+
       {/* 1. TOP NOTICE & AUDIENCE SWITCHER */}
       <div className="container" style={{ textAlign: 'center', marginBottom: '20px' }}>
         <div style={{
@@ -604,6 +659,31 @@ export default function OwnerLanding({
           />
         </div>
       )}
+
+      {/* HOST PORTAL MINIMAL STATUTORY FOOTER */}
+      <footer style={{
+        marginTop: '60px',
+        padding: '24px 20px',
+        borderTop: '1px solid rgba(212, 175, 55, 0.2)',
+        background: 'rgba(2, 6, 23, 0.85)',
+        textAlign: 'center',
+        fontSize: '0.82rem',
+        color: '#64748B'
+      }}>
+        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+          <div>
+            © 2026 Vrundavan Ventures Private Limited • Host & Landlord Portal • Direct Host Connect
+          </div>
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+            <button onClick={onSwitchToStudent} style={{ background: 'none', border: 'none', color: '#94A3B8', cursor: 'pointer', fontSize: '0.82rem' }}>
+              Tenant View
+            </button>
+            <a href="/terms" style={{ color: '#94A3B8', textDecoration: 'none' }}>
+              Host Terms & RBI Autopay Policy
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

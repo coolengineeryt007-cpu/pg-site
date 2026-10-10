@@ -629,7 +629,23 @@ export default function OwnerPanel({
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+            <button 
+              onClick={onNavigateHome}
+              className="btn btn-ghost btn-sm"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem' }}
+              title="Return to Public Site"
+            >
+              <ExternalLink size={14} /> Live Site
+            </button>
+            <button 
+              onClick={onLogout}
+              className="btn btn-ghost btn-sm"
+              style={{ color: '#ef4444', display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '0.8rem' }}
+              title="Sign Out"
+            >
+              <LogOut size={14} /> Sign Out
+            </button>
             {activeTab !== 'add' && (
               <button 
                 onClick={() => { 

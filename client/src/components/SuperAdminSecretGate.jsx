@@ -48,7 +48,7 @@ export default function SuperAdminSecretGate({ onLoginSuccess, onCancel }) {
 
   return (
     <div style={{
-      minHeight: '85vh',
+      minHeight: '100vh',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',

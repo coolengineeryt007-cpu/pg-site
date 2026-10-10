@@ -328,26 +328,33 @@ export default function App() {
     );
   }
 
+  // Admin & Host Portal views operate with their own dedicated dashboards and must NOT render public consumer Header & Footer
+  const isSuperAdminPage = activePage === 'superadmin';
+  const isHostPanelPage = activePage === 'owner-portal' || activePage === 'owner';
+  const hideHeaderAndFooter = isSuperAdminPage || isHostPanelPage;
+
   // 2. SUB-PAGES & SPECIFIC PORTAL WORKFLOWS
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       {/* Navbar with role toggle and link back to portal */}
-      <Navbar 
-        activePage={activePage}
-        setActivePage={(p) => handleNavigate(p)}
-        userRoleMode={userRoleMode}
-        onChangeRoleMode={handleRoleModeChange}
-        currentUser={currentUser}
-        onLoginClick={(role = 'owner') => {
-          setAuthModalRole(role);
-          setAuthModalOpen(true);
-        }}
-        onLogout={handleLogout}
-        onOpenAiConcierge={() => setAiModalOpen(true)}
-      />
+      {!hideHeaderAndFooter && (
+        <Navbar 
+          activePage={activePage}
+          setActivePage={(p) => handleNavigate(p)}
+          userRoleMode={userRoleMode}
+          onChangeRoleMode={handleRoleModeChange}
+          currentUser={currentUser}
+          onLoginClick={(role = 'owner') => {
+            setAuthModalRole(role);
+            setAuthModalOpen(true);
+          }}
+          onLogout={handleLogout}
+          onOpenAiConcierge={() => setAiModalOpen(true)}
+        />
+      )}
 
       {/* Guest Mode Half-Information Notification Banner */}
-      {!currentUser && (
+      {!hideHeaderAndFooter && !currentUser && (
         <div style={{
           background: 'linear-gradient(90deg, rgba(14, 116, 237, 0.22) 0%, rgba(212, 175, 55, 0.22) 100%)',
           borderBottom: '1px solid rgba(212, 175, 55, 0.35)',
@@ -637,9 +644,11 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <Footer 
-        onNavigate={handleNavigate} 
-      />
+      {!hideHeaderAndFooter && (
+        <Footer 
+          onNavigate={handleNavigate} 
+        />
+      )}
 
       {/* Auth Modal for Both Tenants and PG Owners */}
       <AuthModal 

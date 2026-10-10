@@ -313,7 +313,23 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+            <button 
+              onClick={onNavigateHome}
+              className="btn btn-ghost btn-sm"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem' }}
+              title="Return to Public Site"
+            >
+              <ExternalLink size={14} /> Live Site
+            </button>
+            <button 
+              onClick={onLogout}
+              className="btn btn-ghost btn-sm"
+              style={{ color: '#ef4444', display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '0.8rem' }}
+              title="Sign Out"
+            >
+              <LogOut size={14} /> Sign Out
+            </button>
             {stats?.databaseEngine && (
               <span className="badge badge-gold" style={{ fontSize: '0.75rem', padding: '6px 12px' }}>
                 🗄️ {stats.databaseEngine}

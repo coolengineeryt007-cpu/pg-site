@@ -701,7 +701,7 @@ img, svg, video, iframe {
    ========================================================================== */
 .admin-layout {
   display: flex;
-  min-height: calc(100vh - 72px);
+  min-height: 100vh;
   background: var(--bg-primary);
   position: relative;
 }
@@ -713,8 +713,8 @@ img, svg, video, iframe {
   display: flex;
   flex-direction: column;
   position: sticky;
-  top: 72px;
-  height: calc(100vh - 72px);
+  top: 0;
+  height: 100vh;
   z-index: 40;
   transition: transform var(--transition-normal);
   flex-shrink: 0;
@@ -810,9 +810,10 @@ img, svg, video, iframe {
 @media (max-width: 900px) {
   .admin-sidebar {
     position: fixed;
-    top: 72px;
+    top: 0;
     bottom: 0;
     left: 0;
+    height: 100vh;
     transform: translateX(-100%);
   }
   .admin-sidebar.open {
