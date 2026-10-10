@@ -12,6 +12,10 @@ export default function LocationSearchBar({
   const inputRef = useRef(null);
   const autocompleteRef = useRef(null);
   const [inputValue, setInputValue] = useState(initialValue);
+  const onLocationSelectRef = useRef(onLocationSelect);
+  useEffect(() => {
+    onLocationSelectRef.current = onLocationSelect;
+  }, [onLocationSelect]);
   const [detectingLocation, setDetectingLocation] = useState(false);
   const [searchingText, setSearchingText] = useState(false);
   const [statusMessage, setStatusMessage] = useState(null);
@@ -21,9 +25,11 @@ export default function LocationSearchBar({
   const debounceTimerRef = useRef(null);
   const wrapperRef = useRef(null);
 
-  useEffect(() => {
+  const [prevInitialValue, setPrevInitialValue] = useState(initialValue);
+  if (initialValue !== prevInitialValue) {
+    setPrevInitialValue(initialValue);
     setInputValue(initialValue);
-  }, [initialValue]);
+  }
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -74,9 +80,7 @@ export default function LocationSearchBar({
           setShowDropdown(false);
           setStatusMessage({ type: 'success', text: `Verified: ${parsed.area || parsed.city}` });
 
-          if (onLocationSelect) {
-            onLocationSelect(parsed);
-          }
+          onLocationSelectRef.current?.(parsed);
 
           setTimeout(() => setStatusMessage(null), 3000);
         });
@@ -116,7 +120,7 @@ export default function LocationSearchBar({
           }
         }
       } catch (err) {
-        // Quiet failure
+        console.debug('Search suggestions error:', err);
       }
     }, 280);
   };
@@ -301,50 +305,52 @@ export default function LocationSearchBar({
         </div>
 
         <div className="location-search-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-          {/* Search Action Button */}
+          {/* Search Action Button - Primary Action */}
           <button
             type="button"
             onClick={handleManualSearch}
             disabled={searchingText || !inputValue.trim()}
-            className="btn btn-ghost btn-sm"
+            className="btn btn-gold btn-sm"
             style={{
-              padding: '6px 14px',
-              fontSize: '0.8rem',
+              padding: '7px 16px',
+              fontSize: '0.84rem',
               display: 'flex',
               alignItems: 'center',
-              gap: '5px',
+              gap: '6px',
               borderRadius: 'var(--radius-sm)',
-              background: 'rgba(14, 116, 237, 0.15)',
-              borderColor: 'rgba(14, 116, 237, 0.35)',
-              color: '#fff'
+              fontWeight: 700
             }}
             title="Search this location and pinpoint on map"
           >
-            {searchingText ? <Loader2 size={13} className="animate-spin" /> : <Search size={13} />}
+            {searchingText ? <Loader2 size={13} className="animate-spin" /> : <Search size={14} />}
             <span>Search</span>
           </button>
 
-          {/* Near Me GPS Button */}
+          {/* Near Me GPS Button - Refined Secondary Action */}
           {showCurrentLocationBtn && (
             <button
               type="button"
               onClick={handleUseCurrentLocation}
               disabled={detectingLocation}
-              className="btn btn-gold btn-sm"
+              className="btn btn-outline-blue btn-sm"
               style={{
-                padding: '6px 14px',
-                fontSize: '0.8rem',
+                padding: '7px 14px',
+                fontSize: '0.84rem',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                borderRadius: 'var(--radius-sm)'
+                borderRadius: 'var(--radius-sm)',
+                background: 'rgba(14, 116, 237, 0.15)',
+                borderColor: 'rgba(14, 116, 237, 0.4)',
+                color: 'var(--blue-light)',
+                fontWeight: 600
               }}
               title="Automatically detect current GPS location and autofill address"
             >
               {detectingLocation ? (
                 <Loader2 size={14} className="animate-spin" />
               ) : (
-                <Navigation size={14} style={{ color: '#040D21' }} />
+                <Navigation size={13} style={{ color: 'var(--blue-cyan)' }} />
               )}
               <span>{detectingLocation ? "Detecting..." : "Near Me"}</span>
             </button>

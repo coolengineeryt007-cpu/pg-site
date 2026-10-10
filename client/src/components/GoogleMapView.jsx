@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ExternalLink, MapPin, Layers, Satellite, Moon, Sun } from 'lucide-react';
+import { ExternalLink, MapPin, Satellite, Moon } from 'lucide-react';
 import { getDirectionsUrl } from '../services/googleMaps';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -105,6 +105,7 @@ export default function GoogleMapView({
         mapInstanceRef.current = null;
       }
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Update Tile Layer on Layer Toggle (Roadmap, Satellite Hybrid, Luxury Dark)
@@ -180,7 +181,8 @@ export default function GoogleMapView({
       map.off('click', handleMapClick);
       if (pin) pin.remove();
     };
-  }, [draggableMarker, lat, lng]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [draggableMarker, lat, lng, onMarkerDragEnd]);
 
   // Handle Multiple PG Markers (Explore & Near Me)
   useEffect(() => {
@@ -240,7 +242,7 @@ export default function GoogleMapView({
         map.fitBounds(bounds, { padding: [40, 40] });
       }
     }
-  }, [markers, draggableMarker]);
+  }, [markers, draggableMarker, onSelectPg]);
 
   const googleDirectionsUrl = getDirectionsUrl(lat, lng);
 

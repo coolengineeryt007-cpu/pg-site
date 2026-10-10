@@ -3,26 +3,19 @@ import {
   MapPin, 
   Star, 
   ArrowLeft, 
-  ShieldCheck, 
   Phone, 
   MessageCircle, 
   Navigation, 
   Calendar, 
   CheckCircle2, 
   Bed, 
-  Wifi, 
-  Clock, 
-  FileText, 
-  Send,
-  Building,
-  Share2,
   Lock
 } from 'lucide-react';
 import GoogleMapView from './GoogleMapView';
 import { getDirectionsUrl } from '../services/googleMaps';
 import { api } from '../services/api';
 
-export default function PgDetailView({ pg, onBack, onScheduleVisit, currentUser, onOpenLogin }) {
+export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
   const isGuest = !currentUser;
   const [selectedPhoto, setSelectedPhoto] = useState(0);
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
@@ -206,6 +199,10 @@ export default function PgDetailView({ pg, onBack, onScheduleVisit, currentUser,
           <img 
             src={photos[selectedPhoto]} 
             alt={pg.name} 
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80';
+            }}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
           <div style={{
@@ -225,7 +222,7 @@ export default function PgDetailView({ pg, onBack, onScheduleVisit, currentUser,
 
         {/* Thumbnail Selector */}
         {photos.length > 1 && (
-          <div style={{ display: 'flex', gap: '12px', overflowX: 'auto', paddingBottom: '6px' }}>
+          <div className="horizontal-scroll-row no-scrollbar" style={{ gap: '10px', paddingBottom: '6px' }}>
             {photos.map((src, idx) => (
               <button
                 key={idx}
@@ -235,14 +232,23 @@ export default function PgDetailView({ pg, onBack, onScheduleVisit, currentUser,
                   height: '65px',
                   borderRadius: 'var(--radius-sm)',
                   overflow: 'hidden',
-                  border: selectedPhoto === idx ? '2px solid var(--gold-primary)' : '1px solid #333',
+                  border: selectedPhoto === idx ? '2px solid var(--gold-primary)' : '1px solid rgba(255,255,255,0.15)',
                   padding: 0,
                   cursor: 'pointer',
                   opacity: selectedPhoto === idx ? 1 : 0.6,
-                  transition: 'all 0.2s'
+                  transition: 'all 0.2s',
+                  flexShrink: 0
                 }}
               >
-                <img src={src} alt={`thumbnail-${idx}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img 
+                  src={src} 
+                  alt={`thumbnail-${idx}`} 
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=300&q=80';
+                  }}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                />
               </button>
             ))}
           </div>

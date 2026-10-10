@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Search, 
   MapPin, 
-  SlidersHorizontal, 
   Navigation, 
-  Filter, 
-  ArrowUpDown, 
   RotateCcw,
-  Bed,
-  Building,
-  CheckCircle2
+  Building
 } from 'lucide-react';
 import PgCard from '../components/PgCard';
 import GoogleMapView from '../components/GoogleMapView';
@@ -77,6 +71,7 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
 
   useEffect(() => {
     fetchPgs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, city, propertyType, suitableFor, gender, sharing, maxRent, userCoords, sortBy]);
 
   const handleGpsNearMe = async () => {
@@ -86,6 +81,7 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
       setUserCoords({ lat: pos.lat, lng: pos.lng });
       setSortBy('distance');
     } catch (err) {
+      console.warn("Could not detect device GPS:", err);
       alert("Could not detect device GPS. Please search your area in the search bar above.");
     } finally {
       setDetectingGps(false);
@@ -116,13 +112,11 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
         </p>
       </div>
 
-      {/* Property Category Switcher Tabs */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
-        flexWrap: 'wrap',
-        marginBottom: '20px'
+      {/* Property Category Switcher Tabs - Smooth Touch Scroll on Mobile */}
+      <div className="horizontal-scroll-row no-scrollbar" style={{
+        gap: '8px',
+        marginBottom: '20px',
+        padding: '2px 0'
       }}>
         <button
           onClick={() => setPropertyType('all')}
@@ -136,14 +130,14 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
           className={`btn btn-sm ${propertyType === 'house' ? 'btn-gold' : 'btn-ghost'}`}
           style={{ borderRadius: 'var(--radius-full)', padding: '7px 18px', fontWeight: 600 }}
         >
-          🏠 Houses & Flats (1/2/3 BHK)
+          🏠 Houses & Flats
         </button>
         <button
           onClick={() => setPropertyType('room')}
           className={`btn btn-sm ${propertyType === 'room' ? 'btn-gold' : 'btn-ghost'}`}
           style={{ borderRadius: 'var(--radius-full)', padding: '7px 18px', fontWeight: 600 }}
         >
-          🛏️ Private Rental Rooms (1RK)
+          🛏️ Rental Rooms
         </button>
         <button
           onClick={() => setPropertyType('pg')}

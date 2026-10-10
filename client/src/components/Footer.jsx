@@ -1,5 +1,7 @@
 import React from 'react';
-import { Crown, Mail, Phone, MapPin, Shield, Heart, ArrowUpRight, Sparkles } from 'lucide-react';
+import { Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react';
+
+const CURRENT_YEAR = new Date().getFullYear();
 
 export default function Footer({ onNavigate }) {
   return (
@@ -162,7 +164,7 @@ export default function Footer({ onNavigate }) {
           color: 'var(--text-muted)'
         }}>
           <div>
-            © {new Date().getFullYear()} VRUNDAVAN VENTURES. All rights reserved.
+            © {CURRENT_YEAR} VRUNDAVAN VENTURES. All rights reserved.
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <span>Theme: <strong>Sapphire Blue + Imperial Gold 🦚</strong></span>

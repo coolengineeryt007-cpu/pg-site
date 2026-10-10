@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BookOpen, Calendar, Clock, ArrowRight, User, Tag } from 'lucide-react';
+import { Clock, ArrowRight } from 'lucide-react';
 import { api } from '../services/api';
 
 export default function Blogs({ onSelectBlog }) {
@@ -45,6 +45,10 @@ export default function Blogs({ onSelectBlog }) {
                   src={blog.coverImage} 
                   alt={blog.title}
                   loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80';
+                  }}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
                 <div style={{

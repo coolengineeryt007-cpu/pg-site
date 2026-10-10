@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Shield, FileText, Lock, CheckCircle2 } from 'lucide-react';
 
 export default function Legal({ initialTab = 'terms' }) {
   const [activeTab, setActiveTab] = useState(initialTab);
@@ -44,14 +43,14 @@ export default function Legal({ initialTab = 'terms' }) {
               1. Platform Relationship & Zero Brokerage
             </h3>
             <p style={{ marginBottom: '16px' }}>
-              Aurelia operates as a curated discovery and verification platform connecting students/tenants directly with vetted Paying Guest hosts. Aurelia charges ₹0 brokerage fee from students for exploring, scheduling visits, or reserving properties.
+              Vrundavan Ventures operates as a curated discovery and verification platform connecting students/tenants directly with vetted Paying Guest hosts. Vrundavan Ventures charges ₹0 brokerage fee from students for exploring, scheduling visits, or reserving properties.
             </p>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.2rem', marginTop: '20px', marginBottom: '8px' }}>
               2. Security Deposit Refund Guarantee
             </h3>
             <p style={{ marginBottom: '16px' }}>
-              Property Owners listed on Aurelia agree to a maximum 30-day departure notice standard. Upon standard key handover and deduction of agreed utility/maintenance dues, all security deposits must be refunded via bank transfer or UPI within 7 business days.
+              Property Owners listed on Vrundavan Ventures agree to a maximum 30-day departure notice standard. Upon standard key handover and deduction of agreed utility/maintenance dues, all security deposits must be refunded via bank transfer or UPI within 7 business days.
             </p>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.2rem', marginTop: '20px', marginBottom: '8px' }}>
@@ -74,7 +73,7 @@ export default function Legal({ initialTab = 'terms' }) {
               1. Location Data & Google Maps Integration
             </h3>
             <p style={{ marginBottom: '16px' }}>
-              When you permit location access on Aurelia, we utilize your device coordinates exclusively in real-time to compute proximity distance to nearby verified residences via Google Maps API. We do NOT store your continuous GPS location history or share device telemetry with third-party advertisers.
+              When you permit location access on Vrundavan Ventures, we utilize your device coordinates exclusively in real-time to compute proximity distance to nearby verified residences via Google Maps API. We do NOT store your continuous GPS location history or share device telemetry with third-party advertisers.
             </p>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.2rem', marginTop: '20px', marginBottom: '8px' }}>

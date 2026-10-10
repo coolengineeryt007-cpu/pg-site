@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, 
-  Building2, 
   PlusCircle, 
   MessageSquare, 
   UserCircle, 
@@ -11,7 +10,6 @@ import {
   X, 
   MapPin, 
   CheckCircle, 
-  Clock, 
   FileEdit, 
   Trash2, 
   Bed, 
@@ -21,12 +19,9 @@ import {
   Eye, 
   Users, 
   ShieldCheck, 
-  AlertCircle,
   Phone,
   MessageCircle,
-  ArrowRight,
   TrendingUp,
-  CreditCard,
   Building
 } from 'lucide-react';
 import { api } from '../services/api';
@@ -47,7 +42,6 @@ export default function OwnerPanel({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [pgs, setPgs] = useState([]);
   const [inquiries, setInquiries] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState(null);
   const [editingPgId, setEditingPgId] = useState(null);
@@ -162,13 +156,12 @@ export default function OwnerPanel({
       }
     } catch (err) {
       console.error("Error loading owner data:", err);
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
     loadOwnerData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser?.id]);
 
   const handleLocationAutofill = (parsed) => {
@@ -196,6 +189,7 @@ export default function OwnerPanel({
       const parsed = await reverseGeocodeCoords(newLat, newLng);
       handleLocationAutofill(parsed);
     } catch (err) {
+      console.warn('Location parse error:', err);
       setFormData(prev => ({
         ...prev,
         address: { ...prev.address, lat: newLat, lng: newLng }
@@ -763,6 +757,10 @@ export default function OwnerPanel({
                       <img 
                         src={pg.photos?.[0] || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=300&q=80'} 
                         alt={pg.name}
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=300&q=80';
+                        }}
                         style={{ width: '90px', height: '70px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #333' }}
                       />
                       <div>
@@ -1336,7 +1334,15 @@ export default function OwnerPanel({
                 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                   {formData.photos.map((url, idx) => (
                     <div key={idx} style={{ position: 'relative', width: '110px', height: '80px', borderRadius: '8px', overflow: 'hidden', border: '1px solid #333' }}>
-                      <img src={url} alt={`photo-${idx}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img 
+                        src={url} 
+                        alt={`photo-${idx}`} 
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=300&q=80';
+                        }}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                      />
                       <button 
                         type="button"
                         onClick={() => setFormData(prev => ({ ...prev, photos: prev.photos.filter((_, i) => i !== idx) }))}

@@ -14,16 +14,10 @@ import {
   XCircle, 
   Eye, 
   Trash2, 
-  Search, 
-  FileCheck, 
-  MapPin, 
-  Phone, 
-  Star, 
-  AlertTriangle,
-  Sparkles,
-  MessageSquare,
   MessageCircle,
-  Home
+  MessageSquare,
+  FileCheck,
+  Phone
 } from 'lucide-react';
 import { api } from '../services/api';
 
@@ -34,14 +28,12 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
   const [allPgs, setAllPgs] = useState([]);
   const [inquiries, setInquiries] = useState([]);
   const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [filterCity, setFilterCity] = useState('all');
   const [filterType, setFilterType] = useState('all'); // 'all', 'house', 'room', 'pg'
   const [searchTerm, setSearchTerm] = useState('');
   const [actionMessage, setActionMessage] = useState(null);
 
   const loadData = async () => {
-    setLoading(true);
     try {
       const statsRes = await api.getStats();
       setStats(statsRes);
@@ -56,13 +48,12 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
       setBlogs(blogsRes || []);
     } catch (err) {
       console.error("Super Admin data fetch error:", err);
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
     loadData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleUpdateStatus = async (pgId, newStatus, reason = '') => {
@@ -296,6 +287,11 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            {stats?.databaseEngine && (
+              <span className="badge badge-gold" style={{ fontSize: '0.75rem', padding: '6px 12px' }}>
+                🗄️ {stats.databaseEngine}
+              </span>
+            )}
             <span className="badge badge-crimson" style={{ fontSize: '0.75rem', padding: '6px 12px' }}>
               <ShieldCheck size={13} /> Root Admin Authorized
             </span>
@@ -448,6 +444,10 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                     <img 
                       src={pg.photos?.[0] || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=300&q=80'} 
                       alt={pg.name}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=300&q=80';
+                      }}
                       style={{ width: '140px', height: '110px', objectFit: 'cover', borderRadius: '10px', border: '1px solid #333' }}
                     />
 
@@ -597,6 +597,10 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                           <img 
                             src={pg.photos?.[0] || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=100&q=80'} 
                             alt={pg.name}
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              e.currentTarget.src = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=100&q=80';
+                            }}
                             style={{ width: '45px', height: '40px', borderRadius: '6px', objectFit: 'cover' }}
                           />
                           <div>

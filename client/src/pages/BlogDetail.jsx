@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Clock, Calendar, User, Tag, Share2, Crown } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 export default function BlogDetail({ blog, onBack }) {
   if (!blog) return null;
@@ -48,6 +48,10 @@ export default function BlogDetail({ blog, onBack }) {
         <img 
           src={blog.coverImage} 
           alt={blog.title} 
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80';
+          }}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </div>
@@ -70,7 +74,7 @@ export default function BlogDetail({ blog, onBack }) {
         <div>
           <span style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase' }}>Article Author</span>
           <h4 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '2px' }}>{blog.author}</h4>
-          <span style={{ color: 'var(--gold-light)', fontSize: '0.85rem' }}>{blog.authorRole} • Aurelia Editorial Board</span>
+          <span style={{ color: 'var(--gold-light)', fontSize: '0.85rem' }}>{blog.authorRole} • Vrundavan Ventures Editorial Board</span>
         </div>
       </div>
     </article>

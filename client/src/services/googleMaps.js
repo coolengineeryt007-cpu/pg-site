@@ -279,7 +279,7 @@ export const reverseGeocodeCoords = async (lat, lng) => {
 
       if (googleResult) return googleResult;
     }
-  } catch (err) {
+  } catch {
     // Continue to backend fallback
   }
 
@@ -308,7 +308,7 @@ export const reverseGeocodeCoords = async (lat, lng) => {
         formattedAddress: data.formattedAddress || `${data.addressLine1}, ${data.city}`
       };
     }
-  } catch (e) {
+  } catch {
     // Continue to instant local default
   }
 
@@ -360,7 +360,7 @@ export const geocodeAddress = async (query) => {
 
       if (googleResult) return googleResult;
     }
-  } catch (e) {
+  } catch {
     // Continue to backend proxy
   }
 
@@ -379,7 +379,7 @@ export const geocodeAddress = async (query) => {
         return data.results[0];
       }
     }
-  } catch (e) {
+  } catch {
     // Continue to instant fallback
   }
 
@@ -421,7 +421,7 @@ export const getIpLocation = async () => {
         };
       }
     }
-  } catch (e) {
+  } catch {
     // Continue
   }
 
@@ -443,7 +443,7 @@ export const getIpLocation = async () => {
         };
       }
     }
-  } catch (e) {
+  } catch {
     // Continue
   }
 
@@ -465,7 +465,7 @@ export const getIpLocation = async () => {
         };
       }
     }
-  } catch (e) {
+  } catch {
     // Continue
   }
 

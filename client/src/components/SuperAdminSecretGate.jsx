@@ -6,10 +6,7 @@ import {
   ArrowLeft, 
   KeyRound, 
   AlertTriangle, 
-  CheckCircle2,
-  Sparkles,
-  Crown
-} from 'lucide-react';
+  } from 'lucide-react';
 import { api } from '../services/api';
 
 export default function SuperAdminSecretGate({ onLoginSuccess, onCancel }) {

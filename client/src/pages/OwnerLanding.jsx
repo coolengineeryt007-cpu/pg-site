@@ -1,29 +1,20 @@
 import React, { useState } from 'react';
 import { 
-  Building2, 
   PlusCircle, 
   LogIn, 
   MapPin, 
   PhoneCall, 
-  MessageSquare, 
   ShieldCheck, 
   Sparkles, 
-  CheckCircle2, 
   TrendingUp, 
-  Users, 
   DollarSign, 
-  Clock, 
   ArrowRight,
   GraduationCap,
   Layers,
   Eye,
   LayoutDashboard,
   Star,
-  Navigation,
-  Zap,
-  Award,
-  CheckCircle
-} from 'lucide-react';
+  } from 'lucide-react';
 import PgCard from '../components/PgCard';
 import OwnerPanel from './OwnerPanel';
 

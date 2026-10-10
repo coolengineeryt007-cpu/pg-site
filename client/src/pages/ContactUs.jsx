@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, MessageSquare, Clock, CheckCircle2 } from 'lucide-react';
+import { Phone, MapPin, Send, CheckCircle2 } from 'lucide-react';
 import GoogleMapView from '../components/GoogleMapView';
 
 export default function ContactUs() {
@@ -143,7 +143,7 @@ export default function ContactUs() {
               </div>
               <div>
                 <span style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase', display: 'block' }}>Official Email</span>
-                <strong style={{ color: '#fff' }}>concierge@aureliapg.com</strong>
+                <strong style={{ color: '#fff' }}>concierge@vrundavanventures.com</strong>
               </div>
             </div>
           </div>
@@ -154,7 +154,7 @@ export default function ContactUs() {
               Headquarters Location
             </h3>
             <p style={{ color: '#bbb', fontSize: '0.95rem', lineHeight: 1.7, marginBottom: '12px' }}>
-              <strong>Aurelia Prestige Towers</strong><br />
+              <strong>Vrundavan Ventures Corporate Towers</strong><br />
               8th Floor, Executive Wing, 100 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034
             </p>
             <span style={{ fontSize: '0.8rem', color: 'var(--gold-primary)' }}>
@@ -175,7 +175,7 @@ export default function ContactUs() {
           height="320px"
           markers={[{
             id: 'hq',
-            name: 'Aurelia Residences Corporate HQ',
+            name: 'Vrundavan Ventures Corporate HQ',
             gender: 'Headquarters',
             rent: 0,
             featured: true,

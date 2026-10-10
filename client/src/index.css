@@ -113,13 +113,23 @@ body {
   background: var(--blue-primary);
 }
 
-/* Typography Utilities - BLOCK LEVEL GUARANTEED */
-h1, h2, h3, h4, .section-title {
-  font-family: var(--font-serif);
-  letter-spacing: 0.03em;
+/* Typography Utilities - Modern A1 Luxury Hierarchy */
+h1, h2, h3, h4, h5, h6, .section-title {
+  font-family: var(--font-sans);
+  letter-spacing: -0.015em;
   font-weight: 700;
   display: block;
   width: 100%;
+  color: #FFFFFF;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+  letter-spacing: 0.02em;
+}
+
+.font-sans {
+  font-family: var(--font-sans);
 }
 
 .gold-gradient-text {
@@ -862,9 +872,12 @@ img, svg, video, iframe {
 /* Location Search Bar Mobile Responsiveness */
 @media (max-width: 640px) {
   .location-search-box {
-    flex-direction: column !important;
+    padding: 6px 10px !important;
     gap: 8px !important;
-    padding: 8px !important;
+    flex-wrap: wrap !important;
+  }
+  .location-search-box > div:first-child {
+    width: 100% !important;
   }
   .location-search-actions {
     width: 100% !important;
@@ -873,5 +886,32 @@ img, svg, video, iframe {
   }
   .location-search-actions button {
     flex: 1 !important;
+    padding: 8px 10px !important;
+    font-size: 0.8rem !important;
   }
 }
+
+/* Horizontal Touch Scroll for Mobile Filter Chips */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.horizontal-scroll-row {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  white-space: nowrap;
+  gap: 8px;
+  padding: 4px 2px;
+  -webkit-overflow-scrolling: touch;
+}
+.horizontal-scroll-row > * {
+  flex-shrink: 0;
+}
+
+
+

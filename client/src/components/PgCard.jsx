@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Star, ShieldCheck, Navigation, ArrowRight, Bed, Wifi, Utensils, Zap } from 'lucide-react';
+import { MapPin, Star, Navigation, ArrowRight, Bed, Wifi, Utensils, Zap } from 'lucide-react';
 import { getDirectionsUrl } from '../services/googleMaps';
 
 export default function PgCard({ pg, onSelect, showStatus = false, currentUser, onOpenLogin }) {
@@ -16,8 +16,12 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
       <div style={{ position: 'relative', width: '100%', height: '220px', overflow: 'hidden' }}>
         <img 
           src={coverPhoto} 
-          alt={`${pg.name} in ${pg.address.area}, ${pg.address.city}`}
+          alt={`${pg.name} in ${pg.address?.area || ''}, ${pg.address?.city || ''}`}
           loading="lazy"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80';
+          }}
           style={{
             width: '100%',
             height: '100%',
@@ -42,12 +46,14 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
           right: '12px',
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'flex-start',
+          gap: '8px',
+          zIndex: 2
         }}>
-          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', flex: 1, minWidth: 0 }}>
             <span className={`badge ${
               pg.propertyType === 'house' ? 'badge-gold' : pg.propertyType === 'room' ? 'badge-peacock' : pg.gender === 'Girls' ? 'badge-peacock' : 'badge-blue'
-            }`}>
+            }`} style={{ fontSize: '0.72rem', padding: '4px 9px' }}>
               {pg.propertyType === 'house' 
                 ? `🏠 ${pg.bhk || 'Rental House'}` 
                 : pg.propertyType === 'room' 
@@ -55,12 +61,12 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
                 : `🏢 ${pg.gender || 'Co-ed'} PG`}
             </span>
             {pg.suitableFor && (
-              <span className="badge badge-purple" style={{ fontSize: '0.7rem' }}>
-                {pg.suitableFor.includes('Family') ? '👨‍👩‍👧 Family' : pg.suitableFor.includes('Student') ? '🎓 Students' : '💼 Working'}
+              <span className="badge badge-purple" style={{ fontSize: '0.7rem', padding: '4px 8px' }}>
+                {pg.suitableFor.includes('Family') ? '👨‍👩‍👧 Family' : pg.suitableFor.includes('Student') ? '🎓 Student' : '💼 Working'}
               </span>
             )}
             {pg.featured && (
-              <span className="badge badge-gold animate-pulse-gold">
+              <span className="badge badge-gold animate-pulse-gold" style={{ fontSize: '0.7rem', padding: '4px 8px' }}>
                 👑 PRIME
               </span>
             )}
@@ -69,26 +75,28 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
           {/* Proximity / Distance Badge */}
           {pg.distanceKm !== undefined && pg.distanceKm !== null && (
             <div style={{
-              background: 'rgba(4, 13, 33, 0.92)',
+              background: 'rgba(4, 13, 33, 0.94)',
               border: '1px solid rgba(14, 116, 237, 0.5)',
               borderRadius: 'var(--radius-full)',
-              padding: '4px 10px',
-              fontSize: '0.75rem',
+              padding: '4px 8px',
+              fontSize: '0.72rem',
               fontWeight: 700,
               color: 'var(--gold-light)',
               display: 'flex',
               alignItems: 'center',
-              gap: '5px'
+              gap: '4px',
+              flexShrink: 0,
+              boxShadow: '0 4px 10px rgba(0, 0, 0, 0.5)'
             }}>
-              <Navigation size={12} style={{ color: 'var(--blue-light)' }} />
-              <span>{pg.distanceKm} km away</span>
+              <Navigation size={11} style={{ color: 'var(--blue-light)' }} />
+              <span>{pg.distanceKm} km</span>
             </div>
           )}
 
           {showStatus && pg.status && (
             <span className={`badge ${
               pg.status === 'approved' ? 'badge-green' : pg.status === 'pending_review' ? 'badge-gold' : 'badge-blue'
-            }`}>
+            }`} style={{ flexShrink: 0 }}>
               {pg.status.replace('_', ' ')}
             </span>
           )}
@@ -154,21 +162,23 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
                 if (onOpenLogin) onOpenLogin('tenant');
               }}
               style={{
-                marginTop: '4px',
-                fontSize: '0.74rem',
-                color: '#F59E0B',
+                marginTop: '6px',
+                fontSize: '0.73rem',
+                fontWeight: 600,
+                color: '#FDE68A',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '4px',
+                gap: '5px',
                 cursor: 'pointer',
-                background: 'rgba(245, 158, 11, 0.08)',
-                padding: '2px 8px',
-                borderRadius: '4px',
-                border: '1px dashed rgba(245, 158, 11, 0.3)'
+                background: 'rgba(212, 175, 55, 0.12)',
+                padding: '3px 10px',
+                borderRadius: 'var(--radius-full)',
+                border: '1px solid rgba(212, 175, 55, 0.35)',
+                transition: 'all 0.2s ease'
               }}
-              title="Click to sign in and view full address"
+              title="Click to sign in and view full street address and contact"
             >
-              <span>🔒 Building & Street Locked • Do login for more info</span>
+              <span>🔒 Address Locked • Sign In to View</span>
             </div>
           )}
         </div>
@@ -252,22 +262,24 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '10px',
           borderTop: '1px solid rgba(14, 116, 237, 0.18)',
           paddingTop: '14px'
         }}>
-          <div>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', display: 'block' }}>
+          <div style={{ minWidth: '95px' }}>
+            <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em', display: 'block' }}>
               Starts From
             </span>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
               <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--gold-light)' }}>
                 ₹{pg.rent.toLocaleString('en-IN')}
               </span>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>/month</span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>/mo</span>
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexShrink: 0 }}>
             {isGuest ? (
               <button 
                 type="button"
@@ -276,7 +288,7 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
                   if (onOpenLogin) onOpenLogin('tenant');
                 }}
                 className="btn btn-ghost btn-sm"
-                title="Exact route locked: Do login for full GPS navigation"
+                title="Exact route locked: Sign in for GPS navigation"
                 style={{ padding: '8px 10px', background: 'rgba(245, 158, 11, 0.1)', borderColor: 'rgba(245, 158, 11, 0.3)', color: '#F59E0B' }}
               >
                 <Navigation size={14} />
@@ -298,7 +310,7 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
             <button 
               onClick={() => onSelect(pg)}
               className="btn btn-gold btn-sm"
-              style={{ padding: '8px 14px', fontSize: '0.85rem' }}
+              style={{ padding: '8px 14px', fontSize: '0.84rem' }}
             >
               <span>{isGuest ? 'View Details' : 'Explore'}</span>
               <ArrowRight size={14} />

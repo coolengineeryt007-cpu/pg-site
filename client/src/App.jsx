@@ -17,6 +17,7 @@ import Blogs from './pages/Blogs';
 import BlogDetail from './pages/BlogDetail';
 import Legal from './pages/Legal';
 import LockedPageGate from './components/LockedPageGate';
+import AiConciergeModal from './components/AiConciergeModal';
 import { Lock, LogIn } from 'lucide-react';
 
 import { api } from './services/api';
@@ -113,7 +114,7 @@ export default function App() {
   });
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalRole, setAuthModalRole] = useState('owner');
-  const [guestSkipped, setGuestSkipped] = useState(false);
+  const [aiModalOpen, setAiModalOpen] = useState(false);
 
   // Load initial approved PGs for exploration
   useEffect(() => {
@@ -170,6 +171,13 @@ export default function App() {
     }
 
     document.title = title;
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.name = 'description';
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.content = desc;
   }, [activePage, selectedPg, selectedBlog]);
 
   // PushState Navigation Helper for clean professional URLs
@@ -204,7 +212,7 @@ export default function App() {
   };
 
   const handleSkipLogin = () => {
-    setGuestSkipped(true);
+    // set guest skipped
     setAuthModalOpen(false);
   };
 
@@ -327,6 +335,7 @@ export default function App() {
           setAuthModalOpen(true);
         }}
         onLogout={handleLogout}
+        onOpenAiConcierge={() => setAiModalOpen(true)}
       />
 
       {/* Guest Mode Half-Information Notification Banner */}
@@ -394,6 +403,10 @@ export default function App() {
                   <img 
                     src={selectedPg.photos?.[0] || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80'} 
                     alt={selectedPg.name}
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80';
+                    }}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 20%, rgba(4,13,33,0.92) 100%)' }} />
@@ -636,6 +649,14 @@ export default function App() {
         initialRole={authModalRole}
         onLoginSuccess={handleLoginSuccess}
         onSkipLogin={handleSkipLogin}
+      />
+
+
+      {/* AI Concierge Modal */}
+      <AiConciergeModal 
+        isOpen={aiModalOpen}
+        onClose={() => setAiModalOpen(false)}
+        onSelectPg={handleSelectPg}
       />
     </div>
   );

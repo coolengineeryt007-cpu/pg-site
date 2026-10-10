@@ -1,21 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  Building2, 
-  User, 
-  X, 
-  Check, 
-  Lock, 
-  Mail, 
-  Phone, 
-  Crown, 
-  GraduationCap, 
-  ArrowRight, 
-  ShieldCheck, 
-  Eye, 
-  EyeOff,
-  Sparkles,
-  AlertCircle
-} from 'lucide-react';
+import { User, X, ArrowRight, Eye, EyeOff, AlertCircle, Crown } from 'lucide-react';
 import { api } from '../services/api';
 
 export default function AuthModal({ 
@@ -35,12 +19,11 @@ export default function AuthModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Sync role if initialRole changes when modal opens
-  React.useEffect(() => {
-    if (initialRole) {
-      setRole(initialRole === 'owner' ? 'owner' : 'tenant');
-    }
-  }, [initialRole]);
+  const [prevInitialRole, setPrevInitialRole] = useState(initialRole);
+  if (initialRole !== prevInitialRole) {
+    setPrevInitialRole(initialRole);
+    setRole(initialRole === 'owner' ? 'owner' : 'tenant');
+  }
 
   if (!isOpen) return null;
 

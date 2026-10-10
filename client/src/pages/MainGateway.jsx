@@ -1,20 +1,15 @@
 import React from 'react';
 import { 
   Home as HomeIcon,
-  GraduationCap, 
   Building2, 
   CheckCircle2, 
   ArrowRight, 
-  MapPin, 
-  PhoneCall, 
-  ShieldCheck, 
   Sparkles,
   Zap,
   Crown,
   Compass,
   PlusCircle,
-  HelpCircle,
-  Users
+  PhoneCall
 } from 'lucide-react';
 
 export default function MainGateway({ onSelectStudent, onSelectOwner }) {

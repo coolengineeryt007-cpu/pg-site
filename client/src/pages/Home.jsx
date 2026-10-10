@@ -1,23 +1,12 @@
 import React, { useState } from 'react';
 import { 
   Crown, 
-  MapPin, 
-  Search, 
   Navigation, 
   ShieldCheck, 
   Utensils, 
-  Wifi, 
   Star, 
   ArrowRight, 
-  CheckCircle, 
-  HelpCircle,
-  Building,
-  Building2,
-  Sparkles,
-  BedDouble,
-  Home as HomeIcon,
-  Bed,
-  Users
+  CheckCircle 
 } from 'lucide-react';
 import LocationSearchBar from '../components/LocationSearchBar';
 import PgCard from '../components/PgCard';
@@ -95,29 +84,27 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
           </div>
 
           {/* Main H1 */}
-          <h1 className="font-serif" style={{ fontSize: 'clamp(1.85rem, 5vw, 4.2rem)', lineHeight: 1.15, marginBottom: '20px', fontWeight: 900, color: '#ffffff' }}>
+          <h1 style={{ fontSize: 'clamp(1.75rem, 4.5vw, 3.6rem)', lineHeight: 1.2, marginBottom: '18px', fontWeight: 800, color: '#ffffff' }}>
             Find Your Ideal Rental Space: <br />
             <span className="gold-gradient-text">PGs, Private Rooms & Houses</span>
           </h1>
 
           <p style={{
             color: 'var(--text-secondary)',
-            fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
-            maxWidth: '760px',
-            margin: '0 auto 36px auto',
-            lineHeight: 1.7
+            fontSize: 'clamp(0.95rem, 1.6vw, 1.15rem)',
+            maxWidth: '720px',
+            margin: '0 auto 28px auto',
+            lineHeight: 1.65
           }}>
             Explore verified paying guest coliving, 1RK furnished rental rooms, flats, and family houses across India. Zero brokerage, transparent deposits, and direct owner WhatsApp & phone connections.
           </p>
 
-          {/* Quick Property Type Category Selector */}
-          <div style={{
-            display: 'flex',
+          {/* Quick Property Type Category Selector - Smooth Touch Scroll on Mobile */}
+          <div className="horizontal-scroll-row no-scrollbar" style={{
             justifyContent: 'center',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '12px',
-            marginBottom: '26px'
+            gap: '10px',
+            marginBottom: '22px',
+            padding: '4px 0'
           }}>
             <button
               onClick={() => handleProtectedNavigate('explore', { propertyType: 'all' })}
@@ -131,14 +118,14 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
               className="btn btn-outline-gold btn-sm"
               style={{ borderRadius: 'var(--radius-full)', padding: '8px 18px', fontWeight: 600 }}
             >
-              🏠 Houses & Flats (1/2/3 BHK)
+              🏠 Houses & Flats
             </button>
             <button
               onClick={() => handleProtectedNavigate('explore', { propertyType: 'room' })}
               className="btn btn-outline-gold btn-sm"
               style={{ borderRadius: 'var(--radius-full)', padding: '8px 18px', fontWeight: 600 }}
             >
-              🛏️ Rental Rooms (1RK / Studio)
+              🛏️ Rental Rooms
             </button>
             <button
               onClick={() => handleProtectedNavigate('explore', { propertyType: 'pg' })}
@@ -151,8 +138,8 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
 
           {/* Luxury Search & Near Me Bar */}
           <div style={{
-            maxWidth: '680px',
-            margin: '0 auto 26px auto'
+            maxWidth: '640px',
+            margin: '0 auto 20px auto'
           }}>
             <LocationSearchBar 
               onLocationSelect={handleHeroLocationSelect}
@@ -162,8 +149,8 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
           </div>
 
           {/* Tenant Category Preferences */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '14px' }}>
-            <span style={{ fontSize: '0.82rem', color: '#8E9DB2', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Ideal For:</span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '12px' }}>
+            <span style={{ fontSize: '0.78rem', color: '#94A3B8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Ideal For:</span>
             <button
               onClick={() => handleProtectedNavigate('explore', { suitableFor: 'Family' })}
               className="btn btn-ghost btn-sm"
@@ -176,14 +163,14 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
               className="btn btn-ghost btn-sm"
               style={{ borderRadius: 'var(--radius-full)', padding: '4px 12px', fontSize: '0.8rem', color: '#60A5FA' }}
             >
-              💼 Working Professionals
+              💼 Professionals
             </button>
             <button
               onClick={() => handleProtectedNavigate('explore', { suitableFor: 'Students' })}
               className="btn btn-ghost btn-sm"
               style={{ borderRadius: 'var(--radius-full)', padding: '4px 12px', fontSize: '0.8rem', color: '#34D399' }}
             >
-              🎓 Students & Scholars
+              🎓 Students
             </button>
             <button
               onClick={() => handleProtectedNavigate('explore', { suitableFor: 'All' })}
@@ -194,15 +181,15 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
             </button>
           </div>
 
-          {/* Quick Hub Pills */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '8px' }}>
-            <span style={{ fontSize: '0.82rem', color: '#8E9DB2' }}>Popular Locations:</span>
-            {['Rajkot (Kalawad / Raiya)', 'Koramangala (Bengaluru)', 'Hitech City (Hyderabad)', 'Hinjewadi (Pune)', 'Bandra (Mumbai)', 'DLF Cyber City (Gurugram)'].map((city) => (
+          {/* Quick Hub Pills - Clean Horizontal Scroll on Mobile */}
+          <div className="horizontal-scroll-row no-scrollbar" style={{ justifyContent: 'center', gap: '6px' }}>
+            <span style={{ fontSize: '0.78rem', color: '#94A3B8', fontWeight: 600, paddingRight: '4px' }}>Popular:</span>
+            {['Rajkot', 'Bengaluru', 'Hyderabad', 'Pune', 'Mumbai', 'Gurugram'].map((city) => (
               <button
                 key={city}
-                onClick={() => handleProtectedNavigate('explore', { search: city.includes('Rajkot') ? 'Rajkot' : city.includes('Koramangala') ? 'Koramangala' : city.split(' ')[0] })}
+                onClick={() => handleProtectedNavigate('explore', { search: city })}
                 className="btn btn-ghost btn-sm"
-                style={{ borderRadius: 'var(--radius-full)', padding: '4px 12px', fontSize: '0.78rem', borderColor: 'rgba(14, 116, 237, 0.3)' }}
+                style={{ borderRadius: 'var(--radius-full)', padding: '4px 12px', fontSize: '0.78rem', borderColor: 'rgba(14, 116, 237, 0.25)' }}
               >
                 📍 {city}
               </button>

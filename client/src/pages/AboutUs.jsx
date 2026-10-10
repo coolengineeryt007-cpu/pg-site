@@ -1,5 +1,5 @@
 import React from 'react';
-import { Crown, ShieldCheck, Heart, Award, Users, CheckCircle2, Globe, Share2 } from 'lucide-react';
+import { Crown, CheckCircle2, Globe, Share2 } from 'lucide-react';
 
 export default function AboutUs() {
   const LEADERSHIP = [
@@ -7,14 +7,14 @@ export default function AboutUs() {
       name: "Vikramaditya Singhania",
       role: "Founder & Chief Executive Officer",
       photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
-      bio: "Former McKinsey principal & IIM-A alumnus with over a decade of real estate innovation. Founded Aurelia to permanently eliminate unhygienic, overpriced paying guest living.",
+      bio: "Former McKinsey principal & IIM-A alumnus with over a decade of real estate innovation. Founded Vrundavan Ventures to permanently eliminate unhygienic, overpriced paying guest living.",
       badge: "Founder & CEO"
     },
     {
       name: "Priya Malhotra",
       role: "Co-Founder & Chief Operations Officer",
       photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
-      bio: "12-year hospitality veteran previously with The Oberoi Group. Pioneer of Aurelia's 3-tier security architecture and dietitian-crafted meal standard.",
+      bio: "12-year hospitality veteran previously with The Oberoi Group. Pioneer of Vrundavan Ventures' 3-tier security architecture and dietitian-crafted meal standard.",
       badge: "Co-Founder & COO"
     },
     {
@@ -91,6 +91,10 @@ export default function AboutUs() {
                 <img 
                   src={leader.photo} 
                   alt={leader.name}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80';
+                  }}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>

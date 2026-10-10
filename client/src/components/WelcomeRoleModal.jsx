@@ -4,9 +4,6 @@ import {
   Building2, 
   CheckCircle2, 
   ArrowRight, 
-  MapPin, 
-  PhoneCall, 
-  ShieldCheck, 
   Sparkles,
   Zap
 } from 'lucide-react';

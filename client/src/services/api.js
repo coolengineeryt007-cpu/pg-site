@@ -123,5 +123,26 @@ export const api = {
     const res = await fetch(`${API_BASE}/stats`);
     if (!res.ok) throw new Error('Failed to fetch platform stats');
     return res.json();
+  },
+
+  // AI Matchmaker & Concierge Engine
+  async aiMatch(payload = {}) {
+    const res = await fetch(`${API_BASE}/ai/match`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Failed to get AI recommendations');
+    return res.json();
+  },
+
+  async aiChat(message) {
+    const res = await fetch(`${API_BASE}/ai/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message })
+    });
+    if (!res.ok) throw new Error('Failed to communicate with AI Concierge');
+    return res.json();
   }
 };
