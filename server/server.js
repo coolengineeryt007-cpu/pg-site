@@ -511,13 +511,15 @@ app.post('/api/pgs', async (req, res) => {
       return res.status(400).json({ error: 'Name, Rent, and Address are required' });
     }
 
-    if (data.ownerId) {
-      const sub = await getUserSubscription(data.ownerId);
-      if (sub && sub.status !== 'active') {
-        return res.status(403).json({ 
-          error: 'Host Partnership Subscription Required: Please complete your ₹99 activation with 30-day recurring autopay to list properties.' 
-        });
-      }
+    if (!data.ownerId) {
+      return res.status(401).json({ error: 'Host account login required to list property' });
+    }
+
+    const sub = await getUserSubscription(data.ownerId);
+    if (!sub || sub.status !== 'active') {
+      return res.status(403).json({ 
+        error: 'Host Partnership Subscription Required: Please complete your ₹99 activation with 30-day recurring autopay to list properties.' 
+      });
     }
 
     const newPg = {
@@ -988,7 +990,7 @@ app.post('/api/ai/chat', async (req, res) => {
 
     if (msg.includes('rajkot')) {
       relevantPgs = approved.filter(p => p.address?.city?.toLowerCase() === 'rajkot').slice(0, 3);
-      reply = `In Rajkot, we currently have verified properties including Pride Classic Luxury PG on Yogi Nagar Main Road (with 3-time Kathiyawadi homestyle meals and fiber internet). Rent starts from ₹12,500/mo with 0% brokerage.`;
+      reply = `In Rajkot, we currently have verified properties including Pride Classic Luxury PG on Yogi Nagar Main Road (with 3-time Kathiyawadi homestyle meals and fiber internet). Rent starts from ₹12,500/mo with direct host connect.`;
       suggestedAction = { type: 'filter', city: 'Rajkot' };
     } else if (msg.includes('bengaluru') || msg.includes('bangalore')) {
       relevantPgs = approved.filter(p => p.address?.city?.toLowerCase() === 'bengaluru').slice(0, 3);
@@ -997,13 +999,13 @@ app.post('/api/ai/chat', async (req, res) => {
     } else if (msg.includes('deposit') || msg.includes('security deposit')) {
       reply = `All properties on Vrundavan Ventures follow our Model Tenancy Guarantee: Security deposits are capped at 1.5x month's rent, held securely, and refunded within 7 days upon standard 30-day departure notice.`;
     } else if (msg.includes('brokerage') || msg.includes('fee') || msg.includes('commission')) {
-      reply = `We charge ₹0 brokerage! You connect and chat directly with property hosts and owners via phone or WhatsApp.`;
+      reply = `Direct Host Connect! You connect and chat directly with verified property hosts and owners via phone or WhatsApp with 100% direct communication.`;
     } else if (msg.includes('owner') || msg.includes('list') || msg.includes('register property')) {
-      reply = `Are you a property owner? You can list your PG, room, or house for free in less than 2 minutes using our Owner Portal with zero commission!`;
+      reply = `Are you a property owner? You can list your PG, room, or house in less than 2 minutes using our Host Portal with 100% direct tenant rental income!`;
       suggestedAction = { type: 'navigate', page: 'owner' };
     } else {
       relevantPgs = approved.slice(0, 3);
-      reply = `Welcome to Vrundavan Ventures! I am your AI Accommodation Concierge. I can help you find verified rental houses, private rooms, and luxury PGs across India with 0% brokerage. Tell me your preferred city, budget, or university/office location!`;
+      reply = `Welcome to Vrundavan Ventures! I am your AI Accommodation Concierge. I can help you find verified rental houses, private rooms, and luxury PGs across India with direct host connect. Tell me your preferred city, budget, or university/office location!`;
     }
 
     res.json({
