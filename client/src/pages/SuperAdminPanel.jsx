@@ -5,7 +5,6 @@ import {
   Building, 
   Users, 
   ShieldCheck, 
-  BookOpen, 
   ExternalLink, 
   LogOut, 
   Menu, 
@@ -24,12 +23,11 @@ import {
 import { api } from '../services/api';
 
 export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }) {
-  const [activeTab, setActiveTab] = useState('pending'); // 'overview', 'pending', 'properties', 'inquiries', 'owners', 'admins', 'blogs'
+  const [activeTab, setActiveTab] = useState('pending'); // 'overview', 'pending', 'properties', 'inquiries', 'owners', 'payments'
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [stats, setStats] = useState(null);
   const [allPgs, setAllPgs] = useState([]);
   const [inquiries, setInquiries] = useState([]);
-  const [blogs, setBlogs] = useState([]);
   const [filterCity, setFilterCity] = useState('all');
   const [filterType, setFilterType] = useState('all'); // 'all', 'house', 'room', 'pg'
   const [searchTerm, setSearchTerm] = useState('');
@@ -51,9 +49,6 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
 
       const inqRes = await api.getInquiries();
       setInquiries(inqRes || []);
-
-      const blogsRes = await api.getBlogs();
-      setBlogs(blogsRes || []);
 
       const subsRes = await api.getAdminSubscriptions();
       setAdminSubsData(subsRes);
@@ -214,31 +209,6 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
               </span>
             )}
           </button>
-
-          <button 
-            onClick={() => { setActiveTab('blogs'); setSidebarOpen(false); }}
-            className={`admin-nav-btn ${activeTab === 'blogs' ? 'active' : ''}`}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <BookOpen size={18} />
-              <span>SEO Guides & Blogs</span>
-            </div>
-            <span className="badge badge-gold" style={{ fontSize: '0.7rem', padding: '2px 7px' }}>
-              {blogs.length}
-            </span>
-          </button>
-
-          <span className="admin-nav-section">System Governance</span>
-
-          <button 
-            onClick={() => { setActiveTab('admins'); setSidebarOpen(false); }}
-            className={`admin-nav-btn ${activeTab === 'admins' ? 'active' : ''}`}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <ShieldCheck size={18} />
-              <span>Root Admins (2-3)</span>
-            </div>
-          </button>
         </nav>
 
         {/* Sidebar Footer */}
@@ -307,8 +277,6 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                 {activeTab === 'inquiries' && `Tenant Leads & Inquiries (${inquiries.length} Total)`}
                 {activeTab === 'owners' && 'Property Hosts Directory'}
                 {activeTab === 'payments' && `Host Order Payments & Recurring Autopay (${adminSubsData?.totalInvoices || 0} Orders)`}
-                {activeTab === 'blogs' && 'SEO Editorial Content'}
-                {activeTab === 'admins' && 'Privileged Super Administrators (2-3 Root Users)'}
               </h1>
             </div>
           </div>
@@ -859,74 +827,6 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                   <span>Email: <strong>priya@elitepg.com</strong></span>
                   <span>Phone: +91 98111 87654</span>
                   <span>Managed Properties: <strong>{allPgs.filter(p => p.ownerId === 'usr-owner-2').length} Residences</strong></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* TAB: BLOGS */}
-        {activeTab === 'blogs' && (
-          <div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {blogs.map((b) => (
-                <div key={b.id} className="luxury-card" style={{ padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-                  <div>
-                    <h4 style={{ color: '#fff', fontSize: '1.1rem', marginBottom: '4px' }}>{b.title}</h4>
-                    <span style={{ color: 'var(--gold-primary)', fontSize: '0.8rem' }}>Author: {b.author} • {b.readTime}</span>
-                  </div>
-                  <span className="badge badge-green">Published Live</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* TAB: SUPER ADMINS (2-3 Users) */}
-        {activeTab === 'admins' && (
-          <div>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '24px' }}>
-              As per platform architecture, Super Admin privileges are restricted to 2-3 authorized accounts with root verification capabilities.
-            </p>
-
-            <div className="grid-2">
-              <div className="luxury-card" style={{ padding: '24px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px' }}>
-                  <div style={{
-                    width: '50px', height: '50px', borderRadius: '50%', background: 'var(--red-gradient)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 800
-                  }}>
-                    VS
-                  </div>
-                  <div>
-                    <h4 style={{ color: '#fff', fontSize: '1.15rem' }}>Vikramaditya Singhania</h4>
-                    <span className="badge badge-crimson">Primary Super Admin</span>
-                  </div>
-                </div>
-                <div style={{ fontSize: '0.85rem', color: '#aaa', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <span>Email: <strong>superadmin@luxurypg.com</strong></span>
-                  <span>Phone: +91 99999 11111</span>
-                  <span>Permissions: Full Root, Moderation, Financial Approval</span>
-                </div>
-              </div>
-
-              <div className="luxury-card" style={{ padding: '24px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px' }}>
-                  <div style={{
-                    width: '50px', height: '50px', borderRadius: '50%', background: 'var(--gold-gradient)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#080808', fontWeight: 800
-                  }}>
-                    AD
-                  </div>
-                  <div>
-                    <h4 style={{ color: '#fff', fontSize: '1.15rem' }}>Ananya Deshmukh</h4>
-                    <span className="badge badge-gold">Associate Super Admin</span>
-                  </div>
-                </div>
-                <div style={{ fontSize: '0.85rem', color: '#aaa', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <span>Email: <strong>admin2@luxurypg.com</strong></span>
-                  <span>Phone: +91 99999 22222</span>
-                  <span>Permissions: Quality Verification & Content Publishing</span>
                 </div>
               </div>
             </div>
