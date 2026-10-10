@@ -123,7 +123,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
           margin: '0 auto 46px auto',
           lineHeight: 1.6
         }}>
-          India's trusted 0% brokerage rental platform connecting tenants, families, working professionals, and students directly with verified property owners.
+          India's premier verified rental platform connecting tenants, families, working professionals, and students directly with verified property owners.
         </p>
 
         {/* The TWO Interactive Portal Cards */}
@@ -207,7 +207,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
                   <CheckCircle2 size={17} style={{ color: '#00D2B4', flexShrink: 0 }} />
-                  <span><strong>0% Brokerage:</strong> No middleman commission or hidden charges</span>
+                  <span><strong>Direct Connect:</strong> No middleman hurdles or hidden charges</span>
                 </div>
               </div>
             </div>
@@ -272,7 +272,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
                   <Building2 size={38} />
                 </div>
                 <span className="badge badge-gold" style={{ fontSize: '0.78rem', padding: '6px 14px' }}>
-                  <Sparkles size={12} /> Host Portal • 0% Commission
+                  <Sparkles size={12} /> Host Portal • Direct Host Connect
                 </span>
               </div>
 
@@ -288,7 +288,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '32px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
                   <CheckCircle2 size={17} style={{ color: '#D4AF37', flexShrink: 0 }} />
-                  <span><strong>0% Commission:</strong> Zero brokerage, keep 100% rental revenue</span>
+                  <span><strong>100% Rent Retained:</strong> Keep 100% of your rental revenue directly</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#D4AF37', flexShrink: 0 }}>
                   <CheckCircle2 size={17} style={{ color: '#D4AF37', flexShrink: 0 }} />
@@ -355,7 +355,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
           <div style={{ display: 'flex', gap: '18px' }}>
             <span>Verified Luxury Accommodations</span>
             <span>•</span>
-            <span>Zero Brokerage Network</span>
+            <span>Direct Connect Network</span>
           </div>
         </div>
       </footer>

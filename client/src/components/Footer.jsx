@@ -37,12 +37,12 @@ export default function Footer({ onNavigate }) {
               />
             </div>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: '1.7', marginBottom: '20px' }}>
-              Vrundavan Ventures is your premier rental discovery platform across India. Handpicked verified rental houses, flats, private rooms, and PGs for families, working professionals, bachelors, and students with 0% brokerage.
+              Vrundavan Ventures is your premier rental discovery platform across India. Handpicked verified rental houses, flats, private rooms, and PGs for families, working professionals, bachelors, and students with direct owner connect.
             </p>
             <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
               <span className="badge badge-gold">Verified Properties</span>
-              <span className="badge badge-blue">Zero Brokerage</span>
-              <span className="badge badge-peacock">Direct Host Connect</span>
+              <span className="badge badge-blue">Direct Host Connect</span>
+              <span className="badge badge-peacock">Instant Communication</span>
             </div>
           </div>
 
@@ -114,6 +114,11 @@ export default function Footer({ onNavigate }) {
               <li>
                 <a href="/privacy" onClick={(e) => { e.preventDefault(); onNavigate('privacy'); }} style={{ color: 'var(--text-secondary)', textDecoration: 'none' }} className="nav-link">
                   Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a href="/superadmin" onClick={(e) => { e.preventDefault(); onNavigate('superadmin'); }} style={{ color: '#F87171', textDecoration: 'none', fontWeight: 600, fontSize: '0.82rem' }} className="nav-link">
+                  🔒 Super Admin Portal
                 </a>
               </li>
             </ul>

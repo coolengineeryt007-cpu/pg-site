@@ -25,6 +25,7 @@ import {
   activateOwnerSubscription,
   triggerRecurringAutopayDeduction,
   cancelOwnerSubscription,
+  getAllOwnerSubscriptions,
   calculateDistanceKm
 } from './data/store.js';
 
@@ -510,6 +511,15 @@ app.post('/api/pgs', async (req, res) => {
       return res.status(400).json({ error: 'Name, Rent, and Address are required' });
     }
 
+    if (data.ownerId) {
+      const sub = await getUserSubscription(data.ownerId);
+      if (sub && sub.status !== 'active') {
+        return res.status(403).json({ 
+          error: 'Host Partnership Subscription Required: Please complete your ₹99 activation with 30-day recurring autopay to list properties.' 
+        });
+      }
+    }
+
     const newPg = {
       id: `pg-${Date.now()}`,
       name: data.name,
@@ -794,6 +804,17 @@ app.post('/api/subscription/cancel', async (req, res) => {
   } catch (err) {
     console.error('Cancel autopay error:', err);
     res.status(500).json({ error: err.message || 'Failed to cancel autopay mandate' });
+  }
+});
+
+// SUPER ADMIN ORDERS, PAYMENTS & AUTOPAY DIRECTORY
+app.get('/api/admin/subscriptions', async (req, res) => {
+  try {
+    const data = await getAllOwnerSubscriptions();
+    res.json(data);
+  } catch (err) {
+    console.error('Get admin subscriptions error:', err);
+    res.status(500).json({ error: 'Failed to retrieve admin subscription data' });
   }
 });
 

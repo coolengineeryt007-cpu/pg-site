@@ -190,5 +190,11 @@ export const api = {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Failed to cancel subscription');
     return data;
+  },
+
+  async getAdminSubscriptions() {
+    const res = await fetch(`${API_BASE}/admin/subscriptions`);
+    if (!res.ok) throw new Error('Failed to retrieve admin subscription & payment records');
+    return res.json();
   }
 };

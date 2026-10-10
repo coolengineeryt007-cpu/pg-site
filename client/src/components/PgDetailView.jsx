@@ -482,8 +482,8 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
                 <strong style={{ color: '#fff' }}>{pg.noticePeriodDays} Days</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', color: '#bbb' }}>
-                <span>Brokerage:</span>
-                <strong style={{ color: '#34D399' }}>₹0 (Zero Brokerage)</strong>
+                <span>Connect Type:</span>
+                <strong style={{ color: '#34D399' }}>Direct Owner Connect</strong>
               </div>
             </div>
 

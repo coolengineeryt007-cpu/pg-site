@@ -29,7 +29,7 @@ export default function AiConciergeModal({ isOpen, onClose, onSelectPg }) {
     {
       id: 1,
       sender: 'ai',
-      text: "Namaste! I am your Vrundavan AI Property Concierge. Tell me where you want to stay, your budget, or your college/office location, and I will find your 100% verified match with 0% brokerage."
+      text: "Namaste! I am your Vrundavan AI Property Concierge. Tell me where you want to stay, your budget, or your college/office location, and I will find your 100% verified match with direct owner connection."
     }
   ]);
   const [inputMessage, setInputMessage] = useState('');
@@ -165,7 +165,7 @@ export default function AiConciergeModal({ isOpen, onClose, onSelectPg }) {
                 </span>
               </div>
               <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-                Intelligent Neural Accommodation Matchmaker & Zero Brokerage Advisor
+                Intelligent Neural Accommodation Matchmaker & Direct Housing Advisor
               </p>
             </div>
           </div>

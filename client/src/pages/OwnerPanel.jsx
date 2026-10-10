@@ -302,6 +302,15 @@ export default function OwnerPanel({
       return;
     }
 
+    if (subscription?.status !== 'active') {
+      setSubModalOpen(true);
+      setMessage({
+        type: 'error',
+        text: '👑 Host Partnership Subscription (₹99 Activation + ₹99/30-day Autopay) is required before listing properties.'
+      });
+      return;
+    }
+
     if (!formData.name || !formData.rent || !formData.address.city) {
       alert("Please fill in PG Name, Monthly Rent, and City.");
       return;
@@ -1626,7 +1635,7 @@ export default function OwnerPanel({
               <label className="form-label">Deposit Refund Escrow Account (UPI ID / Bank IFSC)</label>
               <input type="text" className="form-input" placeholder="e.g. rajesh@okaxis or HDFC0001234" defaultValue="rajesh@icici" />
               <span style={{ fontSize: '0.75rem', color: '#888', marginTop: '4px' }}>
-                Used for automated refund tracking and verified zero brokerage guarantee.
+                Used for automated refund tracking and verified direct booking payout guarantee.
               </span>
             </div>
 

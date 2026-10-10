@@ -171,10 +171,10 @@ export default function AuthModal({
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.5 }}>
             {role === 'owner'
               ? (isRegister 
-                  ? 'List houses, private rooms & PGs with 0% brokerage and receive verified tenant leads.' 
+                  ? 'Host verified PGs & rental homes with ₹99 host partner activation (30-day recurring autopay) and direct tenant leads.' 
                   : 'Sign in to access your properties, manage room vacancies, and view tenant inquiries.')
               : (isRegister
-                  ? 'Sign up to unlock verified owner contacts, WhatsApp directly, and schedule zero-brokerage visits.'
+                  ? 'Sign up 100% free to unlock verified owner contacts, WhatsApp directly, and schedule direct property visits.'
                   : 'Sign in to reveal direct owner phone numbers, schedule physical visits, and get instant booking confirmations.')}
           </p>
         </div>

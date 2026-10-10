@@ -148,11 +148,11 @@ export default function App() {
   // 100% On-Page SEO: Dynamic Title and Meta Management
   useEffect(() => {
     let title = "Vrundavan Ventures | PGs, Rental Rooms & Houses for Rent";
-    let desc = "Discover India's most verified PGs, private rental rooms, flats, and houses for families, working professionals, and students with zero brokerage.";
+    let desc = "Discover India's most verified PGs, private rental rooms, flats, and houses for families, working professionals, and students with direct owner connect.";
 
     if (activePage === 'portal') {
       title = "Vrundavan Ventures | Find Rentals or List Your Property";
-      desc = "Choose your portal: Find verified rental houses, rooms, and PGs with zero login, or list your property with 0% brokerage.";
+      desc = "Choose your portal: Find verified rental houses, rooms, and PGs with zero login, or list your property with direct tenant reach.";
     } else if (activePage === 'home') {
       title = "Find Rental Houses, Private Rooms & PGs | Vrundavan Ventures";
     } else if (activePage === 'explore' || activePage === 'nearme') {
@@ -162,7 +162,7 @@ export default function App() {
       title = `${selectedPg.name} in ${selectedPg.address?.area}, ${selectedPg.address?.city} | Vrundavan Ventures`;
       desc = `Book ${selectedPg.name} with Starting Rent ₹${selectedPg.rent}/mo. Verified ${selectedPg.propertyType === 'house' ? 'Rental House' : selectedPg.propertyType === 'room' ? 'Private Room' : 'PG'} with direct owner connect.`;
     } else if (activePage === 'owner' || activePage === 'owner-portal') {
-      title = "Property Owner & Landlord Portal | List PGs, Rooms & Houses Free | Vrundavan Ventures";
+      title = "Property Owner & Landlord Portal | Host Verified PGs & Rooms | Vrundavan Ventures";
     } else if (activePage === 'superadmin') {
       title = "Master Control Portal | Restricted Admin Access | Vrundavan Ventures";
     } else if (activePage === 'about') {
@@ -630,18 +630,9 @@ export default function App() {
         )}
 
         {(activePage === 'terms' || activePage === 'privacy') && (
-          !currentUser ? (
-            <LockedPageGate 
-              title="Please Login to View Policy Documents"
-              role="student"
-              onOpenLogin={(r) => { setAuthModalRole(r); setAuthModalOpen(true); }}
-              onGoHome={() => handleNavigate('home')}
-            />
-          ) : (
-            <Legal 
-              initialTab={activePage}
-            />
-          )
+          <Legal 
+            initialTab={activePage}
+          />
         )}
       </main>
 

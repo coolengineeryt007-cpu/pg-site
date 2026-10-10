@@ -39,7 +39,7 @@ export default function AboutUs() {
           Transforming Rental Housing & Living into a Royal Experience
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', lineHeight: 1.8 }}>
-          We believe where you live shapes who you become. Vrundavan Ventures was born out of a mission to connect tenants with verified rental houses, flats, private rooms, and luxury PGs across India with 100% transparency and zero brokerage.
+          We believe where you live shapes who you become. Vrundavan Ventures was born out of a mission to connect tenants with verified rental houses, flats, private rooms, and luxury PGs across India with 100% transparency and direct owner connect.
         </p>
       </div>
 

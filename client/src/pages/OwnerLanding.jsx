@@ -44,8 +44,8 @@ export default function OwnerLanding({
   const benefits = [
     {
       icon: <DollarSign size={26} style={{ color: 'var(--gold-primary)' }} />,
-      title: "0% Brokerage & 100% Direct Income",
-      desc: "Zero commission cuts. Keep 100% of your room rental fees and deposits directly from tenants with no middleman."
+      title: "100% Direct Tenant Income",
+      desc: "Direct tenant contact. Keep 100% of your room rental fees and deposits directly from tenants with no middleman cuts."
     },
     {
       icon: <PhoneCall size={26} style={{ color: 'var(--blue-light)' }} />,
@@ -204,7 +204,7 @@ export default function OwnerLanding({
 
               <div style={{ position: 'relative', zIndex: 2 }}>
                 <span className="badge badge-gold" style={{ marginBottom: '18px', fontSize: '0.85rem', padding: '6px 16px' }}>
-                  <Sparkles size={14} /> 0% Brokerage • 50,000+ Student & Renter Searches
+                  <Sparkles size={14} /> Direct Host Connect • 50,000+ Student & Renter Searches
                 </span>
 
                 <h1 className="font-serif" style={{ fontSize: 'clamp(1.9rem, 4.2vw, 3.2rem)', lineHeight: 1.2, marginBottom: '18px', fontWeight: 900, color: '#ffffff' }}>
@@ -284,9 +284,9 @@ export default function OwnerLanding({
               </div>
 
               <div className="luxury-card" style={{ padding: '24px', textAlign: 'center' }}>
-                <span style={{ fontSize: '0.8rem', color: '#888', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Brokerage Cut</span>
-                <h3 style={{ color: '#34D399', fontSize: '2.2rem', fontWeight: 900, margin: '6px 0' }}>0%</h3>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.84rem', margin: 0 }}>You keep 100% of rent fees & deposits</p>
+                <span style={{ fontSize: '0.8rem', color: '#888', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Rent Kept by Host</span>
+                <h3 style={{ color: '#34D399', fontSize: '2.2rem', fontWeight: 900, margin: '6px 0' }}>100%</h3>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.84rem', margin: 0 }}>You keep 100% of tenant rent & deposits</p>
               </div>
 
               <div className="luxury-card" style={{ padding: '24px', textAlign: 'center' }}>
@@ -429,7 +429,7 @@ export default function OwnerLanding({
                 Why Top Landlords Choose Vrundavan Ventures
               </h2>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.98rem', maxWidth: '620px', margin: '0 auto' }}>
-                Eliminate broker commissions, attract respectful tenants, and maximize your property's monthly rental yield.
+                Connect directly with tenants, attract respectful guests, and maximize your property's monthly rental yield.
               </p>
             </div>
 

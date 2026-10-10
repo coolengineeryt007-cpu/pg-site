@@ -17,7 +17,9 @@ import {
   MessageCircle,
   MessageSquare,
   FileCheck,
-  Phone
+  Phone,
+  CreditCard,
+  Receipt
 } from 'lucide-react';
 import { api } from '../services/api';
 
@@ -33,6 +35,12 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
   const [searchTerm, setSearchTerm] = useState('');
   const [actionMessage, setActionMessage] = useState(null);
 
+  // Payments & Autopay Subscriptions state
+  const [adminSubsData, setAdminSubsData] = useState(null);
+  const [paymentSubTab, setPaymentSubTab] = useState('invoices'); // 'invoices', 'mandates'
+  const [paymentSearch, setPaymentSearch] = useState('');
+  const [selectedReceiptInvoice, setSelectedReceiptInvoice] = useState(null);
+
   const loadData = async () => {
     try {
       const statsRes = await api.getStats();
@@ -46,6 +54,9 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
 
       const blogsRes = await api.getBlogs();
       setBlogs(blogsRes || []);
+
+      const subsRes = await api.getAdminSubscriptions();
+      setAdminSubsData(subsRes);
     } catch (err) {
       console.error("Super Admin data fetch error:", err);
     }
@@ -190,6 +201,21 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
           </button>
 
           <button 
+            onClick={() => { setActiveTab('payments'); setSidebarOpen(false); }}
+            className={`admin-nav-btn ${activeTab === 'payments' ? 'active' : ''}`}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <CreditCard size={18} style={{ color: '#facc15' }} />
+              <span>Order Payments & Autopay</span>
+            </div>
+            {adminSubsData?.totalRevenue > 0 && (
+              <span className="badge badge-gold" style={{ fontSize: '0.7rem', padding: '2px 7px' }}>
+                ₹{adminSubsData.totalRevenue}
+              </span>
+            )}
+          </button>
+
+          <button 
             onClick={() => { setActiveTab('blogs'); setSidebarOpen(false); }}
             className={`admin-nav-btn ${activeTab === 'blogs' ? 'active' : ''}`}
           >
@@ -280,6 +306,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                 {activeTab === 'properties' && `Properties Database (${allPgs.length} Total)`}
                 {activeTab === 'inquiries' && `Tenant Leads & Inquiries (${inquiries.length} Total)`}
                 {activeTab === 'owners' && 'Property Hosts Directory'}
+                {activeTab === 'payments' && `Host Order Payments & Recurring Autopay (${adminSubsData?.totalInvoices || 0} Orders)`}
                 {activeTab === 'blogs' && 'SEO Editorial Content'}
                 {activeTab === 'admins' && 'Privileged Super Administrators (2-3 Root Users)'}
               </h1>
@@ -357,6 +384,24 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                 </div>
                 <h2 style={{ fontSize: '2rem', color: 'var(--blue-light)' }}>{inquiries.length}</h2>
                 <span style={{ fontSize: '0.72rem', color: '#888' }}>Platform Inquiries</span>
+              </div>
+
+              <div className="luxury-card" style={{ padding: '22px', border: '1px solid rgba(234, 179, 8, 0.35)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#888', marginBottom: '8px' }}>
+                  <span style={{ fontSize: '0.78rem', textTransform: 'uppercase' }}>Host Autopay Revenue</span>
+                  <CreditCard size={18} style={{ color: '#facc15' }} />
+                </div>
+                <h2 style={{ fontSize: '2rem', color: '#facc15' }}>₹{adminSubsData?.totalRevenue || 0}</h2>
+                <span style={{ fontSize: '0.72rem', color: '#38bdf8' }}>{adminSubsData?.totalInvoices || 0} Paid Orders (₹99 Model)</span>
+              </div>
+
+              <div className="luxury-card" style={{ padding: '22px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#888', marginBottom: '8px' }}>
+                  <span style={{ fontSize: '0.78rem', textTransform: 'uppercase' }}>Active e-Mandates</span>
+                  <CheckCircle2 size={18} style={{ color: '#4ade80' }} />
+                </div>
+                <h2 style={{ fontSize: '2rem', color: '#4ade80' }}>{adminSubsData?.activeMandates || 0}</h2>
+                <span style={{ fontSize: '0.72rem', color: '#888' }}>30-Day Auto-Renewal Active</span>
               </div>
             </div>
 
@@ -869,6 +914,322 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* TAB: ORDERS, PAYMENTS & RECURRING AUTOPAY */}
+        {activeTab === 'payments' && (
+          <div>
+            {/* Top Revenue KPIs */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+              gap: '16px',
+              marginBottom: '28px'
+            }}>
+              <div className="luxury-card" style={{ padding: '22px', border: '1px solid rgba(234, 179, 8, 0.4)' }}>
+                <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800, marginBottom: '6px' }}>Total Platform Revenue</div>
+                <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#facc15', fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
+                  ₹{adminSubsData?.totalRevenue || 0}
+                </div>
+                <div style={{ fontSize: '12px', color: '#38bdf8', marginTop: '4px' }}>
+                  Collected from ₹99 Activation & 30-Day Autopay
+                </div>
+              </div>
+
+              <div className="luxury-card" style={{ padding: '22px' }}>
+                <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800, marginBottom: '6px' }}>Active e-Mandates</div>
+                <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#4ade80' }}>
+                  {adminSubsData?.activeMandates || 0} Hosts
+                </div>
+                <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '4px' }}>
+                  Authorized UPI Autopay / Bank Mandates
+                </div>
+              </div>
+
+              <div className="luxury-card" style={{ padding: '22px' }}>
+                <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800, marginBottom: '6px' }}>Recurring Autopay Cut</div>
+                <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#38bdf8' }}>
+                  ₹99
+                </div>
+                <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '4px' }}>
+                  Fixed Cycle: Every 30 Days / Host
+                </div>
+              </div>
+
+              <div className="luxury-card" style={{ padding: '22px' }}>
+                <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800, marginBottom: '6px' }}>Total Invoices Generated</div>
+                <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#e2e8f0' }}>
+                  {adminSubsData?.totalInvoices || 0}
+                </div>
+                <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '4px' }}>
+                  100% Tax Compliant Digital Receipts
+                </div>
+              </div>
+            </div>
+
+            {/* Filter and Sub-Tab Navigation Bar */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '14px',
+              marginBottom: '20px'
+            }}>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button
+                  type="button"
+                  onClick={() => setPaymentSubTab('invoices')}
+                  className={`btn btn-sm ${paymentSubTab === 'invoices' ? 'btn-gold' : 'btn-ghost'}`}
+                  style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                >
+                  <Receipt size={15} />
+                  <span>All Invoices & Orders ({adminSubsData?.allInvoices?.length || 0})</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setPaymentSubTab('mandates')}
+                  className={`btn btn-sm ${paymentSubTab === 'mandates' ? 'btn-gold' : 'btn-ghost'}`}
+                  style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                >
+                  <CreditCard size={15} />
+                  <span>Host Mandates Directory ({adminSubsData?.ownerSubscriptions?.length || 0})</span>
+                </button>
+              </div>
+
+              <div style={{ position: 'relative', minWidth: '280px' }}>
+                <input
+                  type="text"
+                  placeholder="Search by Host, Invoice #, or Mandate..."
+                  value={paymentSearch}
+                  onChange={(e) => setPaymentSearch(e.target.value)}
+                  className="form-input"
+                  style={{ padding: '8px 14px', fontSize: '13px' }}
+                />
+              </div>
+            </div>
+
+            {/* SUB-VIEW 1: INVOICES & ORDERS TABLE */}
+            {paymentSubTab === 'invoices' && (
+              <div className="luxury-card" style={{ padding: '24px 28px' }}>
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+                    <thead>
+                      <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', color: '#94a3b8' }}>
+                        <th style={{ padding: '12px 14px' }}>Invoice ID</th>
+                        <th style={{ padding: '12px 14px' }}>Date</th>
+                        <th style={{ padding: '12px 14px' }}>Host / Owner</th>
+                        <th style={{ padding: '12px 14px' }}>Order Description</th>
+                        <th style={{ padding: '12px 14px' }}>Payment Mode</th>
+                        <th style={{ padding: '12px 14px' }}>Amount</th>
+                        <th style={{ padding: '12px 14px' }}>e-Mandate Ref</th>
+                        <th style={{ padding: '12px 14px' }}>Status</th>
+                        <th style={{ padding: '12px 14px', textAlign: 'right' }}>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {(adminSubsData?.allInvoices || [])
+                        .filter(inv => {
+                          const s = paymentSearch.toLowerCase();
+                          return (
+                            inv.id?.toLowerCase().includes(s) ||
+                            inv.ownerName?.toLowerCase().includes(s) ||
+                            inv.ownerEmail?.toLowerCase().includes(s) ||
+                            inv.mandateId?.toLowerCase().includes(s) ||
+                            inv.transactionRef?.toLowerCase().includes(s)
+                          );
+                        })
+                        .map((inv) => (
+                          <tr key={`${inv.id}-${inv.transactionRef}`} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                            <td style={{ padding: '12px 14px', fontFamily: 'monospace', fontWeight: 800, color: '#facc15' }}>
+                              {inv.id}
+                            </td>
+                            <td style={{ padding: '12px 14px', color: '#cbd5e1' }}>
+                              {new Date(inv.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                            </td>
+                            <td style={{ padding: '12px 14px' }}>
+                              <div style={{ fontWeight: 700, color: '#fff' }}>{inv.ownerName}</div>
+                              <div style={{ fontSize: '11px', color: '#94a3b8' }}>{inv.ownerEmail}</div>
+                            </td>
+                            <td style={{ padding: '12px 14px', color: '#e2e8f0', fontWeight: 600 }}>
+                              {inv.description}
+                            </td>
+                            <td style={{ padding: '12px 14px', color: '#38bdf8' }}>
+                              {inv.autopayMethod || inv.method || 'UPI Autopay'}
+                            </td>
+                            <td style={{ padding: '12px 14px', color: '#facc15', fontWeight: 900, fontSize: '15px' }}>
+                              ₹{inv.amount}
+                            </td>
+                            <td style={{ padding: '12px 14px', fontFamily: 'monospace', fontSize: '11px', color: '#94a3b8' }}>
+                              {inv.mandateId || 'MNDT-AUTO'}
+                            </td>
+                            <td style={{ padding: '12px 14px' }}>
+                              <span className="badge badge-green" style={{ fontSize: '11px', textTransform: 'uppercase' }}>
+                                {inv.status || 'Paid'}
+                              </span>
+                            </td>
+                            <td style={{ padding: '12px 14px', textAlign: 'right' }}>
+                              <button
+                                type="button"
+                                onClick={() => setSelectedReceiptInvoice(inv)}
+                                className="btn btn-outline-gold btn-sm"
+                                style={{ fontSize: '11px', padding: '4px 10px' }}
+                              >
+                                View Receipt
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* SUB-VIEW 2: HOST MANDATES DIRECTORY */}
+            {paymentSubTab === 'mandates' && (
+              <div className="luxury-card" style={{ padding: '24px 28px' }}>
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+                    <thead>
+                      <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', color: '#94a3b8' }}>
+                        <th style={{ padding: '12px 14px' }}>Host Name</th>
+                        <th style={{ padding: '12px 14px' }}>Email & Phone</th>
+                        <th style={{ padding: '12px 14px' }}>e-Mandate Reference</th>
+                        <th style={{ padding: '12px 14px' }}>Payment Mode</th>
+                        <th style={{ padding: '12px 14px' }}>Recurring Fee</th>
+                        <th style={{ padding: '12px 14px' }}>Next Auto-Debit</th>
+                        <th style={{ padding: '12px 14px' }}>Days Left</th>
+                        <th style={{ padding: '12px 14px' }}>Mandate Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {(adminSubsData?.ownerSubscriptions || [])
+                        .filter(o => {
+                          const s = paymentSearch.toLowerCase();
+                          return (
+                            o.name?.toLowerCase().includes(s) ||
+                            o.email?.toLowerCase().includes(s) ||
+                            o.subscription?.mandateId?.toLowerCase().includes(s)
+                          );
+                        })
+                        .map(o => {
+                          const sub = o.subscription || {};
+                          return (
+                            <tr key={o.ownerId} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                              <td style={{ padding: '12px 14px', fontWeight: 800, color: '#fff' }}>
+                                {o.name}
+                              </td>
+                              <td style={{ padding: '12px 14px', color: '#cbd5e1' }}>
+                                <div>{o.email}</div>
+                                <div style={{ fontSize: '11px', color: '#94a3b8' }}>{o.phone || 'No phone'}</div>
+                              </td>
+                              <td style={{ padding: '12px 14px', fontFamily: 'monospace', fontWeight: 700, color: '#facc15' }}>
+                                {sub.mandateId || 'Pending Activation'}
+                              </td>
+                              <td style={{ padding: '12px 14px', color: '#38bdf8' }}>
+                                {sub.autopayMethod || 'UPI Autopay'}
+                              </td>
+                              <td style={{ padding: '12px 14px', fontWeight: 800, color: '#facc15' }}>
+                                ₹{sub.recurringAmount || 99} / 30d
+                              </td>
+                              <td style={{ padding: '12px 14px', color: '#e2e8f0' }}>
+                                {sub.nextBillingDate ? new Date(sub.nextBillingDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'N/A'}
+                              </td>
+                              <td style={{ padding: '12px 14px', color: '#4ade80', fontWeight: 700 }}>
+                                {sub.daysRemaining ?? 30} Days
+                              </td>
+                              <td style={{ padding: '12px 14px' }}>
+                                <span className={`badge ${sub.status === 'active' ? 'badge-green' : 'badge-crimson'}`} style={{ fontSize: '11px', textTransform: 'uppercase' }}>
+                                  {sub.status === 'active' ? 'Active (Autopay Enabled)' : (sub.status || 'Pending')}
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* SUPER ADMIN TAX RECEIPT MODAL */}
+            {selectedReceiptInvoice && (
+              <div style={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 999999,
+                background: 'rgba(2, 6, 23, 0.9)',
+                backdropFilter: 'blur(16px)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '20px'
+              }}>
+                <div style={{
+                  background: '#0f172a',
+                  border: '1px solid rgba(234, 179, 8, 0.4)',
+                  borderRadius: '20px',
+                  maxWidth: '520px',
+                  width: '100%',
+                  padding: '28px',
+                  boxShadow: '0 25px 60px rgba(0,0,0,0.85)'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '14px', marginBottom: '20px' }}>
+                    <div>
+                      <span className="gold-gradient-text font-serif" style={{ fontSize: '1.2rem', fontWeight: 800 }}>
+                        VRUNDAVAN VENTURES
+                      </span>
+                      <div style={{ fontSize: '11px', color: '#94a3b8' }}>TAX INVOICE & NPCI AUTOPAY RECEIPT</div>
+                    </div>
+                    <button onClick={() => setSelectedReceiptInvoice(null)} className="btn btn-ghost btn-sm">
+                      <X size={18} />
+                    </button>
+                  </div>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#cbd5e1', marginBottom: '16px' }}>
+                    <div>
+                      <div><strong>Invoice #:</strong> {selectedReceiptInvoice.id}</div>
+                      <div><strong>Date:</strong> {new Date(selectedReceiptInvoice.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <div><strong>Host:</strong> {selectedReceiptInvoice.ownerName || 'Property Host'}</div>
+                      <div><strong>e-Mandate:</strong> {selectedReceiptInvoice.mandateId}</div>
+                    </div>
+                  </div>
+
+                  <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '12px', padding: '16px', marginBottom: '20px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', marginBottom: '8px' }}>
+                      <span style={{ color: '#fff' }}>{selectedReceiptInvoice.description}</span>
+                      <span style={{ color: '#facc15', fontWeight: 800 }}>₹{selectedReceiptInvoice.amount}.00</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#94a3b8' }}>
+                      <span>Payment Method</span>
+                      <span>{selectedReceiptInvoice.autopayMethod || selectedReceiptInvoice.method || 'UPI Autopay'}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#94a3b8', marginTop: '4px' }}>
+                      <span>Transaction Ref</span>
+                      <span style={{ fontFamily: 'monospace' }}>{selectedReceiptInvoice.transactionRef || 'TXN-998822'}</span>
+                    </div>
+                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', marginTop: '12px', paddingTop: '10px', display: 'flex', justifyContent: 'space-between', fontSize: '16px', fontWeight: 800 }}>
+                      <span style={{ color: '#fff' }}>Total Settled</span>
+                      <span style={{ color: '#facc15' }}>₹{selectedReceiptInvoice.amount}.00</span>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                    <button onClick={() => window.print()} className="btn btn-gold btn-sm">
+                      Print / Save Receipt
+                    </button>
+                    <button onClick={() => setSelectedReceiptInvoice(null)} className="btn btn-ghost btn-sm">
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </main>

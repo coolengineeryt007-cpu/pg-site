@@ -45,8 +45,8 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
       a: "Vrundavan Ventures is built for everyone looking for a rental home: families searching for 2BHK/3BHK flats, working professionals seeking executive coliving or 1RK rooms, and students seeking verified hostels & PGs."
     },
     {
-      q: "Is there any brokerage or hidden agent commission?",
-      a: "Absolutely zero brokerage. You connect directly with the verified property owner or host via Phone or WhatsApp with 100% transparent pricing and direct deposit agreements."
+      q: "How does tenant and host communication work?",
+      a: "You connect directly with verified property owners and hosts via phone or WhatsApp with 100% transparent pricing and direct deposit agreements."
     },
     {
       q: "How does the 'Near Me' GPS feature find the closest rental properties?",
@@ -96,7 +96,7 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
             margin: '0 auto 28px auto',
             lineHeight: 1.65
           }}>
-            Explore verified paying guest coliving, 1RK furnished rental rooms, flats, and family houses across India. Zero brokerage, transparent deposits, and direct owner WhatsApp & phone connections.
+            Explore verified paying guest coliving, 1RK furnished rental rooms, flats, and family houses across India. Transparent deposits, verified hosts, and direct owner WhatsApp & phone connections.
           </p>
 
           {/* Quick Property Type Category Selector - Smooth Touch Scroll on Mobile */}
@@ -209,7 +209,7 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
               Why Home Seekers & Property Owners Choose Us
             </h2>
             <p>
-              Verified rental properties, zero broker commissions, and direct transparent communication.
+              Verified rental properties, direct host connect, and transparent communication.
             </p>
           </div>
 
@@ -264,7 +264,7 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
               }}>
                 <CheckCircle size={28} />
               </div>
-              <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '10px' }}>Zero Brokerage Direct</h3>
+              <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '10px' }}>Direct Owner Connect</h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>
                 Direct contact buttons for calling and WhatsApp messaging property hosts with standardized deposit refunds.
               </p>
@@ -475,7 +475,7 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
               Are You a Luxury Property Owner?
             </h2>
             <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto 25px auto', fontSize: '1rem', lineHeight: 1.7 }}>
-              List your PG with Vrundavan Ventures. Benefit from Google Maps instant address autofill, zero brokerage charges, and high-intent corporate and student tenants.
+              List your PG with Vrundavan Ventures. Benefit from Google Maps instant address autofill, verified tenant reach, and high-intent corporate and student guests.
             </p>
             <button 
               onClick={() => onNavigate('owner')}

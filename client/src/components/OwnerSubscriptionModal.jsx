@@ -160,7 +160,7 @@ export default function OwnerSubscriptionModal({
               margin: 0,
               lineHeight: 1.4
             }}>
-              Activate your verified listing dashboard with zero brokerage & direct tenant leads.
+              Activate your verified listing dashboard with direct tenant leads & priority ranking.
             </p>
           </div>
 
@@ -243,7 +243,7 @@ export default function OwnerSubscriptionModal({
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <CheckCircle2 size={14} color="#facc15" />
-              <span>0% Commission / ₹0 Brokerage</span>
+              <span>Direct Bookings & 100% Rent Retained</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <CheckCircle2 size={14} color="#facc15" />

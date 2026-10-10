@@ -158,7 +158,7 @@ export default function WelcomeRoleModal({ isOpen, onSelectRole }) {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', color: '#E2E8F0' }}>
                   <CheckCircle2 size={16} style={{ color: '#00D2B4', flexShrink: 0 }} />
-                  <span><strong>Zero Brokerage:</strong> 100% transparent pricing</span>
+                  <span><strong>Direct Connect:</strong> 100% transparent pricing</span>
                 </div>
               </div>
             </div>
@@ -236,7 +236,7 @@ export default function WelcomeRoleModal({ isOpen, onSelectRole }) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '28px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', color: '#E2E8F0' }}>
                   <CheckCircle2 size={16} style={{ color: '#D4AF37', flexShrink: 0 }} />
-                  <span><strong>0% Brokerage Commission:</strong> Keep 100% of your rent</span>
+                  <span><strong>Direct Tenant Rent:</strong> Keep 100% of your rent income</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', color: '#D4AF37', flexShrink: 0 }}>
                   <CheckCircle2 size={16} style={{ color: '#D4AF37', flexShrink: 0 }} />

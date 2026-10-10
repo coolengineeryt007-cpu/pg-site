@@ -332,6 +332,68 @@ export async function cancelOwnerSubscription(userId) {
   };
 }
 
+export async function getAllOwnerSubscriptions() {
+  const db = await getDB();
+  const owners = (db.users || []).filter(u => u.role === 'owner');
+
+  let totalRevenue = 0;
+  let activeMandates = 0;
+  let totalInvoices = 0;
+  const allInvoices = [];
+
+  const ownerSubscriptions = owners.map(o => {
+    const sub = o.subscription || {};
+    const invoices = Array.isArray(sub.invoices) ? sub.invoices : [];
+
+    if (sub.status === 'active' && sub.autopayEnabled) {
+      activeMandates++;
+    }
+
+    invoices.forEach(inv => {
+      totalRevenue += Number(inv.amount || 99);
+      totalInvoices++;
+      allInvoices.push({
+        ...inv,
+        ownerId: o.id,
+        ownerName: o.name,
+        ownerEmail: o.email,
+        ownerPhone: o.phone || '',
+        mandateId: inv.mandateId || sub.mandateId || 'MNDT-UPI-AUTO',
+        autopayMethod: inv.method || sub.autopayMethod || 'UPI Autopay',
+        planName: sub.planName || 'Prestige Host Partner Plan'
+      });
+    });
+
+    const now = new Date();
+    const daysRemaining = sub.nextBillingDate
+      ? Math.max(0, Math.ceil((new Date(sub.nextBillingDate) - now) / (1000 * 60 * 60 * 24)))
+      : 0;
+
+    return {
+      ownerId: o.id,
+      name: o.name,
+      email: o.email,
+      phone: o.phone,
+      joinedAt: o.createdAt,
+      subscription: {
+        ...sub,
+        daysRemaining
+      }
+    };
+  });
+
+  allInvoices.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+  return {
+    totalRevenue,
+    activeMandates,
+    totalOwners: owners.length,
+    totalInvoices,
+    ownerSubscriptions,
+    allInvoices
+  };
+}
+
 // 2. PGs
 export async function getAllPgs() {
   return readDB().pgs;
@@ -425,12 +487,26 @@ export async function getStats() {
   const inquiries = db.inquiries || [];
   const blogs = db.blogs || [];
 
+  const owners = users.filter(u => u.role === 'owner');
+  let totalRevenue = 0;
+  let activeMandates = 0;
+
+  owners.forEach(o => {
+    const sub = o.subscription || {};
+    if (sub.status === 'active' && sub.autopayEnabled) activeMandates++;
+    (sub.invoices || []).forEach(inv => {
+      totalRevenue += Number(inv.amount || 99);
+    });
+  });
+
   return {
     totalPgs: pgs.length,
     approvedPgs: pgs.filter(p => p.status === 'approved').length,
     pendingApprovals: pgs.filter(p => p.status === 'pending_review').length,
     draftPgs: pgs.filter(p => p.status === 'draft').length,
-    totalOwners: users.filter(u => u.role === 'owner').length,
+    totalOwners: owners.length,
+    activeMandates,
+    totalRevenue,
     totalInquiries: inquiries.length,
     totalBlogs: blogs.length,
     databaseEngine: 'JSON Store (Vercel Serverless Ready)'
