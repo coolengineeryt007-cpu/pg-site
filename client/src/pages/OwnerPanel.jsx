@@ -22,11 +22,14 @@ import {
   Phone,
   MessageCircle,
   TrendingUp,
-  Building
+  Building,
+  CreditCard,
+  RefreshCw
 } from 'lucide-react';
 import { api } from '../services/api';
 import LocationSearchBar from '../components/LocationSearchBar';
 import GoogleMapView from '../components/GoogleMapView';
+import OwnerSubscriptionModal from '../components/OwnerSubscriptionModal';
 import { reverseGeocodeCoords, getCurrentPosition, getIpLocation } from '../services/googleMaps';
 
 export default function OwnerPanel({ 
@@ -47,6 +50,10 @@ export default function OwnerPanel({
   const [editingPgId, setEditingPgId] = useState(null);
   const [listingFilter, setListingFilter] = useState('all'); // 'all', 'approved', 'pending_review', 'draft'
   const [detectingCurrentLocation, setDetectingCurrentLocation] = useState(false);
+  const [subscription, setSubscription] = useState(currentUser?.subscription || null);
+  const [subModalOpen, setSubModalOpen] = useState(false);
+  const [deductingAutopay, setDeductingAutopay] = useState(false);
+  const [receiptModalInvoice, setReceiptModalInvoice] = useState(null);
 
   // PG Add Form State
   const initialFormState = {
@@ -129,6 +136,13 @@ export default function OwnerPanel({
       if (currentUser?.id) {
         const inqRes = await api.getInquiries(currentUser?.id);
         setInquiries(inqRes || []);
+
+        try {
+          const subRes = await api.getSubscription(currentUser.id);
+          if (subRes) setSubscription(subRes);
+        } catch {
+          // Fallback to existing user subscription
+        }
       } else {
         // Preview inquiries for guest mode
         setInquiries([
@@ -378,6 +392,39 @@ export default function OwnerPanel({
     }
   };
 
+  const handleTriggerAutopayTest = async () => {
+    if (!currentUser?.id) return;
+    setDeductingAutopay(true);
+    try {
+      const res = await api.deductRecurringAutopay(currentUser.id);
+      setSubscription(res.subscription);
+      setMessage({
+        type: 'success',
+        text: res.message || '₹99 recurring autopay payment successfully deducted! Next cycle extended by 30 days.'
+      });
+      setTimeout(() => setMessage(null), 5000);
+    } catch (err) {
+      alert(err.message || 'Failed to trigger recurring deduction');
+    } finally {
+      setDeductingAutopay(false);
+    }
+  };
+
+  const handleCancelAutopay = async () => {
+    if (!window.confirm('Are you sure you want to cancel your ₹99/30-day autopay mandate? You will lose automatic listing promotion upon cycle expiry.')) return;
+    try {
+      const res = await api.cancelSubscription(currentUser.id);
+      setSubscription(res.subscription);
+      setMessage({
+        type: 'success',
+        text: res.message || 'Autopay mandate cancelled.'
+      });
+      setTimeout(() => setMessage(null), 5000);
+    } catch (err) {
+      alert(err.message || 'Failed to cancel autopay');
+    }
+  };
+
   const filteredPgs = pgs.filter(p => {
     if (listingFilter === 'all') return true;
     return p.status === listingFilter;
@@ -474,7 +521,23 @@ export default function OwnerPanel({
             )}
           </button>
 
-          <span className="admin-nav-section">Host Account</span>
+          <span className="admin-nav-section">Host Account & Billing</span>
+
+          <button 
+            onClick={() => { setActiveTab('subscription'); setSidebarOpen(false); }}
+            className={`admin-nav-btn ${activeTab === 'subscription' ? 'active' : ''}`}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <CreditCard size={18} style={{ color: '#facc15' }} />
+              <span>Subscription & Autopay</span>
+            </div>
+            <span 
+              className={`badge ${subscription?.status === 'active' ? 'badge-green' : 'badge-crimson'}`} 
+              style={{ fontSize: '0.65rem', padding: '2px 6px', fontWeight: 800 }}
+            >
+              {subscription?.status === 'active' ? 'Active' : '₹99 Due'}
+            </span>
+          </button>
 
           <button 
             onClick={() => { setActiveTab('profile'); setSidebarOpen(false); }}
@@ -551,6 +614,7 @@ export default function OwnerPanel({
                 {activeTab === 'listings' && 'Property Management'}
                 {activeTab === 'add' && (editingPgId ? 'Modify Property Listing' : 'Add New Accommodation')}
                 {activeTab === 'inquiries' && 'Tenant Inquiries & Leads'}
+                {activeTab === 'subscription' && 'Host Subscription & Autopay Management'}
                 {activeTab === 'profile' && 'Host Profile & Payment Settings'}
               </h1>
             </div>
@@ -576,6 +640,41 @@ export default function OwnerPanel({
             )}
           </div>
         </div>
+
+        {/* Subscription Pending Alert Banner for logged in hosts */}
+        {!isGuest && subscription && subscription.status !== 'active' && (
+          <div style={{
+            background: 'linear-gradient(90deg, rgba(234, 179, 8, 0.18) 0%, rgba(239, 68, 68, 0.18) 100%)',
+            border: '1.5px solid rgba(234, 179, 8, 0.45)',
+            borderRadius: 'var(--radius-md)',
+            padding: '16px 20px',
+            marginBottom: '24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '14px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <span style={{ fontSize: '1.8rem' }}>👑</span>
+              <div>
+                <h4 style={{ color: '#fff', fontSize: '1rem', fontWeight: 800, margin: '0 0 3px 0' }}>
+                  Host Partnership Subscription Required (₹99 One-Time + ₹99 Autopay)
+                </h4>
+                <p style={{ color: '#CBD5E1', fontSize: '0.86rem', margin: 0 }}>
+                  Complete your ₹99 activation to list properties, unlock verified host badges, and access student leads.
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => setSubModalOpen(true)}
+              className="btn btn-gold btn-sm"
+              style={{ fontWeight: 800, padding: '8px 16px' }}
+            >
+              Activate ₹99 Autopay Now
+            </button>
+          </div>
+        )}
 
         {/* Owner Guest Mode Notice Banner */}
         {isGuest && (
@@ -1542,7 +1641,286 @@ export default function OwnerPanel({
             </button>
           </div>
         )}
+        {/* TAB: SUBSCRIPTION & AUTOPAY */}
+        {activeTab === 'subscription' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', maxWidth: '980px' }}>
+            {/* Plan Status Banner */}
+            <div className="luxury-card" style={{
+              padding: '28px 32px',
+              background: 'linear-gradient(135deg, rgba(234, 179, 8, 0.12) 0%, rgba(15, 23, 42, 0.8) 100%)',
+              border: '1.5px solid rgba(234, 179, 8, 0.35)',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
+                <div>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '4px 12px', borderRadius: '999px', background: 'rgba(234, 179, 8, 0.15)', border: '1px solid rgba(234, 179, 8, 0.3)', color: '#facc15', fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '12px' }}>
+                    <ShieldCheck size={14} />
+                    Verified Host Partner Membership
+                  </div>
+                  <h2 style={{ fontSize: '24px', fontWeight: 800, color: '#ffffff', margin: '0 0 6px', fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
+                    {subscription?.planName || 'Prestige Host Partner Plan'}
+                  </h2>
+                  <p style={{ color: '#94a3b8', fontSize: '14px', margin: 0, maxWidth: '540px' }}>
+                    Recurring payment through NPCI e-Mandate: ₹99 auto-cut every 30 days for uninterrupted listing promotion and instant tenant leads.
+                  </p>
+                </div>
+
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 16px',
+                    borderRadius: '12px',
+                    background: subscription?.status === 'active' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(239, 68, 68, 0.15)',
+                    border: `1px solid ${subscription?.status === 'active' ? 'rgba(34, 197, 94, 0.4)' : 'rgba(239, 68, 68, 0.4)'}`,
+                    color: subscription?.status === 'active' ? '#4ade80' : '#f87171',
+                    fontSize: '13px',
+                    fontWeight: 800,
+                    textTransform: 'uppercase'
+                  }}>
+                    <span style={{
+                      width: '8px',
+                      height: '8px',
+                      borderRadius: '50%',
+                      background: subscription?.status === 'active' ? '#4ade80' : '#f87171',
+                      boxShadow: subscription?.status === 'active' ? '0 0 8px #4ade80' : 'none'
+                    }} />
+                    {subscription?.status === 'active' ? 'Active (Autopay Enabled)' : 'Activation Pending'}
+                  </div>
+                </div>
+              </div>
+
+              {/* Subscription Metrics Grid */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                gap: '16px',
+                marginTop: '24px',
+                paddingTop: '20px',
+                borderTop: '1px solid rgba(255, 255, 255, 0.08)'
+              }}>
+                <div style={{ background: 'rgba(0, 0, 0, 0.25)', padding: '14px 16px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                  <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700, marginBottom: '4px' }}>Initial Paid</div>
+                  <div style={{ fontSize: '20px', fontWeight: 800, color: '#facc15' }}>₹{subscription?.initialAmount || 99}</div>
+                  <div style={{ fontSize: '11px', color: '#64748b' }}>One-time activation</div>
+                </div>
+
+                <div style={{ background: 'rgba(0, 0, 0, 0.25)', padding: '14px 16px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                  <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700, marginBottom: '4px' }}>Next Autopay Cut</div>
+                  <div style={{ fontSize: '20px', fontWeight: 800, color: '#38bdf8' }}>₹{subscription?.recurringAmount || 99}</div>
+                  <div style={{ fontSize: '11px', color: '#64748b' }}>Every 30 days</div>
+                </div>
+
+                <div style={{ background: 'rgba(0, 0, 0, 0.25)', padding: '14px 16px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                  <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700, marginBottom: '4px' }}>Cycle Days Remaining</div>
+                  <div style={{ fontSize: '20px', fontWeight: 800, color: '#4ade80' }}>{subscription?.daysRemaining ?? 30} Days</div>
+                  <div style={{ fontSize: '11px', color: '#64748b' }}>Next: {subscription?.nextBillingDate ? new Date(subscription.nextBillingDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'In 30 days'}</div>
+                </div>
+
+                <div style={{ background: 'rgba(0, 0, 0, 0.25)', padding: '14px 16px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                  <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700, marginBottom: '4px' }}>e-Mandate Reference</div>
+                  <div style={{ fontSize: '13px', fontWeight: 800, color: '#e2e8f0', fontFamily: 'monospace', wordBreak: 'break-all' }}>
+                    {subscription?.mandateId || 'MNDT-UPI-AUTOPAY'}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#64748b' }}>{subscription?.autopayMethod || 'UPI Autopay'}</div>
+                </div>
+              </div>
+
+              {/* Action Buttons for Testing / Managing Autopay */}
+              <div style={{ display: 'flex', gap: '12px', marginTop: '20px', flexWrap: 'wrap' }}>
+                {subscription?.status === 'active' ? (
+                  <>
+                    <button
+                      onClick={handleTriggerAutopayTest}
+                      disabled={deductingAutopay}
+                      className="btn btn-gold btn-sm"
+                      style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                    >
+                      <RefreshCw size={15} style={{ animation: deductingAutopay ? 'spin 1s linear infinite' : 'none' }} />
+                      {deductingAutopay ? 'Processing ₹99 Autopay Deduction...' : '⚡ Test 30-Day Autopay Deduction (₹99)'}
+                    </button>
+
+                    <button
+                      onClick={handleCancelAutopay}
+                      className="btn btn-outline-crimson btn-sm"
+                      style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                    >
+                      Cancel Mandate
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => setSubModalOpen(true)}
+                    className="btn btn-gold"
+                    style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', fontSize: '14px' }}
+                  >
+                    <ShieldCheck size={18} />
+                    Authorize ₹99 & Enable Autopay Now
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Invoices and Payment History Table */}
+            <div className="luxury-card" style={{ padding: '28px 32px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <div>
+                  <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#ffffff', margin: '0 0 4px' }}>
+                    Payment & Autopay Invoices
+                  </h3>
+                  <p style={{ fontSize: '13px', color: '#94a3b8', margin: 0 }}>
+                    Official receipts for initial ₹99 host activation and ₹99 recurring coliving promotion.
+                  </p>
+                </div>
+              </div>
+
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', color: '#94a3b8' }}>
+                      <th style={{ padding: '10px 14px' }}>Invoice ID</th>
+                      <th style={{ padding: '10px 14px' }}>Date</th>
+                      <th style={{ padding: '10px 14px' }}>Description</th>
+                      <th style={{ padding: '10px 14px' }}>Payment Mode</th>
+                      <th style={{ padding: '10px 14px' }}>Amount</th>
+                      <th style={{ padding: '10px 14px' }}>Status</th>
+                      <th style={{ padding: '10px 14px', textAlign: 'right' }}>Receipt</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(subscription?.invoices || []).map((inv) => (
+                      <tr key={inv.id} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                        <td style={{ padding: '12px 14px', fontFamily: 'monospace', fontWeight: 700, color: '#facc15' }}>
+                          {inv.id}
+                        </td>
+                        <td style={{ padding: '12px 14px', color: '#cbd5e1' }}>
+                          {new Date(inv.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        </td>
+                        <td style={{ padding: '12px 14px', color: '#ffffff', fontWeight: 600 }}>
+                          {inv.description}
+                        </td>
+                        <td style={{ padding: '12px 14px', color: '#94a3b8' }}>
+                          {inv.method || 'UPI Autopay'}
+                        </td>
+                        <td style={{ padding: '12px 14px', color: '#facc15', fontWeight: 800, fontSize: '14px' }}>
+                          ₹{inv.amount}
+                        </td>
+                        <td style={{ padding: '12px 14px' }}>
+                          <span className="badge badge-green" style={{ fontSize: '11px', textTransform: 'uppercase' }}>
+                            {inv.status || 'Paid'}
+                          </span>
+                        </td>
+                        <td style={{ padding: '12px 14px', textAlign: 'right' }}>
+                          <button
+                            onClick={() => setReceiptModalInvoice(inv)}
+                            className="btn btn-outline-gold btn-sm"
+                            style={{ fontSize: '11px', padding: '4px 10px' }}
+                          >
+                            View Receipt
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
+
+      {/* RECEIPT VIEW MODAL */}
+      {receiptModalInvoice && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 999999,
+          background: 'rgba(2, 6, 23, 0.9)',
+          backdropFilter: 'blur(16px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px'
+        }}>
+          <div style={{
+            background: '#0f172a',
+            border: '1px solid rgba(234, 179, 8, 0.3)',
+            borderRadius: '20px',
+            maxWidth: '520px',
+            width: '100%',
+            padding: '28px',
+            boxShadow: '0 25px 60px rgba(0,0,0,0.8)'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '14px', marginBottom: '20px' }}>
+              <div>
+                <span className="gold-gradient-text font-serif" style={{ fontSize: '1.2rem', fontWeight: 800 }}>
+                  VRUNDAVAN VENTURES
+                </span>
+                <div style={{ fontSize: '11px', color: '#94a3b8' }}>TAX INVOICE & AUTOPAY RECEIPT</div>
+              </div>
+              <button onClick={() => setReceiptModalInvoice(null)} className="btn btn-ghost btn-sm">
+                <X size={18} />
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#cbd5e1', marginBottom: '16px' }}>
+              <div>
+                <div><strong>Invoice #:</strong> {receiptModalInvoice.id}</div>
+                <div><strong>Date:</strong> {new Date(receiptModalInvoice.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <div><strong>Host:</strong> {currentUser?.name || 'Property Host'}</div>
+                <div><strong>e-Mandate:</strong> {receiptModalInvoice.mandateId}</div>
+              </div>
+            </div>
+
+            <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '12px', padding: '16px', marginBottom: '20px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', marginBottom: '8px' }}>
+                <span style={{ color: '#fff' }}>{receiptModalInvoice.description}</span>
+                <span style={{ color: '#facc15', fontWeight: 800 }}>₹{receiptModalInvoice.amount}.00</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#94a3b8' }}>
+                <span>Payment Mode</span>
+                <span>{receiptModalInvoice.method || 'UPI Autopay'}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#94a3b8', marginTop: '4px' }}>
+                <span>Transaction Ref</span>
+                <span style={{ fontFamily: 'monospace' }}>{receiptModalInvoice.transactionRef || 'TXN-998822'}</span>
+              </div>
+              <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', marginTop: '12px', paddingTop: '10px', display: 'flex', justifyContent: 'space-between', fontSize: '16px', fontWeight: 800 }}>
+                <span style={{ color: '#fff' }}>Total Paid</span>
+                <span style={{ color: '#facc15' }}>₹{receiptModalInvoice.amount}.00</span>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+              <button onClick={() => window.print()} className="btn btn-gold btn-sm">
+                Print / Save Receipt
+              </button>
+              <button onClick={() => setReceiptModalInvoice(null)} className="btn btn-ghost btn-sm">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* OWNER SUBSCRIPTION MODAL */}
+      <OwnerSubscriptionModal
+        isOpen={subModalOpen}
+        onClose={() => setSubModalOpen(false)}
+        currentUser={currentUser}
+        onSuccess={(updatedSub) => {
+          setSubscription(updatedSub);
+          setMessage({
+            type: 'success',
+            text: '🎉 Host Partnership Activated! ₹99 initial paid and ₹99/30-day recurring autopay configured.'
+          });
+          setTimeout(() => setMessage(null), 5000);
+        }}
+      />
     </div>
   );
 }

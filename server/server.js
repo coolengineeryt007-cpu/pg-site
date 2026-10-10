@@ -19,6 +19,12 @@ import {
   getInquiries,
   getReviews,
   getStats,
+  getUserById,
+  getUserSubscription,
+  updateUserSubscription,
+  activateOwnerSubscription,
+  triggerRecurringAutopayDeduction,
+  cancelOwnerSubscription,
   calculateDistanceKm
 } from './data/store.js';
 
@@ -273,6 +279,13 @@ app.post('/api/auth/login', async (req, res) => {
 
     // Remove password from response
     const { password: _, ...userWithoutPassword } = user;
+
+    // Attach latest subscription status for owners
+    if (user.role === 'owner') {
+      const sub = await getUserSubscription(user.id);
+      userWithoutPassword.subscription = sub;
+    }
+
     const token = `token-${user.id}-${Date.now()}`;
 
     res.json({
@@ -305,7 +318,17 @@ app.post('/api/auth/register', async (req, res) => {
       password,
       role: role === 'superadmin' ? 'owner' : role, // superadmins are pre-created
       phone: phone || '',
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      subscription: role === 'owner' ? {
+        status: 'pending_payment',
+        planId: 'owner_partner_autopay',
+        initialAmount: 99,
+        recurringAmount: 99,
+        currency: 'INR',
+        currencySymbol: '₹',
+        billingCycleDays: 30,
+        autopayEnabled: false
+      } : null
     };
 
     await createUser(newUser);
@@ -699,6 +722,78 @@ app.get('/api/stats', async (req, res) => {
   } catch (error) {
     console.error('Get stats error:', error);
     res.status(500).json({ error: 'Failed to retrieve stats' });
+  }
+});
+
+// OWNER PARTNER SUBSCRIPTION & RECURRING AUTOPAY ROUTES
+app.get('/api/subscription/config', (req, res) => {
+  res.json({
+    initialAmount: 99,
+    recurringAmount: 99,
+    billingCycleDays: 30,
+    currency: 'INR',
+    currencySymbol: '₹',
+    mode: 'functional_sandbox',
+    supportedMethods: [
+      { id: 'upi_autopay', name: 'UPI Autopay (GPay, PhonePe, Paytm, BHIM)', recommended: true },
+      { id: 'card_mandate', name: 'Debit / Credit Card e-Mandate (Visa, Mastercard, RuPay)', recommended: false },
+      { id: 'netbanking_mandate', name: 'Net Banking e-Mandate (HDFC, ICICI, SBI, Axis)', recommended: false }
+    ]
+  });
+});
+
+app.get('/api/subscription/:userId', async (req, res) => {
+  try {
+    const sub = await getUserSubscription(req.params.userId);
+    if (!sub) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(sub);
+  } catch (err) {
+    console.error('Get subscription error:', err);
+    res.status(500).json({ error: 'Failed to retrieve subscription' });
+  }
+});
+
+app.post('/api/subscription/activate', async (req, res) => {
+  try {
+    const { userId, paymentMethod, upiId, amount = 99, recurringAmount = 99 } = req.body;
+    if (!userId) {
+      return res.status(400).json({ error: 'userId is required' });
+    }
+    const result = await activateOwnerSubscription(userId, { paymentMethod, upiId, amount, recurringAmount });
+    res.json(result);
+  } catch (err) {
+    console.error('Activate subscription error:', err);
+    res.status(500).json({ error: err.message || 'Failed to activate subscription' });
+  }
+});
+
+app.post('/api/subscription/recurring-deduct', async (req, res) => {
+  try {
+    const { userId } = req.body;
+    if (!userId) {
+      return res.status(400).json({ error: 'userId is required' });
+    }
+    const result = await triggerRecurringAutopayDeduction(userId);
+    res.json(result);
+  } catch (err) {
+    console.error('Recurring autopay error:', err);
+    res.status(500).json({ error: err.message || 'Failed to process recurring autopay deduction' });
+  }
+});
+
+app.post('/api/subscription/cancel', async (req, res) => {
+  try {
+    const { userId } = req.body;
+    if (!userId) {
+      return res.status(400).json({ error: 'userId is required' });
+    }
+    const result = await cancelOwnerSubscription(userId);
+    res.json(result);
+  } catch (err) {
+    console.error('Cancel autopay error:', err);
+    res.status(500).json({ error: err.message || 'Failed to cancel autopay mandate' });
   }
 });
 

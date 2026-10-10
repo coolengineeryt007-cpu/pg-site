@@ -144,5 +144,51 @@ export const api = {
     });
     if (!res.ok) throw new Error('Failed to communicate with AI Concierge');
     return res.json();
+  },
+
+  // Owner Partner Subscription & Recurring Autopay
+  async getSubscriptionConfig() {
+    const res = await fetch(`${API_BASE}/subscription/config`);
+    if (!res.ok) throw new Error('Failed to load subscription configuration');
+    return res.json();
+  },
+
+  async getSubscription(userId) {
+    const res = await fetch(`${API_BASE}/subscription/${userId}`);
+    if (!res.ok) throw new Error('Failed to retrieve subscription status');
+    return res.json();
+  },
+
+  async activateSubscription(payload) {
+    const res = await fetch(`${API_BASE}/subscription/activate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to activate subscription');
+    return data;
+  },
+
+  async deductRecurringAutopay(userId) {
+    const res = await fetch(`${API_BASE}/subscription/recurring-deduct`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to process recurring autopay deduction');
+    return data;
+  },
+
+  async cancelSubscription(userId) {
+    const res = await fetch(`${API_BASE}/subscription/cancel`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to cancel subscription');
+    return data;
   }
 };

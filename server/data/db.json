@@ -7,7 +7,8 @@
       "password": "User@123",
       "role": "tenant",
       "phone": "+91 91234 56789",
-      "createdAt": "2025-02-01T10:00:00.000Z"
+      "createdAt": "2025-02-01T10:00:00.000Z",
+      "subscription": null
     },
     {
       "id": "usr-owner-2",
@@ -16,7 +17,49 @@
       "password": "Owner@123",
       "role": "owner",
       "phone": "+91 98111 87654",
-      "createdAt": "2025-01-15T10:00:00.000Z"
+      "createdAt": "2025-01-15T10:00:00.000Z",
+      "subscription": {
+        "status": "active",
+        "planId": "owner_partner_autopay",
+        "planName": "Prestige Host Partner Plan",
+        "initialAmount": 99,
+        "recurringAmount": 99,
+        "currency": "INR",
+        "currencySymbol": "₹",
+        "billingCycleDays": 30,
+        "autopayEnabled": true,
+        "autopayMethod": "UPI Autopay (GPAY)",
+        "upiId": "priya@okaxis",
+        "mandateId": "MNDT-UPI-262952",
+        "transactionRef": "TXN-ACT-262952",
+        "startedAt": "2026-10-10T10:31:02.952Z",
+        "lastPaymentDate": "2026-10-10T10:31:40.861Z",
+        "nextBillingDate": "2026-12-09T10:31:02.952Z",
+        "invoices": [
+          {
+            "id": "INV-0861",
+            "amount": 99,
+            "type": "recurring_autopay",
+            "description": "30-Day Coliving Listing Maintenance (Autopay)",
+            "method": "UPI Autopay (GPAY)",
+            "mandateId": "MNDT-UPI-262952",
+            "transactionRef": "TXN-REC-300861",
+            "date": "2026-10-10T10:31:40.861Z",
+            "status": "paid"
+          },
+          {
+            "id": "INV-2952",
+            "amount": 99,
+            "type": "initial_activation",
+            "description": "Host Partner Initial Activation + 30-Day Pass",
+            "method": "UPI Autopay (GPAY)",
+            "mandateId": "MNDT-UPI-262952",
+            "transactionRef": "TXN-ACT-262952",
+            "date": "2026-10-10T10:31:02.952Z",
+            "status": "paid"
+          }
+        ]
+      }
     },
     {
       "id": "usr-owner-1",
@@ -25,7 +68,60 @@
       "password": "Owner@123",
       "role": "owner",
       "phone": "+91 98765 43210",
-      "createdAt": "2025-01-10T10:00:00.000Z"
+      "createdAt": "2025-01-10T10:00:00.000Z",
+      "subscription": {
+        "status": "active",
+        "planId": "owner_partner_autopay",
+        "planName": "Prestige Host Partner Plan",
+        "initialAmount": 99,
+        "recurringAmount": 99,
+        "currency": "INR",
+        "currencySymbol": "₹",
+        "billingCycleDays": 30,
+        "autopayEnabled": true,
+        "autopayMethod": "UPI Autopay (GPay)",
+        "upiId": "rajesh@okhdfcbank",
+        "mandateId": "MNDT-UPI-9930-8192",
+        "transactionRef": "TXN-ACT-819273",
+        "startedAt": "2026-09-20T10:00:00.000Z",
+        "lastPaymentDate": "2026-10-10T10:57:03.992Z",
+        "nextBillingDate": "2026-12-09T09:00:00.000Z",
+        "invoices": [
+          {
+            "id": "INV-3992",
+            "amount": 99,
+            "type": "recurring_autopay",
+            "description": "30-Day Coliving Listing Maintenance (Autopay)",
+            "method": "UPI Autopay (GPay)",
+            "mandateId": "MNDT-UPI-9930-8192",
+            "transactionRef": "TXN-REC-823992",
+            "date": "2026-10-10T10:57:03.992Z",
+            "status": "paid"
+          },
+          {
+            "id": "INV-1002",
+            "amount": 99,
+            "type": "recurring_autopay",
+            "description": "30-Day Coliving Listing Maintenance (Autopay)",
+            "method": "UPI Autopay (GPay)",
+            "mandateId": "MNDT-UPI-9930-8192",
+            "transactionRef": "TXN-REC-928174",
+            "date": "2026-10-10T09:00:00.000Z",
+            "status": "paid"
+          },
+          {
+            "id": "INV-1001",
+            "amount": 99,
+            "type": "initial_activation",
+            "description": "Host Partner Initial Activation + 30-Day Pass",
+            "method": "UPI Autopay (GPay)",
+            "mandateId": "MNDT-UPI-9930-8192",
+            "transactionRef": "TXN-ACT-819273",
+            "date": "2026-09-20T10:00:00.000Z",
+            "status": "paid"
+          }
+        ]
+      }
     },
     {
       "id": "usr-super-2",
@@ -34,7 +130,8 @@
       "password": "Super@123",
       "role": "superadmin",
       "phone": "+91 99999 22222",
-      "createdAt": "2025-01-05T10:00:00.000Z"
+      "createdAt": "2025-01-05T10:00:00.000Z",
+      "subscription": null
     },
     {
       "id": "usr-super-1",
@@ -43,7 +140,8 @@
       "password": "Super@123",
       "role": "superadmin",
       "phone": "+91 99999 11111",
-      "createdAt": "2025-01-01T10:00:00.000Z"
+      "createdAt": "2025-01-01T10:00:00.000Z",
+      "subscription": null
     }
   ],
   "pgs": [

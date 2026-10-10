@@ -126,6 +126,212 @@ export async function createUser(user) {
   return user;
 }
 
+export async function getUserById(id) {
+  if (!id) return null;
+  const db = readDB();
+  return db.users.find(u => u.id === id) || null;
+}
+
+export async function updateUserSubscription(userId, subscription) {
+  if (!userId) return null;
+  const db = readDB();
+  const u = db.users.find(user => user.id === userId);
+  if (u) {
+    u.subscription = subscription;
+    writeDB(db);
+  }
+  return subscription;
+}
+
+export async function getUserSubscription(userId) {
+  const user = await getUserById(userId);
+  if (!user) return null;
+
+  if (user.role !== 'owner') {
+    return {
+      status: 'exempt',
+      role: user.role,
+      message: 'Subscription is only required for Property Hosts/Owners'
+    };
+  }
+
+  let sub = user.subscription;
+  if (!sub || !sub.status) {
+    return {
+      status: 'pending_payment',
+      planId: 'owner_partner_autopay',
+      initialAmount: 99,
+      recurringAmount: 99,
+      currency: 'INR',
+      currencySymbol: '₹',
+      billingCycleDays: 30,
+      autopayEnabled: false,
+      message: 'Initial Host Partner Activation of ₹99 required with 30-day recurring autopay (₹99).'
+    };
+  }
+
+  // Check 30-day autopay auto-cut condition
+  const now = new Date();
+  if (sub.status === 'active' && sub.autopayEnabled && sub.nextBillingDate) {
+    const nextDate = new Date(sub.nextBillingDate);
+    if (now >= nextDate) {
+      console.log(`⚡ [AUTOPAY] 30 days elapsed for owner ${userId}. Auto-cutting ₹${sub.recurringAmount || 99} via ${sub.autopayMethod || 'UPI Autopay'}...`);
+      const invId = `INV-${Date.now().toString().slice(-4)}`;
+      const recurringInvoice = {
+        id: invId,
+        amount: sub.recurringAmount || 99,
+        type: 'recurring_autopay',
+        description: '30-Day Coliving Listing Maintenance (Autopay)',
+        method: sub.autopayMethod || 'UPI Autopay',
+        mandateId: sub.mandateId || 'MNDT-UPI-AUTO',
+        transactionRef: `TXN-REC-${Date.now().toString().slice(-6)}`,
+        date: now.toISOString(),
+        status: 'paid'
+      };
+
+      sub.invoices = [recurringInvoice, ...(sub.invoices || [])];
+      sub.lastPaymentDate = now.toISOString();
+      sub.nextBillingDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString();
+      await updateUserSubscription(userId, sub);
+    }
+  }
+
+  const daysRemaining = sub.nextBillingDate
+    ? Math.max(0, Math.ceil((new Date(sub.nextBillingDate) - now) / (1000 * 60 * 60 * 24)))
+    : 0;
+
+  return {
+    ...sub,
+    daysRemaining
+  };
+}
+
+export async function activateOwnerSubscription(userId, details = {}) {
+  const user = await getUserById(userId);
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  const now = new Date();
+  const nextBilling = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+  const mandateId = `MNDT-UPI-${Date.now().toString().slice(-6)}`;
+  const transactionRef = `TXN-ACT-${Date.now().toString().slice(-6)}`;
+  const invoiceId = `INV-${Date.now().toString().slice(-4)}`;
+  const initialAmount = Number(details.amount || 99);
+  const recurringAmount = Number(details.recurringAmount || 99);
+  const method = details.paymentMethod || 'UPI Autopay';
+
+  const subscription = {
+    status: 'active',
+    planId: 'owner_partner_autopay',
+    planName: 'Prestige Host Partner Plan',
+    initialAmount,
+    recurringAmount,
+    currency: 'INR',
+    currencySymbol: '₹',
+    billingCycleDays: 30,
+    autopayEnabled: true,
+    autopayMethod: method,
+    upiId: details.upiId || 'owner@okhdfcbank',
+    mandateId,
+    transactionRef,
+    startedAt: now.toISOString(),
+    lastPaymentDate: now.toISOString(),
+    nextBillingDate: nextBilling.toISOString(),
+    invoices: [
+      {
+        id: invoiceId,
+        amount: initialAmount,
+        type: 'initial_activation',
+        description: 'Host Partner Initial Activation + 30-Day Pass',
+        method,
+        mandateId,
+        transactionRef,
+        date: now.toISOString(),
+        status: 'paid'
+      }
+    ]
+  };
+
+  await updateUserSubscription(userId, subscription);
+
+  return {
+    success: true,
+    message: '₹99 Initial Payment & ₹30/month Autopay Mandate Authorized Successfully!',
+    subscription: {
+      ...subscription,
+      daysRemaining: 30
+    }
+  };
+}
+
+export async function triggerRecurringAutopayDeduction(userId) {
+  const user = await getUserById(userId);
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  let sub = user.subscription;
+  if (!sub || sub.status !== 'active') {
+    throw new Error('Cannot process recurring deduction: No active subscription found');
+  }
+
+  const now = new Date();
+  const invId = `INV-${Date.now().toString().slice(-4)}`;
+  const recurringAmount = sub.recurringAmount || 99;
+  const recurringInvoice = {
+    id: invId,
+    amount: recurringAmount,
+    type: 'recurring_autopay',
+    description: '30-Day Coliving Listing Maintenance (Autopay)',
+    method: sub.autopayMethod || 'UPI Autopay',
+    mandateId: sub.mandateId || `MNDT-UPI-${Date.now().toString().slice(-6)}`,
+    transactionRef: `TXN-REC-${Date.now().toString().slice(-6)}`,
+    date: now.toISOString(),
+    status: 'paid'
+  };
+
+  sub.invoices = [recurringInvoice, ...(sub.invoices || [])];
+  sub.lastPaymentDate = now.toISOString();
+  const baseDate = sub.nextBillingDate && new Date(sub.nextBillingDate) > now
+    ? new Date(sub.nextBillingDate)
+    : now;
+  sub.nextBillingDate = new Date(baseDate.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString();
+  sub.status = 'active';
+
+  await updateUserSubscription(userId, sub);
+
+  const daysRemaining = Math.max(0, Math.ceil((new Date(sub.nextBillingDate) - now) / (1000 * 60 * 60 * 24)));
+
+  return {
+    success: true,
+    message: `₹${recurringAmount} recurring autopay payment successfully deducted! Next deduction scheduled in 30 days.`,
+    subscription: {
+      ...sub,
+      daysRemaining
+    }
+  };
+}
+
+export async function cancelOwnerSubscription(userId) {
+  const user = await getUserById(userId);
+  if (!user || !user.subscription) {
+    throw new Error('Subscription not found');
+  }
+
+  user.subscription.autopayEnabled = false;
+  user.subscription.status = 'cancelled';
+  user.subscription.cancelledAt = new Date().toISOString();
+
+  await updateUserSubscription(userId, user.subscription);
+
+  return {
+    success: true,
+    message: 'Autopay mandate cancelled. Your access will remain active until the end of your current 30-day billing cycle.',
+    subscription: user.subscription
+  };
+}
+
 // 2. PGs
 export async function getAllPgs() {
   return readDB().pgs;

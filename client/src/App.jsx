@@ -18,6 +18,7 @@ import BlogDetail from './pages/BlogDetail';
 import Legal from './pages/Legal';
 import LockedPageGate from './components/LockedPageGate';
 import AiConciergeModal from './components/AiConciergeModal';
+import OwnerSubscriptionModal from './components/OwnerSubscriptionModal';
 import { Lock, LogIn } from 'lucide-react';
 
 import { api } from './services/api';
@@ -115,6 +116,8 @@ export default function App() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalRole, setAuthModalRole] = useState('owner');
   const [aiModalOpen, setAiModalOpen] = useState(false);
+  const [subscriptionModalOpen, setSubscriptionModalOpen] = useState(false);
+  const [subscriptionPendingUser, setSubscriptionPendingUser] = useState(null);
 
   // Load initial approved PGs for exploration
   useEffect(() => {
@@ -280,7 +283,12 @@ export default function App() {
       navigateTo('/superadmin', 'superadmin');
     } else if (user.role === 'owner') {
       setUserRoleMode('owner');
-      navigateTo('/owner', 'owner');
+      if (!user.subscription || user.subscription.status !== 'active') {
+        setSubscriptionPendingUser(user);
+        setSubscriptionModalOpen(true);
+      } else {
+        navigateTo('/owner', 'owner');
+      }
     }
   };
 
@@ -657,6 +665,27 @@ export default function App() {
         isOpen={aiModalOpen}
         onClose={() => setAiModalOpen(false)}
         onSelectPg={handleSelectPg}
+      />
+
+      {/* Host Partner Subscription & Autopay Modal */}
+      <OwnerSubscriptionModal
+        isOpen={subscriptionModalOpen}
+        onClose={() => setSubscriptionModalOpen(false)}
+        currentUser={subscriptionPendingUser || currentUser}
+        onSuccess={(updatedSub) => {
+          const activeUser = subscriptionPendingUser || currentUser;
+          if (activeUser) {
+            const updated = { ...activeUser, subscription: updatedSub };
+            setCurrentUser(updated);
+            try {
+              localStorage.setItem('vv_user', JSON.stringify(updated));
+            } catch {}
+          }
+          setSubscriptionModalOpen(false);
+          setSubscriptionPendingUser(null);
+          setUserRoleMode('owner');
+          navigateTo('/owner', 'owner');
+        }}
       />
     </div>
   );
