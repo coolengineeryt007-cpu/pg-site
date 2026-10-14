@@ -26,13 +26,13 @@ export default function Footer({ onNavigate }) {
                 src="/logo.png" 
                 alt="Vrundavan Ventures" 
                 style={{ 
-                  height: '68px', 
-                  width: '68px', 
-                  borderRadius: '50%',
-                  objectFit: 'cover',
-                  border: '2px solid rgba(212, 175, 55, 0.85)',
-                  boxShadow: '0 0 18px rgba(212, 175, 55, 0.5)',
-                  display: 'block'
+                  height: '64px', 
+                  width: 'auto', 
+                  maxHeight: '64px',
+                  maxWidth: '280px',
+                  objectFit: 'contain',
+                  display: 'block',
+                  filter: 'drop-shadow(0 2px 10px rgba(0, 0, 0, 0.45))'
                 }} 
               />
             </div>

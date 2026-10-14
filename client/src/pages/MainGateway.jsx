@@ -45,11 +45,11 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
 
       {/* 1. Header with Brand Emblem */}
       <header style={{
-        padding: '24px 0',
-        borderBottom: '1px solid rgba(14, 116, 237, 0.2)',
-        background: 'rgba(4, 13, 33, 0.75)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
+        padding: '14px 0',
+        borderBottom: '1px solid rgba(212, 175, 55, 0.25)',
+        background: 'rgba(4, 13, 33, 0.88)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         position: 'relative',
         zIndex: 10
       }}>
@@ -67,12 +67,12 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
               alt="Vrundavan Ventures" 
               style={{ 
                 height: '74px', 
-                width: '74px', 
-                borderRadius: '50%',
-                objectFit: 'cover',
-                border: '2.5px solid rgba(212, 175, 55, 0.85)',
-                boxShadow: '0 0 22px rgba(212, 175, 55, 0.55)',
-                display: 'block'
+                width: 'auto', 
+                maxHeight: '74px',
+                maxWidth: '320px',
+                objectFit: 'contain',
+                display: 'block',
+                filter: 'drop-shadow(0 4px 16px rgba(0, 0, 0, 0.6))'
               }} 
             />
           </div>

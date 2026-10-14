@@ -89,20 +89,20 @@ export default function OwnerLanding({
         boxShadow: '0 8px 30px rgba(0, 0, 0, 0.6)'
       }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <img 
               src="/logo.png" 
               alt="Vrundavan Ventures" 
-              style={{ width: '42px', height: '42px', borderRadius: '50%', border: '1.5px solid var(--gold-primary)', objectFit: 'cover' }}
+              style={{ 
+                height: '62px', 
+                width: 'auto', 
+                maxHeight: '62px',
+                maxWidth: '280px',
+                objectFit: 'contain',
+                display: 'block',
+                filter: 'drop-shadow(0 2px 10px rgba(0, 0, 0, 0.45))'
+              }} 
             />
-            <div>
-              <span className="gold-gradient-text font-serif" style={{ fontSize: '1.15rem', fontWeight: 800, display: 'block', lineHeight: 1.1 }}>
-                HOST & LANDLORD PORTAL
-              </span>
-              <span style={{ fontSize: '0.65rem', color: '#94A3B8', letterSpacing: '0.12em', fontWeight: 600 }}>
-                VRUNDAVAN VENTURES
-              </span>
-            </div>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>

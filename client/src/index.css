@@ -457,12 +457,12 @@ h1, h2, h3, h4, h5, h6, .section-title {
   position: sticky;
   top: 0;
   z-index: 99990 !important;
-  background: rgba(4, 13, 33, 0.96);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(14, 116, 237, 0.25);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-  padding: 8px 0;
+  background: rgba(4, 13, 33, 0.94);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.22);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+  padding: 10px 0;
   transition: all var(--transition-normal);
 }
 
@@ -470,7 +470,8 @@ h1, h2, h3, h4, h5, h6, .section-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 18px;
+  min-height: 64px;
 }
 
 .brand-logo {

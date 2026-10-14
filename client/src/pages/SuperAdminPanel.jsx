@@ -104,28 +104,31 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
       {/* 1. SUPER ADMIN LUXURY SIDEBAR */}
       <aside className={`admin-sidebar ${sidebarOpen ? 'open' : ''}`}>
         {/* Brand Header */}
-        <div className="admin-sidebar-brand">
+        <div className="admin-sidebar-brand" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '8px', padding: '18px 20px' }}>
           <img 
             src="/logo.png" 
             alt="Vrundavan Ventures" 
             style={{ 
-              height: '42px', 
-              width: '42px', 
-              borderRadius: '50%',
-              objectFit: 'cover',
-              border: '1.5px solid rgba(212, 175, 55, 0.75)',
-              boxShadow: '0 0 10px rgba(212, 175, 55, 0.4)',
+              height: '46px', 
+              width: 'auto', 
+              maxWidth: '220px',
+              objectFit: 'contain',
               display: 'block'
             }} 
           />
-          <div>
-            <span className="gold-gradient-text font-serif" style={{ fontSize: '1.15rem', fontWeight: 800, display: 'block', lineHeight: 1.1 }}>
-              SUPER ADMIN
-            </span>
-            <span style={{ fontSize: '0.65rem', color: '#F87171', letterSpacing: '0.15em', fontWeight: 700 }}>
-              VRUNDAVAN VENTURES
-            </span>
-          </div>
+          <span style={{ 
+            fontSize: '0.66rem', 
+            letterSpacing: '0.12em', 
+            fontWeight: 700, 
+            color: '#F87171',
+            textTransform: 'uppercase',
+            padding: '2px 8px',
+            background: 'rgba(239, 68, 68, 0.1)',
+            borderRadius: '4px',
+            border: '1px solid rgba(239, 68, 68, 0.25)'
+          }}>
+            Super Admin Command
+          </span>
         </div>
 
         {/* Navigation Items */}
@@ -1095,9 +1098,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '14px', marginBottom: '20px' }}>
                     <div>
-                      <span className="gold-gradient-text font-serif" style={{ fontSize: '1.2rem', fontWeight: 800 }}>
-                        VRUNDAVAN VENTURES
-                      </span>
+                      <img src="/logo.png" alt="Vrundavan Ventures" style={{ height: '30px', width: 'auto', display: 'block', marginBottom: '6px', objectFit: 'contain' }} />
                       <div style={{ fontSize: '11px', color: '#94a3b8' }}>TAX INVOICE & NPCI AUTOPAY RECEIPT</div>
                     </div>
                     <button onClick={() => setSelectedReceiptInvoice(null)} className="btn btn-ghost btn-sm">
