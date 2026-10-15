@@ -1,53 +1,39 @@
 import React from 'react';
 import { 
-  Home as HomeIcon,
-  Building2, 
-  CheckCircle2, 
+  Users,
+  Home as HomeIcon, 
   ArrowRight, 
-  Sparkles,
-  Zap,
-  Crown,
-  Compass,
-  PlusCircle,
   PhoneCall
 } from 'lucide-react';
 
 export default function MainGateway({ onSelectStudent, onSelectOwner }) {
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      background: 'var(--bg-primary)',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
+    <div className="gateway-page-container">
       {/* Background Ambient Radial Glows */}
       <div style={{
         position: 'absolute',
         top: '-10%',
         left: '20%',
-        width: '650px',
-        height: '450px',
-        background: 'radial-gradient(circle, rgba(14, 116, 237, 0.22) 0%, transparent 65%)',
+        width: '500px',
+        height: '350px',
+        background: 'radial-gradient(circle, rgba(14, 116, 237, 0.16) 0%, transparent 65%)',
         pointerEvents: 'none'
       }} />
       <div style={{
         position: 'absolute',
         bottom: '5%',
         right: '15%',
-        width: '650px',
-        height: '450px',
-        background: 'radial-gradient(circle, rgba(212, 175, 55, 0.16) 0%, transparent 65%)',
+        width: '500px',
+        height: '350px',
+        background: 'radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 65%)',
         pointerEvents: 'none'
       }} />
 
-      {/* 1. Header with Brand Emblem */}
+      {/* 1. Header: Site Logo (Left) & Contact Number (Right) */}
       <header style={{
-        padding: '14px 0',
-        borderBottom: '1px solid rgba(212, 175, 55, 0.25)',
-        background: 'rgba(4, 13, 33, 0.88)',
+        padding: '12px 0',
+        borderBottom: '1px solid rgba(212, 175, 55, 0.2)',
+        background: 'rgba(4, 13, 33, 0.94)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         position: 'relative',
@@ -58,284 +44,225 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          gap: '16px'
+          gap: '12px'
         }}>
-          {/* Brand Logo - Only Logo, No Extra Text */}
+          {/* Site Logo */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img 
               src="/logo.png" 
               alt="Vrundavan Ventures" 
               style={{ 
-                height: '74px', 
+                height: '46px', 
                 width: 'auto', 
-                maxHeight: '74px',
-                maxWidth: '320px',
+                maxHeight: '46px',
+                maxWidth: '240px',
                 objectFit: 'contain',
                 display: 'block',
-                filter: 'drop-shadow(0 4px 16px rgba(0, 0, 0, 0.6))'
+                filter: 'drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6))'
               }} 
             />
           </div>
 
-          {/* Quick Concierge Support Info */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)', fontSize: '0.88rem' }}>
-            <PhoneCall size={15} style={{ color: 'var(--gold-primary)' }} />
-            <span>Toll-Free Concierge: <strong style={{ color: '#fff' }}>+91 1800 212 9999</strong></span>
-          </div>
+          {/* Contact Number */}
+          <a 
+            href="tel:18002129999"
+            style={{ 
+              display: 'inline-flex', 
+              alignItems: 'center', 
+              gap: '8px', 
+              color: '#fff', 
+              fontSize: '0.9rem',
+              textDecoration: 'none',
+              background: 'rgba(255, 255, 255, 0.06)',
+              border: '1px solid rgba(212, 175, 55, 0.3)',
+              padding: '7px 16px',
+              borderRadius: '30px',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <PhoneCall size={14} style={{ color: 'var(--gold-primary)' }} />
+            <span style={{ color: 'var(--text-secondary)' }}>Toll-Free:</span>
+            <strong style={{ color: '#fff', letterSpacing: '0.3px' }}>+91 1800 212 9999</strong>
+          </a>
         </div>
       </header>
 
-      {/* 2. Main Center Content: ONLY THE TWO OPTIONS */}
+      {/* 2. Main Center Section: Title, Description, and The 2 Cards */}
       <main className="container" style={{
-        paddingTop: '50px',
-        paddingBottom: '60px',
         position: 'relative',
         zIndex: 5,
         textAlign: 'center',
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '16px 20px'
       }}>
-        {/* Prestige Badge */}
-        <div style={{ marginBottom: '16px' }}>
-          <span className="badge badge-gold" style={{ fontSize: '0.8rem', padding: '6px 14px' }}>
-            <Crown size={14} /> Official Rental Residences & Housing Access Portal
-          </span>
-        </div>
-
-        {/* Hero Title */}
+        {/* Title */}
         <h1 className="font-serif" style={{
-          fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
+          fontSize: 'clamp(1.7rem, 3.2vw, 2.5rem)',
           fontWeight: 900,
           color: '#ffffff',
-          lineHeight: 1.2,
-          marginBottom: '16px'
+          lineHeight: 1.25,
+          marginBottom: '8px'
         }}>
           Find PGs, Rental Rooms & Houses <br />
           <span className="gold-gradient-text">Choose Your Portal to Continue</span>
         </h1>
 
+        {/* Description */}
         <p style={{
           color: 'var(--text-secondary)',
-          fontSize: 'clamp(1rem, 2vw, 1.25rem)',
-          maxWidth: '740px',
-          margin: '0 auto 46px auto',
-          lineHeight: 1.6
+          fontSize: 'clamp(0.9rem, 1.3vw, 1.05rem)',
+          maxWidth: '640px',
+          margin: '0 auto 28px auto',
+          lineHeight: 1.5
         }}>
-          India's premier verified rental platform connecting tenants, families, working professionals, and students directly with verified property owners.
+          Directly connecting tenants, working professionals, and students with verified property owners with zero middleman hurdles.
         </p>
 
-        {/* The TWO Interactive Portal Cards */}
+        {/* The TWO Clean Cards: Logo + Title Only */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: '24px',
-          maxWidth: '960px',
-          margin: '0 auto',
+          maxWidth: '780px',
           width: '100%'
         }}>
-          {/* OPTION 1: FOR TENANTS & HOME SEEKERS (PGs, Rooms, Houses) */}
+          {/* Card 1: Tenants (Logo + Title) */}
           <div 
             onClick={onSelectStudent}
             role="button"
             tabIndex={0}
+            aria-label="For Tenants & Home Seekers - Explore PGs, Rooms & Houses"
             onKeyDown={(e) => { if (e.key === 'Enter') onSelectStudent(); }}
             className="gateway-card gateway-card-student"
             style={{
               background: 'linear-gradient(180deg, rgba(7, 23, 57, 0.95) 0%, rgba(4, 13, 33, 0.98) 100%)',
-              border: '2px solid rgba(14, 116, 237, 0.5)',
-              borderRadius: 'var(--radius-lg)',
-              padding: '40px 32px',
-              textAlign: 'left',
+              border: '2px solid rgba(14, 116, 237, 0.45)',
+              borderRadius: '20px',
+              padding: '36px 24px',
+              textAlign: 'center',
               cursor: 'pointer',
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'space-between',
-              boxShadow: '0 20px 45px -10px rgba(14, 116, 237, 0.25)',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '16px',
+              boxShadow: '0 16px 40px -10px rgba(14, 116, 237, 0.25)',
               transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
               position: 'relative'
             }}
           >
-            <div>
-              {/* Card Top Icon & Badge */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
-                <div style={{
-                  width: '68px',
-                  height: '68px',
-                  borderRadius: '18px',
-                  background: 'linear-gradient(135deg, rgba(14, 116, 237, 0.3) 0%, rgba(0, 210, 180, 0.25) 100%)',
-                  border: '1px solid rgba(14, 116, 237, 0.6)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#60A5FA',
-                  boxShadow: '0 4px 20px rgba(14, 116, 237, 0.4)'
-                }}>
-                  <HomeIcon size={38} />
-                </div>
-                <span className="badge badge-peacock" style={{ fontSize: '0.78rem', padding: '6px 14px' }}>
-                  <Zap size={12} /> Instant Access • Zero Login
-                </span>
-              </div>
-
-              {/* Title & Description */}
-              <h2 className="font-serif" style={{ fontSize: '1.85rem', fontWeight: 800, color: '#ffffff', marginBottom: '10px' }}>
-                For Tenants & Home Seekers
-              </h2>
-              <p style={{ color: '#CBD5E1', fontSize: '0.96rem', lineHeight: 1.6, marginBottom: '26px' }}>
-                Find verified PGs, private rental rooms (1RK), and rental houses/flats (1BHK/2BHK/3BHK) for families, working professionals, and students.
-              </p>
-
-              {/* Bullet Points */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '32px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
-                  <CheckCircle2 size={17} style={{ color: '#00D2B4', flexShrink: 0 }} />
-                  <span><strong>Zero Login Required:</strong> Browse rooms & houses instantly</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
-                  <CheckCircle2 size={17} style={{ color: '#00D2B4', flexShrink: 0 }} />
-                  <span><strong>All Rental Categories:</strong> PGs, 1RK Rooms, Flats & Houses</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
-                  <CheckCircle2 size={17} style={{ color: '#00D2B4', flexShrink: 0 }} />
-                  <span><strong>For Everyone:</strong> Families, Working Bachelors & Students</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
-                  <CheckCircle2 size={17} style={{ color: '#00D2B4', flexShrink: 0 }} />
-                  <span><strong>Direct Owner Contact:</strong> 100% Free WhatsApp & Phone Calling</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
-                  <CheckCircle2 size={17} style={{ color: '#00D2B4', flexShrink: 0 }} />
-                  <span><strong>Direct Connect:</strong> No middleman hurdles or hidden charges</span>
-                </div>
-              </div>
+            {/* Logo / Icon */}
+            <div style={{
+              width: '74px',
+              height: '74px',
+              borderRadius: '20px',
+              background: 'linear-gradient(135deg, rgba(14, 116, 237, 0.28) 0%, rgba(0, 210, 180, 0.22) 100%)',
+              border: '1.5px solid rgba(14, 116, 237, 0.6)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#60A5FA',
+              boxShadow: '0 8px 24px rgba(14, 116, 237, 0.35)'
+            }}>
+              <Users size={38} />
             </div>
 
-            {/* Action CTA */}
-            <button 
-              type="button"
-              className="btn btn-primary btn-lg"
-              style={{
-                width: '100%',
-                display: 'flex',
+            {/* Title */}
+            <div>
+              <h2 className="font-serif" style={{ 
+                fontSize: '1.5rem', 
+                fontWeight: 800, 
+                color: '#ffffff', 
+                marginBottom: '6px' 
+              }}>
+                For Tenants & Home Seekers
+              </h2>
+              <span style={{ 
+                fontSize: '0.86rem', 
+                color: '#94A3B8',
+                display: 'inline-flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                gap: '10px',
-                fontSize: '1.05rem',
-                fontWeight: 700
-              }}
-            >
-              <Compass size={20} />
-              <span>Explore PGs, Rooms & Houses</span>
-              <ArrowRight size={18} />
-            </button>
+                gap: '6px'
+              }}>
+                Explore PGs, Rooms & Houses <ArrowRight size={14} style={{ color: '#60A5FA' }} />
+              </span>
+            </div>
           </div>
 
-          {/* OPTION 2: FOR PROPERTY OWNERS & HOSTS */}
+          {/* Card 2: Property Owners & Hosts (Logo + Title) */}
           <div 
             onClick={onSelectOwner}
             role="button"
             tabIndex={0}
+            aria-label="For Property Owners & Hosts - Enter Owner Portal / List Property"
             onKeyDown={(e) => { if (e.key === 'Enter') onSelectOwner(); }}
             className="gateway-card gateway-card-owner"
             style={{
               background: 'linear-gradient(180deg, rgba(7, 23, 57, 0.95) 0%, rgba(4, 13, 33, 0.98) 100%)',
-              border: '2px solid rgba(212, 175, 55, 0.5)',
-              borderRadius: 'var(--radius-lg)',
-              padding: '40px 32px',
-              textAlign: 'left',
+              border: '2px solid rgba(212, 175, 55, 0.45)',
+              borderRadius: '20px',
+              padding: '36px 24px',
+              textAlign: 'center',
               cursor: 'pointer',
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'space-between',
-              boxShadow: '0 20px 45px -10px rgba(212, 175, 55, 0.25)',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '16px',
+              boxShadow: '0 16px 40px -10px rgba(212, 175, 55, 0.25)',
               transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
               position: 'relative'
             }}
           >
-            <div>
-              {/* Card Top Icon & Badge */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
-                <div style={{
-                  width: '68px',
-                  height: '68px',
-                  borderRadius: '18px',
-                  background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(245, 197, 66, 0.2) 100%)',
-                  border: '1px solid rgba(212, 175, 55, 0.6)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#FDE68A',
-                  boxShadow: '0 4px 20px rgba(212, 175, 55, 0.4)'
-                }}>
-                  <Building2 size={38} />
-                </div>
-                <span className="badge badge-gold" style={{ fontSize: '0.78rem', padding: '6px 14px' }}>
-                  <Sparkles size={12} /> Host Portal • Direct Host Connect
-                </span>
-              </div>
-
-              {/* Title & Description */}
-              <h2 className="font-serif" style={{ fontSize: '1.85rem', fontWeight: 800, color: '#ffffff', marginBottom: '10px' }}>
-                For Property Owners & Hosts
-              </h2>
-              <p style={{ color: '#CBD5E1', fontSize: '0.96rem', lineHeight: 1.6, marginBottom: '26px' }}>
-                List your PG, rental room, flat, or independent house. Connect with verified tenants, fill vacancies fast, and keep 100% rental income.
-              </p>
-
-              {/* Bullet Points */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '32px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
-                  <CheckCircle2 size={17} style={{ color: '#D4AF37', flexShrink: 0 }} />
-                  <span><strong>100% Rent Retained:</strong> Keep 100% of your rental revenue directly</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#D4AF37', flexShrink: 0 }}>
-                  <CheckCircle2 size={17} style={{ color: '#D4AF37', flexShrink: 0 }} />
-                  <span><strong>List Any Property:</strong> PGs, 1RK rooms, flats, houses & villas</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#D4AF37', flexShrink: 0 }}>
-                  <CheckCircle2 size={17} style={{ color: '#D4AF37', flexShrink: 0 }} />
-                  <span><strong>Google Maps Auto-fill:</strong> Instant address & pin detection</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
-                  <CheckCircle2 size={17} style={{ color: '#D4AF37', flexShrink: 0 }} />
-                  <span><strong>Direct Tenant Calls:</strong> Inquiries delivered straight to WhatsApp</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem', color: '#E2E8F0' }}>
-                  <CheckCircle2 size={17} style={{ color: '#D4AF37', flexShrink: 0 }} />
-                  <span><strong>Host Control Panel:</strong> Manage photos, rent, deposits & status</span>
-                </div>
-              </div>
+            {/* Logo / Icon */}
+            <div style={{
+              width: '74px',
+              height: '74px',
+              borderRadius: '20px',
+              background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.28) 0%, rgba(245, 197, 66, 0.2) 100%)',
+              border: '1.5px solid rgba(212, 175, 55, 0.6)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#FDE68A',
+              boxShadow: '0 8px 24px rgba(212, 175, 55, 0.35)'
+            }}>
+              <HomeIcon size={38} />
             </div>
 
-            {/* Action CTA */}
-            <button 
-              type="button"
-              className="btn btn-gold btn-lg"
-              style={{
-                width: '100%',
-                display: 'flex',
+            {/* Title */}
+            <div>
+              <h2 className="font-serif" style={{ 
+                fontSize: '1.5rem', 
+                fontWeight: 800, 
+                color: '#ffffff', 
+                marginBottom: '6px' 
+              }}>
+                For Property Owners & Hosts
+              </h2>
+              <span style={{ 
+                fontSize: '0.86rem', 
+                color: '#94A3B8',
+                display: 'inline-flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                gap: '10px',
-                fontSize: '1.05rem',
-                fontWeight: 700
-              }}
-            >
-              <PlusCircle size={20} />
-              <span>Enter Owner Portal / List Property</span>
-              <ArrowRight size={18} />
-            </button>
+                gap: '6px'
+              }}>
+                Enter Owner Portal / List Property <ArrowRight size={14} style={{ color: 'var(--gold-primary)' }} />
+              </span>
+            </div>
           </div>
         </div>
       </main>
 
       {/* 3. Footer */}
       <footer style={{
-        padding: '24px 0',
-        borderTop: '1px solid rgba(14, 116, 237, 0.2)',
-        background: 'rgba(3, 10, 28, 0.85)',
+        padding: '12px 0',
+        borderTop: '1px solid rgba(14, 116, 237, 0.18)',
+        background: 'rgba(3, 10, 28, 0.9)',
         textAlign: 'center',
         position: 'relative',
         zIndex: 10
@@ -345,37 +272,62 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          gap: '14px',
-          fontSize: '0.86rem',
+          gap: '10px',
+          fontSize: '0.82rem',
           color: 'var(--text-muted)'
         }}>
           <div>
             © 2026 Vrundavan Ventures Residences. All rights reserved.
           </div>
-          <div style={{ display: 'flex', gap: '18px' }}>
-            <span>Verified Luxury Accommodations</span>
+          <div style={{ display: 'flex', gap: '16px' }}>
+            <span>Verified Accommodations</span>
             <span>•</span>
             <span>Direct Connect Network</span>
           </div>
         </div>
       </footer>
 
-      {/* Hover Micro-interactions & Mobile Responsiveness */}
+      {/* 100vh Fit & Hover Styles */}
       <style>{`
+        .gateway-page-container {
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justifyContent: space-between;
+          background: var(--bg-primary);
+          position: relative;
+          overflow-x: hidden;
+        }
+
+        /* Desktop: fits strictly inside 100vh screen */
+        @media (min-width: 769px) and (min-height: 520px) {
+          .gateway-page-container {
+            height: 100vh;
+            overflow: hidden;
+          }
+        }
+
+        /* Mobile or tight landscape: natural scrolling */
+        @media (max-width: 768px), (max-height: 519px) {
+          .gateway-page-container {
+            height: auto;
+            overflow-y: auto;
+            padding-bottom: 20px;
+          }
+          .gateway-card {
+            padding: 28px 20px !important;
+          }
+        }
+
         .gateway-card-student:hover {
-          transform: translateY(-8px);
+          transform: translateY(-6px);
           border-color: #3B82F6 !important;
-          box-shadow: 0 25px 60px -12px rgba(14, 116, 237, 0.45) !important;
+          box-shadow: 0 24px 50px -10px rgba(14, 116, 237, 0.45) !important;
         }
         .gateway-card-owner:hover {
-          transform: translateY(-8px);
+          transform: translateY(-6px);
           border-color: #F5C542 !important;
-          box-shadow: 0 25px 60px -12px rgba(212, 175, 55, 0.45) !important;
-        }
-        @media (max-width: 640px) {
-          .gateway-card {
-            padding: 24px 18px !important;
-          }
+          box-shadow: 0 24px 50px -10px rgba(212, 175, 55, 0.45) !important;
         }
       `}</style>
     </div>

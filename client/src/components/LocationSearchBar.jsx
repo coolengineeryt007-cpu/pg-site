@@ -252,6 +252,8 @@ export default function LocationSearchBar({
             value={inputValue}
             onChange={handleInputChange}
             autoComplete="off"
+            id="location-search-input"
+            aria-label={placeholder}
             autoCorrect="off"
             spellCheck="false"
             data-lpignore="true"
@@ -284,6 +286,7 @@ export default function LocationSearchBar({
               type="button"
               onClick={handleClearInput}
               title="Clear and enter new location"
+              aria-label="Clear and enter new location"
               style={{
                 background: 'transparent',
                 border: 'none',
@@ -321,6 +324,7 @@ export default function LocationSearchBar({
               fontWeight: 700
             }}
             title="Search this location and pinpoint on map"
+            aria-label="Search this location and pinpoint on map"
           >
             {searchingText ? <Loader2 size={13} className="animate-spin" /> : <Search size={14} />}
             <span>Search</span>
@@ -333,6 +337,8 @@ export default function LocationSearchBar({
               onClick={handleUseCurrentLocation}
               disabled={detectingLocation}
               className="btn btn-outline-blue btn-sm"
+              title="Detect my current location with GPS"
+              aria-label="Detect my current location with GPS"
               style={{
                 padding: '7px 14px',
                 fontSize: '0.84rem',

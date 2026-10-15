@@ -245,9 +245,9 @@ export default function AiConciergeModal({ isOpen, onClose, onSelectPg }) {
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--gold-primary)', fontWeight: 600, marginBottom: '6px' }}>
                   Describe Your Dream Stay or Requirements in Plain Language:
-                </label>
-                <div style={{ position: 'relative' }}>
+                </label>                <div style={{ position: 'relative' }}>
                   <input
+                    aria-label="Describe your rental requirements in plain language"
                     type="text"
                     value={customPrompt}
                     onChange={(e) => setCustomPrompt(e.target.value)}
@@ -269,15 +269,16 @@ export default function AiConciergeModal({ isOpen, onClose, onSelectPg }) {
               {/* Filter Parameters Grid */}
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
                 gap: '14px',
-                marginBottom: '20px'
+                marginBottom: '24px'
               }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
                     Preferred City:
                   </label>
                   <select
+                    aria-label="Preferred City"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     style={{
@@ -303,6 +304,7 @@ export default function AiConciergeModal({ isOpen, onClose, onSelectPg }) {
                     Max Monthly Budget (₹):
                   </label>
                   <select
+                    aria-label="Max Monthly Budget"
                     value={budget}
                     onChange={(e) => setBudget(e.target.value)}
                     style={{
@@ -328,6 +330,7 @@ export default function AiConciergeModal({ isOpen, onClose, onSelectPg }) {
                     Property Category:
                   </label>
                   <select
+                    aria-label="Property Category"
                     value={propertyType}
                     onChange={(e) => setPropertyType(e.target.value)}
                     style={{
@@ -352,6 +355,7 @@ export default function AiConciergeModal({ isOpen, onClose, onSelectPg }) {
                     Suitable For:
                   </label>
                   <select
+                    aria-label="Suitable For"
                     value={suitableFor}
                     onChange={(e) => setSuitableFor(e.target.value)}
                     style={{
@@ -617,6 +621,8 @@ export default function AiConciergeModal({ isOpen, onClose, onSelectPg }) {
               {/* Chat Input */}
               <div style={{ display: 'flex', gap: '10px', marginTop: 'auto' }}>
                 <input
+                  id="ai-concierge-chat-input"
+                  aria-label="Ask anything about properties, rates, amenities or rules"
                   type="text"
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
@@ -633,6 +639,8 @@ export default function AiConciergeModal({ isOpen, onClose, onSelectPg }) {
                   }}
                 />
                 <button
+                  type="button"
+                  aria-label="Send message to AI Concierge"
                   onClick={() => handleSendMessage()}
                   disabled={chatting || !inputMessage.trim()}
                   className="btn btn-gold"

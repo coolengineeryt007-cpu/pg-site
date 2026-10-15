@@ -5,7 +5,12 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Canonical & Agentic AI Specification -->
+    <link rel="canonical" href="https://vrundavanventures.com/" />
+    <link rel="help" type="text/plain" href="/llms.txt" title="Agentic AI Specification" />
+    <link rel="alternate" type="application/rss+xml" title="Vrundavan Ventures Rental Updates" href="/sitemap.xml" />
     
     <!-- Primary SEO Meta Tags -->
     <title>VRUNDAVAN VENTURES | PGs, Rental Rooms & Houses for Rent</title>
@@ -16,55 +21,130 @@
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="theme-color" content="#040D21" />
 
+    <!-- Local SEO Geo Tags -->
+    <meta name="geo.region" content="IN-GJ" />
+    <meta name="geo.placename" content="Rajkot" />
+    <meta name="geo.position" content="22.2934;70.7549" />
+    <meta name="ICBM" content="22.2934, 70.7549" />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://vrundavanventures.com/" />
     <meta property="og:title" content="VRUNDAVAN VENTURES | PGs, Rental Rooms & Houses for Rent" />
     <meta property="og:description" content="Find verified rental houses, private rooms, and luxury PGs near you with real-time GPS proximity and direct host connect." />
-    <meta property="og:image" content="/logo.png" />
+    <meta property="og:image" content="https://vrundavanventures.com/logo.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="Vrundavan Ventures" />
+    <meta property="og:locale" content="en_IN" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://vrundavanventures.com/" />
     <meta property="twitter:title" content="VRUNDAVAN VENTURES | PGs, Rental Rooms & Houses for Rent" />
     <meta property="twitter:description" content="Find verified rental houses, private rooms, and luxury PGs near you with real-time GPS proximity and direct host connect." />
-    <meta property="twitter:image" content="/logo.png" />
+    <meta property="twitter:image" content="https://vrundavanventures.com/logo.png" />
 
-    <!-- Google Fonts Preconnect & Stylesheet -->
+    <!-- Performance: Resource Preconnect & DNS-Prefetch -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Schema.org Structured Data (JSON-LD) -->
+    <!-- Schema.org Multi-Entity JSON-LD Structured Data (Lighthouse SEO & Agentic Browsing) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "LodgingBusiness",
-      "name": "Vrundavan Ventures Luxury PG Living",
-      "image": "/logo.png",
-      "description": "Prestige Paying Guest and Coliving accommodations with gourmet dining, biometric security, and premium single & shared suites.",
-      "priceRange": "₹8,500 - ₹28,000",
-      "currenciesAccepted": "INR",
-      "paymentAccepted": "Cash, Credit Card, UPI, Net Banking",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Rajkot",
-        "addressRegion": "Gujarat",
-        "postalCode": "360005",
-        "addressCountry": "IN"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 22.2934,
-        "longitude": 70.7549
-      },
-      "amenityFeature": [
-        { "@type": "LocationFeatureSpecification", "name": "High-Speed Fiber WiFi", "value": true },
-        { "@type": "LocationFeatureSpecification", "name": "3-Time Gourmet Buffet", "value": true },
-        { "@type": "LocationFeatureSpecification", "name": "Biometric Security", "value": true },
-        { "@type": "LocationFeatureSpecification", "name": "Air Conditioning", "value": true },
-        { "@type": "LocationFeatureSpecification", "name": "Power Backup", "value": true }
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://vrundavanventures.com/#website",
+          "url": "https://vrundavanventures.com/",
+          "name": "Vrundavan Ventures",
+          "description": "Verified Rental Marketplace for PGs, Private Rooms, Flats & Family Houses",
+          "publisher": {
+            "@id": "https://vrundavanventures.com/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://vrundavanventures.com/explore?search={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "RealEstateAgent",
+          "@id": "https://vrundavanventures.com/#organization",
+          "name": "Vrundavan Ventures",
+          "url": "https://vrundavanventures.com/",
+          "logo": "https://vrundavanventures.com/logo.png",
+          "image": "https://vrundavanventures.com/logo.png",
+          "description": "Prestige rental platform connecting tenants directly with verified PG, room, flat, and house owners across India.",
+          "priceRange": "₹8,000 - ₹50,000",
+          "currenciesAccepted": "INR",
+          "paymentAccepted": "UPI, Net Banking, Credit Card, Cash",
+          "telephone": "+91 98765 43210",
+          "email": "contact@vrundavanventures.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "150 Feet Ring Road",
+            "addressLocality": "Rajkot",
+            "addressRegion": "Gujarat",
+            "postalCode": "360005",
+            "addressCountry": "IN"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 22.2934,
+            "longitude": 70.7549
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://vrundavanventures.com/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What types of rental properties can I find on Vrundavan Ventures?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Our platform features 3 verified rental categories: (1) PGs & Coliving for students and single professionals, (2) Private Rental Rooms (1RK / single rooms) for budget-friendly independent living, and (3) Rental Houses & Flats (1BHK, 2BHK, 3BHK, and independent houses) for families and corporate executives."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is this platform only for students, or can families and professionals also rent?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Vrundavan Ventures is built for everyone looking for a rental home: families searching for 2BHK/3BHK flats, working professionals seeking executive coliving or 1RK rooms, and students seeking verified hostels & PGs."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does tenant and host communication work?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "You connect directly with verified property owners and hosts via phone or WhatsApp with 100% transparent pricing and direct deposit agreements."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does the 'Near Me' GPS feature find the closest rental properties?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "When you tap 'Near Me', Vrundavan Ventures calculates road distance between your current location and all verified listings. You can immediately sort by distance and open turn-by-turn Google Maps navigation to visit the property."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How can property owners (PGs, rooms, flats, houses) list their property?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Landlords and PG owners can click the 'Host Portal' button to list properties in minutes. With our automated address geocoder, entering your landmark auto-populates coordinates, area, city, and pincode."
+              }
+            }
+          ]
+        }
       ]
     }
     </script>

@@ -368,6 +368,8 @@ export default function OwnerSubscriptionModal({
               </div>
 
               <input
+                id="owner-sub-upi-id"
+                aria-label="UPI ID or Virtual Payment Address (VPA)"
                 type="text"
                 value={upiId}
                 onChange={(e) => setUpiId(e.target.value)}
@@ -397,6 +399,7 @@ export default function OwnerSubscriptionModal({
             }}>
               <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '8px' }}>
                 <input
+                  aria-label="Credit or Debit Card Number"
                   type="text"
                   value={cardNumber}
                   onChange={(e) => setCardNumber(e.target.value)}
@@ -412,6 +415,7 @@ export default function OwnerSubscriptionModal({
                   }}
                 />
                 <input
+                  aria-label="Card Expiry Month and Year"
                   type="text"
                   value={cardExpiry}
                   onChange={(e) => setCardExpiry(e.target.value)}
@@ -427,6 +431,7 @@ export default function OwnerSubscriptionModal({
                   }}
                 />
                 <input
+                  aria-label="Card CVV Security Code"
                   type="password"
                   value={cardCvv}
                   onChange={(e) => setCardCvv(e.target.value)}

@@ -165,6 +165,7 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
 
           {/* City Selector */}
           <select 
+            aria-label="Filter by City"
             className="form-select"
             value={city}
             onChange={(e) => setCity(e.target.value)}
@@ -180,6 +181,7 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
 
           {/* Suitable For / Occupant Filter */}
           <select 
+            aria-label="Filter by Occupant Type"
             className="form-select"
             value={suitableFor}
             onChange={(e) => setSuitableFor(e.target.value)}
@@ -194,6 +196,8 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
 
           {/* GPS Near Me Action Button */}
           <button 
+            type="button"
+            aria-label="Find rental properties near me using GPS"
             onClick={handleGpsNearMe}
             disabled={detectingGps}
             className="btn btn-gold"
@@ -220,6 +224,8 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
             {['all', '1', '2', '3'].map((val) => (
               <button
                 key={val}
+                type="button"
+                aria-label={`Filter by ${val === 'all' ? 'All Units' : val === '1' ? 'Single or 1BHK' : val === '2' ? 'Twin or 2BHK' : '3-Bed or 3BHK'}`}
                 onClick={() => setSharing(val)}
                 className={`btn btn-sm ${sharing === val ? 'btn-gold' : 'btn-ghost'}`}
                 style={{ padding: '5px 12px', fontSize: '0.8rem' }}
@@ -234,6 +240,7 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
             <span style={{ fontSize: '0.8rem', color: '#888' }}>Max Rent:</span>
             <input 
               type="range"
+              aria-label="Maximum monthly rent budget"
               min="10000"
               max="30000"
               step="1000"
@@ -250,6 +257,7 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span style={{ fontSize: '0.8rem', color: '#888' }}>Sort:</span>
             <select 
+              aria-label="Sort listings by"
               className="form-select"
               style={{ padding: '6px 12px', fontSize: '0.85rem' }}
               value={sortBy}
@@ -263,6 +271,8 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
             </select>
 
             <button 
+              type="button"
+              aria-label="Reset all search filters"
               onClick={handleResetFilters}
               title="Reset Filters"
               className="btn btn-ghost btn-sm"

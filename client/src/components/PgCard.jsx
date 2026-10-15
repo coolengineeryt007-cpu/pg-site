@@ -18,6 +18,7 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
           src={coverPhoto} 
           alt={`${pg.name} in ${pg.address?.area || ''}, ${pg.address?.city || ''}`}
           loading="lazy"
+          decoding="async"
           onError={(e) => {
             e.currentTarget.onerror = null;
             e.currentTarget.src = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80';
@@ -289,6 +290,7 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
                 }}
                 className="btn btn-ghost btn-sm"
                 title="Exact route locked: Sign in for GPS navigation"
+                aria-label="Sign in to view GPS route directions"
                 style={{ padding: '8px 10px', background: 'rgba(245, 158, 11, 0.1)', borderColor: 'rgba(245, 158, 11, 0.3)', color: '#F59E0B' }}
               >
                 <Navigation size={14} />
@@ -300,6 +302,7 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
                 rel="noopener noreferrer"
                 className="btn btn-ghost btn-sm"
                 title="Get Google Maps Route Directions"
+                aria-label={`Get directions to ${pg.name} on Google Maps`}
                 style={{ padding: '8px 10px', background: 'rgba(14, 116, 237, 0.12)', borderColor: 'rgba(14, 116, 237, 0.3)' }}
                 onClick={(e) => e.stopPropagation()}
               >

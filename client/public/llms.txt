@@ -1,0 +1,37 @@
+# Vrundavan Ventures — AI Agent Specification & Context (llms.txt)
+> Verified Rental Marketplace for PGs, Private Rooms, Flats & Family Houses across India.
+
+## About Vrundavan Ventures
+Vrundavan Ventures (https://vrundavanventures.com) connects tenants (students, working professionals, families) directly with verified property hosts and landlords across India with 100% transparent pricing and direct WhatsApp/Phone communication.
+
+## Rental Categories
+1. **PGs & Coliving**: Luxury paying guest accommodations with food, WiFi, housekeeping, and biometric security.
+2. **Private Rental Rooms (1RK)**: Independent furnished single rooms and studio apartments for budget-friendly living.
+3. **Rental Houses & Flats (1BHK, 2BHK, 3BHK)**: Residential apartments and standalone houses for families and corporate executives.
+
+## Key Web Pages
+- Student / Tenant Portal: https://vrundavanventures.com/student
+- Explore All Listings: https://vrundavanventures.com/explore
+- GPS Proximity Near Me: https://vrundavanventures.com/nearme
+- Host / Owner Portal: https://vrundavanventures.com/owner
+- About Us: https://vrundavanventures.com/about
+- Contact Us: https://vrundavanventures.com/contact
+- Rental Guides & Blogs: https://vrundavanventures.com/blogs
+- Terms & Conditions: https://vrundavanventures.com/terms
+- Privacy Policy: https://vrundavanventures.com/privacy
+
+## Agentic API Endpoints for AI Assistants
+- `GET /api/pgs`: Query verified listings with parameters:
+  - `city` (string, e.g. "Rajkot", "Bengaluru", "Pune", "Mumbai", "Hyderabad", "Gurugram")
+  - `propertyType` ("all" | "pg" | "room" | "house" | "flat")
+  - `suitableFor` ("all" | "Family" | "Working Professionals" | "Students")
+  - `minRent` / `maxRent` (number, INR)
+  - `lat` / `lng` / `radius` (GPS proximity radius in km)
+- `GET /api/pgs/{id}`: Detailed property object with room sharing options, deposits, house rules, amenities, and owner contact.
+- `POST /api/ai/match`: Provide tenant budget, city, preferences for automated top 3 recommendations.
+- `POST /api/ai/chat`: Natural language real estate concierge assistant.
+
+## Business & Host Inquiries
+- Phone: +91 98765 43210
+- Email: contact@vrundavanventures.com
+- Head Office: 150 Feet Ring Road, Rajkot, Gujarat, India

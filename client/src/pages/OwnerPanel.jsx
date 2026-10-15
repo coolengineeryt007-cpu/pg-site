@@ -1005,8 +1005,10 @@ export default function OwnerPanel({
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Property Type *</label>
+                  <label className="form-label" htmlFor="owner-property-type">Property Type *</label>
                   <select 
+                    id="owner-property-type"
+                    aria-label="Property Type"
                     className="form-select"
                     value={formData.propertyType || 'house'}
                     onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
@@ -1018,8 +1020,10 @@ export default function OwnerPanel({
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Configuration / BHK *</label>
+                  <label className="form-label" htmlFor="owner-bhk-select">Configuration / BHK *</label>
                   <select 
+                    id="owner-bhk-select"
+                    aria-label="Configuration or BHK"
                     className="form-select"
                     value={formData.bhk || '2BHK'}
                     onChange={(e) => setFormData({ ...formData, bhk: e.target.value })}
@@ -1036,8 +1040,10 @@ export default function OwnerPanel({
 
               <div className="grid-3">
                 <div className="form-group">
-                  <label className="form-label">Tenant Preference (Suitable For)</label>
+                  <label className="form-label" htmlFor="owner-suitable-for">Tenant Preference (Suitable For)</label>
                   <select 
+                    id="owner-suitable-for"
+                    aria-label="Tenant Preference (Suitable For)"
                     className="form-select"
                     value={formData.suitableFor || 'All'}
                     onChange={(e) => setFormData({ ...formData, suitableFor: e.target.value })}
@@ -1052,8 +1058,10 @@ export default function OwnerPanel({
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Furnishing Status</label>
+                  <label className="form-label" htmlFor="owner-furnishing">Furnishing Status</label>
                   <select 
+                    id="owner-furnishing"
+                    aria-label="Furnishing Status"
                     className="form-select"
                     value={formData.furnishing || 'Furnished'}
                     onChange={(e) => setFormData({ ...formData, furnishing: e.target.value })}
@@ -1092,6 +1100,8 @@ export default function OwnerPanel({
                   <label className="form-label">Notice Period (Days)</label>
                   <input 
                     type="number" 
+                    aria-label="Notice Period (Days)"
+                    placeholder="30"
                     className="form-input" 
                     value={formData.noticePeriodDays}
                     onChange={(e) => setFormData({ ...formData, noticePeriodDays: e.target.value })}

@@ -591,6 +591,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                 </div>
 
                 <select 
+                  aria-label="Filter listings by city"
                   className="form-select"
                   style={{ padding: '8px 14px', width: 'auto' }}
                   value={filterCity}

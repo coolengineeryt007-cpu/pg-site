@@ -92,8 +92,10 @@ export default function ContactUs() {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Inquiry Purpose</label>
+                <label className="form-label" htmlFor="contact-purpose-select">Inquiry Purpose</label>
                 <select 
+                  id="contact-purpose-select"
+                  aria-label="Inquiry Purpose"
                   className="form-select"
                   value={form.subject}
                   onChange={(e) => setForm({ ...form, subject: e.target.value })}

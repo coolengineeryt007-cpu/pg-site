@@ -198,7 +198,10 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
         >
           <img 
             src={photos[selectedPhoto]} 
-            alt={pg.name} 
+            alt={`${pg.name} featured photograph`} 
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
             onError={(e) => {
               e.currentTarget.onerror = null;
               e.currentTarget.src = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80';
@@ -226,6 +229,8 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
             {photos.map((src, idx) => (
               <button
                 key={idx}
+                type="button"
+                aria-label={`View photo ${idx + 1} of ${photos.length}`}
                 onClick={() => setSelectedPhoto(idx)}
                 style={{
                   width: '90px',
@@ -242,7 +247,9 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
               >
                 <img 
                   src={src} 
-                  alt={`thumbnail-${idx}`} 
+                  alt={`${pg.name} thumbnail ${idx + 1}`} 
+                  loading="lazy"
+                  decoding="async"
                   onError={(e) => {
                     e.currentTarget.onerror = null;
                     e.currentTarget.src = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=300&q=80';
@@ -646,8 +653,10 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
 
                 <div className="grid-2">
                   <div className="form-group">
-                    <label className="form-label">{pg.propertyType === 'house' ? 'Unit / Configuration' : pg.propertyType === 'room' ? 'Room Preference' : 'Preferred Sharing Type'}</label>
+                    <label className="form-label" htmlFor="inquiry-sharing-type">{pg.propertyType === 'house' ? 'Unit / Configuration' : pg.propertyType === 'room' ? 'Room Preference' : 'Preferred Sharing Type'}</label>
                     <select 
+                      id="inquiry-sharing-type"
+                      aria-label={pg.propertyType === 'house' ? 'Unit / Configuration' : pg.propertyType === 'room' ? 'Room Preference' : 'Preferred Sharing Type'}
                       className="form-select"
                       value={inquiryForm.sharingType}
                       onChange={(e) => setInquiryForm({ ...inquiryForm, sharingType: e.target.value })}
@@ -658,8 +667,10 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
                     </select>
                   </div>
                   <div className="form-group">
-                    <label className="form-label">Visit Date</label>
+                    <label className="form-label" htmlFor="inquiry-visit-date">Visit Date</label>
                     <input 
+                      id="inquiry-visit-date"
+                      aria-label="Preferred Visit Date"
                       type="date" 
                       className="form-input" 
                       value={inquiryForm.visitDate}

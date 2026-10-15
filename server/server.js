@@ -1,6 +1,15 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import compression from 'compression';
+import {
+  securityHeaders,
+  malwareAndExploitProtection,
+  generalRateLimiter,
+  checkBruteForceLock,
+  recordFailedAuthAttempt,
+  resetAuthAttempts
+} from './services/securityGuard.js';
 import {
   initDatabase,
   isMySQLActive,
@@ -34,8 +43,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5050;
 
+app.disable('x-powered-by');
+app.use(securityHeaders);
+app.use(compression());
+app.use(generalRateLimiter);
+app.use(malwareAndExploitProtection);
+
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 
 // Request logging middleware for debugging
 app.use((req, res, next) => {
@@ -264,8 +279,8 @@ app.get('/api/geocode/my-ip', async (req, res) => {
   });
 });
 
-// AUTHENTICATION ROUTES
-app.post('/api/auth/login', async (req, res) => {
+// AUTHENTICATION ROUTES (Brute-Force Protected)
+app.post('/api/auth/login', checkBruteForceLock, async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -275,8 +290,12 @@ app.post('/api/auth/login', async (req, res) => {
     const user = await findUserByEmail(email);
 
     if (!user || user.password !== password) {
+      recordFailedAuthAttempt(req, email);
       return res.status(401).json({ error: 'Invalid email or password' });
     }
+
+    // Reset brute-force counter on successful login
+    resetAuthAttempts(req, email);
 
     // Remove password from response
     const { password: _, ...userWithoutPassword } = user;
@@ -1064,6 +1083,45 @@ app.get('/sitemap.xml', async (req, res) => {
   }
 });
 
+app.get('/llms.txt', (req, res) => {
+  const baseUrl = req.protocol + '://' + req.get('host');
+  const content = `# Vrundavan Ventures — AI Agent Specification & Context (llms.txt)
+> Verified Rental Marketplace for PGs, Private Rooms, Flats & Family Houses across India.
+
+## About Vrundavan Ventures
+Vrundavan Ventures (${baseUrl}) connects tenants (students, working professionals, families) directly with verified property hosts and landlords across India with 100% transparent pricing and direct WhatsApp/Phone communication.
+
+## Rental Categories
+1. PGs & Coliving: Luxury paying guest accommodations with food, WiFi, housekeeping, and biometric security.
+2. Private Rental Rooms (1RK): Independent furnished single rooms and studio apartments for budget-friendly living.
+3. Rental Houses & Flats (1BHK, 2BHK, 3BHK): Residential apartments and standalone houses for families and corporate executives.
+
+## Public Web Pages
+- Student / Tenant Portal: ${baseUrl}/student
+- Explore All Listings: ${baseUrl}/explore
+- GPS Proximity Near Me: ${baseUrl}/nearme
+- Host / Owner Portal: ${baseUrl}/owner
+- About Us: ${baseUrl}/about
+- Contact Us: ${baseUrl}/contact
+- Rental Guides & Blogs: ${baseUrl}/blogs
+- Terms & Conditions: ${baseUrl}/terms
+- Privacy Policy: ${baseUrl}/privacy
+
+## Agentic API Endpoints for AI Assistants
+- GET /api/pgs: Query verified listings (filters: city, propertyType, suitableFor, minRent, maxRent, lat, lng, radius)
+- GET /api/pgs/:id: Detailed property information with room choices, deposits, rules, amenities, and owner contact.
+- POST /api/ai/match: Provide tenant requirements for top 3 personalized recommendations.
+- POST /api/ai/chat: Natural language rental concierge assistant.
+
+## Business & Host Inquiries
+- Phone: +91 98765 43210
+- Email: contact@vrundavanventures.com
+- Head Office: 150 Feet Ring Road, Rajkot, Gujarat, India
+`;
+  res.header('Content-Type', 'text/plain; charset=utf-8');
+  res.send(content);
+});
+
 app.get('/robots.txt', (req, res) => {
   const baseUrl = req.protocol + '://' + req.get('host');
   const content = `User-agent: *
@@ -1071,10 +1129,27 @@ Allow: /
 Disallow: /admin
 Disallow: /superadmin
 Disallow: /api/
+Allow: /api/pgs
+Allow: /api/blogs
+
+# Agentic Browsing & AI Agent Crawler Directives
+User-agent: GPTBot
+Allow: /
+Allow: /llms.txt
+
+User-agent: Claude-Web
+Allow: /
+Allow: /llms.txt
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
 
 Sitemap: ${baseUrl}/sitemap.xml
 `;
-  res.header('Content-Type', 'text/plain');
+  res.header('Content-Type', 'text/plain; charset=utf-8');
   res.send(content);
 });
 
