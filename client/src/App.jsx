@@ -50,10 +50,36 @@ export default function App() {
       }
 
       if (path === '/owner' || path === '/owner-portal' || path === '/host') {
-        return { page: 'owner-portal', role: 'owner' };
+        try {
+          const saved = localStorage.getItem('vv_user') || localStorage.getItem('aurelia_user');
+          const user = saved ? JSON.parse(saved) : null;
+          if (user && user.role === 'owner') {
+            return { page: 'owner', role: 'owner' };
+          }
+        } catch {}
+        return { page: 'owner-login', role: 'owner' };
       }
 
-      if (path === '/student' || path === '/student-home') {
+      if (path === '/owner-register' || path === '/owner/register') {
+        return { page: 'owner-register', role: 'owner' };
+      }
+
+      if (path === '/student-register' || path === '/student/register') {
+        return { page: 'student-register', role: 'student' };
+      }
+
+      if (path === '/student') {
+        try {
+          const saved = localStorage.getItem('vv_user') || localStorage.getItem('aurelia_user');
+          const user = saved ? JSON.parse(saved) : null;
+          if (user && user.role !== 'owner') {
+            return { page: 'home', role: 'student' };
+          }
+        } catch {}
+        return { page: 'student-login', role: 'student' };
+      }
+
+      if (path === '/student-home') {
         return { page: 'home', role: 'student' };
       }
 
@@ -150,7 +176,19 @@ export default function App() {
     let title = "Vrundavan Ventures | PGs, Rental Rooms & Houses for Rent";
     let desc = "Discover India's most verified PGs, private rental rooms, flats, and houses for families, working professionals, and students with direct owner connect.";
 
-    if (activePage === 'portal') {
+    if (activePage === 'student-login') {
+      title = "Student Login | Vrundavan Ventures";
+      desc = "Log in to view direct owner contact & WhatsApp numbers.";
+    } else if (activePage === 'student-register') {
+      title = "Student Registration (Free) | Vrundavan Ventures";
+      desc = "Free student registration forever. Unlock direct owner contact & WhatsApp numbers.";
+    } else if (activePage === 'owner-login') {
+      title = "Owner Login | Vrundavan Ventures";
+      desc = "Log in to manage your listings and tenant inquiries.";
+    } else if (activePage === 'owner-register') {
+      title = "Owner Registration | Vrundavan Ventures";
+      desc = "Free host registration. Activate ₹99/mo AutoPay to list properties and receive tenant leads.";
+    } else if (activePage === 'portal') {
       title = "Vrundavan Ventures | Find Rentals or List Your Property";
       desc = "Choose your portal: Find verified rental houses, rooms, and PGs with zero login, or list your property with direct tenant reach.";
     } else if (activePage === 'home') {
@@ -197,26 +235,26 @@ export default function App() {
 
   const handleSelectStudentPortal = () => {
     setUserRoleMode('student');
-    navigateTo('/student', 'home');
-    if (!currentUser) {
-      setAuthModalRole('tenant');
-      setAuthModalOpen(true);
+    if (currentUser && currentUser.role !== 'owner') {
+      navigateTo('/student-home', 'home');
+    } else {
+      navigateTo('/student', 'student-login');
     }
   };
 
   const handleSelectOwnerPortal = () => {
     setUserRoleMode('owner');
-    const target = currentUser?.role === 'owner' ? 'owner' : 'owner-portal';
-    navigateTo('/owner', target);
-    if (!currentUser) {
-      setAuthModalRole('owner');
-      setAuthModalOpen(true);
+    if (currentUser && currentUser.role === 'owner') {
+      navigateTo('/owner', 'owner');
+    } else {
+      navigateTo('/owner', 'owner-login');
     }
   };
 
   const handleSkipLogin = () => {
-    // set guest skipped
     setAuthModalOpen(false);
+    setUserRoleMode('student');
+    navigateTo('/student-home', 'home');
   };
 
   const handleRoleModeChange = (mode) => {
@@ -231,19 +269,37 @@ export default function App() {
   const handleNavigate = (page, filter = {}) => {
     if (page === 'portal') {
       navigateTo('/', 'portal');
+    } else if (page === 'student-login') {
+      navigateTo('/student', 'student-login');
+    } else if (page === 'owner-login') {
+      navigateTo('/owner', 'owner-login');
+    } else if (page === 'student-register') {
+      navigateTo('/student-register', 'student-register');
+    } else if (page === 'owner-register') {
+      navigateTo('/owner-register', 'owner-register');
     } else if (page === 'nearme') {
       setUserRoleMode('student');
       navigateTo('/nearme', 'explore', { nearMeNow: true });
     } else if (page === 'explore') {
       setUserRoleMode('student');
       navigateTo('/explore', 'explore', filter);
-    } else if (page === 'home' || page === 'student') {
+    } else if (page === 'home' || page === 'student-home') {
       setUserRoleMode('student');
-      navigateTo('/student', 'home');
+      navigateTo('/student-home', 'home');
+    } else if (page === 'student') {
+      setUserRoleMode('student');
+      if (currentUser && currentUser.role !== 'owner') {
+        navigateTo('/student-home', 'home');
+      } else {
+        navigateTo('/student', 'student-login');
+      }
     } else if (page === 'owner' || page === 'owner-portal') {
       setUserRoleMode('owner');
-      const target = currentUser?.role === 'owner' ? 'owner' : 'owner-portal';
-      navigateTo('/owner', target);
+      if (currentUser?.role === 'owner') {
+        navigateTo('/owner', 'owner');
+      } else {
+        navigateTo('/owner', 'owner-login');
+      }
     } else if (page === 'superadmin' || page === 'admin-secret') {
       navigateTo('/superadmin', 'superadmin');
     } else if (page === 'about') {
@@ -289,6 +345,9 @@ export default function App() {
       } else {
         navigateTo('/owner', 'owner');
       }
+    } else {
+      setUserRoleMode('student');
+      navigateTo('/student-home', 'home');
     }
   };
 
@@ -308,7 +367,7 @@ export default function App() {
     } catch {}
 
     if (userRoleMode === 'owner') {
-      navigateTo('/owner', 'owner-portal');
+      navigateTo('/owner', 'owner-login');
     } else {
       navigateTo('/', 'portal');
     }
@@ -324,6 +383,114 @@ export default function App() {
       <MainGateway 
         onSelectStudent={handleSelectStudentPortal}
         onSelectOwner={handleSelectOwnerPortal}
+      />
+    );
+  }
+
+  // 1B. DEDICATED STUDENT LOGIN PAGE (URL: /student)
+  // ONLY login page needed, NO other content underneath or behind!
+  if (activePage === 'student-login') {
+    return (
+      <AuthModal 
+        isOpen={true}
+        onClose={() => navigateTo('/', 'portal')}
+        initialRole="tenant"
+        onLoginSuccess={(user) => {
+          handleLoginSuccess(user);
+          navigateTo('/student-home', 'home');
+        }}
+        onSkipLogin={() => {
+          setUserRoleMode('student');
+          navigateTo('/student-home', 'home');
+        }}
+        onGoHome={() => navigateTo('/', 'portal')}
+        onRoleChange={(newRole) => {
+          if (newRole === 'owner') {
+            setUserRoleMode('owner');
+            navigateTo('/owner', 'owner-login');
+          }
+        }}
+      />
+    );
+  }
+
+  // 1C. DEDICATED OWNER LOGIN PAGE (URL: /owner)
+  // ONLY login page needed, NO other content underneath or behind!
+  if (activePage === 'owner-login') {
+    return (
+      <AuthModal 
+        isOpen={true}
+        onClose={() => navigateTo('/', 'portal')}
+        initialRole="owner"
+        initialMode="login"
+        onLoginSuccess={(user) => {
+          handleLoginSuccess(user);
+          navigateTo('/owner', 'owner');
+        }}
+        onSkipLogin={() => {
+          setUserRoleMode('student');
+          navigateTo('/student-home', 'home');
+        }}
+        onGoHome={() => navigateTo('/', 'portal')}
+        onRoleChange={(newRole) => {
+          if (newRole === 'tenant') {
+            setUserRoleMode('student');
+            navigateTo('/student', 'student-login');
+          }
+        }}
+      />
+    );
+  }
+
+  // 1D. DEDICATED STUDENT REGISTER PAGE (URL: /student-register)
+  if (activePage === 'student-register') {
+    return (
+      <AuthModal 
+        isOpen={true}
+        onClose={() => navigateTo('/', 'portal')}
+        initialRole="tenant"
+        initialMode="register"
+        onLoginSuccess={(user) => {
+          handleLoginSuccess(user);
+          navigateTo('/student-home', 'home');
+        }}
+        onSkipLogin={() => {
+          setUserRoleMode('student');
+          navigateTo('/student-home', 'home');
+        }}
+        onGoHome={() => navigateTo('/', 'portal')}
+        onRoleChange={(newRole) => {
+          if (newRole === 'owner') {
+            setUserRoleMode('owner');
+            navigateTo('/owner-register', 'owner-register');
+          }
+        }}
+      />
+    );
+  }
+
+  // 1E. DEDICATED OWNER REGISTER PAGE (URL: /owner-register)
+  if (activePage === 'owner-register') {
+    return (
+      <AuthModal 
+        isOpen={true}
+        onClose={() => navigateTo('/', 'portal')}
+        initialRole="owner"
+        initialMode="register"
+        onLoginSuccess={(user) => {
+          handleLoginSuccess(user);
+        }}
+        onSkipLogin={() => {
+          setUserRoleMode('student');
+          navigateTo('/student-home', 'home');
+        }}
+        onGoHome={() => navigateTo('/', 'portal')}
+        onRoleChange={(newRole) => {
+          if (newRole === 'tenant') {
+            setUserRoleMode('student');
+            navigateTo('/student-register', 'student-register');
+          }
+        }}
       />
     );
   }
@@ -657,6 +824,10 @@ export default function App() {
         initialRole={authModalRole}
         onLoginSuccess={handleLoginSuccess}
         onSkipLogin={handleSkipLogin}
+        onGoHome={() => {
+          setAuthModalOpen(false);
+          navigateTo('/', 'portal');
+        }}
       />
 
 

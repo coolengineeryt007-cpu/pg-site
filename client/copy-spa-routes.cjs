@@ -27,7 +27,9 @@ const routes = [
   'superadmin',
   'admin-secret',
   'owner-portal',
-  'student-home'
+  'student-home',
+  'student-register',
+  'owner-register'
 ];
 
 routes.forEach(route => {
