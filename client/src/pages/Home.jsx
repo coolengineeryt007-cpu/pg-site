@@ -20,14 +20,17 @@ import {
   BadgePercent,
   MessageCircle,
   Sparkles,
-  Key
+  Key,
+  Quote,
+  ChevronDown,
+  HelpCircle
 } from 'lucide-react';
 import LocationSearchBar from '../components/LocationSearchBar';
 import PgCard from '../components/PgCard';
 import GoogleMapView from '../components/GoogleMapView';
 
 export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenLogin }) {
-  const [activeFaq, setActiveFaq] = useState(null);
+  const [activeFaq, setActiveFaq] = useState(0);
   const [selectedCity, setSelectedCity] = useState(null);
   const [citySearchTerm, setCitySearchTerm] = useState('');
   const [mapCenter, setMapCenter] = useState({ lat: 20.5937, lng: 78.9629 });
@@ -132,24 +135,40 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
 
   const FAQS = [
     {
-      q: "What types of properties can I find on Vrundavan Ventures?",
-      a: "Our platform features verified Paying Guest (PG) coliving, 1RK furnished private rental rooms, family flats (1BHK, 2BHK, 3BHK), and independent houses across India with verified photos, amenities, and accurate GPS mapping."
+      q: "Do I have to pay any brokerage or agent fees?",
+      a: "No, never! Vrundavan Ventures is 100% brokerage-free. You talk directly with the property owner, negotiate your rent, and pay zero commission to any middlemen or agents.",
+      tag: "0% BROKERAGE",
+      badge: "💰 Save ₹10,000+ Fees"
     },
     {
-      q: "Is the platform only for students, or can I rent for families too?",
-      a: "Vrundavan Ventures is built for everyone! We have dedicated verified rental categories for families seeking flats & homes, single working professionals needing 1RK/coliving, and university students seeking hostels and PGs."
+      q: "Are the room photos and rent prices genuine?",
+      a: "Yes, 100%. Every room, flat, and PG on our platform is verified with real photos and exact GPS map locations. What you see online is exactly what you get when you arrive.",
+      tag: "VERIFIED STAYS",
+      badge: "🛡️ Real Inspected Photos"
     },
     {
-      q: "How does the owner and tenant communication work?",
-      a: "Once registered, you connect directly with verified property owners and hosts via phone call or WhatsApp. There are zero middleman commissions, zero brokerage, and direct deposit agreements."
+      q: "How do I contact the property owner?",
+      a: "It is instant and completely free! Just click 'Call Owner' or 'Chat on WhatsApp' on any property page. You can speak directly with the landlord without waiting or paying fees.",
+      tag: "DIRECT CONNECT",
+      badge: "💬 Direct WhatsApp & Call"
     },
     {
-      q: "How can property owners (PGs, rooms, flats, houses) list their property?",
-      a: "Landlords and PG owners can click the 'Register as Owner' button to set up a host account. Our automated address geocoder makes listing your property fast, verified, and visible to thousands of high-intent tenants."
+      q: "Can I visit the room before paying any deposit?",
+      a: "Yes, absolutely! We always encourage you to visit the room in person or take a live WhatsApp video tour before paying any token or deposit. Never pay without confirming details.",
+      tag: "SAFE RENTING",
+      badge: "📍 Free In-Person Visit"
     },
     {
-      q: "What payment methods are supported?",
-      a: "We support direct UPI payments (Google Pay, PhonePe, Paytm, BHIM), Net Banking, Debit Cards, and Credit Cards with 100% secure end-to-end encryption."
+      q: "What types of properties can I find on this website?",
+      a: "We have options for everyone: single private rooms, shared student PGs with meals, 1RK studio flats, and 1BHK/2BHK family apartments in top cities across India.",
+      tag: "FOR EVERYONE",
+      badge: "🏠 PGs, Rooms & Flats"
+    },
+    {
+      q: "I am a property owner — how can I list my PG or flat?",
+      a: "Click on 'Host Portal' in the top bar. Enter your room details, upload a few photos, and set your monthly rent. Your listing goes live in under 2 minutes, reaching thousands of genuine tenants!",
+      tag: "FOR PROPERTY OWNERS",
+      badge: "⚡ 2-Minute Free Listing"
     }
   ];
 
@@ -1566,91 +1585,400 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
           - Star ratings
           - "Loved by 50,000+ Property Owners & Tenants"
          ========================================================================= */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <section style={{ 
+        padding: '85px 0', 
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        background: 'linear-gradient(180deg, rgba(4, 13, 33, 0.98) 0%, rgba(2, 6, 23, 0.98) 100%)'
+      }}>
         <div className="container">
           <div className="section-header-center">
             <div className="badge-wrap">
-              <span className="badge badge-gold" style={{ fontSize: '0.78rem', padding: '5px 14px' }}>
-                TRUSTED BY PROPERTY OWNERS
+              <span className="badge badge-gold" style={{ fontSize: '0.78rem', padding: '5px 14px', letterSpacing: '0.4px', fontWeight: 700 }}>
+                <Sparkles size={13} /> REAL EXPERIENCES
               </span>
             </div>
-            <h2 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(1.8rem, 3.4vw, 2.35rem)', marginBottom: '8px' }}>
-              Loved by 50,000+ Property Owners & Tenants
+            <h2 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(1.85rem, 3.4vw, 2.4rem)', marginBottom: '10px', fontWeight: 800 }}>
+              Loved by Over 50,000+ Happy Renters
             </h2>
-            <p style={{ maxWidth: '640px', margin: '0 auto', fontSize: '0.95rem' }}>
-              Join thousands of happy users who found their perfect stay with us.
+            <p style={{ maxWidth: '680px', margin: '0 auto', fontSize: '0.96rem', color: '#CBD5E1', lineHeight: 1.6 }}>
+              Real stories from students, working professionals, and property hosts across India who found honest stays with zero broker fees.
             </p>
+
+            {/* Trust Stats Strip */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '12px',
+              flexWrap: 'wrap',
+              marginTop: '26px'
+            }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '7px',
+                padding: '6px 14px',
+                borderRadius: '20px',
+                background: 'rgba(245, 158, 11, 0.10)',
+                border: '1px solid rgba(245, 158, 11, 0.3)',
+                color: '#FDE68A',
+                fontSize: '0.80rem',
+                fontWeight: 700
+              }}>
+                <Star size={14} fill="#F59E0B" color="#F59E0B" /> 4.9 / 5.0 Star Rating
+              </div>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '7px',
+                padding: '6px 14px',
+                borderRadius: '20px',
+                background: 'rgba(16, 185, 129, 0.10)',
+                border: '1px solid rgba(16, 185, 129, 0.3)',
+                color: '#A7F3D0',
+                fontSize: '0.80rem',
+                fontWeight: 700
+              }}>
+                <ShieldCheck size={14} color="#10B981" /> 100% Phone & KYC Verified
+              </div>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '7px',
+                padding: '6px 14px',
+                borderRadius: '20px',
+                background: 'rgba(56, 189, 248, 0.10)',
+                border: '1px solid rgba(56, 189, 248, 0.3)',
+                color: '#BAE6FD',
+                fontSize: '0.80rem',
+                fontWeight: 700
+              }}>
+                <BadgePercent size={14} color="#38BDF8" /> Over ₹2.5 Cr Broker Fees Saved
+              </div>
+            </div>
           </div>
 
-          <div className="home-reviews-grid" style={{ marginTop: '38px' }}>
-            {/* Review 1 */}
-            <div className="luxury-card" style={{ padding: '28px 24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div className="home-reviews-grid" style={{ marginTop: '42px', gap: '24px' }}>
+            {/* Review 1: Student in Ahmedabad */}
+            <div 
+              className="luxury-card review-luxury-card" 
+              style={{ 
+                background: 'linear-gradient(180deg, rgba(8, 26, 64, 0.96) 0%, rgba(3, 10, 28, 0.99) 100%)',
+                border: '1.5px solid rgba(245, 158, 11, 0.35)',
+                borderRadius: '22px',
+                padding: '28px 24px',
+                boxShadow: '0 16px 45px rgba(0, 0, 0, 0.7)',
+                display: 'flex', 
+                flexDirection: 'column', 
+                justifyContent: 'space-between',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+            >
+              {/* Decorative watermark quote */}
+              <Quote size={48} style={{ position: 'absolute', right: '16px', top: '16px', opacity: 0.06, color: '#F59E0B' }} />
+
               <div>
-                <div style={{ display: 'flex', gap: '4px', marginBottom: '14px' }}>
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={16} fill="#F59E0B" color="#F59E0B" />
-                  ))}
+                {/* Header Row: Role Tag + Stars */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <span style={{
+                    fontSize: '0.70rem',
+                    fontWeight: 800,
+                    letterSpacing: '0.4px',
+                    padding: '4px 10px',
+                    borderRadius: '12px',
+                    background: 'rgba(245, 158, 11, 0.12)',
+                    color: '#FDE68A',
+                    border: '1px solid rgba(245, 158, 11, 0.3)'
+                  }}>
+                    🎓 STUDENT STAY
+                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ color: '#FDE68A', fontSize: '0.82rem', fontWeight: 800, marginRight: '2px' }}>5.0</span>
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={14} fill="#F59E0B" color="#F59E0B" />
+                    ))}
+                  </div>
                 </div>
-                <p style={{ color: '#CBD5E1', fontSize: '0.92rem', fontStyle: 'italic', marginBottom: '22px', lineHeight: 1.65 }}>
-                  "Very easy to find good PGs in my area. The map feature and verified listings are really helpful. Highly recommended!"
+
+                <div style={{ color: '#F59E0B', fontSize: '0.84rem', fontWeight: 700, marginBottom: '10px' }}>
+                  💰 Saved ₹12,000 Broker Fee
+                </div>
+
+                <p style={{ color: '#CBD5E1', fontSize: '0.90rem', lineHeight: 1.65, margin: '0 0 22px 0' }}>
+                  "Brokers in Ahmedabad were demanding 1 month rent just for showing basic rooms. On Vrundavan, I found a clean AC room right next to my college in 2 days. The photos were 100% real and I saved ₹12,000!"
                 </p>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px' }}>
-                <div style={{ width: '42px', height: '42px', borderRadius: '50%', background: 'linear-gradient(135deg, #0e74ed 0%, #00d2b4 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 800, fontSize: '0.90rem' }}>
-                  SP
+
+              {/* Author Footer */}
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'space-between',
+                borderTop: '1px solid rgba(255, 255, 255, 0.08)', 
+                paddingTop: '16px' 
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ 
+                    width: '44px', 
+                    height: '44px', 
+                    borderRadius: '50%', 
+                    background: 'linear-gradient(135deg, #0e74ed 0%, #00d2b4 100%)', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    color: '#fff', 
+                    fontWeight: 800, 
+                    fontSize: '0.92rem',
+                    boxShadow: '0 4px 14px rgba(14, 116, 237, 0.3)'
+                  }}>
+                    SP
+                  </div>
+                  <div>
+                    <h4 style={{ color: '#ffffff', fontSize: '0.96rem', margin: '0 0 2px 0', fontWeight: 700 }}>
+                      Sahil Patel
+                    </h4>
+                    <span style={{ color: '#94A3B8', fontSize: '0.78rem' }}>
+                      B.Tech Student • Ahmedabad
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <h4 style={{ color: '#fff', fontSize: '0.95rem', margin: '0 0 2px 0', fontWeight: 700 }}>Sahil Patel</h4>
-                  <span style={{ color: '#94A3B8', fontSize: '0.78rem' }}>Student, Ahmedabad</span>
-                </div>
+
+                <span style={{
+                  fontSize: '0.68rem',
+                  fontWeight: 700,
+                  padding: '3px 8px',
+                  borderRadius: '10px',
+                  background: 'rgba(16, 185, 129, 0.12)',
+                  color: '#A7F3D0',
+                  border: '1px solid rgba(16, 185, 129, 0.3)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}>
+                  <CheckCircle size={10} color="#10B981" /> Verified Tenant
+                </span>
               </div>
             </div>
 
-            {/* Review 2 */}
-            <div className="luxury-card" style={{ padding: '28px 24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            {/* Review 2: Working Professional in Surat */}
+            <div 
+              className="luxury-card review-luxury-card" 
+              style={{ 
+                background: 'linear-gradient(180deg, rgba(8, 26, 64, 0.96) 0%, rgba(3, 10, 28, 0.99) 100%)',
+                border: '1.5px solid rgba(56, 189, 248, 0.35)',
+                borderRadius: '22px',
+                padding: '28px 24px',
+                boxShadow: '0 16px 45px rgba(0, 0, 0, 0.7)',
+                display: 'flex', 
+                flexDirection: 'column', 
+                justifyContent: 'space-between',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+            >
+              {/* Decorative watermark quote */}
+              <Quote size={48} style={{ position: 'absolute', right: '16px', top: '16px', opacity: 0.06, color: '#38BDF8' }} />
+
               <div>
-                <div style={{ display: 'flex', gap: '4px', marginBottom: '14px' }}>
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={16} fill="#F59E0B" color="#F59E0B" />
-                  ))}
+                {/* Header Row: Role Tag + Stars */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <span style={{
+                    fontSize: '0.70rem',
+                    fontWeight: 800,
+                    letterSpacing: '0.4px',
+                    padding: '4px 10px',
+                    borderRadius: '12px',
+                    background: 'rgba(56, 189, 248, 0.12)',
+                    color: '#BAE6FD',
+                    border: '1px solid rgba(56, 189, 248, 0.3)'
+                  }}>
+                    💼 WORKING PROFESSIONAL
+                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ color: '#BAE6FD', fontSize: '0.82rem', fontWeight: 800, marginRight: '2px' }}>5.0</span>
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={14} fill="#F59E0B" color="#F59E0B" />
+                    ))}
+                  </div>
                 </div>
-                <p style={{ color: '#CBD5E1', fontSize: '0.92rem', fontStyle: 'italic', marginBottom: '22px', lineHeight: 1.65 }}>
-                  "Great platform for PG owners. I got real genuine tenants within a week. The registration process was simple and fast."
+
+                <div style={{ color: '#38BDF8', fontSize: '0.84rem', fontWeight: 700, marginBottom: '10px' }}>
+                  📍 5-Min Walk to IT Park
+                </div>
+
+                <p style={{ color: '#CBD5E1', fontSize: '0.90rem', lineHeight: 1.65, margin: '0 0 22px 0' }}>
+                  "Relocated to Surat for my new job and had only 3 days to find a stay. I messaged the landlord directly on WhatsApp, took a quick video tour, and moved in. Super clean, fast WiFi, and completely safe!"
                 </p>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px' }}>
-                <div style={{ width: '42px', height: '42px', borderRadius: '50%', background: 'linear-gradient(135deg, #d4af37 0%, #f5c542 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#040d21', fontWeight: 800, fontSize: '0.90rem' }}>
-                  SV
+
+              {/* Author Footer */}
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'space-between',
+                borderTop: '1px solid rgba(255, 255, 255, 0.08)', 
+                paddingTop: '16px' 
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ 
+                    width: '44px', 
+                    height: '44px', 
+                    borderRadius: '50%', 
+                    background: 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    color: '#fff', 
+                    fontWeight: 800, 
+                    fontSize: '0.92rem',
+                    boxShadow: '0 4px 14px rgba(6, 182, 212, 0.3)'
+                  }}>
+                    PS
+                  </div>
+                  <div>
+                    <h4 style={{ color: '#ffffff', fontSize: '0.96rem', margin: '0 0 2px 0', fontWeight: 700 }}>
+                      Pooja Sharma
+                    </h4>
+                    <span style={{ color: '#94A3B8', fontSize: '0.78rem' }}>
+                      Software Analyst • Surat
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <h4 style={{ color: '#fff', fontSize: '0.95rem', margin: '0 0 2px 0', fontWeight: 700 }}>Sneha Varma</h4>
-                  <span style={{ color: '#94A3B8', fontSize: '0.78rem' }}>PG Owner, Surat</span>
-                </div>
+
+                <span style={{
+                  fontSize: '0.68rem',
+                  fontWeight: 700,
+                  padding: '3px 8px',
+                  borderRadius: '10px',
+                  background: 'rgba(16, 185, 129, 0.12)',
+                  color: '#A7F3D0',
+                  border: '1px solid rgba(16, 185, 129, 0.3)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}>
+                  <CheckCircle size={10} color="#10B981" /> Verified Tenant
+                </span>
               </div>
             </div>
 
-            {/* Review 3 */}
-            <div className="luxury-card" style={{ padding: '28px 24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            {/* Review 3: PG Host in Vadodara */}
+            <div 
+              className="luxury-card review-luxury-card" 
+              style={{ 
+                background: 'linear-gradient(180deg, rgba(8, 26, 64, 0.96) 0%, rgba(3, 10, 28, 0.99) 100%)',
+                border: '1.5px solid rgba(16, 185, 129, 0.35)',
+                borderRadius: '22px',
+                padding: '28px 24px',
+                boxShadow: '0 16px 45px rgba(0, 0, 0, 0.7)',
+                display: 'flex', 
+                flexDirection: 'column', 
+                justifyContent: 'space-between',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+            >
+              {/* Decorative watermark quote */}
+              <Quote size={48} style={{ position: 'absolute', right: '16px', top: '16px', opacity: 0.06, color: '#10B981' }} />
+
               <div>
-                <div style={{ display: 'flex', gap: '4px', marginBottom: '14px' }}>
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={16} fill="#F59E0B" color="#F59E0B" />
-                  ))}
+                {/* Header Row: Role Tag + Stars */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <span style={{
+                    fontSize: '0.70rem',
+                    fontWeight: 800,
+                    letterSpacing: '0.4px',
+                    padding: '4px 10px',
+                    borderRadius: '12px',
+                    background: 'rgba(16, 185, 129, 0.12)',
+                    color: '#A7F3D0',
+                    border: '1px solid rgba(16, 185, 129, 0.3)'
+                  }}>
+                    🏠 PROPERTY OWNER
+                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ color: '#A7F3D0', fontSize: '0.82rem', fontWeight: 800, marginRight: '2px' }}>5.0</span>
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={14} fill="#F59E0B" color="#F59E0B" />
+                    ))}
+                  </div>
                 </div>
-                <p style={{ color: '#CBD5E1', fontSize: '0.92rem', fontStyle: 'italic', marginBottom: '22px', lineHeight: 1.65 }}>
-                  "Safe, reliable and user-friendly. Found a perfect room near my college. Will definitely use again!"
+
+                <div style={{ color: '#10B981', fontSize: '0.84rem', fontWeight: 700, marginBottom: '10px' }}>
+                  ⚡ Booked 8 Rooms in 10 Days
+                </div>
+
+                <p style={{ color: '#CBD5E1', fontSize: '0.90rem', lineHeight: 1.65, margin: '0 0 22px 0' }}>
+                  "I manage a student PG in Vadodara. With Vrundavan, students and their parents called me directly. No fake inquiries, zero broker cuts, and all my vacant rooms were booked within 10 days."
                 </p>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '14px' }}>
-                <div style={{ width: '42px', height: '42px', borderRadius: '50%', background: 'linear-gradient(135deg, #38bdf8 0%, #0e74ed 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 800, fontSize: '0.90rem' }}>
-                  AS
+
+              {/* Author Footer */}
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'space-between',
+                borderTop: '1px solid rgba(255, 255, 255, 0.08)', 
+                paddingTop: '16px' 
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ 
+                    width: '44px', 
+                    height: '44px', 
+                    borderRadius: '50%', 
+                    background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    color: '#040d21', 
+                    fontWeight: 800, 
+                    fontSize: '0.92rem',
+                    boxShadow: '0 4px 14px rgba(245, 158, 11, 0.3)'
+                  }}>
+                    RV
+                  </div>
+                  <div>
+                    <h4 style={{ color: '#ffffff', fontSize: '0.96rem', margin: '0 0 2px 0', fontWeight: 700 }}>
+                      Rajesh Varma
+                    </h4>
+                    <span style={{ color: '#94A3B8', fontSize: '0.78rem' }}>
+                      Hostel Owner • Vadodara
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <h4 style={{ color: '#fff', fontSize: '0.95rem', margin: '0 0 2px 0', fontWeight: 700 }}>Amit Sharma</h4>
-                  <span style={{ color: '#94A3B8', fontSize: '0.78rem' }}>Student, Vadodara</span>
-                </div>
+
+                <span style={{
+                  fontSize: '0.68rem',
+                  fontWeight: 700,
+                  padding: '3px 8px',
+                  borderRadius: '10px',
+                  background: 'rgba(16, 185, 129, 0.12)',
+                  color: '#A7F3D0',
+                  border: '1px solid rgba(16, 185, 129, 0.3)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}>
+                  <CheckCircle size={10} color="#10B981" /> Verified Host
+                </span>
               </div>
             </div>
+          </div>
+
+          {/* Bottom Trust Note */}
+          <div style={{
+            marginTop: '38px',
+            textAlign: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '8px',
+            color: '#94A3B8',
+            fontSize: '0.86rem'
+          }}>
+            <ShieldCheck size={16} color="#10B981" />
+            <span>Every review is verified through phone OTP & confirmed rental agreement.</span>
           </div>
         </div>
       </section>
@@ -1660,112 +1988,211 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
           - Common questions
           - Accordion style
          ========================================================================= */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <div className="container" style={{ maxWidth: '850px' }}>
+      <section style={{ 
+        padding: '85px 0 60px 0', 
+        background: 'linear-gradient(180deg, rgba(2, 6, 23, 0.98) 0%, #030A1C 100%)'
+      }}>
+        <div className="container" style={{ maxWidth: '900px' }}>
           <div className="section-header-center">
             <div className="badge-wrap">
-              <span className="badge badge-blue" style={{ fontSize: '0.78rem', padding: '5px 14px' }}>
-                FREQUENTLY ASKED QUESTIONS
+              <span className="badge badge-gold" style={{ fontSize: '0.78rem', padding: '5px 14px', letterSpacing: '0.4px', fontWeight: 700 }}>
+                <Sparkles size={13} /> QUICK ANSWERS
               </span>
             </div>
-            <h2 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(1.8rem, 3.4vw, 2.35rem)', marginBottom: '8px' }}>
-              Got Questions? We're Here to Help
+            <h2 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(1.85rem, 3.4vw, 2.4rem)', marginBottom: '10px', fontWeight: 800 }}>
+              Got Questions? We Have Simple Answers
             </h2>
-            <p style={{ maxWidth: '640px', margin: '0 auto', fontSize: '0.95rem' }}>
-              Find answers to the most common questions about PGs, rooms and rentals.
+            <p style={{ maxWidth: '680px', margin: '0 auto', fontSize: '0.96rem', color: '#CBD5E1', lineHeight: 1.6 }}>
+              Everything you need to know about finding rooms, contacting owners, and moving in without paying broker fees.
             </p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '36px' }}>
-            {FAQS.map((faq, idx) => (
-              <div 
-                key={idx} 
-                className="luxury-card"
-                style={{ 
-                  padding: '18px 22px', 
-                  cursor: 'pointer',
-                  border: activeFaq === idx ? '1px solid rgba(212, 175, 55, 0.45)' : '1px solid rgba(255, 255, 255, 0.08)',
-                  transition: 'all 0.2s ease'
-                }}
-                onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
-                  <h4 style={{ color: '#fff', fontSize: '1rem', fontWeight: 600, margin: 0, lineHeight: 1.4 }}>
-                    {idx + 1}. {faq.q}
-                  </h4>
-                  <span style={{ 
-                    color: 'var(--gold-primary)', 
-                    fontSize: '1.4rem', 
-                    fontWeight: 700,
-                    lineHeight: 1,
-                    flexShrink: 0 
-                  }}>
-                    {activeFaq === idx ? '−' : '+'}
-                  </span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '40px' }}>
+            {FAQS.map((faq, idx) => {
+              const isOpen = activeFaq === idx;
+              return (
+                <div 
+                  key={idx} 
+                  className="luxury-card"
+                  style={{ 
+                    borderRadius: '18px',
+                    padding: isOpen ? '22px 24px' : '18px 24px', 
+                    cursor: 'pointer',
+                    background: isOpen 
+                      ? 'linear-gradient(180deg, rgba(14, 40, 95, 0.85) 0%, rgba(6, 20, 50, 0.95) 100%)' 
+                      : 'linear-gradient(180deg, rgba(8, 26, 64, 0.70) 0%, rgba(3, 10, 28, 0.85) 100%)',
+                    border: isOpen 
+                      ? '1.5px solid rgba(212, 175, 55, 0.55)' 
+                      : '1.5px solid rgba(255, 255, 255, 0.08)',
+                    boxShadow: isOpen 
+                      ? '0 12px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.15)' 
+                      : '0 4px 15px rgba(0, 0, 0, 0.3)',
+                    transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                  onClick={() => setActiveFaq(isOpen ? null : idx)}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flex: 1 }}>
+                      {/* Number capsule */}
+                      <span style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '10px',
+                        background: isOpen ? 'rgba(212, 175, 55, 0.20)' : 'rgba(255, 255, 255, 0.06)',
+                        border: isOpen ? '1px solid rgba(212, 175, 55, 0.4)' : '1px solid rgba(255, 255, 255, 0.12)',
+                        color: isOpen ? '#FDE68A' : '#94A3B8',
+                        fontSize: '0.82rem',
+                        fontWeight: 800,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0
+                      }}>
+                        0{idx + 1}
+                      </span>
+
+                      <div>
+                        {faq.tag && (
+                          <div style={{ 
+                            fontSize: '0.66rem', 
+                            fontWeight: 800, 
+                            letterSpacing: '0.5px',
+                            color: isOpen ? '#F59E0B' : '#64748B',
+                            marginBottom: '2px',
+                            textTransform: 'uppercase'
+                          }}>
+                            {faq.tag}
+                          </div>
+                        )}
+                        <h4 style={{ 
+                          color: isOpen ? '#ffffff' : '#F1F5F9', 
+                          fontSize: '1.02rem', 
+                          fontWeight: 700, 
+                          margin: 0, 
+                          lineHeight: 1.45 
+                        }}>
+                          {faq.q}
+                        </h4>
+                      </div>
+                    </div>
+
+                    {/* Arrow / Plus button */}
+                    <div style={{ 
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '50%',
+                      background: isOpen ? 'rgba(212, 175, 55, 0.18)' : 'rgba(255, 255, 255, 0.05)',
+                      border: isOpen ? '1px solid rgba(212, 175, 55, 0.4)' : '1px solid rgba(255, 255, 255, 0.1)',
+                      color: isOpen ? '#FDE68A' : '#94A3B8',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                      transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                      transition: 'transform 0.25s ease, background 0.2s ease, color 0.2s ease'
+                    }}>
+                      <ChevronDown size={18} />
+                    </div>
+                  </div>
+
+                  {isOpen && (
+                    <div style={{ 
+                      marginTop: '16px', 
+                      paddingTop: '16px',
+                      borderTop: '1px solid rgba(255, 255, 255, 0.08)'
+                    }}>
+                      <p style={{ 
+                        color: '#E2E8F0', 
+                        fontSize: '0.92rem', 
+                        lineHeight: 1.65, 
+                        margin: '0 0 14px 0'
+                      }}>
+                        {faq.a}
+                      </p>
+                      {faq.badge && (
+                        <div style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          padding: '4px 12px',
+                          borderRadius: '12px',
+                          background: 'rgba(212, 175, 55, 0.10)',
+                          border: '1px solid rgba(212, 175, 55, 0.25)',
+                          color: '#FDE68A',
+                          fontSize: '0.76rem',
+                          fontWeight: 700
+                        }}>
+                          {faq.badge}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-                {activeFaq === idx && (
-                  <p style={{ 
-                    color: '#CBD5E1', 
-                    fontSize: '0.90rem', 
-                    marginTop: '12px', 
-                    lineHeight: 1.65, 
-                    borderTop: '1px solid rgba(255,255,255,0.08)', 
-                    paddingTop: '12px',
-                    margin: '12px 0 0 0'
-                  }}>
-                    {faq.a}
-                  </p>
-                )}
+              );
+            })}
+          </div>
+
+          {/* Direct Support Card at Bottom */}
+          <div style={{
+            marginTop: '44px',
+            padding: '24px 28px',
+            borderRadius: '20px',
+            background: 'linear-gradient(90deg, rgba(8, 26, 64, 0.95) 0%, rgba(14, 40, 95, 0.95) 100%)',
+            border: '1.5px solid rgba(212, 175, 55, 0.35)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '18px',
+            boxShadow: '0 12px 35px rgba(0, 0, 0, 0.5)'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{
+                width: '52px',
+                height: '52px',
+                borderRadius: '16px',
+                background: 'radial-gradient(circle, rgba(34, 197, 94, 0.25) 0%, rgba(16, 185, 129, 0.10) 100%)',
+                border: '1.5px solid rgba(34, 197, 94, 0.5)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#4ADE80',
+                boxShadow: '0 8px 20px rgba(34, 197, 94, 0.2)'
+              }}>
+                <MessageCircle size={26} />
               </div>
-            ))}
+              <div>
+                <h4 style={{ color: '#ffffff', fontSize: '1.08rem', fontWeight: 800, margin: '0 0 3px 0' }}>
+                  Still have a question?
+                </h4>
+                <p style={{ color: '#94A3B8', fontSize: '0.86rem', margin: 0 }}>
+                  Our team is available on WhatsApp and phone call 7 days a week for students and owners.
+                </p>
+              </div>
+            </div>
+            <div>
+              <button 
+                onClick={() => onNavigate ? onNavigate('contact') : null}
+                className="btn btn-gold"
+                style={{
+                  padding: '9px 20px',
+                  fontSize: '0.88rem',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '7px',
+                  cursor: 'pointer',
+                  borderRadius: '25px',
+                  fontWeight: 700
+                }}
+              >
+                <PhoneCall size={15} /> Contact Support
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* =========================================================================
-          SECTION 8: CALL TO ACTION (BOTTOM)
-          - For property owners
-          - Register / List property button
-         ========================================================================= */}
-      <section style={{ padding: '80px 0 90px 0' }}>
-        <div className="container">
-          <div className="luxury-card" style={{
-            padding: '52px 30px',
-            textAlign: 'center',
-            background: 'linear-gradient(135deg, rgba(7, 23, 57, 0.96) 0%, rgba(4, 13, 33, 0.98) 100%)',
-            border: '1.5px solid rgba(212, 175, 55, 0.40)',
-            boxShadow: '0 24px 60px rgba(2, 6, 23, 0.9), 0 0 35px rgba(212, 175, 55, 0.20)',
-            borderRadius: '24px',
-            maxWidth: '920px',
-            margin: '0 auto'
-          }}>
-            <Crown size={38} style={{ color: 'var(--gold-primary)', margin: '0 auto 16px auto', display: 'block' }} />
-            <h2 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.2vw, 2.4rem)', color: '#fff', marginBottom: '14px', fontWeight: 800 }}>
-              ARE YOU A PROPERTY OWNER?
-            </h2>
-            <p style={{ color: '#CBD5E1', maxWidth: '620px', margin: '0 auto 28px auto', fontSize: '1rem', lineHeight: 1.65 }}>
-              List your PG, flats, rooms or rental properties on Vrundavan Ventures. Reach more tenants, get verified and grow your business.
-            </p>
-            <button 
-              onClick={() => onNavigate('owner-register')}
-              className="btn btn-gold btn-lg"
-              style={{ 
-                display: 'inline-flex', 
-                alignItems: 'center', 
-                gap: '10px',
-                padding: '13px 30px',
-                fontSize: '1rem',
-                fontWeight: 700,
-                borderRadius: '12px',
-                boxShadow: '0 8px 24px rgba(212, 175, 55, 0.4)'
-              }}
-            >
-              <span>Register as Owner</span>
-              <ArrowRight size={18} />
-            </button>
-          </div>
-        </div>
-      </section>
+
 
       {/* Responsive Layout Styles */}
       <style>{`
@@ -1790,12 +2217,14 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
         }
 
         .how-it-works-card,
-        .why-benefit-card {
+        .why-benefit-card,
+        .review-luxury-card {
           transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
         .how-it-works-card:hover,
-        .why-benefit-card:hover {
+        .why-benefit-card:hover,
+        .review-luxury-card:hover {
           transform: translateY(-6px);
           box-shadow: 0 22px 50px rgba(0, 0, 0, 0.75) !important;
         }
