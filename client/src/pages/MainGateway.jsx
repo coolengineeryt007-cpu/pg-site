@@ -2,8 +2,7 @@ import React from 'react';
 import { 
   Users,
   Home as HomeIcon, 
-  ArrowRight, 
-  PhoneCall
+  ArrowRight
 } from 'lucide-react';
 
 export default function MainGateway({ onSelectStudent, onSelectOwner }) {
@@ -29,10 +28,10 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
         pointerEvents: 'none'
       }} />
 
-      {/* 1. Header: Site Logo (Left) & Contact Number (Right) */}
+      {/* 1. Header: Big Centered Brand Logo */}
       <header style={{
-        padding: '12px 0',
-        borderBottom: '1px solid rgba(212, 175, 55, 0.2)',
+        padding: '10px 0',
+        borderBottom: '1px solid rgba(212, 175, 55, 0.25)',
         background: 'rgba(4, 13, 33, 0.94)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
@@ -42,48 +41,22 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
         <div className="container" style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '12px'
+          justifyContent: 'center'
         }}>
-          {/* Site Logo */}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img 
-              src="/logo.png" 
-              alt="Vrundavan Ventures" 
-              style={{ 
-                height: '46px', 
-                width: 'auto', 
-                maxHeight: '46px',
-                maxWidth: '240px',
-                objectFit: 'contain',
-                display: 'block',
-                filter: 'drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6))'
-              }} 
-            />
-          </div>
-
-          {/* Contact Number */}
-          <a 
-            href="tel:18002129999"
+          {/* Centered Grand Brand Logo */}
+          <img 
+            src="/logo.png" 
+            alt="Vrundavan Ventures" 
             style={{ 
-              display: 'inline-flex', 
-              alignItems: 'center', 
-              gap: '8px', 
-              color: '#fff', 
-              fontSize: '0.9rem',
-              textDecoration: 'none',
-              background: 'rgba(255, 255, 255, 0.06)',
-              border: '1px solid rgba(212, 175, 55, 0.3)',
-              padding: '7px 16px',
-              borderRadius: '30px',
-              transition: 'all 0.2s ease'
-            }}
-          >
-            <PhoneCall size={14} style={{ color: 'var(--gold-primary)' }} />
-            <span style={{ color: 'var(--text-secondary)' }}>Toll-Free:</span>
-            <strong style={{ color: '#fff', letterSpacing: '0.3px' }}>+91 1800 212 9999</strong>
-          </a>
+              height: '95px', 
+              width: 'auto', 
+              maxHeight: '100px',
+              maxWidth: '460px',
+              objectFit: 'contain',
+              display: 'block',
+              filter: 'drop-shadow(0 6px 20px rgba(0, 0, 0, 0.75))'
+            }} 
+          />
         </div>
       </header>
 
@@ -130,12 +103,12 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
           maxWidth: '780px',
           width: '100%'
         }}>
-          {/* Card 1: Tenants (Logo + Title) */}
+          {/* Card 1: Tenants / Students & Renters (Logo + Title) */}
           <div 
             onClick={onSelectStudent}
             role="button"
             tabIndex={0}
-            aria-label="For Tenants & Home Seekers - Explore PGs, Rooms & Houses"
+            aria-label="For Students & Renters - Find PGs, Rooms & Houses"
             onKeyDown={(e) => { if (e.key === 'Enter') onSelectStudent(); }}
             className="gateway-card gateway-card-student"
             style={{
@@ -179,7 +152,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
                 color: '#ffffff', 
                 marginBottom: '6px' 
               }}>
-                For Tenants & Home Seekers
+                For Students & Renters
               </h2>
               <span style={{ 
                 fontSize: '0.86rem', 
@@ -188,7 +161,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
                 alignItems: 'center',
                 gap: '6px'
               }}>
-                Explore PGs, Rooms & Houses <ArrowRight size={14} style={{ color: '#60A5FA' }} />
+                Find PGs, Rooms & Houses <ArrowRight size={14} style={{ color: '#60A5FA' }} />
               </span>
             </div>
           </div>
@@ -258,9 +231,9 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
         </div>
       </main>
 
-      {/* 3. Footer */}
+      {/* 3. Footer: Centered Big Text */}
       <footer style={{
-        padding: '12px 0',
+        padding: '14px 0',
         borderTop: '1px solid rgba(14, 116, 237, 0.18)',
         background: 'rgba(3, 10, 28, 0.9)',
         textAlign: 'center',
@@ -269,19 +242,31 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
       }}>
         <div className="container" style={{
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '10px',
-          fontSize: '0.82rem',
-          color: 'var(--text-muted)'
+          justifyContent: 'center',
+          gap: '4px',
+          textAlign: 'center'
         }}>
-          <div>
+          <div style={{
+            fontSize: '1.05rem',
+            fontWeight: 600,
+            color: '#E2E8F0',
+            letterSpacing: '0.2px'
+          }}>
             © 2026 Vrundavan Ventures Residences. All rights reserved.
           </div>
-          <div style={{ display: 'flex', gap: '16px' }}>
-            <span>Verified Accommodations</span>
-            <span>•</span>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '12px',
+            fontSize: '0.92rem',
+            color: 'var(--text-muted)'
+          }}>
+            <span>Verified Luxury Accommodations</span>
+            <span style={{ color: 'var(--gold-primary)' }}>•</span>
             <span>Direct Connect Network</span>
           </div>
         </div>
