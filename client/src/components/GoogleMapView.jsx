@@ -69,6 +69,7 @@ export default function GoogleMapView({
   const tileLayerRef = useRef(null);
   const singleMarkerRef = useRef(null);
   const markerLayerGroupRef = useRef(null);
+  const hasFittedBoundsRef = useRef(false);
 
   // Initialize Map
   useEffect(() => {
@@ -78,13 +79,17 @@ export default function GoogleMapView({
       const map = L.map(containerRef.current, {
         center: [lat, lng],
         zoom: zoom,
-        zoomControl: interactive,
+        zoomControl: false, // Repositioned to bottomright to prevent control collision
         attributionControl: false,
         dragging: interactive,
         touchZoom: interactive,
         scrollWheelZoom: interactive ? 'center' : false,
         doubleClickZoom: interactive
       });
+
+      if (interactive) {
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+      }
 
       // Google Maps Official Tile Layer
       // Subdomains: mt0, mt1, mt2, mt3
@@ -238,8 +243,9 @@ export default function GoogleMapView({
         layer.addLayer(m);
       });
 
-      if (bounds.length > 1) {
-        map.fitBounds(bounds, { padding: [40, 40] });
+      if (!hasFittedBoundsRef.current && bounds.length > 1) {
+        map.fitBounds(bounds, { padding: [40, 40], maxZoom: 13 });
+        hasFittedBoundsRef.current = true;
       }
     }
   }, [markers, draggableMarker, onSelectPg]);
@@ -272,26 +278,28 @@ export default function GoogleMapView({
       {/* Floating Header: Layer Switcher & Google Maps Navigation */}
       <div style={{
         position: 'absolute',
-        top: '10px',
-        left: '10px',
-        right: '10px',
+        top: '12px',
+        left: '12px',
+        right: '12px',
         zIndex: 500,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         flexWrap: 'wrap',
-        gap: '6px',
+        gap: '8px',
         pointerEvents: 'none'
       }}>
         {/* Google Map Layer Switcher */}
         <div style={{
           display: 'flex',
-          background: 'rgba(10, 10, 10, 0.92)',
+          background: 'rgba(5, 13, 33, 0.92)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
           border: '1px solid rgba(212, 175, 55, 0.4)',
-          borderRadius: 'var(--radius-sm)',
+          borderRadius: '10px',
           padding: '3px',
-          gap: '3px',
-          boxShadow: '0 4px 15px rgba(0,0,0,0.85)',
+          gap: '4px',
+          boxShadow: '0 6px 20px rgba(0,0,0,0.85)',
           pointerEvents: 'auto'
         }}>
           <button
@@ -299,11 +307,12 @@ export default function GoogleMapView({
             onClick={() => setMapLayer('google_roadmap')}
             className={`btn btn-sm ${mapLayer === 'google_roadmap' ? 'btn-gold' : 'btn-ghost'}`}
             style={{
-              fontSize: '0.73rem',
-              padding: '4px 10px',
-              borderRadius: '4px',
+              fontSize: '0.74rem',
+              padding: '5px 11px',
+              borderRadius: '6px',
               fontWeight: 600,
-              gap: '4px'
+              gap: '4px',
+              color: mapLayer === 'google_roadmap' ? '#040d21' : '#cbd5e1'
             }}
             title="Google Maps Official Roadmap"
           >
@@ -315,11 +324,12 @@ export default function GoogleMapView({
             onClick={() => setMapLayer('google_satellite')}
             className={`btn btn-sm ${mapLayer === 'google_satellite' ? 'btn-gold' : 'btn-ghost'}`}
             style={{
-              fontSize: '0.73rem',
-              padding: '4px 10px',
-              borderRadius: '4px',
+              fontSize: '0.74rem',
+              padding: '5px 11px',
+              borderRadius: '6px',
               fontWeight: 600,
-              gap: '4px'
+              gap: '4px',
+              color: mapLayer === 'google_satellite' ? '#040d21' : '#cbd5e1'
             }}
             title="Google Maps Satellite & Hybrid View"
           >
@@ -331,11 +341,12 @@ export default function GoogleMapView({
             onClick={() => setMapLayer('google_dark')}
             className={`btn btn-sm ${mapLayer === 'google_dark' ? 'btn-gold' : 'btn-ghost'}`}
             style={{
-              fontSize: '0.73rem',
-              padding: '4px 10px',
-              borderRadius: '4px',
+              fontSize: '0.74rem',
+              padding: '5px 11px',
+              borderRadius: '6px',
               fontWeight: 600,
-              gap: '4px'
+              gap: '4px',
+              color: mapLayer === 'google_dark' ? '#040d21' : '#cbd5e1'
             }}
             title="Luxury Dark Mode Theme"
           >
@@ -351,13 +362,14 @@ export default function GoogleMapView({
           className="btn btn-gold btn-sm"
           style={{
             padding: '6px 14px',
-            fontSize: '0.75rem',
+            fontSize: '0.76rem',
+            fontWeight: 700,
             boxShadow: '0 4px 15px rgba(0,0,0,0.85)',
             pointerEvents: 'auto',
             display: 'flex',
             alignItems: 'center',
-            gap: '5px',
-            borderRadius: 'var(--radius-sm)'
+            gap: '6px',
+            borderRadius: '8px'
           }}
           title="Open in Official Google Maps Navigation"
         >
@@ -394,6 +406,45 @@ export default function GoogleMapView({
           </span>
         </div>
       )}
+
+      {/* Scoped Leaflet Zoom Dark Theme Styling */}
+      <style>{`
+        .leaflet-bottom.leaflet-right {
+          bottom: 14px !important;
+          right: 14px !important;
+          z-index: 500 !important;
+        }
+        .leaflet-control-zoom {
+          border: 1.5px solid rgba(212, 175, 55, 0.45) !important;
+          border-radius: 8px !important;
+          overflow: hidden !important;
+          box-shadow: 0 6px 22px rgba(0, 0, 0, 0.85) !important;
+        }
+        .leaflet-control-zoom-in,
+        .leaflet-control-zoom-out {
+          background: rgba(5, 13, 33, 0.94) !important;
+          color: #D4AF37 !important;
+          border: none !important;
+          border-bottom: 1px solid rgba(212, 175, 55, 0.25) !important;
+          width: 32px !important;
+          height: 32px !important;
+          line-height: 30px !important;
+          font-size: 16px !important;
+          font-weight: bold !important;
+          transition: all 0.18s ease !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+        }
+        .leaflet-control-zoom-out {
+          border-bottom: none !important;
+        }
+        .leaflet-control-zoom-in:hover,
+        .leaflet-control-zoom-out:hover {
+          background: #0E74ED !important;
+          color: #ffffff !important;
+        }
+      `}</style>
     </div>
   );
 }

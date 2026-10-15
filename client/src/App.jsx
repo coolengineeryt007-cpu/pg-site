@@ -17,7 +17,6 @@ import Blogs from './pages/Blogs';
 import BlogDetail from './pages/BlogDetail';
 import Legal from './pages/Legal';
 import LockedPageGate from './components/LockedPageGate';
-import AiConciergeModal from './components/AiConciergeModal';
 import OwnerSubscriptionModal from './components/OwnerSubscriptionModal';
 import { Lock, LogIn } from 'lucide-react';
 
@@ -141,7 +140,6 @@ export default function App() {
   });
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalRole, setAuthModalRole] = useState('owner');
-  const [aiModalOpen, setAiModalOpen] = useState(false);
   const [subscriptionModalOpen, setSubscriptionModalOpen] = useState(false);
   const [subscriptionPendingUser, setSubscriptionPendingUser] = useState(null);
 
@@ -516,7 +514,6 @@ export default function App() {
             setAuthModalOpen(true);
           }}
           onLogout={handleLogout}
-          onOpenAiConcierge={() => setAiModalOpen(true)}
         />
       )}
 
@@ -828,14 +825,6 @@ export default function App() {
           setAuthModalOpen(false);
           navigateTo('/', 'portal');
         }}
-      />
-
-
-      {/* AI Concierge Modal */}
-      <AiConciergeModal 
-        isOpen={aiModalOpen}
-        onClose={() => setAiModalOpen(false)}
-        onSelectPg={handleSelectPg}
       />
 
       {/* Host Partner Subscription & Autopay Modal */}

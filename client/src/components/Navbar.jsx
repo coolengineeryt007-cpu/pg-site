@@ -24,8 +24,7 @@ export default function Navbar({
   userRoleMode = 'student', 
   currentUser, 
   onLoginClick, 
-  onLogout,
-  onOpenAiConcierge
+  onLogout
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -185,29 +184,6 @@ export default function Navbar({
                 >
                   <LogIn size={15} />
                   <span>Student Sign In</span>
-                </button>
-              )}
-
-              {onOpenAiConcierge && (
-                <button 
-                  onClick={onOpenAiConcierge}
-                  className="btn btn-sm nav-ai-match-btn"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(14, 116, 237, 0.25), rgba(212, 175, 55, 0.25))',
-                    border: '1px solid rgba(212, 175, 55, 0.5)',
-                    color: 'var(--gold-primary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    borderRadius: '20px',
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                    boxShadow: '0 0 12px rgba(212, 175, 55, 0.2)'
-                  }}
-                  title="Launch Vrundavan AI Concierge"
-                >
-                  <Sparkles size={14} />
-                  <span className="nav-ai-text">AI Match</span>
                 </button>
               )}
 
@@ -379,29 +355,6 @@ export default function Navbar({
                   <span>{userRoleMode === 'owner' ? 'Host Sign In' : 'Sign In / Register'}</span>
                 </button>
               </div>
-            )}
-
-            {/* AI Concierge Drawer CTA */}
-            {onOpenAiConcierge && (
-              <button 
-                onClick={() => { onOpenAiConcierge(); setMobileMenuOpen(false); }}
-                className="btn btn-sm"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(14, 116, 237, 0.3) 0%, rgba(212, 175, 55, 0.3) 100%)',
-                  border: '1px solid rgba(212, 175, 55, 0.6)',
-                  color: '#fff',
-                  width: '100%',
-                  justifyContent: 'center',
-                  padding: '12px',
-                  borderRadius: 'var(--radius-sm)',
-                  fontWeight: 700,
-                  fontSize: '0.92rem',
-                  boxShadow: '0 4px 15px rgba(212, 175, 55, 0.15)'
-                }}
-              >
-                <Sparkles size={16} style={{ color: 'var(--gold-primary)' }} />
-                <span>Launch AI Room & PG Concierge</span>
-              </button>
             )}
 
             {/* Navigation Links */}
