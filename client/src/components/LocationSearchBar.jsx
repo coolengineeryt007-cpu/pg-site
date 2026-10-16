@@ -253,11 +253,11 @@ export default function LocationSearchBar({
         style={{
           display: 'flex',
           alignItems: 'center',
-          background: '#FFFFFF',
-          border: isGuest ? '1.5px solid rgba(212, 175, 55, 0.6)' : '1px solid #CBD5E1',
+          background: 'rgba(7, 23, 57, 0.95)',
+          border: isGuest ? '1.5px solid rgba(212, 175, 55, 0.5)' : '1px solid rgba(14, 116, 237, 0.45)',
           borderRadius: 'var(--radius-md)',
           padding: '6px 10px',
-          boxShadow: isGuest ? '0 8px 30px rgba(0, 0, 0, 0.08), 0 0 15px rgba(212, 175, 55, 0.15)' : '0 8px 30px rgba(0, 82, 204, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04)',
+          boxShadow: isGuest ? '0 8px 30px rgba(2, 6, 23, 0.8), 0 0 15px rgba(212, 175, 55, 0.15)' : '0 8px 30px rgba(2, 6, 23, 0.8), 0 0 15px rgba(14, 116, 237, 0.2)',
           gap: '8px',
           position: 'relative',
           cursor: isGuest ? 'pointer' : 'default',
@@ -265,7 +265,7 @@ export default function LocationSearchBar({
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', flex: 1, minWidth: 0, gap: '8px' }}>
-          <Search size={18} style={{ color: isGuest ? 'var(--gold-primary)' : 'var(--blue-primary)', flexShrink: 0, marginLeft: '4px' }} />
+          <Search size={18} style={{ color: isGuest ? 'var(--gold-primary)' : 'var(--blue-light)', flexShrink: 0, marginLeft: '4px' }} />
           
           <input
             ref={inputRef}
@@ -304,7 +304,7 @@ export default function LocationSearchBar({
               backgroundImage: 'none',
               border: 'none',
               outline: 'none',
-              color: '#0F172A',
+              color: '#fff',
               fontSize: '0.95rem',
               padding: '8px 4px',
               minWidth: 0,
@@ -378,16 +378,17 @@ export default function LocationSearchBar({
                 alignItems: 'center',
                 gap: '6px',
                 borderRadius: 'var(--radius-sm)',
-                background: 'rgba(0, 82, 204, 0.08)',
-                borderColor: 'rgba(0, 82, 204, 0.3)',
-                color: 'var(--blue-primary)',
+                background: 'rgba(14, 116, 237, 0.15)',
+                borderColor: 'rgba(14, 116, 237, 0.4)',
+                color: 'var(--blue-light)',
                 fontWeight: 600
               }}
+              title="Automatically detect current GPS location and autofill address"
             >
               {detectingLocation ? (
                 <Loader2 size={14} className="animate-spin" />
               ) : (
-                <Navigation size={13} style={{ color: 'var(--blue-primary)' }} />
+                <Navigation size={13} style={{ color: 'var(--blue-cyan)' }} />
               )}
               <span>{detectingLocation ? "Detecting..." : "Near Me"}</span>
             </button>
@@ -404,7 +405,7 @@ export default function LocationSearchBar({
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(90deg, rgba(255, 255, 255, 0.88) 0%, rgba(248, 250, 252, 0.92) 100%)',
+              background: 'linear-gradient(90deg, rgba(4, 13, 33, 0.84) 0%, rgba(7, 23, 57, 0.88) 100%)',
               backdropFilter: 'blur(3px)',
               WebkitBackdropFilter: 'blur(3px)',
               display: 'flex',
@@ -462,10 +463,10 @@ export default function LocationSearchBar({
           right: 0,
           zIndex: 1000,
           marginTop: '6px',
-          background: '#FFFFFF',
-          border: '1px solid #CBD5E1',
+          background: '#071739',
+          border: '1px solid rgba(14, 116, 237, 0.5)',
           borderRadius: 'var(--radius-md)',
-          boxShadow: '0 14px 40px rgba(0, 82, 204, 0.12), 0 4px 16px rgba(0, 0, 0, 0.08)',
+          boxShadow: '0 14px 40px rgba(2, 6, 23, 0.95)',
           overflow: 'hidden',
           maxHeight: '260px',
           overflowY: 'auto'
@@ -476,22 +477,22 @@ export default function LocationSearchBar({
               onClick={() => handleSelectSuggestion(item)}
               style={{
                 padding: '10px 14px',
-                borderBottom: idx < suggestions.length - 1 ? '1px solid #F1F5F9' : 'none',
+                borderBottom: idx < suggestions.length - 1 ? '1px solid #222' : 'none',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'flex-start',
                 gap: '10px',
                 transition: 'background 0.15s ease'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(0, 82, 204, 0.06)'}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(212, 175, 55, 0.12)'}
               onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
               <MapPin size={16} style={{ color: 'var(--gold-primary)', flexShrink: 0, marginTop: '2px' }} />
               <div>
-                <div style={{ color: '#0F172A', fontSize: '0.88rem', fontWeight: 600 }}>
+                <div style={{ color: '#fff', fontSize: '0.88rem', fontWeight: 600 }}>
                   {item.apartment || item.area || item.city}
                 </div>
-                <div style={{ color: '#64748B', fontSize: '0.78rem' }}>
+                <div style={{ color: '#888', fontSize: '0.78rem' }}>
                   {item.formattedAddress}
                 </div>
               </div>
@@ -509,11 +510,11 @@ export default function LocationSearchBar({
           borderRadius: 'var(--radius-sm)',
           padding: '10px 14px',
           fontSize: '0.8rem',
-          color: '#92400E',
+          color: 'var(--gold-light)',
           display: 'flex',
           alignItems: 'flex-start',
           gap: '10px',
-          boxShadow: '0 4px 15px rgba(0,0,0,0.05)'
+          boxShadow: '0 4px 15px rgba(0,0,0,0.5)'
         }}>
           <AlertCircle size={16} style={{ color: 'var(--gold-primary)', flexShrink: 0, marginTop: '2px' }} />
           <div>

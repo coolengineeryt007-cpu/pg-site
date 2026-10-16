@@ -70,10 +70,10 @@ export default function SuperAdminSecretGate({ onLoginSuccess, onCancel }) {
       <div style={{
         width: '100%',
         maxWidth: '460px',
-        background: '#FFFFFF',
-        border: '1px solid #CBD5E1',
+        background: 'rgba(4, 13, 33, 0.98)',
+        border: '1px solid rgba(14, 116, 237, 0.45)',
         borderRadius: 'var(--radius-lg)',
-        boxShadow: '0 25px 50px -12px rgba(0, 82, 204, 0.15), 0 0 35px rgba(0, 82, 204, 0.08)',
+        boxShadow: '0 25px 50px -12px rgba(2, 6, 23, 0.95), 0 0 35px rgba(14, 116, 237, 0.35)',
         padding: '36px 30px',
         position: 'relative',
         zIndex: 2
@@ -85,7 +85,7 @@ export default function SuperAdminSecretGate({ onLoginSuccess, onCancel }) {
             style={{
               background: 'transparent',
               border: 'none',
-              color: '#64748B',
+              color: '#94A3B8',
               cursor: 'pointer',
               display: 'inline-flex',
               alignItems: 'center',
@@ -103,19 +103,19 @@ export default function SuperAdminSecretGate({ onLoginSuccess, onCancel }) {
             width: '60px',
             height: '60px',
             borderRadius: '16px',
-            background: 'linear-gradient(135deg, rgba(0, 82, 204, 0.12) 0%, rgba(13, 148, 136, 0.12) 100%)',
-            border: '1px solid rgba(0, 82, 204, 0.3)',
+            background: 'linear-gradient(135deg, rgba(14, 116, 237, 0.25) 0%, rgba(0, 210, 180, 0.2) 100%)',
+            border: '1px solid rgba(14, 116, 237, 0.6)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             margin: '0 auto 16px auto',
-            color: 'var(--blue-primary)',
-            boxShadow: '0 0 20px rgba(0, 82, 204, 0.15)'
+            color: '#60A5FA',
+            boxShadow: '0 0 20px rgba(14, 116, 237, 0.4)'
           }}>
             <ShieldCheck size={32} />
           </div>
 
-          <h2 className="font-serif" style={{ fontSize: '1.6rem', fontWeight: 800, color: '#0F172A', marginBottom: '6px' }}>
+          <h2 className="font-serif" style={{ fontSize: '1.6rem', fontWeight: 800, color: '#ffffff', marginBottom: '6px' }}>
             Super Admin Login
           </h2>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
@@ -123,7 +123,7 @@ export default function SuperAdminSecretGate({ onLoginSuccess, onCancel }) {
               <Lock size={11} /> Restricted Admin Access
             </span>
           </div>
-          <p style={{ color: '#64748B', fontSize: '0.82rem', marginTop: '10px' }}>
+          <p style={{ color: '#94A3B8', fontSize: '0.82rem', marginTop: '10px' }}>
             This area is for admins only. Please sign in with your admin credentials.
           </p>
         </div>
@@ -189,7 +189,7 @@ export default function SuperAdminSecretGate({ onLoginSuccess, onCancel }) {
         <div style={{
           marginTop: '24px',
           paddingTop: '20px',
-          borderTop: '1px solid #E2E8F0',
+          borderTop: '1px solid rgba(14, 116, 237, 0.25)',
           textAlign: 'center'
         }}>
           <span style={{ fontSize: '0.75rem', color: '#64748B', display: 'block', marginBottom: '10px' }}>
