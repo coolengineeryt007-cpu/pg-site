@@ -36,18 +36,18 @@ export default function ContactUs() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px', marginBottom: '60px' }}>
         {/* Contact Form */}
         <div className="luxury-card" style={{ padding: 'clamp(20px, 4vw, 36px)' }}>
-          <h2 className="font-serif" style={{ fontSize: '1.5rem', color: '#fff', marginBottom: '10px' }}>
+          <h2 className="font-serif" style={{ fontSize: '1.5rem', color: '#0F172A', marginBottom: '10px' }}>
             Send Us a Message
           </h2>
-          <p style={{ color: '#888', fontSize: '0.9rem', marginBottom: '24px' }}>
+          <p style={{ color: '#64748B', fontSize: '0.9rem', marginBottom: '24px' }}>
             We usually reply within 15 minutes during regular hours.
           </p>
 
           {submitted ? (
-            <div style={{ textAlign: 'center', padding: '40px 10px', color: '#34D399' }}>
+            <div style={{ textAlign: 'center', padding: '40px 10px', color: '#0D9488' }}>
               <CheckCircle2 size={52} style={{ margin: '0 auto 16px auto', display: 'block' }} />
-              <h3 style={{ color: '#fff', fontSize: '1.3rem', marginBottom: '8px' }}>Message Sent Successfully</h3>
-              <p style={{ color: '#aaa', fontSize: '0.95rem' }}>We have received your message and will call or email you shortly.</p>
+              <h3 style={{ color: '#0F172A', fontSize: '1.3rem', marginBottom: '8px' }}>Message Sent Successfully</h3>
+              <p style={{ color: '#475569', fontSize: '0.95rem' }}>We have received your message and will call or email you shortly.</p>
               <button onClick={() => setSubmitted(false)} className="btn btn-outline-gold btn-sm" style={{ marginTop: '20px' }}>
                 Send Another Message
               </button>
@@ -130,36 +130,36 @@ export default function ContactUs() {
         {/* Corporate Hub Info */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div className="luxury-card" style={{ padding: '28px' }}>
-            <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Phone size={18} style={{ color: 'var(--gold-primary)' }} />
+            <h3 style={{ color: '#0F172A', fontSize: '1.2rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Phone size={18} style={{ color: 'var(--blue-primary)' }} />
               Phone & WhatsApp Support
             </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '0.95rem', color: '#ccc' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '0.95rem', color: '#334155' }}>
               <div>
-                <span style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase', display: 'block' }}>Toll-Free Helpline</span>
-                <strong style={{ color: 'var(--gold-primary)', fontSize: '1.1rem' }}>+91 1800 212 9999</strong>
+                <span style={{ fontSize: '0.75rem', color: '#64748B', textTransform: 'uppercase', display: 'block' }}>Toll-Free Helpline</span>
+                <strong style={{ color: 'var(--blue-primary)', fontSize: '1.1rem' }}>+91 1800 212 9999</strong>
               </div>
               <div>
-                <span style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase', display: 'block' }}>WhatsApp Support</span>
-                <strong style={{ color: '#fff' }}>+91 98765 43210</strong>
+                <span style={{ fontSize: '0.75rem', color: '#64748B', textTransform: 'uppercase', display: 'block' }}>WhatsApp Support</span>
+                <strong style={{ color: '#0F172A' }}>+91 98765 43210</strong>
               </div>
               <div>
-                <span style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase', display: 'block' }}>Email Address</span>
-                <strong style={{ color: '#fff' }}>support@vrundavanventures.com</strong>
+                <span style={{ fontSize: '0.75rem', color: '#64748B', textTransform: 'uppercase', display: 'block' }}>Email Address</span>
+                <strong style={{ color: '#0F172A' }}>support@vrundavanventures.com</strong>
               </div>
             </div>
           </div>
 
           <div className="luxury-card" style={{ padding: '28px' }}>
-            <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h3 style={{ color: '#0F172A', fontSize: '1.2rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <MapPin size={18} style={{ color: 'var(--red-crimson)' }} />
               Main Office Address
             </h3>
-            <p style={{ color: '#bbb', fontSize: '0.95rem', lineHeight: 1.7, marginBottom: '12px' }}>
+            <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: 1.7, marginBottom: '12px' }}>
               <strong>Vrundavan Ventures</strong><br />
               Kalawad Road / 150 Feet Ring Road, Rajkot, Gujarat 360005, India
             </p>
-            <span style={{ fontSize: '0.8rem', color: 'var(--gold-primary)' }}>
+            <span style={{ fontSize: '0.8rem', color: '#B45309', fontWeight: 600 }}>
               Open Monday to Saturday: 9:00 AM – 8:00 PM IST
             </span>
           </div>
@@ -168,7 +168,7 @@ export default function ContactUs() {
 
       {/* Embedded Google Map of HQ */}
       <div className="luxury-card" style={{ padding: '24px' }}>
-        <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '14px' }}>
+        <h3 style={{ color: '#0F172A', fontSize: '1.2rem', marginBottom: '14px' }}>
           Find Our Bengaluru Corporate Headquarters
         </h3>
         <GoogleMapView 

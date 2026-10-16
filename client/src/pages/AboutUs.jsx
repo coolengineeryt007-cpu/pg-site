@@ -47,19 +47,19 @@ export default function AboutUs() {
       <div className="grid-4" style={{ marginBottom: '70px' }}>
         <div className="luxury-card" style={{ padding: '26px', textAlign: 'center' }}>
           <h2 className="gold-gradient-text font-serif" style={{ fontSize: '2.5rem', fontWeight: 900 }}>50,000+</h2>
-          <span style={{ color: '#aaa', fontSize: '0.9rem' }}>Happy Tenants Housed</span>
+          <span style={{ color: '#64748B', fontSize: '0.9rem' }}>Happy Tenants Housed</span>
         </div>
         <div className="luxury-card" style={{ padding: '26px', textAlign: 'center' }}>
           <h2 className="gold-gradient-text font-serif" style={{ fontSize: '2.5rem', fontWeight: 900 }}>1,200+</h2>
-          <span style={{ color: '#aaa', fontSize: '0.9rem' }}>Verified Rental Properties</span>
+          <span style={{ color: '#64748B', fontSize: '0.9rem' }}>Verified Rental Properties</span>
         </div>
         <div className="luxury-card" style={{ padding: '26px', textAlign: 'center' }}>
           <h2 className="gold-gradient-text font-serif" style={{ fontSize: '2.5rem', fontWeight: 900 }}>99.8%</h2>
-          <span style={{ color: '#aaa', fontSize: '0.9rem' }}>Safe Deposit Return Rate</span>
+          <span style={{ color: '#64748B', fontSize: '0.9rem' }}>Safe Deposit Return Rate</span>
         </div>
         <div className="luxury-card" style={{ padding: '26px', textAlign: 'center' }}>
           <h2 className="gold-gradient-text font-serif" style={{ fontSize: '2.5rem', fontWeight: 900 }}>4.9 ★</h2>
-          <span style={{ color: '#aaa', fontSize: '0.9rem' }}>Average Tenant Rating</span>
+          <span style={{ color: '#64748B', fontSize: '0.9rem' }}>Average Tenant Rating</span>
         </div>
       </div>
 
@@ -103,11 +103,11 @@ export default function AboutUs() {
                 <span className="badge badge-gold" style={{ fontSize: '0.7rem', marginBottom: '8px' }}>
                   {leader.badge}
                 </span>
-                <h3 style={{ color: '#fff', fontSize: '1.3rem', marginBottom: '4px' }}>{leader.name}</h3>
-                <span style={{ color: 'var(--gold-light)', fontSize: '0.85rem', fontWeight: 600 }}>{leader.role}</span>
+                <h3 style={{ color: '#0F172A', fontSize: '1.3rem', marginBottom: '4px' }}>{leader.name}</h3>
+                <span style={{ color: '#B45309', fontSize: '0.85rem', fontWeight: 600 }}>{leader.role}</span>
               </div>
 
-              <p style={{ color: '#aaa', fontSize: '0.9rem', lineHeight: 1.7, textAlign: 'center', marginBottom: '20px', flex: 1 }}>
+              <p style={{ color: '#475569', fontSize: '0.9rem', lineHeight: 1.7, textAlign: 'center', marginBottom: '20px', flex: 1 }}>
                 {leader.bio}
               </p>
 
@@ -115,7 +115,7 @@ export default function AboutUs() {
                 display: 'flex',
                 justifyContent: 'center',
                 gap: '12px',
-                borderTop: '1px solid rgba(255,255,255,0.06)',
+                borderTop: '1px solid #E2E8F0',
                 paddingTop: '16px'
               }}>
                 <button type="button" onClick={(e) => e.preventDefault()} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--gold-primary)' }} title="Team Profile">
@@ -131,13 +131,13 @@ export default function AboutUs() {
       </section>
 
       {/* CORE PILLARS & MISSION */}
-      <section className="luxury-card" style={{ padding: '50px 40px', background: 'linear-gradient(135deg, rgba(18,18,18,0.95) 0%, rgba(20,10,10,0.95) 100%)' }}>
+      <section className="luxury-card" style={{ padding: '50px 40px', background: '#FFFFFF', border: '1px solid #CBD5E1', boxShadow: '0 15px 40px rgba(0, 82, 204, 0.08)' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
           <Crown size={36} style={{ color: 'var(--gold-primary)', margin: '0 auto 16px auto', display: 'block' }} />
           <h2 className="font-serif gold-gradient-text" style={{ fontSize: '2rem', marginBottom: '16px' }}>
             Our Simple Promise to Every Tenant
           </h2>
-          <p style={{ color: '#bbb', fontSize: '1rem', lineHeight: 1.8, marginBottom: '30px' }}>
+          <p style={{ color: '#475569', fontSize: '1rem', lineHeight: 1.8, marginBottom: '30px' }}>
             We inspect every property carefully. If a room has poor ventilation, dirty facilities, or hidden extra costs, we do not list it. We only list clean, safe, and honest homes.
           </p>
 
@@ -147,20 +147,20 @@ export default function AboutUs() {
             gap: '16px',
             textAlign: 'left'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#fff' }}>
-              <CheckCircle2 size={18} style={{ color: 'var(--gold-primary)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#0F172A' }}>
+              <CheckCircle2 size={18} style={{ color: 'var(--blue-primary)' }} />
               <span>Safe & Secure Deposit Return</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#fff' }}>
-              <CheckCircle2 size={18} style={{ color: 'var(--gold-primary)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#0F172A' }}>
+              <CheckCircle2 size={18} style={{ color: 'var(--blue-primary)' }} />
               <span>Female Wardens in Girls PGs</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#fff' }}>
-              <CheckCircle2 size={18} style={{ color: 'var(--gold-primary)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#0F172A' }}>
+              <CheckCircle2 size={18} style={{ color: 'var(--blue-primary)' }} />
               <span>24x7 Power Backup & Fast WiFi</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#fff' }}>
-              <CheckCircle2 size={18} style={{ color: 'var(--gold-primary)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#0F172A' }}>
+              <CheckCircle2 size={18} style={{ color: 'var(--blue-primary)' }} />
               <span>Direct WhatsApp & Call with Owners</span>
             </div>
           </div>

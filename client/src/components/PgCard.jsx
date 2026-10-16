@@ -28,10 +28,10 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
     : `🏢 ${pg.gender || 'Co-ed'} PG`;
 
   const typeBadgeStyle = isHouse
-    ? { background: 'rgba(212, 175, 55, 0.22)', border: '1px solid rgba(212, 175, 55, 0.5)', color: '#FDE68A' }
+    ? { background: '#FEF3C7', border: '1px solid #FCD34D', color: '#92400E' }
     : isRoom
-    ? { background: 'rgba(0, 210, 180, 0.2)', border: '1px solid rgba(0, 210, 180, 0.5)', color: '#A7F3D0' }
-    : { background: 'rgba(14, 116, 237, 0.25)', border: '1px solid rgba(56, 189, 248, 0.55)', color: '#BAE6FD' };
+    ? { background: '#F0FDFA', border: '1px solid #99F6E4', color: '#0F766E' }
+    : { background: '#EFF6FF', border: '1px solid #BFDBFE', color: '#1D4ED8' };
 
   // Key Features (Consolidated cleanly into 3 items max)
   const features = isHouse
@@ -61,11 +61,11 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
         flexDirection: 'column', 
         height: '100%',
         borderRadius: '18px',
-        border: '1.5px solid rgba(14, 116, 237, 0.25)',
-        background: 'linear-gradient(180deg, rgba(7, 22, 53, 0.96) 0%, rgba(3, 10, 28, 0.98) 100%)',
+        border: '1.5px solid #E2E8F0',
+        background: '#FFFFFF',
         overflow: 'hidden',
         cursor: 'pointer',
-        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.65)',
+        boxShadow: '0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 0 1px 1px rgba(226, 232, 240, 0.9)',
         transition: 'transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease'
       }}
     >
@@ -96,7 +96,7 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
         <div style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(180deg, rgba(4,13,33,0.12) 0%, rgba(4,13,33,0.85) 100%)',
+          background: 'linear-gradient(180deg, rgba(0,0,0,0.04) 55%, rgba(0,0,0,0.45) 100%)',
           pointerEvents: 'none'
         }} />
 
@@ -118,7 +118,7 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
             }}
           >
             <span style={{
-              background: 'rgba(4, 13, 33, 0.88)',
+              background: 'rgba(15, 23, 42, 0.88)',
               backdropFilter: 'blur(8px)',
               WebkitBackdropFilter: 'blur(8px)',
               border: '1px solid rgba(212, 175, 55, 0.5)',
@@ -126,13 +126,13 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
               padding: '6px 14px',
               fontSize: '0.74rem',
               fontWeight: 700,
-              color: '#FDE68A',
+              color: '#FEF08A',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '6px',
-              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.7)'
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.5)'
             }}>
-              <Lock size={12} style={{ color: 'var(--gold-primary)' }} />
+              <Lock size={12} style={{ color: '#F59E0B' }} />
               <span>Login to View Clear Photos</span>
             </span>
           </div>
@@ -168,9 +168,9 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
 
             {pg.featured && (
               <span style={{
-                background: 'rgba(212, 175, 55, 0.22)',
-                border: '1px solid rgba(212, 175, 55, 0.45)',
-                color: '#FDE68A',
+                background: '#FEF3C7',
+                border: '1px solid #FCD34D',
+                color: '#92400E',
                 backdropFilter: 'blur(8px)',
                 WebkitBackdropFilter: 'blur(8px)',
                 padding: '3px 8px',
@@ -181,7 +181,7 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
                 alignItems: 'center',
                 gap: '3px'
               }}>
-                <Crown size={11} style={{ color: 'var(--gold-primary)' }} />
+                <Crown size={11} style={{ color: '#D97706' }} />
                 <span>PRIME</span>
               </span>
             )}
@@ -191,35 +191,37 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
           <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
             {pg.distanceKm !== undefined && pg.distanceKm !== null ? (
               <span style={{
-                background: 'rgba(4, 13, 33, 0.90)',
-                border: '1px solid rgba(14, 116, 237, 0.5)',
+                background: 'rgba(255, 255, 255, 0.95)',
+                border: '1px solid #CBD5E1',
                 borderRadius: '20px',
                 padding: '3px 8px',
                 fontSize: '0.70rem',
                 fontWeight: 700,
-                color: 'var(--gold-light)',
+                color: '#0052CC',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '4px'
+                gap: '4px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
               }}>
-                <Navigation size={10} style={{ color: 'var(--blue-light)' }} />
+                <Navigation size={10} style={{ color: '#0052CC' }} />
                 <span>{pg.distanceKm} km</span>
               </span>
             ) : (
               <span style={{
-                background: 'rgba(4, 13, 33, 0.88)',
+                background: 'rgba(255, 255, 255, 0.95)',
                 backdropFilter: 'blur(6px)',
-                border: '1px solid rgba(16, 185, 129, 0.45)',
+                border: '1px solid #A7F3D0',
                 borderRadius: '20px',
                 padding: '3px 8px',
                 fontSize: '0.68rem',
                 fontWeight: 700,
-                color: '#34D399',
+                color: '#065F46',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '3px'
+                gap: '3px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
               }}>
-                <ShieldCheck size={11} />
+                <ShieldCheck size={11} color="#059669" />
                 <span>Verified</span>
               </span>
             )}
@@ -231,23 +233,23 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
           position: 'absolute',
           bottom: '10px',
           left: '10px',
-          background: 'rgba(4, 13, 33, 0.92)',
+          background: 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(8px)',
           WebkitBackdropFilter: 'blur(8px)',
           padding: '3px 8px',
           borderRadius: '12px',
-          border: '1px solid rgba(212, 175, 55, 0.35)',
+          border: '1px solid #E2E8F0',
           display: 'flex',
           alignItems: 'center',
           gap: '4px',
           fontSize: '0.76rem',
           fontWeight: 700,
-          color: '#ffffff',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.6)'
+          color: '#0F172A',
+          boxShadow: '0 4px 12px rgba(15, 23, 42, 0.12)'
         }}>
           <Star size={12} fill="#F59E0B" color="#F59E0B" />
           <span>{pg.rating || '4.9'}</span>
-          <span style={{ color: '#94A3B8', fontSize: '0.70rem', fontWeight: 500 }}>
+          <span style={{ color: '#64748B', fontSize: '0.70rem', fontWeight: 500 }}>
             ({pg.reviewsCount || 20})
           </span>
         </div>
@@ -260,7 +262,7 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
           style={{ 
             fontSize: '1.08rem', 
             fontWeight: 700, 
-            color: '#ffffff', 
+            color: '#0F172A', 
             marginBottom: '6px',
             lineHeight: 1.35,
             whiteSpace: 'nowrap',
@@ -268,7 +270,6 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
             textOverflow: 'ellipsis'
           }}
           title={pg.name}
-          className="gold-gradient-hover"
         >
           {pg.name}
         </h3>
@@ -279,12 +280,12 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
           alignItems: 'center', 
           justifyContent: 'space-between',
           gap: '6px', 
-          color: '#94A3B8', 
+          color: '#64748B', 
           fontSize: '0.80rem',
           marginBottom: '12px'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '5px', minWidth: 0 }}>
-            <MapPin size={13} style={{ color: '#38BDF8', flexShrink: 0 }} />
+            <MapPin size={13} style={{ color: '#0052CC', flexShrink: 0 }} />
             {isGuest ? (
               <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                 {/* Specific locality/area blurred for privacy in guest mode */}
@@ -295,7 +296,7 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
                     WebkitFilter: 'blur(5px)',
                     userSelect: 'none', 
                     opacity: 0.68,
-                    color: '#94A3B8',
+                    color: '#64748B',
                     letterSpacing: '0.2px',
                     pointerEvents: 'none'
                   }}
@@ -305,12 +306,12 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
                   {pg.address?.area || 'Area Locality'},
                 </span>
                 {/* Main city name clearly visible */}
-                <span style={{ color: '#F1F5F9', fontWeight: 700, display: 'inline-block' }}>
+                <span style={{ color: '#0F172A', fontWeight: 700, display: 'inline-block' }}>
                   {pg.address?.city || 'Rajkot'}
                 </span>
               </span>
             ) : (
-              <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+              <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', color: '#334155' }}>
                 {pg.address?.area || pg.address?.city}, {pg.address?.city}
               </span>
             )}
@@ -324,11 +325,11 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
               }}
               style={{
                 fontSize: '0.68rem',
-                color: '#FDE68A',
-                background: 'rgba(212, 175, 55, 0.12)',
+                color: '#B45309',
+                background: '#FEF3C7',
                 padding: '2px 6px',
                 borderRadius: '4px',
-                border: '1px solid rgba(212, 175, 55, 0.25)',
+                border: '1px solid #FCD34D',
                 flexShrink: 0,
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -348,12 +349,12 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
             <span 
               key={i}
               style={{
-                background: 'rgba(255, 255, 255, 0.04)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                background: '#F1F5F9',
+                border: '1px solid #E2E8F0',
                 borderRadius: '6px',
                 padding: '3px 8px',
                 fontSize: '0.73rem',
-                color: '#CBD5E1',
+                color: '#334155',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '4px'
@@ -371,19 +372,19 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'space-between',
-          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+          borderTop: '1px solid #E2E8F0',
           paddingTop: '12px',
           gap: '10px'
         }}>
           <div>
-            <span style={{ fontSize: '0.66rem', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', display: 'block', fontWeight: 600 }}>
+            <span style={{ fontSize: '0.66rem', color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.04em', display: 'block', fontWeight: 600 }}>
               Monthly Rent
             </span>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
-              <span style={{ fontSize: '1.24rem', fontWeight: 800, color: 'var(--gold-light)' }}>
+              <span style={{ fontSize: '1.24rem', fontWeight: 800, color: '#0052CC' }}>
                 ₹{(pg.rent || 0).toLocaleString('en-IN')}
               </span>
-              <span style={{ fontSize: '0.72rem', color: '#94A3B8' }}>/mo</span>
+              <span style={{ fontSize: '0.72rem', color: '#64748B' }}>/mo</span>
             </div>
           </div>
 
@@ -396,8 +397,8 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
                 aria-label="Sign in to view directions on Google Maps"
                 style={{ 
                   padding: '6px 8px', 
-                  background: 'rgba(14, 116, 237, 0.12)', 
-                  borderColor: 'rgba(14, 116, 237, 0.3)',
+                  background: '#EFF6FF', 
+                  borderColor: '#BFDBFE',
                   borderRadius: '8px'
                 }}
                 onClick={(e) => {
@@ -405,7 +406,7 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
                   if (onOpenLogin) onOpenLogin('tenant');
                 }}
               >
-                <Navigation size={13} style={{ color: '#94A3B8' }} />
+                <Navigation size={13} style={{ color: '#0052CC' }} />
               </button>
             ) : (
               <a 
@@ -417,13 +418,13 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
                 aria-label={`Get directions to ${pg.name} on Google Maps`}
                 style={{ 
                   padding: '6px 8px', 
-                  background: 'rgba(14, 116, 237, 0.12)', 
-                  borderColor: 'rgba(14, 116, 237, 0.3)',
+                  background: '#EFF6FF', 
+                  borderColor: '#BFDBFE',
                   borderRadius: '8px'
                 }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <Navigation size={13} style={{ color: '#38BDF8' }} />
+                <Navigation size={13} style={{ color: '#0052CC' }} />
               </a>
             )}
 
@@ -433,7 +434,7 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
                 e.stopPropagation();
                 onSelect(pg);
               }}
-              className="btn btn-gold btn-sm"
+              className="btn btn-primary btn-sm"
               style={{ 
                 padding: '7px 13px', 
                 fontSize: '0.80rem', 

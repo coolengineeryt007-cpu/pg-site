@@ -45,11 +45,13 @@ export default function Navbar({
           title="Return to Main Portal Selection"
           style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
         >
-          <img 
-            src="/logo.png" 
-            alt="Vrundavan Ventures" 
-            className="navbar-brand-img"
-          />
+          <span className="brand-logo-badge">
+            <img 
+              src="/logo.png" 
+              alt="Vrundavan Ventures" 
+              className="navbar-brand-img"
+            />
+          </span>
         </a>
 
         {/* Center: Luxury Desktop Navigation Menu */}
@@ -417,17 +419,16 @@ export default function Navbar({
       {/* Luxury Menu Link & Mobile Styles */}
       <style>{`
         .navbar-brand-img {
-          height: 64px;
+          height: 48px;
           width: auto;
-          max-width: 280px;
+          max-width: 250px;
           object-fit: contain;
           display: block;
-          filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.55));
-          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
+          filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45));
+          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .navbar-brand-img:hover {
           transform: scale(1.03);
-          filter: drop-shadow(0 4px 18px rgba(212, 175, 55, 0.5));
         }
 
         .nav-links {
@@ -435,8 +436,8 @@ export default function Navbar({
           align-items: center;
           gap: 6px;
           list-style: none;
-          background: rgba(14, 116, 237, 0.05);
-          border: 1px solid rgba(14, 116, 237, 0.15);
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
           padding: 4px 6px;
           border-radius: 12px;
         }
@@ -445,7 +446,7 @@ export default function Navbar({
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          color: #CBD5E1;
+          color: #334155;
           text-decoration: none;
           font-size: 0.92rem;
           font-weight: 500;
@@ -456,16 +457,16 @@ export default function Navbar({
           white-space: nowrap;
         }
         .luxury-menu-link:hover {
-          color: #ffffff;
-          background: rgba(14, 116, 237, 0.14);
-          border-color: rgba(14, 116, 237, 0.25);
+          color: #0052CC;
+          background: #EFF6FF;
+          border-color: #BFDBFE;
         }
         .luxury-menu-link.active {
-          color: #ffffff;
-          background: rgba(14, 116, 237, 0.22);
-          border-color: rgba(212, 175, 55, 0.45);
+          color: #0052CC;
+          background: #DBEAFE;
+          border-color: #93C5FD;
           font-weight: 700;
-          box-shadow: 0 4px 15px rgba(2, 6, 23, 0.6);
+          box-shadow: 0 2px 8px rgba(0, 82, 204, 0.12);
         }
 
         .nav-user-pill {
@@ -473,11 +474,12 @@ export default function Navbar({
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: rgba(14, 116, 237, 0.12);
+          background: #EFF6FF;
           padding: 0 14px;
           border-radius: 20px;
           font-size: 0.85rem;
-          border: 1px solid rgba(14, 116, 237, 0.35);
+          border: 1px solid #BFDBFE;
+          color: #0052CC;
           white-space: nowrap;
         }
 
@@ -488,19 +490,20 @@ export default function Navbar({
           gap: 6px;
           padding: 0 14px;
           border-radius: 20px;
-          background: linear-gradient(135deg, rgba(14, 116, 237, 0.25), rgba(212, 175, 55, 0.25));
-          border: 1px solid rgba(212, 175, 55, 0.55);
-          color: var(--gold-light);
+          background: #EFF6FF;
+          border: 1.5px solid #0052CC;
+          color: #0052CC;
           font-weight: 700;
           font-size: 0.85rem;
           cursor: pointer;
           white-space: nowrap;
-          box-shadow: 0 0 14px rgba(212, 175, 55, 0.2);
+          box-shadow: 0 2px 8px rgba(0, 82, 204, 0.15);
           transition: all 0.2s ease;
         }
         .nav-ai-match-btn:hover {
           transform: translateY(-1px);
-          box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+          background: #DBEAFE;
+          box-shadow: 0 4px 14px rgba(0, 82, 204, 0.25);
         }
 
         .portal-switch-link {
@@ -510,28 +513,28 @@ export default function Navbar({
           gap: 6px;
           font-size: 0.84rem;
           font-weight: 600;
-          color: var(--gold-light);
+          color: #0052CC;
           padding: 0 14px;
-          border: 1px solid rgba(212, 175, 55, 0.4);
+          border: 1px solid #BFDBFE;
           border-radius: 20px;
           text-decoration: none;
           transition: all 0.2s ease;
-          background: rgba(212, 175, 55, 0.08);
+          background: #EFF6FF;
           white-space: nowrap;
         }
         .portal-switch-link:hover {
-          background: rgba(212, 175, 55, 0.18);
-          border-color: var(--gold-primary);
-          color: #fff;
+          background: #DBEAFE;
+          border-color: #0052CC;
+          color: #003E99;
           transform: translateY(-1px);
         }
 
         .mobile-toggle-btn {
           height: 38px;
           width: 38px;
-          background: rgba(14, 116, 237, 0.15);
-          border: 1px solid rgba(14, 116, 237, 0.35);
-          color: #fff;
+          background: #F8FAFC;
+          border: 1px solid #CBD5E1;
+          color: #0F172A;
           border-radius: 10px;
           cursor: pointer;
           display: none;
@@ -540,8 +543,9 @@ export default function Navbar({
           transition: all 0.2s ease;
         }
         .mobile-toggle-btn:hover {
-          background: rgba(14, 116, 237, 0.25);
-          border-color: var(--gold-primary);
+          background: #EFF6FF;
+          border-color: #0052CC;
+          color: #0052CC;
         }
 
         .mobile-drawer-container {
@@ -549,11 +553,9 @@ export default function Navbar({
           top: 80px;
           left: 0;
           right: 0;
-          background: rgba(4, 13, 33, 0.98);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
-          border-bottom: 2px solid rgba(212, 175, 55, 0.35);
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+          background: #FFFFFF;
+          border-bottom: 2px solid #0052CC;
+          box-shadow: 0 15px 40px rgba(15, 23, 42, 0.12);
           padding: 20px 16px;
           display: flex;
           flex-direction: column;
@@ -569,15 +571,15 @@ export default function Navbar({
           align-items: center;
           gap: 12px;
           font-size: 0.98rem;
-          color: #E2E8F0;
+          color: #0F172A;
           text-decoration: none;
           padding: 10px 12px;
           border-radius: var(--radius-sm);
           transition: background 0.15s ease;
         }
         .mobile-nav-item:hover {
-          background: rgba(14, 116, 237, 0.15);
-          color: #fff;
+          background: #EFF6FF;
+          color: #0052CC;
         }
 
         @media (max-width: 1240px) {

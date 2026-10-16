@@ -612,7 +612,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
             <div className="luxury-card" style={{ overflowX: 'auto', padding: '0' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
                 <thead>
-                  <tr style={{ background: '#121212', borderBottom: '1px solid rgba(212,175,55,0.2)', color: 'var(--gold-primary)' }}>
+                  <tr style={{ background: '#F8FAFC', borderBottom: '1px solid #E2E8F0', color: 'var(--blue-primary)' }}>
                     <th style={{ padding: '14px 18px' }}>Property</th>
                     <th style={{ padding: '14px 18px' }}>Type & Suitability</th>
                     <th style={{ padding: '14px 18px' }}>Location</th>
@@ -624,7 +624,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                 </thead>
                 <tbody>
                   {filteredPgs.map((pg) => (
-                    <tr key={pg.id} style={{ borderBottom: '1px solid #1c1c1c' }}>
+                    <tr key={pg.id} style={{ borderBottom: '1px solid #E2E8F0' }}>
                       <td style={{ padding: '14px 18px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                           <img 
@@ -637,8 +637,8 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                             style={{ width: '45px', height: '40px', borderRadius: '6px', objectFit: 'cover' }}
                           />
                           <div>
-                            <strong style={{ color: '#fff', display: 'block' }}>{pg.name}</strong>
-                            <span style={{ fontSize: '0.75rem', color: '#888' }}>{pg.address.apartment || pg.address.area}</span>
+                            <strong style={{ color: '#0F172A', display: 'block' }}>{pg.name}</strong>
+                            <span style={{ fontSize: '0.75rem', color: '#64748B' }}>{pg.address.apartment || pg.address.area}</span>
                           </div>
                         </div>
                       </td>
@@ -649,18 +649,18 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                           {pg.propertyType === 'house' ? `🏠 ${pg.bhk || 'House'}` : pg.propertyType === 'room' ? `🛏️ ${pg.bhk || 'Room'}` : `🏢 ${pg.gender} PG`}
                         </span>
                         {pg.suitableFor && (
-                          <div style={{ fontSize: '0.72rem', color: '#aaa' }}>
+                          <div style={{ fontSize: '0.72rem', color: '#64748B' }}>
                             👤 {pg.suitableFor}
                           </div>
                         )}
                       </td>
-                      <td style={{ padding: '14px 18px', color: '#ccc' }}>
+                      <td style={{ padding: '14px 18px', color: '#334155' }}>
                         {pg.address.area}, {pg.address.city}
                       </td>
-                      <td style={{ padding: '14px 18px', color: '#ccc' }}>
+                      <td style={{ padding: '14px 18px', color: '#334155' }}>
                         {pg.ownerName}
                       </td>
-                      <td style={{ padding: '14px 18px', color: 'var(--gold-primary)', fontWeight: 700 }}>
+                      <td style={{ padding: '14px 18px', color: 'var(--blue-primary)', fontWeight: 700 }}>
                         ₹{pg.rent.toLocaleString('en-IN')}
                       </td>
                       <td style={{ padding: '14px 18px' }}>
@@ -712,8 +712,8 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
               <div>
-                <h3 style={{ color: '#fff', fontSize: '1.3rem' }}>Platform-Wide Tenant Leads</h3>
-                <p style={{ color: '#888', fontSize: '0.85rem' }}>All inquiries submitted by tenants, bachelors, families, and students.</p>
+                <h3 style={{ color: '#0F172A', fontSize: '1.3rem' }}>Platform-Wide Tenant Leads</h3>
+                <p style={{ color: '#64748B', fontSize: '0.85rem' }}>All inquiries submitted by tenants, bachelors, families, and students.</p>
               </div>
               <span className="badge badge-blue" style={{ fontSize: '0.85rem', padding: '6px 14px' }}>
                 {inquiries.length} Total Inquiries Recorded
@@ -722,9 +722,9 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
 
             {inquiries.length === 0 ? (
               <div className="luxury-card" style={{ padding: '50px 20px', textAlign: 'center' }}>
-                <Users size={40} style={{ color: 'var(--gold-primary)', margin: '0 auto 12px auto' }} />
-                <h4 style={{ color: '#fff', fontSize: '1.1rem' }}>No Tenant Inquiries Yet</h4>
-                <p style={{ color: '#888', fontSize: '0.85rem' }}>When users click Schedule Visit on any property, inquiries will be logged here.</p>
+                <Users size={40} style={{ color: 'var(--blue-primary)', margin: '0 auto 12px auto' }} />
+                <h4 style={{ color: '#0F172A', fontSize: '1.1rem' }}>No Tenant Inquiries Yet</h4>
+                <p style={{ color: '#64748B', fontSize: '0.85rem' }}>When users click Schedule Visit on any property, inquiries will be logged here.</p>
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -743,23 +743,23 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                   >
                     <div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-                        <h4 style={{ color: '#fff', fontSize: '1.15rem' }}>
+                        <h4 style={{ color: '#0F172A', fontSize: '1.15rem' }}>
                           {inq.userName}
                         </h4>
                         <span className="badge badge-green">New Lead</span>
                         <span className="badge badge-gold">{inq.sharingType || 'Standard'}</span>
                       </div>
-                      <p style={{ color: 'var(--gold-primary)', fontSize: '0.9rem', marginBottom: '6px' }}>
+                      <p style={{ color: 'var(--blue-primary)', fontSize: '0.9rem', marginBottom: '6px', fontWeight: 600 }}>
                         Interested in: <strong>{inq.pgName}</strong>
                       </p>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', color: '#aaa', fontSize: '0.85rem' }}>
-                        <span>📞 Phone: <strong style={{ color: '#fff' }}>{inq.userPhone}</strong></span>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', color: '#475569', fontSize: '0.85rem' }}>
+                        <span>📞 Phone: <strong style={{ color: '#0F172A' }}>{inq.userPhone}</strong></span>
                         {inq.userEmail && <span>✉️ Email: {inq.userEmail}</span>}
-                        {inq.visitDate && <span>📅 Visit Date: <strong style={{ color: 'var(--gold-light)' }}>{inq.visitDate}</strong></span>}
+                        {inq.visitDate && <span>📅 Visit Date: <strong style={{ color: '#B45309' }}>{inq.visitDate}</strong></span>}
                         <span>🕒 Received: {new Date(inq.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
                       </div>
                       {inq.message && (
-                        <p style={{ color: '#bbb', fontSize: '0.88rem', marginTop: '8px', background: '#111', padding: '8px 12px', borderRadius: '6px', border: '1px solid #222' }}>
+                        <p style={{ color: '#334155', fontSize: '0.88rem', marginTop: '8px', background: '#F8FAFC', padding: '8px 12px', borderRadius: '6px', border: '1px solid #E2E8F0' }}>
                           💬 "{inq.message}"
                         </p>
                       )}
@@ -803,11 +803,11 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                     RS
                   </div>
                   <div>
-                    <h4 style={{ color: '#fff', fontSize: '1.15rem' }}>Rajesh Sharma</h4>
+                    <h4 style={{ color: '#0F172A', fontSize: '1.15rem' }}>Rajesh Sharma</h4>
                     <span className="badge badge-gold">Active Host</span>
                   </div>
                 </div>
-                <div style={{ fontSize: '0.85rem', color: '#aaa', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <div style={{ fontSize: '0.85rem', color: '#475569', display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   <span>Email: <strong>rajesh@royalpg.com</strong></span>
                   <span>Phone: +91 98765 43210</span>
                   <span>Managed Properties: <strong>{allPgs.filter(p => p.ownerId === 'usr-owner-1').length} Residences</strong></span>
@@ -823,11 +823,11 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                     PM
                   </div>
                   <div>
-                    <h4 style={{ color: '#fff', fontSize: '1.15rem' }}>Priya Malhotra</h4>
+                    <h4 style={{ color: '#0F172A', fontSize: '1.15rem' }}>Priya Malhotra</h4>
                     <span className="badge badge-gold">Active Host</span>
                   </div>
                 </div>
-                <div style={{ fontSize: '0.85rem', color: '#aaa', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <div style={{ fontSize: '0.85rem', color: '#475569', display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   <span>Email: <strong>priya@elitepg.com</strong></span>
                   <span>Phone: +91 98111 87654</span>
                   <span>Managed Properties: <strong>{allPgs.filter(p => p.ownerId === 'usr-owner-2').length} Residences</strong></span>
@@ -937,7 +937,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                 <div style={{ overflowX: 'auto' }}>
                   <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
                     <thead>
-                      <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', color: '#94a3b8' }}>
+                      <tr style={{ borderBottom: '1px solid #E2E8F0', color: '#64748B' }}>
                         <th style={{ padding: '12px 14px' }}>Invoice ID</th>
                         <th style={{ padding: '12px 14px' }}>Date</th>
                         <th style={{ padding: '12px 14px' }}>Host / Owner</th>
@@ -962,27 +962,27 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                           );
                         })
                         .map((inv) => (
-                          <tr key={`${inv.id}-${inv.transactionRef}`} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
-                            <td style={{ padding: '12px 14px', fontFamily: 'monospace', fontWeight: 800, color: '#facc15' }}>
+                          <tr key={`${inv.id}-${inv.transactionRef}`} style={{ borderBottom: '1px solid #E2E8F0' }}>
+                            <td style={{ padding: '12px 14px', fontFamily: 'monospace', fontWeight: 800, color: 'var(--blue-primary)' }}>
                               {inv.id}
                             </td>
-                            <td style={{ padding: '12px 14px', color: '#cbd5e1' }}>
+                            <td style={{ padding: '12px 14px', color: '#475569' }}>
                               {new Date(inv.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                             </td>
                             <td style={{ padding: '12px 14px' }}>
-                              <div style={{ fontWeight: 700, color: '#fff' }}>{inv.ownerName}</div>
-                              <div style={{ fontSize: '11px', color: '#94a3b8' }}>{inv.ownerEmail}</div>
+                              <div style={{ fontWeight: 700, color: '#0F172A' }}>{inv.ownerName}</div>
+                              <div style={{ fontSize: '11px', color: '#64748B' }}>{inv.ownerEmail}</div>
                             </td>
-                            <td style={{ padding: '12px 14px', color: '#e2e8f0', fontWeight: 600 }}>
+                            <td style={{ padding: '12px 14px', color: '#334155', fontWeight: 600 }}>
                               {inv.description}
                             </td>
-                            <td style={{ padding: '12px 14px', color: '#38bdf8' }}>
+                            <td style={{ padding: '12px 14px', color: 'var(--blue-primary)' }}>
                               {inv.autopayMethod || inv.method || 'UPI Autopay'}
                             </td>
-                            <td style={{ padding: '12px 14px', color: '#facc15', fontWeight: 900, fontSize: '15px' }}>
+                            <td style={{ padding: '12px 14px', color: 'var(--blue-primary)', fontWeight: 900, fontSize: '15px' }}>
                               ₹{inv.amount}
                             </td>
-                            <td style={{ padding: '12px 14px', fontFamily: 'monospace', fontSize: '11px', color: '#94a3b8' }}>
+                            <td style={{ padding: '12px 14px', fontFamily: 'monospace', fontSize: '11px', color: '#64748B' }}>
                               {inv.mandateId || 'MNDT-AUTO'}
                             </td>
                             <td style={{ padding: '12px 14px' }}>
@@ -1014,7 +1014,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                 <div style={{ overflowX: 'auto' }}>
                   <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
                     <thead>
-                      <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', color: '#94a3b8' }}>
+                      <tr style={{ borderBottom: '1px solid #E2E8F0', color: '#64748B' }}>
                         <th style={{ padding: '12px 14px' }}>Host Name</th>
                         <th style={{ padding: '12px 14px' }}>Email & Phone</th>
                         <th style={{ padding: '12px 14px' }}>e-Mandate Reference</th>
@@ -1038,15 +1038,15 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
                         .map(o => {
                           const sub = o.subscription || {};
                           return (
-                            <tr key={o.ownerId} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
-                              <td style={{ padding: '12px 14px', fontWeight: 800, color: '#fff' }}>
+                            <tr key={o.ownerId} style={{ borderBottom: '1px solid #E2E8F0' }}>
+                              <td style={{ padding: '12px 14px', fontWeight: 800, color: '#0F172A' }}>
                                 {o.name}
                               </td>
-                              <td style={{ padding: '12px 14px', color: '#cbd5e1' }}>
+                              <td style={{ padding: '12px 14px', color: '#475569' }}>
                                 <div>{o.email}</div>
-                                <div style={{ fontSize: '11px', color: '#94a3b8' }}>{o.phone || 'No phone'}</div>
+                                <div style={{ fontSize: '11px', color: '#64748B' }}>{o.phone || 'No phone'}</div>
                               </td>
-                              <td style={{ padding: '12px 14px', fontFamily: 'monospace', fontWeight: 700, color: '#facc15' }}>
+                              <td style={{ padding: '12px 14px', fontFamily: 'monospace', fontWeight: 700, color: 'var(--blue-primary)' }}>
                                 {sub.mandateId || 'Pending Activation'}
                               </td>
                               <td style={{ padding: '12px 14px', color: '#38bdf8' }}>

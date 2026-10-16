@@ -1,8 +1,8 @@
 import React from 'react';
 import { 
-  Users,
+  Users, 
   Home as HomeIcon, 
-  ArrowRight
+  ArrowRight 
 } from 'lucide-react';
 
 export default function MainGateway({ onSelectStudent, onSelectOwner }) {
@@ -15,7 +15,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
         left: '20%',
         width: '500px',
         height: '350px',
-        background: 'radial-gradient(circle, rgba(14, 116, 237, 0.16) 0%, transparent 65%)',
+        background: 'radial-gradient(circle, rgba(0, 82, 204, 0.05) 0%, transparent 65%)',
         pointerEvents: 'none'
       }} />
       <div style={{
@@ -24,39 +24,41 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
         right: '15%',
         width: '500px',
         height: '350px',
-        background: 'radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 65%)',
+        background: 'radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 65%)',
         pointerEvents: 'none'
       }} />
 
       {/* 1. Header: Big Centered Brand Logo */}
       <header style={{
-        padding: '10px 0',
-        borderBottom: '1px solid rgba(212, 175, 55, 0.25)',
-        background: 'rgba(4, 13, 33, 0.94)',
+        padding: '14px 0',
+        borderBottom: '1px solid #E2E8F0',
+        background: 'rgba(255, 255, 255, 0.96)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         position: 'relative',
-        zIndex: 10
+        zIndex: 10,
+        boxShadow: '0 2px 10px rgba(15, 23, 42, 0.03)'
       }}>
         <div className="container" style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center'
         }}>
-          {/* Centered Grand Brand Logo */}
-          <img 
-            src="/logo.png" 
-            alt="Vrundavan Ventures" 
-            style={{ 
-              height: '95px', 
-              width: 'auto', 
-              maxHeight: '100px',
-              maxWidth: '460px',
-              objectFit: 'contain',
-              display: 'block',
-              filter: 'drop-shadow(0 6px 20px rgba(0, 0, 0, 0.75))'
-            }} 
-          />
+          {/* Centered Grand Brand Logo wrapped in high-contrast navy badge */}
+          <span className="brand-logo-badge" style={{ padding: '8px 22px' }}>
+            <img 
+              src="/logo.png" 
+              alt="Vrundavan Ventures" 
+              style={{ 
+                height: '70px', 
+                width: 'auto', 
+                maxHeight: '75px',
+                maxWidth: '380px',
+                objectFit: 'contain',
+                display: 'block'
+              }} 
+            />
+          </span>
         </div>
       </header>
 
@@ -70,13 +72,13 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: '16px 20px'
+        padding: '24px 20px'
       }}>
         {/* Title */}
         <h1 className="font-serif" style={{
           fontSize: 'clamp(1.7rem, 3.2vw, 2.5rem)',
           fontWeight: 900,
-          color: '#ffffff',
+          color: '#0F172A',
           lineHeight: 1.25,
           marginBottom: '8px'
         }}>
@@ -86,7 +88,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
 
         {/* Description */}
         <p style={{
-          color: 'var(--text-secondary)',
+          color: '#475569',
           fontSize: 'clamp(0.9rem, 1.3vw, 1.05rem)',
           maxWidth: '640px',
           margin: '0 auto 28px auto',
@@ -112,8 +114,8 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
             onKeyDown={(e) => { if (e.key === 'Enter') onSelectStudent(); }}
             className="gateway-card gateway-card-student"
             style={{
-              background: 'linear-gradient(180deg, rgba(7, 23, 57, 0.95) 0%, rgba(4, 13, 33, 0.98) 100%)',
-              border: '2px solid rgba(14, 116, 237, 0.45)',
+              background: '#FFFFFF',
+              border: '2px solid #E2E8F0',
               borderRadius: '20px',
               padding: '36px 24px',
               textAlign: 'center',
@@ -123,7 +125,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
               alignItems: 'center',
               justifyContent: 'center',
               gap: '16px',
-              boxShadow: '0 16px 40px -10px rgba(14, 116, 237, 0.25)',
+              boxShadow: '0 8px 25px rgba(0, 82, 204, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)',
               transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
               position: 'relative'
             }}
@@ -133,13 +135,13 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
               width: '74px',
               height: '74px',
               borderRadius: '20px',
-              background: 'linear-gradient(135deg, rgba(14, 116, 237, 0.28) 0%, rgba(0, 210, 180, 0.22) 100%)',
-              border: '1.5px solid rgba(14, 116, 237, 0.6)',
+              background: '#EFF6FF',
+              border: '1.5px solid #BFDBFE',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#60A5FA',
-              boxShadow: '0 8px 24px rgba(14, 116, 237, 0.35)'
+              color: '#0052CC',
+              boxShadow: '0 4px 14px rgba(0, 82, 204, 0.15)'
             }}>
               <Users size={38} />
             </div>
@@ -149,19 +151,20 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
               <h2 className="font-serif" style={{ 
                 fontSize: '1.5rem', 
                 fontWeight: 800, 
-                color: '#ffffff', 
+                color: '#0F172A', 
                 marginBottom: '6px' 
               }}>
                 For Students & Renters
               </h2>
               <span style={{ 
                 fontSize: '0.86rem', 
-                color: '#94A3B8',
+                color: '#475569',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '6px'
+                gap: '6px',
+                fontWeight: 500
               }}>
-                Find PGs, Rooms & Houses <ArrowRight size={14} style={{ color: '#60A5FA' }} />
+                Find PGs, Rooms & Houses <ArrowRight size={14} style={{ color: '#0052CC' }} />
               </span>
             </div>
           </div>
@@ -175,8 +178,8 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
             onKeyDown={(e) => { if (e.key === 'Enter') onSelectOwner(); }}
             className="gateway-card gateway-card-owner"
             style={{
-              background: 'linear-gradient(180deg, rgba(7, 23, 57, 0.95) 0%, rgba(4, 13, 33, 0.98) 100%)',
-              border: '2px solid rgba(212, 175, 55, 0.45)',
+              background: '#FFFFFF',
+              border: '2px solid #E2E8F0',
               borderRadius: '20px',
               padding: '36px 24px',
               textAlign: 'center',
@@ -186,7 +189,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
               alignItems: 'center',
               justifyContent: 'center',
               gap: '16px',
-              boxShadow: '0 16px 40px -10px rgba(212, 175, 55, 0.25)',
+              boxShadow: '0 8px 25px rgba(212, 175, 55, 0.12), 0 1px 3px rgba(0, 0, 0, 0.04)',
               transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
               position: 'relative'
             }}
@@ -196,13 +199,13 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
               width: '74px',
               height: '74px',
               borderRadius: '20px',
-              background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.28) 0%, rgba(245, 197, 66, 0.2) 100%)',
-              border: '1.5px solid rgba(212, 175, 55, 0.6)',
+              background: '#FEF3C7',
+              border: '1.5px solid #FCD34D',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#FDE68A',
-              boxShadow: '0 8px 24px rgba(212, 175, 55, 0.35)'
+              color: '#B45309',
+              boxShadow: '0 4px 14px rgba(212, 175, 55, 0.2)'
             }}>
               <HomeIcon size={38} />
             </div>
@@ -212,30 +215,31 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
               <h2 className="font-serif" style={{ 
                 fontSize: '1.5rem', 
                 fontWeight: 800, 
-                color: '#ffffff', 
+                color: '#0F172A', 
                 marginBottom: '6px' 
               }}>
                 For Property Owners & Hosts
               </h2>
               <span style={{ 
                 fontSize: '0.86rem', 
-                color: '#94A3B8',
+                color: '#475569',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '6px'
+                gap: '6px',
+                fontWeight: 500
               }}>
-                Enter Owner Portal / List Property <ArrowRight size={14} style={{ color: 'var(--gold-primary)' }} />
+                Enter Owner Portal / List Property <ArrowRight size={14} style={{ color: '#B45309' }} />
               </span>
             </div>
           </div>
         </div>
       </main>
 
-      {/* 3. Footer: Centered Big Text */}
+      {/* 3. Footer: Centered Text */}
       <footer style={{
-        padding: '14px 0',
-        borderTop: '1px solid rgba(14, 116, 237, 0.18)',
-        background: 'rgba(3, 10, 28, 0.9)',
+        padding: '16px 0',
+        borderTop: '1px solid #E2E8F0',
+        background: '#F8FAFC',
         textAlign: 'center',
         position: 'relative',
         zIndex: 10
@@ -249,9 +253,9 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
           textAlign: 'center'
         }}>
           <div style={{
-            fontSize: '1.05rem',
-            fontWeight: 600,
-            color: '#E2E8F0',
+            fontSize: '0.98rem',
+            fontWeight: 700,
+            color: '#0F172A',
             letterSpacing: '0.2px'
           }}>
             © 2026 Vrundavan Ventures. All rights reserved.
@@ -262,11 +266,11 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
             justifyContent: 'center',
             flexWrap: 'wrap',
             gap: '12px',
-            fontSize: '0.92rem',
-            color: 'var(--text-muted)'
+            fontSize: '0.88rem',
+            color: '#64748B'
           }}>
             <span>Verified PGs, Rooms & Flats</span>
-            <span style={{ color: 'var(--gold-primary)' }}>•</span>
+            <span style={{ color: '#0052CC' }}>•</span>
             <span>Direct Owner Contact • Zero Brokerage</span>
           </div>
         </div>
@@ -279,7 +283,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
           display: flex;
           flex-direction: column;
           justifyContent: space-between;
-          background: var(--bg-primary);
+          background: #FFFFFF;
           position: relative;
           overflow-x: hidden;
         }
@@ -306,13 +310,13 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
 
         .gateway-card-student:hover {
           transform: translateY(-6px);
-          border-color: #3B82F6 !important;
-          box-shadow: 0 24px 50px -10px rgba(14, 116, 237, 0.45) !important;
+          border-color: #0052CC !important;
+          box-shadow: 0 20px 45px -10px rgba(0, 82, 204, 0.25) !important;
         }
         .gateway-card-owner:hover {
           transform: translateY(-6px);
-          border-color: #F5C542 !important;
-          box-shadow: 0 24px 50px -10px rgba(212, 175, 55, 0.45) !important;
+          border-color: #D4AF37 !important;
+          box-shadow: 0 20px 45px -10px rgba(212, 175, 55, 0.3) !important;
         }
       `}</style>
     </div>

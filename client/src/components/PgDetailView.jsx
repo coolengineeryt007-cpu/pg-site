@@ -159,10 +159,10 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
                   <span style={{ display: 'inline-block', filter: 'blur(5px)', WebkitFilter: 'blur(5px)', userSelect: 'none', opacity: 0.7, pointerEvents: 'none' }}>
                     {pg.address.area || 'Locality Area'},
                   </span>{' '}
-                  <strong style={{ color: '#fff', fontWeight: 700 }}>{pg.address.city}</strong>
+                  <strong style={{ color: '#0F172A', fontWeight: 700 }}>{pg.address.city}</strong>
                   <span 
                     onClick={() => onOpenLogin && onOpenLogin('tenant')}
-                    style={{ color: '#F59E0B', marginLeft: '8px', cursor: 'pointer', fontWeight: 600, fontSize: '0.82rem' }}
+                    style={{ color: '#B45309', marginLeft: '8px', cursor: 'pointer', fontWeight: 600, fontSize: '0.82rem' }}
                   >
                     • [🔒 Address Locked — Login for more view]
                   </span>
@@ -175,8 +175,8 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <Star size={16} fill="#D4AF37" color="#D4AF37" />
-            <strong style={{ color: '#fff' }}>{pg.rating || '4.9'}</strong>
-            <span style={{ color: '#888' }}>({pg.reviewsCount || 24} Verified Reviews)</span>
+            <strong style={{ color: '#0F172A' }}>{pg.rating || '4.9'}</strong>
+            <span style={{ color: '#64748B' }}>({pg.reviewsCount || 24} Verified Reviews)</span>
           </div>
 
           {pg.distanceKm !== undefined && (
@@ -324,7 +324,7 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
           {/* About / Description */}
           <div className="luxury-card" style={{ padding: '28px' }}>
-            <h2 className="font-serif" style={{ fontSize: '1.4rem', color: '#fff', marginBottom: '14px' }}>
+            <h2 className="font-serif" style={{ fontSize: '1.4rem', color: '#0F172A', marginBottom: '14px' }}>
               About This Luxury Residence
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: '1.8' }}>
@@ -334,7 +334,7 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
 
           {/* Room Configurations & Beds */}
           <div className="luxury-card" style={{ padding: '28px' }}>
-            <h2 className="font-serif" style={{ fontSize: '1.4rem', color: '#fff', marginBottom: '20px' }}>
+            <h2 className="font-serif" style={{ fontSize: '1.4rem', color: '#0F172A', marginBottom: '20px' }}>
               Available Room & Bed Configurations
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -342,8 +342,8 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
                 <div 
                   key={room.id}
                   style={{
-                    background: '#121212',
-                    border: '1px solid rgba(212,175,55,0.2)',
+                    background: '#F8FAFC',
+                    border: '1px solid #E2E8F0',
                     borderRadius: 'var(--radius-md)',
                     padding: '18px',
                     display: 'flex',
@@ -355,27 +355,27 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                     <div style={{
-                      width: '44px', height: '44px', background: 'rgba(212,175,55,0.1)',
-                      border: '1px solid var(--gold-primary)', borderRadius: '10px',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gold-primary)'
+                      width: '44px', height: '44px', background: 'rgba(0, 82, 204, 0.08)',
+                      border: '1px solid rgba(0, 82, 204, 0.3)', borderRadius: '10px',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--blue-primary)'
                     }}>
                       <Bed size={22} />
                     </div>
                     <div>
-                      <h4 style={{ color: '#fff', fontSize: '1.1rem', marginBottom: '4px' }}>{room.type}</h4>
-                      <div style={{ display: 'flex', gap: '10px', fontSize: '0.8rem', color: '#999' }}>
+                      <h4 style={{ color: '#0F172A', fontSize: '1.1rem', marginBottom: '4px' }}>{room.type}</h4>
+                      <div style={{ display: 'flex', gap: '10px', fontSize: '0.8rem', color: '#64748B' }}>
                         <span>• {room.beds} Bed{room.beds > 1 ? 's' : ''} Capacity</span>
                         {room.washroom && <span>• {room.washroom} Washroom</span>}
-                        {room.ac && <span style={{ color: 'var(--gold-primary)' }}>• Air Conditioned</span>}
+                        {room.ac && <span style={{ color: '#B45309' }}>• Air Conditioned</span>}
                       </div>
                     </div>
                   </div>
 
                   <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--gold-primary)' }}>
-                      ₹{room.rent.toLocaleString('en-IN')}<span style={{ fontSize: '0.75rem', color: '#999' }}>/mo</span>
+                    <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--blue-primary)' }}>
+                      ₹{room.rent.toLocaleString('en-IN')}<span style={{ fontSize: '0.75rem', color: '#64748B' }}>/mo</span>
                     </div>
-                    <span style={{ fontSize: '0.75rem', color: '#4ade80' }}>
+                    <span style={{ fontSize: '0.75rem', color: '#0D9488', fontWeight: 600 }}>
                       {room.available} Bed{room.available > 1 ? 's' : ''} Available
                     </span>
                   </div>
@@ -386,7 +386,7 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
 
           {/* Full Structured Address Breakdown */}
           <div className="luxury-card" style={{ padding: '28px' }}>
-            <h2 className="font-serif" style={{ fontSize: '1.4rem', color: '#fff', marginBottom: '18px' }}>
+            <h2 className="font-serif" style={{ fontSize: '1.4rem', color: '#0F172A', marginBottom: '18px' }}>
               Structured Location & Building Details
             </h2>
 
@@ -396,34 +396,34 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
               gap: '16px',
               marginBottom: '24px'
             }}>
-              <div style={{ background: '#111', padding: '12px 16px', borderRadius: '8px', border: '1px solid #222' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--gold-primary)', textTransform: 'uppercase', display: 'block' }}>Building / Society</span>
-                <strong style={{ color: '#fff', fontSize: '0.95rem' }}>{pg.address.apartment || 'Luxury Villa'}</strong>
+              <div style={{ background: '#F8FAFC', padding: '12px 16px', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--blue-primary)', textTransform: 'uppercase', display: 'block', fontWeight: 600 }}>Building / Society</span>
+                <strong style={{ color: '#0F172A', fontSize: '0.95rem' }}>{pg.address.apartment || 'Luxury Villa'}</strong>
               </div>
 
-              <div style={{ background: '#111', padding: '12px 16px', borderRadius: '8px', border: '1px solid #222' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--gold-primary)', textTransform: 'uppercase', display: 'block' }}>Address Line 1</span>
-                <span style={{ color: '#fff', fontSize: '0.95rem' }}>{pg.address.addressLine1}</span>
+              <div style={{ background: '#F8FAFC', padding: '12px 16px', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--blue-primary)', textTransform: 'uppercase', display: 'block', fontWeight: 600 }}>Address Line 1</span>
+                <span style={{ color: '#0F172A', fontSize: '0.95rem' }}>{pg.address.addressLine1}</span>
               </div>
 
-              <div style={{ background: '#111', padding: '12px 16px', borderRadius: '8px', border: '1px solid #222' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--gold-primary)', textTransform: 'uppercase', display: 'block' }}>Address Line 2 / Area</span>
-                <span style={{ color: '#fff', fontSize: '0.95rem' }}>{pg.address.addressLine2 || pg.address.area}</span>
+              <div style={{ background: '#F8FAFC', padding: '12px 16px', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--blue-primary)', textTransform: 'uppercase', display: 'block', fontWeight: 600 }}>Address Line 2 / Area</span>
+                <span style={{ color: '#0F172A', fontSize: '0.95rem' }}>{pg.address.addressLine2 || pg.address.area}</span>
               </div>
 
-              <div style={{ background: '#111', padding: '12px 16px', borderRadius: '8px', border: '1px solid #222' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--gold-primary)', textTransform: 'uppercase', display: 'block' }}>City & State</span>
-                <strong style={{ color: '#fff', fontSize: '0.95rem' }}>{pg.address.city}, {pg.address.state}</strong>
+              <div style={{ background: '#F8FAFC', padding: '12px 16px', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--blue-primary)', textTransform: 'uppercase', display: 'block', fontWeight: 600 }}>City & State</span>
+                <strong style={{ color: '#0F172A', fontSize: '0.95rem' }}>{pg.address.city}, {pg.address.state}</strong>
               </div>
 
-              <div style={{ background: '#111', padding: '12px 16px', borderRadius: '8px', border: '1px solid #222' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--gold-primary)', textTransform: 'uppercase', display: 'block' }}>Pincode</span>
-                <strong style={{ color: '#fff', fontSize: '0.95rem' }}>{pg.address.pincode}</strong>
+              <div style={{ background: '#F8FAFC', padding: '12px 16px', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--blue-primary)', textTransform: 'uppercase', display: 'block', fontWeight: 600 }}>Pincode</span>
+                <strong style={{ color: '#0F172A', fontSize: '0.95rem' }}>{pg.address.pincode}</strong>
               </div>
 
-              <div style={{ background: '#111', padding: '12px 16px', borderRadius: '8px', border: '1px solid #222' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--gold-primary)', textTransform: 'uppercase', display: 'block' }}>GPS Coordinates</span>
-                <span style={{ color: isGuest ? '#F59E0B' : 'var(--gold-light)', fontSize: '0.85rem' }}>
+              <div style={{ background: '#F8FAFC', padding: '12px 16px', borderRadius: '8px', border: '1px solid #E2E8F0' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--blue-primary)', textTransform: 'uppercase', display: 'block', fontWeight: 600 }}>GPS Coordinates</span>
+                <span style={{ color: isGuest ? '#B45309' : '#0D9488', fontSize: '0.85rem', fontWeight: 600 }}>
                   {isGuest ? '🔒 Locked (Do login for info)' : `${pg.address.lat.toFixed(4)}, ${pg.address.lng.toFixed(4)}`}
                 </span>
               </div>
@@ -465,7 +465,7 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
 
           {/* Luxury Facilities & Amenities */}
           <div className="luxury-card" style={{ padding: '28px' }}>
-            <h2 className="font-serif" style={{ fontSize: '1.4rem', color: '#fff', marginBottom: '20px' }}>
+            <h2 className="font-serif" style={{ fontSize: '1.4rem', color: '#0F172A', marginBottom: '20px' }}>
               Signature Facilities & Inclusions
             </h2>
             <div style={{
@@ -481,12 +481,12 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
                     alignItems: 'center',
                     gap: '10px',
                     padding: '10px 14px',
-                    background: '#121212',
-                    border: '1px solid rgba(255,255,255,0.06)',
+                    background: '#F8FAFC',
+                    border: '1px solid #E2E8F0',
                     borderRadius: '8px'
                   }}
                 >
-                  <CheckCircle2 size={16} style={{ color: 'var(--gold-primary)', flexShrink: 0 }} />
+                  <CheckCircle2 size={16} style={{ color: 'var(--blue-primary)', flexShrink: 0 }} />
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{fac}</span>
                 </div>
               ))}
@@ -496,12 +496,12 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
           {/* House Rules */}
           {pg.rules && pg.rules.length > 0 && (
             <div className="luxury-card" style={{ padding: '28px' }}>
-              <h2 className="font-serif" style={{ fontSize: '1.4rem', color: '#fff', marginBottom: '16px' }}>
+              <h2 className="font-serif" style={{ fontSize: '1.4rem', color: '#0F172A', marginBottom: '16px' }}>
                 House Rules & Policies
               </h2>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {pg.rules.map((rule, idx) => (
-                  <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#bbb', fontSize: '0.95rem' }}>
+                  <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#334155', fontSize: '0.95rem' }}>
                     <span style={{ width: '6px', height: '6px', background: 'var(--red-crimson)', borderRadius: '50%' }} />
                     {rule}
                   </li>
@@ -526,35 +526,35 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
 
             {/* Financial Highlights */}
             <div style={{
-              background: '#121212',
+              background: '#F8FAFC',
               borderRadius: 'var(--radius-sm)',
               padding: '16px',
-              border: '1px solid rgba(212,175,55,0.15)',
+              border: '1px solid #E2E8F0',
               display: 'flex',
               flexDirection: 'column',
               gap: '10px',
               marginBottom: '24px',
               fontSize: '0.9rem'
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#bbb' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748B' }}>
                 <span>Refundable Deposit:</span>
-                <strong style={{ color: '#fff' }}>₹{pg.deposit.toLocaleString('en-IN')}</strong>
+                <strong style={{ color: '#0F172A' }}>₹{pg.deposit.toLocaleString('en-IN')}</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#bbb' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748B' }}>
                 <span>Notice Period:</span>
-                <strong style={{ color: '#fff' }}>{pg.noticePeriodDays} Days</strong>
+                <strong style={{ color: '#0F172A' }}>{pg.noticePeriodDays} Days</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#bbb' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748B' }}>
                 <span>Connect Type:</span>
-                <strong style={{ color: '#34D399' }}>Direct Owner Connect</strong>
+                <strong style={{ color: '#0D9488' }}>Direct Owner Connect</strong>
               </div>
             </div>
 
             {/* CTAs / Locked Guest Gating */}
             {isGuest ? (
               <div style={{
-                background: 'linear-gradient(180deg, rgba(14, 116, 237, 0.12) 0%, rgba(212, 175, 55, 0.12) 100%)',
-                border: '1.5px solid rgba(212, 175, 55, 0.45)',
+                background: 'linear-gradient(180deg, #F0F7FF 0%, #FEF9C3 100%)',
+                border: '1.5px solid rgba(212, 175, 55, 0.55)',
                 borderRadius: 'var(--radius-md)',
                 padding: '24px 18px',
                 textAlign: 'center',
@@ -565,14 +565,14 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
                   background: 'rgba(212, 175, 55, 0.15)',
                   border: '1px solid rgba(212, 175, 55, 0.4)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  margin: '0 auto 12px auto', color: 'var(--gold-light)'
+                  margin: '0 auto 12px auto', color: '#B45309'
                 }}>
                   <Lock size={26} />
                 </div>
-                <h4 style={{ color: '#fff', fontSize: '1.15rem', fontWeight: 800, marginBottom: '8px' }}>
+                <h4 style={{ color: '#0F172A', fontSize: '1.15rem', fontWeight: 800, marginBottom: '8px' }}>
                   Owner Contact & Booking Locked
                 </h4>
-                <p style={{ color: '#CBD5E1', fontSize: '0.86rem', lineHeight: 1.5, marginBottom: '18px' }}>
+                <p style={{ color: '#475569', fontSize: '0.86rem', lineHeight: 1.5, marginBottom: '18px' }}>
                   You are viewing partial / half information in Guest Mode. <strong>Do login for more information</strong> to reveal verified owner contact, direct WhatsApp chat, exact building address, and schedule physical visits.
                 </p>
                 <button 
@@ -586,7 +586,7 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
                 <div style={{
                   marginTop: '16px',
                   paddingTop: '12px',
-                  borderTop: '1px dashed rgba(255, 255, 255, 0.12)',
+                  borderTop: '1px dashed #CBD5E1',
                   fontSize: '0.82rem',
                   color: 'var(--text-muted)',
                   textAlign: 'left',
@@ -594,9 +594,9 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
                   flexDirection: 'column',
                   gap: '6px'
                 }}>
-                  <div>📞 Direct Phone: <span style={{ color: '#F59E0B' }}>+91 98765 ••••• [Locked]</span></div>
-                  <div>💬 WhatsApp Chat: <span style={{ color: '#F59E0B' }}>Direct Connect [Locked]</span></div>
-                  <div>📅 Schedule Visit: <span style={{ color: '#F59E0B' }}>Calendar Booking [Locked]</span></div>
+                  <div>📞 Direct Phone: <span style={{ color: '#B45309' }}>+91 98765 ••••• [Locked]</span></div>
+                  <div>💬 WhatsApp Chat: <span style={{ color: '#B45309' }}>Direct Connect [Locked]</span></div>
+                  <div>📅 Schedule Visit: <span style={{ color: '#B45309' }}>Calendar Booking [Locked]</span></div>
                 </div>
               </div>
             ) : (
@@ -631,7 +631,7 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
 
             {/* Host Credentials */}
             <div style={{
-              borderTop: '1px solid rgba(255,255,255,0.08)',
+              borderTop: '1px solid #E2E8F0',
               paddingTop: '16px',
               display: 'flex',
               alignItems: 'center',
@@ -644,8 +644,8 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
                 {pg.ownerName?.charAt(0) || 'H'}
               </div>
               <div>
-                <span style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase' }}>Verified Host</span>
-                <h5 style={{ color: '#fff', fontSize: '0.95rem' }}>{pg.ownerName || 'Verified Property Manager'}</h5>
+                <span style={{ fontSize: '0.75rem', color: '#64748B', textTransform: 'uppercase' }}>Verified Host</span>
+                <h5 style={{ color: '#0F172A', fontSize: '0.95rem' }}>{pg.ownerName || 'Verified Property Manager'}</h5>
               </div>
             </div>
           </div>
@@ -664,10 +664,10 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
             </p>
 
             {inquirySuccess ? (
-              <div style={{ textAlign: 'center', padding: '30px 10px', color: '#34D399' }}>
+              <div style={{ textAlign: 'center', padding: '30px 10px', color: '#0D9488' }}>
                 <CheckCircle2 size={48} style={{ margin: '0 auto 15px auto', display: 'block' }} />
-                <h4 style={{ fontSize: '1.2rem', color: '#fff', marginBottom: '8px' }}>Visit Request Received!</h4>
-                <p style={{ color: '#aaa', fontSize: '0.9rem' }}>The property manager has been notified and will contact you shortly.</p>
+                <h4 style={{ fontSize: '1.2rem', color: '#0F172A', marginBottom: '8px' }}>Visit Request Received!</h4>
+                <p style={{ color: '#64748B', fontSize: '0.9rem' }}>The property manager has been notified and will contact you shortly.</p>
               </div>
             ) : (
               <form onSubmit={handleInquirySubmit}>
