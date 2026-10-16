@@ -24,7 +24,17 @@ import {
   TrendingUp,
   Building,
   CreditCard,
-  RefreshCw
+  RefreshCw,
+  Home,
+  DoorClosed,
+  Car,
+  Utensils,
+  Coffee,
+  Sparkles,
+  Clock,
+  Compass,
+  Maximize2,
+  Layers
 } from 'lucide-react';
 import { api } from '../services/api';
 import LocationSearchBar from '../components/LocationSearchBar';
@@ -55,14 +65,42 @@ export default function OwnerPanel({
   const [deductingAutopay, setDeductingAutopay] = useState(false);
   const [receiptModalInvoice, setReceiptModalInvoice] = useState(null);
 
-  // PG Add Form State
+  // PG / Room / Flat Add Form State
   const initialFormState = {
     name: '',
-    propertyType: 'house',
+    propertyType: 'house', // 'house' (Flat), 'room' (Private Room), 'pg' (PG / Coliving)
+    
+    // Flat / House specifics
     bhk: '2BHK',
-    furnishing: 'Furnished',
-    suitableFor: 'All',
-    gender: 'All',
+    bathrooms: '2',
+    balconies: '1',
+    carpetAreaSqft: '1050',
+    floorNo: '3',
+    totalFloors: '5',
+    parking: '1 Covered Car + Bike Parking',
+    maintenanceCharges: 'Included in Rent',
+    maintenanceAmount: '',
+    facingDirection: 'East Facing',
+
+    // PG specifics
+    gender: 'Co-ed', // 'Boys', 'Girls', 'Co-ed'
+    mealsIncluded: '3 Daily Meals (Breakfast, Lunch & Dinner)',
+    curfewTime: '11:00 PM',
+    wardenAvailable: 'Yes (Onsite 24x7)',
+
+    // Room specifics
+    roomSubtype: '1RK Studio Room',
+    washroomType: 'Attached Private',
+    kitchenSetup: 'Private Kitchenette',
+    privateEntry: 'Yes (Separate Key / Direct Entry)',
+    roomBalcony: 'Attached Balcony',
+    roomSize: '180 Sq.Ft (14x13 ft)',
+    bedSetup: 'Queen / Double Bed',
+    electricityCharges: 'Separate Sub-Meter',
+
+    // Common fields
+    furnishing: 'Fully Furnished',
+    suitableFor: 'All Tenants Welcome',
     rent: '',
     deposit: '',
     noticePeriodDays: '30',
@@ -88,18 +126,16 @@ export default function OwnerPanel({
       lng: 77.5946
     },
     rooms: [
-      { id: 'r1', type: 'Single Executive Suite', beds: 1, rent: 18000, available: 2, washroom: 'Attached', ac: true, balcony: true },
-      { id: 'r2', type: 'Twin Sharing Deluxe', beds: 2, rent: 13500, available: 4, washroom: 'Attached', ac: true, balcony: false }
+      { id: 'r1', type: 'Master Bedroom', beds: 1, rent: 18000, available: 1, washroom: 'Attached', ac: true, balcony: true, wardrobe: 'Built-in Wardrobe' },
+      { id: 'r2', type: 'Second Bedroom', beds: 1, rent: 14000, available: 1, washroom: 'Common', ac: false, balcony: false, wardrobe: 'Built-in Wardrobe' }
     ],
     facilities: [
-      'High-Speed Fiber WiFi',
-      '3 Daily Meals (Breakfast, Lunch & Dinner)',
-      'Air Conditioning (AC)',
-      'Daily Housekeeping',
-      '24x7 Power Backup',
-      'RO Purified Water',
-      'Digital Door Lock',
-      'CCTV Security Coverage'
+      'High-Speed Passenger Lifts / Elevators',
+      'Covered Car Parking',
+      '24x7 Gated Security & CCTV',
+      '100% Power Backup',
+      'Piped Natural Gas (PNG / Gas Line)',
+      'Modular Kitchen with Chimney'
     ],
     rules: [
       'Gate closes at 11:30 PM',
@@ -110,22 +146,117 @@ export default function OwnerPanel({
 
   const [formData, setFormData] = useState(initialFormState);
 
-  const ALL_AMENITIES = [
-    'High-Speed Fiber WiFi',
+  const PG_AMENITIES = [
     '3 Daily Meals (Breakfast, Lunch & Dinner)',
+    'Daily Room Housekeeping',
+    'High-Speed Fiber WiFi',
+    'RO Purified Drinking Water',
     'Air Conditioning (AC)',
-    'Daily Housekeeping',
+    'Washing Machine & Laundry',
     '24x7 Power Backup',
-    'RO Purified Water',
+    'Geyser / Hot Water',
     'Digital Door Lock',
     'CCTV Security Coverage',
-    'Gym & Fitness Zone',
-    'Washing Machine & Laundry',
-    'Attached Balcony & Geyser',
+    'Attached Balcony',
     'Common TV & Lounge Area',
     'Reserved Bike Parking',
     'Pure Veg Food Available'
   ];
+
+  const ROOM_AMENITIES = [
+    'High-Speed Fiber WiFi',
+    'Air Conditioning (AC)',
+    'Geyser / Hot Water',
+    'Attached Private Washroom',
+    'Attached Private Balcony',
+    'Wardrobe & Cupboard',
+    'Study Desk & Chair',
+    'Washing Machine Access',
+    'RO Drinking Water',
+    'Mini Refrigerator',
+    '24x7 Power Backup',
+    'Two-Wheeler / Bike Parking',
+    'Independent Separate Key / Entry',
+    'CCTV & Gated Building Security'
+  ];
+
+  const FLAT_AMENITIES = [
+    'High-Speed Passenger Lifts / Elevators',
+    'Covered Car Parking',
+    '24x7 Gated Security & CCTV',
+    '100% Power Backup',
+    'Piped Natural Gas (PNG / Gas Line)',
+    'Modular Kitchen with Chimney',
+    'Swimming Pool & Clubhouse',
+    'Children Play Area & Park',
+    'Gym & Fitness Centre',
+    '24x7 Water Supply',
+    'Intercom & Video Doorbell',
+    'Reserved Bike Parking',
+    'Air Conditioning (AC)',
+    'Pet Friendly Society'
+  ];
+
+  const getCategoryAmenities = (type) => {
+    if (type === 'pg') return PG_AMENITIES;
+    if (type === 'room') return ROOM_AMENITIES;
+    return FLAT_AMENITIES;
+  };
+
+  const handleCategoryChange = (newType) => {
+    let newFacilities = [];
+    let newRooms = [];
+    if (newType === 'pg') {
+      newFacilities = [
+        '3 Daily Meals (Breakfast, Lunch & Dinner)',
+        'Daily Room Housekeeping',
+        'High-Speed Fiber WiFi',
+        'RO Purified Drinking Water',
+        'Air Conditioning (AC)',
+        'Washing Machine & Laundry',
+        '24x7 Power Backup',
+        'Geyser / Hot Water'
+      ];
+      newRooms = [
+        { id: 'r1', type: 'Single Executive Suite', beds: 1, rent: Number(formData.rent) || 16000, available: 2, washroom: 'Attached', ac: true, balcony: true },
+        { id: 'r2', type: 'Twin Sharing Deluxe', beds: 2, rent: Number(formData.rent) ? Math.round(Number(formData.rent) * 0.7) : 12000, available: 4, washroom: 'Attached', ac: true, balcony: false }
+      ];
+    } else if (newType === 'room') {
+      newFacilities = [
+        'High-Speed Fiber WiFi',
+        'Air Conditioning (AC)',
+        'Geyser / Hot Water',
+        'Attached Private Washroom',
+        'Attached Private Balcony',
+        'Wardrobe & Cupboard',
+        'Study Desk & Chair',
+        '24x7 Power Backup'
+      ];
+      newRooms = [
+        { id: 'r1', type: 'Private 1RK Studio Room', beds: 1, rent: Number(formData.rent) || 12000, available: 1, washroom: 'Attached', ac: true, balcony: true }
+      ];
+    } else {
+      newFacilities = [
+        'High-Speed Passenger Lifts / Elevators',
+        'Covered Car Parking',
+        '24x7 Gated Security & CCTV',
+        '100% Power Backup',
+        'Piped Natural Gas (PNG / Gas Line)',
+        'Modular Kitchen with Chimney'
+      ];
+      newRooms = [
+        { id: 'r1', type: 'Master Bedroom', beds: 1, rent: Number(formData.rent) || 20000, available: 1, washroom: 'Attached', ac: true, balcony: true, wardrobe: 'Built-in Wardrobe' },
+        { id: 'r2', type: 'Second Bedroom', beds: 1, rent: 0, available: 1, washroom: 'Common', ac: false, balcony: false, wardrobe: 'Built-in Wardrobe' }
+      ];
+    }
+
+    setFormData(prev => ({
+      ...prev,
+      propertyType: newType,
+      facilities: newFacilities,
+      rooms: prev.rooms && prev.rooms.length > 0 && prev.propertyType === newType ? prev.rooms : newRooms
+    }));
+  };
 
   const loadOwnerData = async () => {
     setLoading(true);
@@ -247,17 +378,44 @@ export default function OwnerPanel({
   };
 
   const handleAddRoom = () => {
-    const newRoom = {
-      id: `r-${Date.now()}`,
-      type: 'New Room Type',
-      beds: 2,
-      rent: formData.rent ? Number(formData.rent) : 12000,
-      available: 2,
-      washroom: 'Attached',
-      ac: true,
-      balcony: false
-    };
-    setFormData(prev => ({ ...prev, rooms: [...prev.rooms, newRoom] }));
+    if (formData.propertyType === 'pg') {
+      const newRoom = {
+        id: `r-${Date.now()}`,
+        type: 'Triple Sharing Room',
+        beds: 3,
+        rent: formData.rent ? Math.round(Number(formData.rent) * 0.7) : 10000,
+        available: 3,
+        washroom: 'Attached',
+        ac: true,
+        balcony: false
+      };
+      setFormData(prev => ({ ...prev, rooms: [...prev.rooms, newRoom] }));
+    } else if (formData.propertyType === 'room') {
+      const newRoom = {
+        id: `r-${Date.now()}`,
+        type: 'Attached Balcony / Study Nook',
+        beds: 1,
+        rent: 0,
+        available: 1,
+        washroom: 'Attached',
+        ac: true,
+        balcony: true
+      };
+      setFormData(prev => ({ ...prev, rooms: [...prev.rooms, newRoom] }));
+    } else {
+      const newRoom = {
+        id: `r-${Date.now()}`,
+        type: `Bedroom ${(formData.rooms?.length || 0) + 1}`,
+        beds: 1,
+        rent: 0,
+        available: 1,
+        washroom: 'Attached',
+        ac: true,
+        balcony: true,
+        wardrobe: 'Built-in Wardrobe'
+      };
+      setFormData(prev => ({ ...prev, rooms: [...prev.rooms, newRoom] }));
+    }
   };
 
   const handleUpdateRoom = (index, field, value) => {
@@ -312,7 +470,7 @@ export default function OwnerPanel({
     }
 
     if (!formData.name || !formData.rent || !formData.address.city) {
-      alert("Please fill in PG Name, Monthly Rent, and City.");
+      alert("Please fill in Property Name, Monthly Rent, and City.");
       return;
     }
 
@@ -336,11 +494,12 @@ export default function OwnerPanel({
         });
       } else {
         await api.createPg(payload);
+        const typeLabel = formData.propertyType === 'house' ? 'Rental Flat' : formData.propertyType === 'room' ? 'Private Room' : 'PG Residence';
         setMessage({ 
           type: 'success', 
           text: isDraft 
             ? 'Draft saved successfully!' 
-            : '👑 PG submitted successfully! It is now under Super Admin review. Once approved, it will appear on the public frontend.'
+            : `👑 ${typeLabel} submitted successfully! It is now under Super Admin review. Once approved, it will appear on the public frontend.`
         });
       }
 
@@ -361,21 +520,41 @@ export default function OwnerPanel({
       return;
     }
     setFormData({
-      name: pg.name,
-      propertyType: pg.propertyType || 'house',
+      name: pg.name || '',
+      propertyType: pg.propertyType || (pg.bhk === '1RK' ? 'room' : 'house'),
       bhk: pg.bhk || (pg.propertyType === 'room' ? '1RK' : '2BHK'),
-      furnishing: pg.furnishing || 'Furnished',
+      bathrooms: pg.bathrooms || '2',
+      balconies: pg.balconies || '1',
+      carpetAreaSqft: pg.carpetAreaSqft || '1050',
+      floorNo: pg.floorNo || '3',
+      totalFloors: pg.totalFloors || '5',
+      parking: pg.parking || '1 Covered Car + Bike Parking',
+      maintenanceCharges: pg.maintenanceCharges || 'Included in Rent',
+      maintenanceAmount: pg.maintenanceAmount || '',
+      facingDirection: pg.facingDirection || 'East Facing',
+      gender: pg.gender || 'Co-ed',
+      mealsIncluded: pg.mealsIncluded || '3 Daily Meals (Breakfast, Lunch & Dinner)',
+      curfewTime: pg.curfewTime || '11:00 PM',
+      wardenAvailable: pg.wardenAvailable || 'Yes (Onsite 24x7)',
+      roomSubtype: pg.roomSubtype || '1RK Studio Room',
+      washroomType: pg.washroomType || 'Attached Private',
+      kitchenSetup: pg.kitchenSetup || 'Private Kitchenette',
+      privateEntry: pg.privateEntry || 'Yes (Separate Key / Direct Entry)',
+      roomBalcony: pg.roomBalcony || 'Attached Balcony',
+      roomSize: pg.roomSize || '180 Sq.Ft (14x13 ft)',
+      bedSetup: pg.bedSetup || 'Queen / Double Bed',
+      electricityCharges: pg.electricityCharges || 'Separate Sub-Meter',
+      furnishing: pg.furnishing || 'Fully Furnished',
       suitableFor: pg.suitableFor || 'All',
-      gender: pg.gender || 'All',
-      rent: pg.rent,
-      deposit: pg.deposit,
+      rent: pg.rent || '',
+      deposit: pg.deposit || '',
       noticePeriodDays: pg.noticePeriodDays || 30,
-      description: pg.description,
+      description: pg.description || '',
       photos: pg.photos || [],
       photoInput: '',
-      ownerName: pg.ownerName,
-      ownerPhone: pg.ownerPhone,
-      ownerWhatsapp: pg.ownerWhatsapp,
+      ownerName: pg.ownerName || currentUser?.name || 'Property Host',
+      ownerPhone: pg.ownerPhone || currentUser?.phone || '',
+      ownerWhatsapp: pg.ownerWhatsapp || '',
       address: { ...pg.address },
       rooms: pg.rooms ? [...pg.rooms] : [],
       facilities: pg.facilities ? [...pg.facilities] : [],
@@ -985,136 +1164,724 @@ export default function OwnerPanel({
             </div>
 
             <form onSubmit={(e) => { e.preventDefault(); handleSubmitPg(false); }}>
+              {/* Category Selector Tabs */}
+              <div style={{ marginBottom: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                  <label className="form-label" style={{ fontSize: '0.92rem', margin: 0, color: 'var(--gold-light)', fontWeight: 700 }}>
+                    Select Property Category *
+                  </label>
+                  <span style={{ fontSize: '0.8rem', color: '#888' }}>Fields will instantly adapt based on selection</span>
+                </div>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                  gap: '12px'
+                }}>
+                  <button
+                    type="button"
+                    onClick={() => handleCategoryChange('house')}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      padding: '16px',
+                      background: formData.propertyType === 'house' ? 'rgba(212, 175, 55, 0.15)' : '#141414',
+                      border: formData.propertyType === 'house' ? '2px solid var(--gold-primary)' : '1px solid #27272a',
+                      borderRadius: '10px',
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                      transition: 'all 0.2s ease',
+                      boxShadow: formData.propertyType === 'house' ? '0 0 16px rgba(212,175,55,0.22)' : 'none'
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                      <span style={{ fontSize: '1.4rem' }}>🏠</span>
+                      <span style={{ 
+                        fontWeight: 700, 
+                        color: formData.propertyType === 'house' ? '#fff' : '#ccc',
+                        fontSize: '0.96rem'
+                      }}>
+                        Rental Flat / House
+                      </span>
+                    </div>
+                    <span style={{ fontSize: '0.78rem', color: formData.propertyType === 'house' ? 'var(--gold-light)' : '#888' }}>
+                      1BHK, 2BHK, 3BHK, 4BHK+, Villa & Independent Floor
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleCategoryChange('room')}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      padding: '16px',
+                      background: formData.propertyType === 'room' ? 'rgba(212, 175, 55, 0.15)' : '#141414',
+                      border: formData.propertyType === 'room' ? '2px solid var(--gold-primary)' : '1px solid #27272a',
+                      borderRadius: '10px',
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                      transition: 'all 0.2s ease',
+                      boxShadow: formData.propertyType === 'room' ? '0 0 16px rgba(212,175,55,0.22)' : 'none'
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                      <span style={{ fontSize: '1.4rem' }}>🛏️</span>
+                      <span style={{ 
+                        fontWeight: 700, 
+                        color: formData.propertyType === 'room' ? '#fff' : '#ccc',
+                        fontSize: '0.96rem'
+                      }}>
+                        Private Rental Room
+                      </span>
+                    </div>
+                    <span style={{ fontSize: '0.78rem', color: formData.propertyType === 'room' ? 'var(--gold-light)' : '#888' }}>
+                      1RK Studio, Single Private Bedroom, Master Bed with Bath
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleCategoryChange('pg')}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      padding: '16px',
+                      background: formData.propertyType === 'pg' ? 'rgba(212, 175, 55, 0.15)' : '#141414',
+                      border: formData.propertyType === 'pg' ? '2px solid var(--gold-primary)' : '1px solid #27272a',
+                      borderRadius: '10px',
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                      transition: 'all 0.2s ease',
+                      boxShadow: formData.propertyType === 'pg' ? '0 0 16px rgba(212,175,55,0.22)' : 'none'
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                      <span style={{ fontSize: '1.4rem' }}>🏢</span>
+                      <span style={{ 
+                        fontWeight: 700, 
+                        color: formData.propertyType === 'pg' ? '#fff' : '#ccc',
+                        fontSize: '0.96rem'
+                      }}>
+                        PG & Coliving Residence
+                      </span>
+                    </div>
+                    <span style={{ fontSize: '0.78rem', color: formData.propertyType === 'pg' ? 'var(--gold-light)' : '#888' }}>
+                      Boys, Girls, Co-ed with 3 Meals & Daily Housekeeping
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Category Active Banner */}
+              <div style={{
+                background: 'rgba(212, 175, 55, 0.05)',
+                border: '1px solid rgba(212, 175, 55, 0.22)',
+                borderRadius: '8px',
+                padding: '12px 16px',
+                marginBottom: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px'
+              }}>
+                <Sparkles size={18} style={{ color: 'var(--gold-primary)' }} />
+                <span style={{ fontSize: '0.88rem', color: '#e5e7eb' }}>
+                  Showing fields customized specifically for: <strong style={{ color: 'var(--gold-primary)' }}>
+                    {formData.propertyType === 'house' && '🏠 Rental Flat / Apartment / House'}
+                    {formData.propertyType === 'room' && '🛏️ Private Room / 1RK Studio'}
+                    {formData.propertyType === 'pg' && '🏢 PG & Coliving Residence'}
+                  </strong>
+                </span>
+              </div>
+
               {/* 1. Basic Info */}
               <h3 style={{ color: '#fff', fontSize: '1.1rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Building size={17} style={{ color: 'var(--gold-primary)' }} />
                 1. Basic Property Information
               </h3>
 
-              <div className="grid-3">
+              <div className="grid-2" style={{ marginBottom: '16px' }}>
                 <div className="form-group">
-                  <label className="form-label">Property Title / Name *</label>
+                  <label className="form-label">
+                    {formData.propertyType === 'house' && 'Flat / Apartment Title *'}
+                    {formData.propertyType === 'room' && 'Room Title *'}
+                    {formData.propertyType === 'pg' && 'PG / Coliving Residence Name *'}
+                  </label>
                   <input 
                     type="text" 
                     required 
                     className="form-input" 
-                    placeholder="e.g. Harmony Heights 2BHK Flat or Greenview Room"
+                    placeholder={
+                      formData.propertyType === 'house' ? 'e.g. Prestige Green 3BHK Luxury Flat' :
+                      formData.propertyType === 'room' ? 'e.g. Sunny Private 1RK Studio with Balcony' :
+                      'e.g. Royal Grand Luxury PG & Coliving'
+                    }
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   />
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label" htmlFor="owner-property-type">Property Type *</label>
+                  <label className="form-label" htmlFor="owner-property-type">Property Category *</label>
                   <select 
                     id="owner-property-type"
-                    aria-label="Property Type"
+                    aria-label="Property Category"
                     className="form-select"
                     value={formData.propertyType || 'house'}
-                    onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
+                    onChange={(e) => handleCategoryChange(e.target.value)}
                   >
-                    <option value="house">🏠 Rental House / Flat (1/2/3 BHK)</option>
+                    <option value="house">🏠 Rental House / Flat (1/2/3/4 BHK)</option>
                     <option value="room">🛏️ Private Rental Room (1RK / Studio)</option>
                     <option value="pg">🏢 PG & Coliving Residence</option>
                   </select>
                 </div>
-
-                <div className="form-group">
-                  <label className="form-label" htmlFor="owner-bhk-select">Configuration / BHK *</label>
-                  <select 
-                    id="owner-bhk-select"
-                    aria-label="Configuration or BHK"
-                    className="form-select"
-                    value={formData.bhk || '2BHK'}
-                    onChange={(e) => setFormData({ ...formData, bhk: e.target.value })}
-                  >
-                    <option value="1RK">1RK Studio Room</option>
-                    <option value="1BHK">1BHK Flat / House</option>
-                    <option value="2BHK">2BHK Flat / House</option>
-                    <option value="3BHK">3BHK Luxury Residence</option>
-                    <option value="Villa">Independent Villa / Bunglow</option>
-                    <option value="Single/Shared Bed">Single / Shared Bed (PG)</option>
-                  </select>
-                </div>
               </div>
 
-              <div className="grid-3">
-                <div className="form-group">
-                  <label className="form-label" htmlFor="owner-suitable-for">Tenant Preference (Suitable For)</label>
-                  <select 
-                    id="owner-suitable-for"
-                    aria-label="Tenant Preference (Suitable For)"
-                    className="form-select"
-                    value={formData.suitableFor || 'All'}
-                    onChange={(e) => setFormData({ ...formData, suitableFor: e.target.value })}
-                  >
-                    <option value="All">All Tenants Welcome</option>
-                    <option value="Families & Working Professionals">👨‍👩‍👧 Families & Working Professionals</option>
-                    <option value="Family Only">👨‍👩‍👧 Family Only</option>
-                    <option value="Working Professionals">💼 Working Professionals</option>
-                    <option value="Students & Scholars">🎓 Students & Scholars</option>
-                    <option value="Bachelors Only">🧑‍🤝‍🧑 Bachelors / Singles</option>
-                  </select>
-                </div>
+              {/* CATEGORY A: Flat / House Specific Fields */}
+              {formData.propertyType === 'house' && (
+                <>
+                  <div className="grid-3">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="flat-bhk-select">Configuration / BHK *</label>
+                      <select 
+                        id="flat-bhk-select"
+                        className="form-select"
+                        value={formData.bhk || '2BHK'}
+                        onChange={(e) => setFormData({ ...formData, bhk: e.target.value })}
+                      >
+                        <option value="1BHK">1BHK Apartment</option>
+                        <option value="2BHK">2BHK Standard Flat</option>
+                        <option value="3BHK">3BHK Luxury Residence</option>
+                        <option value="4BHK">4BHK Executive Flat</option>
+                        <option value="5+ BHK">5+ BHK Penthouse</option>
+                        <option value="Villa">Independent Villa / Bungalow</option>
+                      </select>
+                    </div>
 
-                <div className="form-group">
-                  <label className="form-label" htmlFor="owner-furnishing">Furnishing Status</label>
-                  <select 
-                    id="owner-furnishing"
-                    aria-label="Furnishing Status"
-                    className="form-select"
-                    value={formData.furnishing || 'Furnished'}
-                    onChange={(e) => setFormData({ ...formData, furnishing: e.target.value })}
-                  >
-                    <option value="Fully Furnished">Fully Furnished</option>
-                    <option value="Semi-Furnished">Semi-Furnished</option>
-                    <option value="Unfurnished">Unfurnished</option>
-                  </select>
-                </div>
+                    <div className="form-group">
+                      <label className="form-label">Total Bathrooms *</label>
+                      <select 
+                        className="form-select"
+                        value={formData.bathrooms || '2'}
+                        onChange={(e) => setFormData({ ...formData, bathrooms: e.target.value })}
+                      >
+                        <option value="1">1 Bathroom</option>
+                        <option value="2">2 Bathrooms</option>
+                        <option value="3">3 Bathrooms</option>
+                        <option value="4">4 Bathrooms</option>
+                        <option value="5+">5+ Bathrooms</option>
+                      </select>
+                    </div>
 
-                <div className="form-group">
-                  <label className="form-label">Monthly Rent (₹ / Month) *</label>
-                  <input 
-                    type="number" 
-                    required 
-                    className="form-input" 
-                    placeholder="e.g. 18500"
-                    value={formData.rent}
-                    onChange={(e) => setFormData({ ...formData, rent: e.target.value })}
-                  />
-                </div>
-              </div>
+                    <div className="form-group">
+                      <label className="form-label">Total Balconies</label>
+                      <select 
+                        className="form-select"
+                        value={formData.balconies || '1'}
+                        onChange={(e) => setFormData({ ...formData, balconies: e.target.value })}
+                      >
+                        <option value="0">No Balcony</option>
+                        <option value="1">1 Balcony</option>
+                        <option value="2">2 Balconies</option>
+                        <option value="3">3 Balconies</option>
+                        <option value="4+">4+ Balconies</option>
+                      </select>
+                    </div>
+                  </div>
 
-              <div className="grid-2">
-                <div className="form-group">
-                  <label className="form-label">Refundable Security Deposit (₹)</label>
-                  <input 
-                    type="number" 
-                    className="form-input" 
-                    placeholder="e.g. 20000"
-                    value={formData.deposit}
-                    onChange={(e) => setFormData({ ...formData, deposit: e.target.value })}
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Notice Period (Days)</label>
-                  <input 
-                    type="number" 
-                    aria-label="Notice Period (Days)"
-                    placeholder="30"
-                    className="form-input" 
-                    value={formData.noticePeriodDays}
-                    onChange={(e) => setFormData({ ...formData, noticePeriodDays: e.target.value })}
-                  />
-                </div>
-              </div>
+                  <div className="grid-4">
+                    <div className="form-group">
+                      <label className="form-label">Carpet Area (Sq.Ft.) *</label>
+                      <input 
+                        type="number" 
+                        required 
+                        className="form-input" 
+                        placeholder="e.g. 1150"
+                        value={formData.carpetAreaSqft || ''}
+                        onChange={(e) => setFormData({ ...formData, carpetAreaSqft: e.target.value })}
+                      />
+                    </div>
 
-              <div className="form-group">
+                    <div className="form-group">
+                      <label className="form-label">Floor Number</label>
+                      <input 
+                        type="text" 
+                        className="form-input" 
+                        placeholder="e.g. 3rd Floor"
+                        value={formData.floorNo || ''}
+                        onChange={(e) => setFormData({ ...formData, floorNo: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Total Floors in Building</label>
+                      <input 
+                        type="text" 
+                        className="form-input" 
+                        placeholder="e.g. 8 Floors"
+                        value={formData.totalFloors || ''}
+                        onChange={(e) => setFormData({ ...formData, totalFloors: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Facing Direction</label>
+                      <select 
+                        className="form-select"
+                        value={formData.facingDirection || 'East Facing'}
+                        onChange={(e) => setFormData({ ...formData, facingDirection: e.target.value })}
+                      >
+                        <option value="East Facing">East Facing</option>
+                        <option value="North Facing">North Facing</option>
+                        <option value="North-East Facing">North-East Facing</option>
+                        <option value="West Facing">West Facing</option>
+                        <option value="South Facing">South Facing</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid-3">
+                    <div className="form-group">
+                      <label className="form-label">Dedicated Parking *</label>
+                      <select 
+                        className="form-select"
+                        value={formData.parking || '1 Covered Car + Bike Parking'}
+                        onChange={(e) => setFormData({ ...formData, parking: e.target.value })}
+                      >
+                        <option value="1 Covered Car + Bike Parking">1 Covered Car + Bike Parking</option>
+                        <option value="2 Covered Car Parking">2 Covered Car Parking</option>
+                        <option value="Open Car Parking">Open Car Parking</option>
+                        <option value="Bike Parking Only">Bike Parking Only</option>
+                        <option value="No Dedicated Parking">No Dedicated Parking</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Furnishing Status *</label>
+                      <select 
+                        className="form-select"
+                        value={formData.furnishing || 'Fully Furnished'}
+                        onChange={(e) => setFormData({ ...formData, furnishing: e.target.value })}
+                      >
+                        <option value="Fully Furnished">Fully Furnished</option>
+                        <option value="Semi-Furnished">Semi-Furnished</option>
+                        <option value="Unfurnished">Unfurnished</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Tenant Preference (Suitable For)</label>
+                      <select 
+                        className="form-select"
+                        value={formData.suitableFor || 'All Tenants Welcome'}
+                        onChange={(e) => setFormData({ ...formData, suitableFor: e.target.value })}
+                      >
+                        <option value="All Tenants Welcome">All Tenants Welcome</option>
+                        <option value="Families Only">👨‍👩‍👧 Families Only</option>
+                        <option value="Working Professionals">💼 Working Professionals</option>
+                        <option value="Bachelors & Singles Allowed">🧑‍🤝‍🧑 Bachelors / Singles Allowed</option>
+                        <option value="Corporate Lease">🏢 Corporate Lease</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid-3">
+                    <div className="form-group">
+                      <label className="form-label">Monthly Rent (₹ / Month) *</label>
+                      <input 
+                        type="number" 
+                        required 
+                        className="form-input" 
+                        placeholder="e.g. 28000"
+                        value={formData.rent}
+                        onChange={(e) => setFormData({ ...formData, rent: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Maintenance Charges</label>
+                      <select 
+                        className="form-select"
+                        value={formData.maintenanceCharges || 'Included in Rent'}
+                        onChange={(e) => setFormData({ ...formData, maintenanceCharges: e.target.value })}
+                      >
+                        <option value="Included in Rent">Included in Rent</option>
+                        <option value="Extra Monthly Charge">Extra ₹ / Month</option>
+                      </select>
+                    </div>
+
+                    {formData.maintenanceCharges === 'Extra Monthly Charge' ? (
+                      <div className="form-group">
+                        <label className="form-label">Maintenance Amount (₹ / Month)</label>
+                        <input 
+                          type="number" 
+                          className="form-input" 
+                          placeholder="e.g. 2500"
+                          value={formData.maintenanceAmount || ''}
+                          onChange={(e) => setFormData({ ...formData, maintenanceAmount: e.target.value })}
+                        />
+                      </div>
+                    ) : (
+                      <div className="form-group">
+                        <label className="form-label">Refundable Security Deposit (₹)</label>
+                        <input 
+                          type="number" 
+                          className="form-input" 
+                          placeholder="e.g. 50000"
+                          value={formData.deposit}
+                          onChange={(e) => setFormData({ ...formData, deposit: e.target.value })}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="grid-2">
+                    {formData.maintenanceCharges === 'Extra Monthly Charge' && (
+                      <div className="form-group">
+                        <label className="form-label">Refundable Security Deposit (₹)</label>
+                        <input 
+                          type="number" 
+                          className="form-input" 
+                          placeholder="e.g. 50000"
+                          value={formData.deposit}
+                          onChange={(e) => setFormData({ ...formData, deposit: e.target.value })}
+                        />
+                      </div>
+                    )}
+                    <div className="form-group">
+                      <label className="form-label">Notice Period (Days)</label>
+                      <input 
+                        type="number" 
+                        aria-label="Notice Period (Days)"
+                        placeholder="30"
+                        className="form-input" 
+                        value={formData.noticePeriodDays}
+                        onChange={(e) => setFormData({ ...formData, noticePeriodDays: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* CATEGORY B: Room Specific Fields */}
+              {formData.propertyType === 'room' && (
+                <>
+                  <div className="grid-3">
+                    <div className="form-group">
+                      <label className="form-label">Room Subtype *</label>
+                      <select 
+                        className="form-select"
+                        value={formData.roomSubtype || '1RK Studio Room'}
+                        onChange={(e) => setFormData({ ...formData, roomSubtype: e.target.value, bhk: '1RK' })}
+                      >
+                        <option value="1RK Studio Room">1RK Studio Apartment</option>
+                        <option value="Private Single Bedroom">Single Private Bedroom</option>
+                        <option value="Master Bedroom with Attached Bath">Master Bedroom with Attached Bath</option>
+                        <option value="Penthouse Studio Room">Penthouse Studio Room</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Washroom Setup *</label>
+                      <select 
+                        className="form-select"
+                        value={formData.washroomType || 'Attached Private'}
+                        onChange={(e) => setFormData({ ...formData, washroomType: e.target.value })}
+                      >
+                        <option value="Attached Private">Attached Private Washroom</option>
+                        <option value="Dedicated Outside">Dedicated Private Washroom (Outside)</option>
+                        <option value="Shared Washroom">Shared Washroom</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Kitchen / Cooking Setup *</label>
+                      <select 
+                        className="form-select"
+                        value={formData.kitchenSetup || 'Private Kitchenette'}
+                        onChange={(e) => setFormData({ ...formData, kitchenSetup: e.target.value })}
+                      >
+                        <option value="Private Kitchenette">Private Kitchenette / Cooking Slab</option>
+                        <option value="Shared Kitchen Access">Shared Kitchen Access</option>
+                        <option value="No Cooking Allowed">No Cooking Allowed</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid-4">
+                    <div className="form-group">
+                      <label className="form-label">Private Entry / Gate *</label>
+                      <select 
+                        className="form-select"
+                        value={formData.privateEntry || 'Yes (Separate Key / Direct Entry)'}
+                        onChange={(e) => setFormData({ ...formData, privateEntry: e.target.value })}
+                      >
+                        <option value="Yes (Separate Key / Direct Entry)">Yes (Independent Key & Direct Entry)</option>
+                        <option value="Shared Main Entrance">Shared Main Entrance</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Balcony / Terrace</label>
+                      <select 
+                        className="form-select"
+                        value={formData.roomBalcony || 'Attached Balcony'}
+                        onChange={(e) => setFormData({ ...formData, roomBalcony: e.target.value })}
+                      >
+                        <option value="Attached Balcony">Attached Private Balcony</option>
+                        <option value="French Window">French Window / Large Window</option>
+                        <option value="No Balcony">No Balcony</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Room Dimensions / Size</label>
+                      <input 
+                        type="text" 
+                        className="form-input" 
+                        placeholder="e.g. 180 Sq.Ft (14x13 ft)"
+                        value={formData.roomSize || ''}
+                        onChange={(e) => setFormData({ ...formData, roomSize: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Bed Setup Provided</label>
+                      <select 
+                        className="form-select"
+                        value={formData.bedSetup || 'Queen / Double Bed'}
+                        onChange={(e) => setFormData({ ...formData, bedSetup: e.target.value })}
+                      >
+                        <option value="Queen / Double Bed">Queen / Double Bed Provided</option>
+                        <option value="Single Bed">Single Bed Provided</option>
+                        <option value="Unfurnished">Unfurnished / Bring Own Bed</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid-3">
+                    <div className="form-group">
+                      <label className="form-label">Electricity Charges *</label>
+                      <select 
+                        className="form-select"
+                        value={formData.electricityCharges || 'Separate Sub-Meter'}
+                        onChange={(e) => setFormData({ ...formData, electricityCharges: e.target.value })}
+                      >
+                        <option value="Separate Sub-Meter">Separate Sub-Meter (Pay Per Unit)</option>
+                        <option value="Included in Rent">Included in Monthly Rent</option>
+                        <option value="Fixed ₹500/Month">Fixed ₹500 / Month Split</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Furnishing Status</label>
+                      <select 
+                        className="form-select"
+                        value={formData.furnishing || 'Fully Furnished'}
+                        onChange={(e) => setFormData({ ...formData, furnishing: e.target.value })}
+                      >
+                        <option value="Fully Furnished">Fully Furnished</option>
+                        <option value="Semi-Furnished">Semi-Furnished</option>
+                        <option value="Unfurnished">Unfurnished</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Tenant Preference</label>
+                      <select 
+                        className="form-select"
+                        value={formData.suitableFor || 'All Tenants Welcome'}
+                        onChange={(e) => setFormData({ ...formData, suitableFor: e.target.value })}
+                      >
+                        <option value="All Tenants Welcome">All Bachelors & Singles</option>
+                        <option value="Working Professionals">💼 Working Professionals</option>
+                        <option value="Students & Scholars">🎓 Students & Scholars</option>
+                        <option value="Female Only">👩 Female Tenants Only</option>
+                        <option value="Male Only">👨 Male Tenants Only</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid-3">
+                    <div className="form-group">
+                      <label className="form-label">Monthly Room Rent (₹ / Month) *</label>
+                      <input 
+                        type="number" 
+                        required 
+                        className="form-input" 
+                        placeholder="e.g. 12000"
+                        value={formData.rent}
+                        onChange={(e) => setFormData({ ...formData, rent: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Refundable Security Deposit (₹)</label>
+                      <input 
+                        type="number" 
+                        className="form-input" 
+                        placeholder="e.g. 15000"
+                        value={formData.deposit}
+                        onChange={(e) => setFormData({ ...formData, deposit: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Notice Period (Days)</label>
+                      <input 
+                        type="number" 
+                        aria-label="Notice Period (Days)"
+                        placeholder="30"
+                        className="form-input" 
+                        value={formData.noticePeriodDays}
+                        onChange={(e) => setFormData({ ...formData, noticePeriodDays: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* CATEGORY C: PG / Coliving Specific Fields */}
+              {formData.propertyType === 'pg' && (
+                <>
+                  <div className="grid-3">
+                    <div className="form-group">
+                      <label className="form-label">Gender Policy *</label>
+                      <select 
+                        className="form-select"
+                        value={formData.gender || 'Co-ed'}
+                        onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                      >
+                        <option value="Co-ed">👫 Co-ed Coliving (All Welcome)</option>
+                        <option value="Boys">👨 Boys PG Only</option>
+                        <option value="Girls">👩 Girls PG Only</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Food & Meals Policy *</label>
+                      <select 
+                        className="form-select"
+                        value={formData.mealsIncluded || '3 Daily Meals (Breakfast, Lunch & Dinner)'}
+                        onChange={(e) => setFormData({ ...formData, mealsIncluded: e.target.value })}
+                      >
+                        <option value="3 Daily Meals (Breakfast, Lunch & Dinner)">🍽️ 3 Daily Meals (Breakfast, Lunch & Dinner)</option>
+                        <option value="2 Meals (Breakfast & Dinner)">🍛 2 Meals (Breakfast & Dinner)</option>
+                        <option value="Breakfast Only">☕ Breakfast Only</option>
+                        <option value="No Food / Self Cooking">🍳 Self Cooking / No Food</option>
+                        <option value="Pure Veg Food Only">🥗 Pure Veg Food Only</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Curfew / Gate Closing Time *</label>
+                      <select 
+                        className="form-select"
+                        value={formData.curfewTime || '11:00 PM'}
+                        onChange={(e) => setFormData({ ...formData, curfewTime: e.target.value })}
+                      >
+                        <option value="No Curfew (24x7 Entry)">🔓 No Curfew (24x7 Entry)</option>
+                        <option value="10:30 PM">⏰ 10:30 PM</option>
+                        <option value="11:00 PM">⏰ 11:00 PM</option>
+                        <option value="11:30 PM">⏰ 11:30 PM</option>
+                        <option value="12:00 Midnight">⏰ 12:00 Midnight</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid-3">
+                    <div className="form-group">
+                      <label className="form-label">Warden / Caretaker Available *</label>
+                      <select 
+                        className="form-select"
+                        value={formData.wardenAvailable || 'Yes (Onsite 24x7)'}
+                        onChange={(e) => setFormData({ ...formData, wardenAvailable: e.target.value })}
+                      >
+                        <option value="Yes (Onsite 24x7)">👮 Yes (Onsite 24x7 Caretaker)</option>
+                        <option value="Daytime Caretaker">☀️ Daytime Caretaker</option>
+                        <option value="No Warden / Digital Lock">🔑 No Warden (Digital Door Lock)</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Tenant Preference (Suitable For)</label>
+                      <select 
+                        className="form-select"
+                        value={formData.suitableFor || 'Students & Working Professionals'}
+                        onChange={(e) => setFormData({ ...formData, suitableFor: e.target.value })}
+                      >
+                        <option value="Students & Working Professionals">🎓💼 Students & Working Professionals</option>
+                        <option value="Students Only">🎓 Students Only</option>
+                        <option value="Working Professionals">💼 Working Professionals Only</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Furnishing Status</label>
+                      <select 
+                        className="form-select"
+                        value={formData.furnishing || 'Fully Furnished'}
+                        onChange={(e) => setFormData({ ...formData, furnishing: e.target.value })}
+                      >
+                        <option value="Fully Furnished">Fully Furnished</option>
+                        <option value="Semi-Furnished">Semi-Furnished</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid-3">
+                    <div className="form-group">
+                      <label className="form-label">Starting Rent (₹ / Bed / Month) *</label>
+                      <input 
+                        type="number" 
+                        required 
+                        className="form-input" 
+                        placeholder="e.g. 9500"
+                        value={formData.rent}
+                        onChange={(e) => setFormData({ ...formData, rent: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Refundable Security Deposit (₹)</label>
+                      <input 
+                        type="number" 
+                        className="form-input" 
+                        placeholder="e.g. 10000"
+                        value={formData.deposit}
+                        onChange={(e) => setFormData({ ...formData, deposit: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Notice Period (Days)</label>
+                      <input 
+                        type="number" 
+                        aria-label="Notice Period (Days)"
+                        placeholder="30"
+                        className="form-input" 
+                        value={formData.noticePeriodDays}
+                        onChange={(e) => setFormData({ ...formData, noticePeriodDays: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <div className="form-group" style={{ marginTop: '16px' }}>
                 <label className="form-label">Property Description</label>
                 <textarea 
                   rows={3} 
                   className="form-textarea" 
-                  placeholder="Highlight luxury dining, high-speed fiber internet, housekeeping, and study facilities..."
+                  placeholder={
+                    formData.propertyType === 'house'
+                      ? 'Highlight modular kitchen, spacious balconies, society clubhouse, high-speed elevators, and nearby metro station...'
+                      : formData.propertyType === 'room'
+                      ? 'Highlight private key entry, quiet peaceful ambience, attached washroom, study desk, power backup, and proximity to bus/metro...'
+                      : 'Highlight wholesome home-cooked 3 daily meals, daily room cleaning, high-speed WiFi, laundry facilities, and safe security...'
+                  }
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 />
@@ -1308,116 +2075,350 @@ export default function OwnerPanel({
                 </div>
               </div>
 
-              {/* 3. Rooms & Bed Configurations */}
+              {/* 3. Rooms / Bedrooms / Space Configuration */}
               <div style={{ marginBottom: '28px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                  <h3 style={{ color: '#fff', fontSize: '1.15rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Bed size={18} style={{ color: 'var(--gold-primary)' }} />
-                    {formData.propertyType === 'house' ? '3. Bedrooms & Layout Configuration' : formData.propertyType === 'room' ? '3. Room Specifications & Features' : '3. Rooms & Bed Configurations'}
-                  </h3>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
+                  <div>
+                    <h3 style={{ color: '#fff', fontSize: '1.15rem', display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
+                      <Bed size={18} style={{ color: 'var(--gold-primary)' }} />
+                      {formData.propertyType === 'house' && '3. Bedrooms & Layout Configuration'}
+                      {formData.propertyType === 'room' && '3. Room Specifications & Layout'}
+                      {formData.propertyType === 'pg' && '3. Rooms & Bed Sharing Configurations'}
+                    </h3>
+                    <p style={{ color: '#888', fontSize: '0.82rem', margin: '4px 0 0 0' }}>
+                      {formData.propertyType === 'house' && 'Configure attached washrooms, balconies, and wardrobe amenities for each bedroom in this flat.'}
+                      {formData.propertyType === 'room' && 'Detailed in-room setup, private spaces, and attached amenities for this room.'}
+                      {formData.propertyType === 'pg' && 'Specify bed sharing tiers (Single, Twin, Triple sharing), rent per bed, and bed availability.'}
+                    </p>
+                  </div>
                   <button type="button" onClick={handleAddRoom} className="btn btn-outline-gold btn-sm">
-                    {formData.propertyType === 'house' ? '+ Add Bedroom / Unit' : formData.propertyType === 'room' ? '+ Add Room Feature' : '+ Add Room Type'}
+                    {formData.propertyType === 'house' && '+ Add Bedroom / Space'}
+                    {formData.propertyType === 'room' && '+ Add In-Room Space'}
+                    {formData.propertyType === 'pg' && '+ Add Sharing Tier'}
                   </button>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {formData.rooms.map((room, idx) => (
-                    <div 
-                      key={room.id}
-                      style={{
-                        background: '#111',
-                        border: '1px solid #27272a',
-                        borderRadius: '8px',
-                        padding: '16px',
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr)) auto',
-                        gap: '12px',
-                        alignItems: 'center'
-                      }}
-                    >
-                      <div>
-                        <span style={{ fontSize: '0.75rem', color: '#888' }}>Room Type Name</span>
-                        <input 
-                          type="text"
-                          className="form-input"
-                          style={{ padding: '6px 10px', fontSize: '0.85rem' }}
-                          value={room.type}
-                          onChange={(e) => handleUpdateRoom(idx, 'type', e.target.value)}
-                        />
-                      </div>
-
-                      <div>
-                        <span style={{ fontSize: '0.75rem', color: '#888' }}>Bed Count</span>
-                        <select 
-                          className="form-select"
-                          style={{ padding: '6px 10px', fontSize: '0.85rem' }}
-                          value={room.beds}
-                          onChange={(e) => handleUpdateRoom(idx, 'beds', Number(e.target.value))}
-                        >
-                          <option value="1">1 Bed (Single)</option>
-                          <option value="2">2 Beds (Twin)</option>
-                          <option value="3">3 Beds (Triple)</option>
-                          <option value="4">4 Beds (Four Sharing)</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <span style={{ fontSize: '0.75rem', color: '#888' }}>Monthly Rent / Bed (₹)</span>
-                        <input 
-                          type="number"
-                          className="form-input"
-                          style={{ padding: '6px 10px', fontSize: '0.85rem' }}
-                          value={room.rent}
-                          onChange={(e) => handleUpdateRoom(idx, 'rent', Number(e.target.value))}
-                        />
-                      </div>
-
-                      <div>
-                        <span style={{ fontSize: '0.75rem', color: '#888' }}>Available Beds</span>
-                        <input 
-                          type="number"
-                          className="form-input"
-                          style={{ padding: '6px 10px', fontSize: '0.85rem' }}
-                          value={room.available}
-                          onChange={(e) => handleUpdateRoom(idx, 'available', Number(e.target.value))}
-                        />
-                      </div>
-
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '14px' }}>
-                        <label style={{ fontSize: '0.8rem', color: '#aaa', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                {/* If Flat / House */}
+                {formData.propertyType === 'house' && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '14px' }}>
+                    {formData.rooms.map((room, idx) => (
+                      <div 
+                        key={room.id}
+                        style={{
+                          background: '#111',
+                          border: '1px solid #27272a',
+                          borderRadius: '8px',
+                          padding: '16px',
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr)) auto',
+                          gap: '12px',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <div>
+                          <span style={{ fontSize: '0.75rem', color: '#888' }}>Bedroom Name</span>
                           <input 
-                            type="checkbox" 
-                            checked={room.ac} 
-                            onChange={(e) => handleUpdateRoom(idx, 'ac', e.target.checked)} 
+                            type="text"
+                            className="form-input"
+                            style={{ padding: '6px 10px', fontSize: '0.85rem' }}
+                            value={room.type}
+                            placeholder="e.g. Master Bedroom"
+                            onChange={(e) => handleUpdateRoom(idx, 'type', e.target.value)}
                           />
-                          AC
-                        </label>
-                        <button 
-                          type="button" 
-                          onClick={() => handleRemoveRoom(idx)}
-                          style={{ background: 'transparent', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '4px' }}
-                        >
-                          <Trash2 size={16} />
-                        </button>
+                        </div>
+
+                        <div>
+                          <span style={{ fontSize: '0.75rem', color: '#888' }}>Washroom Setup</span>
+                          <select 
+                            className="form-select"
+                            style={{ padding: '6px 10px', fontSize: '0.85rem' }}
+                            value={room.washroom || 'Attached'}
+                            onChange={(e) => handleUpdateRoom(idx, 'washroom', e.target.value)}
+                          >
+                            <option value="Attached">Attached Private Washroom</option>
+                            <option value="Common">Common / Hall Washroom</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <span style={{ fontSize: '0.75rem', color: '#888' }}>Wardrobe Storage</span>
+                          <select 
+                            className="form-select"
+                            style={{ padding: '6px 10px', fontSize: '0.85rem' }}
+                            value={room.wardrobe || 'Built-in Wardrobe'}
+                            onChange={(e) => handleUpdateRoom(idx, 'wardrobe', e.target.value)}
+                          >
+                            <option value="Built-in Wardrobe">Built-in Wardrobe</option>
+                            <option value="Free-standing Cupboard">Free-standing Cupboard</option>
+                            <option value="No Wardrobe">No Wardrobe</option>
+                          </select>
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginTop: '12px' }}>
+                          <label style={{ fontSize: '0.82rem', color: '#aaa', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
+                            <input 
+                              type="checkbox" 
+                              checked={!!room.ac} 
+                              onChange={(e) => handleUpdateRoom(idx, 'ac', e.target.checked)} 
+                              style={{ accentColor: 'var(--gold-primary)' }}
+                            />
+                            AC Fitted
+                          </label>
+                          <label style={{ fontSize: '0.82rem', color: '#aaa', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
+                            <input 
+                              type="checkbox" 
+                              checked={!!room.balcony} 
+                              onChange={(e) => handleUpdateRoom(idx, 'balcony', e.target.checked)} 
+                              style={{ accentColor: 'var(--gold-primary)' }}
+                            />
+                            Private Balcony
+                          </label>
+                        </div>
+
+                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                          <button 
+                            type="button" 
+                            disabled={formData.rooms.length <= 1}
+                            onClick={() => handleRemoveRoom(idx)}
+                            style={{ background: 'transparent', border: 'none', color: formData.rooms.length <= 1 ? '#555' : '#ef4444', cursor: formData.rooms.length <= 1 ? 'not-allowed' : 'pointer', padding: '6px' }}
+                            title="Remove bedroom"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* If Room */}
+                {formData.propertyType === 'room' && (
+                  <div style={{ marginTop: '14px' }}>
+                    {/* Room Summary Specs Card */}
+                    <div style={{
+                      background: 'rgba(212, 175, 55, 0.05)',
+                      border: '1px solid rgba(212, 175, 55, 0.25)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      marginBottom: '14px',
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                      gap: '12px'
+                    }}>
+                      <div>
+                        <span style={{ fontSize: '0.74rem', color: '#888', display: 'block' }}>Room Subtype</span>
+                        <strong style={{ color: 'var(--gold-light)', fontSize: '0.88rem' }}>{formData.roomSubtype || '1RK Studio'}</strong>
+                      </div>
+                      <div>
+                        <span style={{ fontSize: '0.74rem', color: '#888', display: 'block' }}>Washroom Setup</span>
+                        <strong style={{ color: '#fff', fontSize: '0.88rem' }}>{formData.washroomType || 'Attached Private'}</strong>
+                      </div>
+                      <div>
+                        <span style={{ fontSize: '0.74rem', color: '#888', display: 'block' }}>Kitchen Setup</span>
+                        <strong style={{ color: '#fff', fontSize: '0.88rem' }}>{formData.kitchenSetup || 'Private Kitchenette'}</strong>
+                      </div>
+                      <div>
+                        <span style={{ fontSize: '0.74rem', color: '#888', display: 'block' }}>Entry Access</span>
+                        <strong style={{ color: '#fff', fontSize: '0.88rem' }}>{formData.privateEntry || 'Independent Key'}</strong>
+                      </div>
+                      <div>
+                        <span style={{ fontSize: '0.74rem', color: '#888', display: 'block' }}>Balcony</span>
+                        <strong style={{ color: '#fff', fontSize: '0.88rem' }}>{formData.roomBalcony || 'Attached Balcony'}</strong>
+                      </div>
+                      <div>
+                        <span style={{ fontSize: '0.74rem', color: '#888', display: 'block' }}>Bed Setup</span>
+                        <strong style={{ color: '#fff', fontSize: '0.88rem' }}>{formData.bedSetup || 'Queen / Double Bed'}</strong>
                       </div>
                     </div>
-                  ))}
-                </div>
+
+                    {/* In-room Zones / Features list */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      {formData.rooms.map((room, idx) => (
+                        <div 
+                          key={room.id}
+                          style={{
+                            background: '#111',
+                            border: '1px solid #27272a',
+                            borderRadius: '8px',
+                            padding: '14px 16px',
+                            display: 'grid',
+                            gridTemplateColumns: '1fr auto auto auto',
+                            gap: '12px',
+                            alignItems: 'center'
+                          }}
+                        >
+                          <div>
+                            <span style={{ fontSize: '0.74rem', color: '#888' }}>In-Room Space / Feature Name</span>
+                            <input 
+                              type="text"
+                              className="form-input"
+                              style={{ padding: '6px 10px', fontSize: '0.85rem' }}
+                              value={room.type}
+                              placeholder="e.g. Attached Balcony / Study Nook"
+                              onChange={(e) => handleUpdateRoom(idx, 'type', e.target.value)}
+                            />
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '14px' }}>
+                            <label style={{ fontSize: '0.82rem', color: '#aaa', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
+                              <input 
+                                type="checkbox" 
+                                checked={!!room.ac} 
+                                onChange={(e) => handleUpdateRoom(idx, 'ac', e.target.checked)} 
+                                style={{ accentColor: 'var(--gold-primary)' }}
+                              />
+                              AC
+                            </label>
+                            <label style={{ fontSize: '0.82rem', color: '#aaa', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
+                              <input 
+                                type="checkbox" 
+                                checked={!!room.balcony} 
+                                onChange={(e) => handleUpdateRoom(idx, 'balcony', e.target.checked)} 
+                                style={{ accentColor: 'var(--gold-primary)' }}
+                              />
+                              Balcony / Window
+                            </label>
+                          </div>
+                          <div style={{ marginTop: '14px' }}>
+                            <button 
+                              type="button" 
+                              onClick={() => handleRemoveRoom(idx)}
+                              style={{ background: 'transparent', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '6px' }}
+                              title="Remove item"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* If PG & Coliving */}
+                {formData.propertyType === 'pg' && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '14px' }}>
+                    {formData.rooms.map((room, idx) => (
+                      <div 
+                        key={room.id}
+                        style={{
+                          background: '#111',
+                          border: '1px solid #27272a',
+                          borderRadius: '8px',
+                          padding: '16px',
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr)) auto',
+                          gap: '12px',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <div>
+                          <span style={{ fontSize: '0.75rem', color: '#888' }}>Sharing Room Name</span>
+                          <input 
+                            type="text"
+                            className="form-input"
+                            style={{ padding: '6px 10px', fontSize: '0.85rem' }}
+                            value={room.type}
+                            placeholder="e.g. Twin Sharing Deluxe"
+                            onChange={(e) => handleUpdateRoom(idx, 'type', e.target.value)}
+                          />
+                        </div>
+
+                        <div>
+                          <span style={{ fontSize: '0.75rem', color: '#888' }}>Bed Sharing Tier</span>
+                          <select 
+                            className="form-select"
+                            style={{ padding: '6px 10px', fontSize: '0.85rem' }}
+                            value={room.beds}
+                            onChange={(e) => handleUpdateRoom(idx, 'beds', Number(e.target.value))}
+                          >
+                            <option value="1">1 Bed (Single Private)</option>
+                            <option value="2">2 Beds (Twin Sharing)</option>
+                            <option value="3">3 Beds (Triple Sharing)</option>
+                            <option value="4">4 Beds (Four Sharing)</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <span style={{ fontSize: '0.75rem', color: '#888' }}>Monthly Rent / Bed (₹)</span>
+                          <input 
+                            type="number"
+                            className="form-input"
+                            style={{ padding: '6px 10px', fontSize: '0.85rem' }}
+                            value={room.rent}
+                            placeholder="e.g. 10000"
+                            onChange={(e) => handleUpdateRoom(idx, 'rent', Number(e.target.value))}
+                          />
+                        </div>
+
+                        <div>
+                          <span style={{ fontSize: '0.75rem', color: '#888' }}>Available Beds</span>
+                          <input 
+                            type="number"
+                            className="form-input"
+                            style={{ padding: '6px 10px', fontSize: '0.85rem' }}
+                            value={room.available}
+                            placeholder="e.g. 2"
+                            onChange={(e) => handleUpdateRoom(idx, 'available', Number(e.target.value))}
+                          />
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '14px' }}>
+                          <label style={{ fontSize: '0.8rem', color: '#aaa', display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+                            <input 
+                              type="checkbox" 
+                              checked={!!room.ac} 
+                              onChange={(e) => handleUpdateRoom(idx, 'ac', e.target.checked)} 
+                              style={{ accentColor: 'var(--gold-primary)' }}
+                            />
+                            AC
+                          </label>
+                          <label style={{ fontSize: '0.8rem', color: '#aaa', display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+                            <input 
+                              type="checkbox" 
+                              checked={room.washroom === 'Attached' || !!room.washroom} 
+                              onChange={(e) => handleUpdateRoom(idx, 'washroom', e.target.checked ? 'Attached' : 'Common')} 
+                              style={{ accentColor: 'var(--gold-primary)' }}
+                            />
+                            Attached Bath
+                          </label>
+                          <button 
+                            type="button" 
+                            disabled={formData.rooms.length <= 1}
+                            onClick={() => handleRemoveRoom(idx)}
+                            style={{ background: 'transparent', border: 'none', color: formData.rooms.length <= 1 ? '#555' : '#ef4444', cursor: formData.rooms.length <= 1 ? 'not-allowed' : 'pointer', padding: '4px' }}
+                            title="Remove tier"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* 4. Facilities */}
               <div style={{ marginBottom: '28px' }}>
-                <h3 style={{ color: '#fff', fontSize: '1.15rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Wifi size={18} style={{ color: 'var(--gold-primary)' }} />
-                  4. Included Luxury Facilities
-                </h3>
+                <div style={{ marginBottom: '14px' }}>
+                  <h3 style={{ color: '#fff', fontSize: '1.15rem', display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
+                    <Wifi size={18} style={{ color: 'var(--gold-primary)' }} />
+                    {formData.propertyType === 'house' && '4. Included Society & Apartment Facilities'}
+                    {formData.propertyType === 'room' && '4. Included Room Facilities & Inclusions'}
+                    {formData.propertyType === 'pg' && '4. Included PG & Coliving Facilities'}
+                  </h3>
+                  <p style={{ color: '#888', fontSize: '0.82rem', margin: '4px 0 0 0' }}>
+                    {formData.propertyType === 'house' && 'Select society amenities and apartment perks provided with this flat.'}
+                    {formData.propertyType === 'room' && 'Select utilities, private fixtures, and appliances available for this room.'}
+                    {formData.propertyType === 'pg' && 'Select food, cleaning services, and living conveniences included for residents.'}
+                  </p>
+                </div>
 
                 <div style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
                   gap: '10px'
                 }}>
-                  {ALL_AMENITIES.map((amenity) => {
+                  {getCategoryAmenities(formData.propertyType).map((amenity) => {
                     const isChecked = formData.facilities.includes(amenity);
                     return (
                       <label 
