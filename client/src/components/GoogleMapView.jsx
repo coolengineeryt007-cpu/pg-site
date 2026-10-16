@@ -212,24 +212,23 @@ export default function GoogleMapView({
 
         // Luxury Info Popup
         const popupContent = document.createElement('div');
-        popupContent.style.background = '#FFFFFF';
-        popupContent.style.color = '#0F172A';
+        popupContent.style.background = '#121212';
+        popupContent.style.color = '#ffffff';
         popupContent.style.padding = '12px';
-        popupContent.style.borderRadius = '10px';
-        popupContent.style.border = '1px solid #CBD5E1';
-        popupContent.style.boxShadow = '0 10px 25px rgba(0, 82, 204, 0.12)';
+        popupContent.style.borderRadius = '8px';
+        popupContent.style.border = '1px solid #D4AF37';
         popupContent.style.maxWidth = '250px';
         popupContent.style.fontFamily = 'sans-serif';
 
         popupContent.innerHTML = `
-          <strong style="color:#0052CC; font-size:14px; display:block; margin-bottom:4px; font-weight:700;">${pg.name}</strong>
-          <p style="font-size:12px; color:#64748B; margin:0 0 8px 0;">${pg.address.area || pg.address.city}</p>
+          <strong style="color:#D4AF37; font-size:14px; display:block; margin-bottom:4px;">${pg.name}</strong>
+          <p style="font-size:12px; color:#aaa; margin:0 0 8px 0;">${pg.address.area || pg.address.city}</p>
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <span style="font-size:13px; font-weight:bold; color:#0F172A;">₹${(pg.rent || 0).toLocaleString('en-IN')}/mo</span>
-            <span style="background:#0D9488; color:#fff; font-size:10px; padding:2px 6px; border-radius:4px; font-weight:600;">${pg.gender}</span>
+            <span style="font-size:13px; font-weight:bold; color:#fff;">₹${(pg.rent || 0).toLocaleString('en-IN')}/mo</span>
+            <span style="background:#B91C1C; color:#fff; font-size:10px; padding:2px 6px; border-radius:4px; font-weight:600;">${pg.gender}</span>
           </div>
           <div style="display:flex; gap:6px;">
-            <a href="${getDirectionsUrl(pg.address.lat, pg.address.lng)}" target="_blank" rel="noopener noreferrer" style="background:#0052CC; color:#ffffff; border:none; padding:5px 10px; border-radius:6px; font-size:11px; font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
+            <a href="${getDirectionsUrl(pg.address.lat, pg.address.lng)}" target="_blank" rel="noopener noreferrer" style="background:#222; color:#D4AF37; border:1px solid #D4AF37; padding:4px 8px; border-radius:4px; font-size:11px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
               Directions on Google Maps ↗
             </a>
           </div>
@@ -293,14 +292,14 @@ export default function GoogleMapView({
         {/* Google Map Layer Switcher */}
         <div style={{
           display: 'flex',
-          background: 'rgba(255, 255, 255, 0.95)',
+          background: 'rgba(5, 13, 33, 0.92)',
           backdropFilter: 'blur(8px)',
           WebkitBackdropFilter: 'blur(8px)',
-          border: '1px solid #CBD5E1',
+          border: '1px solid rgba(212, 175, 55, 0.4)',
           borderRadius: '10px',
           padding: '3px',
           gap: '4px',
-          boxShadow: '0 6px 20px rgba(0, 82, 204, 0.12)',
+          boxShadow: '0 6px 20px rgba(0,0,0,0.85)',
           pointerEvents: 'auto'
         }}>
           <button
@@ -313,7 +312,7 @@ export default function GoogleMapView({
               borderRadius: '6px',
               fontWeight: 600,
               gap: '4px',
-              color: mapLayer === 'google_roadmap' ? '#040d21' : '#334155'
+              color: mapLayer === 'google_roadmap' ? '#040d21' : '#cbd5e1'
             }}
             title="Google Maps Official Roadmap"
           >
@@ -330,7 +329,7 @@ export default function GoogleMapView({
               borderRadius: '6px',
               fontWeight: 600,
               gap: '4px',
-              color: mapLayer === 'google_satellite' ? '#040d21' : '#334155'
+              color: mapLayer === 'google_satellite' ? '#040d21' : '#cbd5e1'
             }}
             title="Google Maps Satellite & Hybrid View"
           >
@@ -347,7 +346,7 @@ export default function GoogleMapView({
               borderRadius: '6px',
               fontWeight: 600,
               gap: '4px',
-              color: mapLayer === 'google_dark' ? '#040d21' : '#334155'
+              color: mapLayer === 'google_dark' ? '#040d21' : '#cbd5e1'
             }}
             title="Luxury Dark Mode Theme"
           >
@@ -365,7 +364,7 @@ export default function GoogleMapView({
             padding: '6px 14px',
             fontSize: '0.76rem',
             fontWeight: 700,
-            boxShadow: '0 4px 15px rgba(0, 82, 204, 0.2)',
+            boxShadow: '0 4px 15px rgba(0,0,0,0.85)',
             pointerEvents: 'auto',
             display: 'flex',
             alignItems: 'center',
@@ -386,23 +385,23 @@ export default function GoogleMapView({
           left: '12px',
           right: '12px',
           zIndex: 500,
-          background: 'rgba(255, 255, 255, 0.95)',
-          border: '1.5px solid rgba(212, 175, 55, 0.6)',
+          background: 'rgba(8, 8, 8, 0.94)',
+          border: '1px solid var(--gold-primary)',
           borderRadius: 'var(--radius-sm)',
           padding: '7px 14px',
           fontSize: '0.78rem',
-          color: '#0F172A',
+          color: 'var(--gold-light)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          boxShadow: '0 6px 20px rgba(0, 82, 204, 0.12)',
+          boxShadow: '0 6px 20px rgba(0,0,0,0.9)',
           pointerEvents: 'none'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <MapPin size={15} style={{ color: 'var(--red-crimson)', flexShrink: 0 }} />
             <span>Click anywhere or drag the Gold Pin to pinpoint exact entrance</span>
           </div>
-          <span style={{ color: '#0F172A', fontSize: '0.75rem', fontWeight: 700, background: '#F1F5F9', padding: '2px 8px', borderRadius: '4px', border: '1px solid #CBD5E1' }}>
+          <span style={{ color: '#fff', fontSize: '0.75rem', fontWeight: 700, background: '#1c1c1c', padding: '2px 8px', borderRadius: '4px', border: '1px solid #333' }}>
             {lat.toFixed(4)}, {lng.toFixed(4)}
           </span>
         </div>

@@ -153,16 +153,19 @@ export default function AuthModal({
         pointerEvents: 'none'
       }} />
 
-      {/* 1. Header Bar: White & Blue Clean Bar with Logo */}
+      {/* 1. Header: Big Centered Brand Logo (Approved Header) */}
       <header style={{
         padding: '10px 32px',
-        borderBottom: '1px solid #E2E8F0',
-        background: '#FFFFFF',
+        borderBottom: isOwner 
+          ? '1px solid rgba(212, 175, 55, 0.3)' 
+          : '1px solid rgba(14, 116, 237, 0.3)',
+        background: 'rgba(4, 13, 33, 0.96)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         position: 'relative',
         zIndex: 30,
         width: '100%',
-        flexShrink: 0,
-        boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)'
+        flexShrink: 0
       }}>
         <div style={{
           maxWidth: '1280px',
@@ -183,7 +186,7 @@ export default function AuthModal({
               onClick={handleHomeClick}
               className="btn btn-ghost"
               style={{
-                color: '#0F172A',
+                color: '#CBD5E1',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
@@ -191,20 +194,20 @@ export default function AuthModal({
                 fontWeight: 600,
                 padding: '7px 16px',
                 borderRadius: '24px',
-                border: '1px solid #CBD5E1',
-                background: '#F8FAFC',
+                border: '1px solid rgba(255, 255, 255, 0.16)',
+                background: 'rgba(255, 255, 255, 0.05)',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#0052CC';
-                e.currentTarget.style.borderColor = '#0052CC';
-                e.currentTarget.style.background = '#EFF6FF';
+                e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.borderColor = isOwner ? 'rgba(212, 175, 55, 0.5)' : 'rgba(14, 116, 237, 0.5)';
+                e.currentTarget.style.background = isOwner ? 'rgba(212, 175, 55, 0.1)' : 'rgba(14, 116, 237, 0.1)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.color = '#0F172A';
-                e.currentTarget.style.borderColor = '#CBD5E1';
-                e.currentTarget.style.background = '#F8FAFC';
+                e.currentTarget.style.color = '#CBD5E1';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.16)';
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
               }}
             >
               <ArrowLeft size={15} />
@@ -212,27 +215,26 @@ export default function AuthModal({
             </button>
           </div>
 
-          {/* Center: Grand Brand Logo Badge */}
+          {/* Center: Grand Big Brand Logo */}
           <a 
             href="/" 
             onClick={handleHomeClick}
             style={{ display: 'inline-block', textDecoration: 'none', cursor: 'pointer' }}
             title="Return to Home"
           >
-            <span className="brand-logo-badge" style={{ padding: '6px 18px' }}>
-              <img 
-                src="/logo.png" 
-                alt="Vrundavan Ventures" 
-                style={{ 
-                  height: '56px', 
-                  width: 'auto', 
-                  maxHeight: '60px',
-                  maxWidth: '300px',
-                  objectFit: 'contain',
-                  display: 'block'
-                }} 
-              />
-            </span>
+            <img 
+              src="/logo.png" 
+              alt="Vrundavan Ventures" 
+              style={{ 
+                height: '84px', 
+                width: 'auto', 
+                maxHeight: '88px',
+                maxWidth: '440px',
+                objectFit: 'contain',
+                display: 'block',
+                filter: 'drop-shadow(0 6px 22px rgba(0, 0, 0, 0.85))'
+              }} 
+            />
           </a>
 
           {/* Right: Portal Indicator Pill Badge */}
@@ -286,7 +288,7 @@ export default function AuthModal({
               <h1 style={{
                 fontSize: 'clamp(1.85rem, 2.6vw, 2.45rem)',
                 fontWeight: 800,
-                color: '#0F172A',
+                color: '#ffffff',
                 lineHeight: 1.22,
                 margin: '0 0 8px 0',
                 letterSpacing: '-0.3px'
@@ -307,18 +309,18 @@ export default function AuthModal({
                   isRegister ? (
                     <>
                       Student & Rental <br />
-                      <span style={{ color: '#0052CC' }}>Registration Form</span>
+                      <span style={{ color: '#38BDF8' }}>Registration Form</span>
                     </>
                   ) : (
                     <>
                       Student & Rental <br />
-                      <span style={{ color: '#0052CC' }}>Login Form</span>
+                      <span style={{ color: '#38BDF8' }}>Login Form</span>
                     </>
                   )
                 )}
               </h1>
               <p style={{
-                color: '#475569',
+                color: '#94A3B8',
                 fontSize: '0.92rem',
                 lineHeight: 1.48,
                 margin: 0,
@@ -344,27 +346,27 @@ export default function AuthModal({
                     gap: '14px',
                     padding: '10px 15px',
                     borderRadius: '12px',
-                    background: '#FEF3C7',
-                    border: '1px solid #FCD34D'
+                    background: 'rgba(212, 175, 55, 0.05)',
+                    border: '1px solid rgba(212, 175, 55, 0.18)'
                   }}>
                     <div style={{ 
                       width: '40px', 
                       height: '40px', 
                       borderRadius: '10px', 
-                      background: '#FFFFFF', 
-                      border: '1px solid #FCD34D', 
+                      background: 'rgba(212, 175, 55, 0.16)', 
+                      border: '1px solid rgba(212, 175, 55, 0.35)', 
                       display: 'flex', 
                       alignItems: 'center', 
                       justifyContent: 'center', 
                       flexShrink: 0 
                     }}>
-                      <Phone size={19} style={{ color: '#B45309' }} />
+                      <Phone size={19} style={{ color: 'var(--gold-primary)' }} />
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0F172A' }}>
+                      <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#F8FAFC' }}>
                         Direct WhatsApp & Calls
                       </div>
-                      <div style={{ fontSize: '0.82rem', color: '#475569' }}>
+                      <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
                         Tenant inquiries reach your phone directly. Zero broker fee.
                       </div>
                     </div>
@@ -376,27 +378,27 @@ export default function AuthModal({
                     gap: '14px',
                     padding: '10px 15px',
                     borderRadius: '12px',
-                    background: '#FEF3C7',
-                    border: '1px solid #FCD34D'
+                    background: 'rgba(212, 175, 55, 0.05)',
+                    border: '1px solid rgba(212, 175, 55, 0.18)'
                   }}>
                     <div style={{ 
                       width: '40px', 
                       height: '40px', 
                       borderRadius: '10px', 
-                      background: '#FFFFFF', 
-                      border: '1px solid #FCD34D', 
+                      background: 'rgba(212, 175, 55, 0.16)', 
+                      border: '1px solid rgba(212, 175, 55, 0.35)', 
                       display: 'flex', 
                       alignItems: 'center', 
                       justifyContent: 'center', 
                       flexShrink: 0 
                     }}>
-                      <CreditCard size={19} style={{ color: '#B45309' }} />
+                      <CreditCard size={19} style={{ color: 'var(--gold-primary)' }} />
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0F172A' }}>
+                      <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#F8FAFC' }}>
                         Transparent ₹99/mo AutoPay
                       </div>
-                      <div style={{ fontSize: '0.82rem', color: '#475569' }}>
+                      <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
                         Flat monthly plan to activate host panel and frontend listings.
                       </div>
                     </div>
@@ -408,27 +410,27 @@ export default function AuthModal({
                     gap: '14px',
                     padding: '10px 15px',
                     borderRadius: '12px',
-                    background: '#FEF3C7',
-                    border: '1px solid #FCD34D'
+                    background: 'rgba(212, 175, 55, 0.05)',
+                    border: '1px solid rgba(212, 175, 55, 0.18)'
                   }}>
                     <div style={{ 
                       width: '40px', 
                       height: '40px', 
                       borderRadius: '10px', 
-                      background: '#FFFFFF', 
-                      border: '1px solid #FCD34D', 
+                      background: 'rgba(212, 175, 55, 0.16)', 
+                      border: '1px solid rgba(212, 175, 55, 0.35)', 
                       display: 'flex', 
                       alignItems: 'center', 
                       justifyContent: 'center', 
                       flexShrink: 0 
                     }}>
-                      <MapPin size={19} style={{ color: '#B45309' }} />
+                      <MapPin size={19} style={{ color: 'var(--gold-primary)' }} />
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0F172A' }}>
+                      <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#F8FAFC' }}>
                         Google Maps GPS Navigation
                       </div>
-                      <div style={{ fontSize: '0.82rem', color: '#475569' }}>
+                      <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
                         Turn-by-turn directions bring tenants straight to your door.
                       </div>
                     </div>
@@ -442,27 +444,27 @@ export default function AuthModal({
                     gap: '14px',
                     padding: '10px 15px',
                     borderRadius: '12px',
-                    background: '#EFF6FF',
-                    border: '1px solid #BFDBFE'
+                    background: 'rgba(14, 116, 237, 0.05)',
+                    border: '1px solid rgba(14, 116, 237, 0.18)'
                   }}>
                     <div style={{ 
                       width: '40px', 
                       height: '40px', 
                       borderRadius: '10px', 
-                      background: '#FFFFFF', 
-                      border: '1px solid #BFDBFE', 
+                      background: 'rgba(14, 116, 237, 0.16)', 
+                      border: '1px solid rgba(56, 189, 248, 0.35)', 
                       display: 'flex', 
                       alignItems: 'center', 
                       justifyContent: 'center', 
                       flexShrink: 0 
                     }}>
-                      <Phone size={19} style={{ color: '#0052CC' }} />
+                      <Phone size={19} style={{ color: '#38BDF8' }} />
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0F172A' }}>
+                      <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#F8FAFC' }}>
                         Instant Direct Owner Calling
                       </div>
-                      <div style={{ fontSize: '0.82rem', color: '#475569' }}>
+                      <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
                         Direct mobile numbers & WhatsApp messaging with genuine owners.
                       </div>
                     </div>
@@ -474,27 +476,27 @@ export default function AuthModal({
                     gap: '14px',
                     padding: '10px 15px',
                     borderRadius: '12px',
-                    background: '#F0FDFA',
-                    border: '1px solid #99F6E4'
+                    background: 'rgba(0, 210, 180, 0.05)',
+                    border: '1px solid rgba(0, 210, 180, 0.18)'
                   }}>
                     <div style={{ 
                       width: '40px', 
                       height: '40px', 
                       borderRadius: '10px', 
-                      background: '#FFFFFF', 
-                      border: '1px solid #99F6E4', 
+                      background: 'rgba(0, 210, 180, 0.16)', 
+                      border: '1px solid rgba(0, 210, 180, 0.35)', 
                       display: 'flex', 
                       alignItems: 'center', 
                       justifyContent: 'center', 
                       flexShrink: 0 
                     }}>
-                      <CheckCircle2 size={19} style={{ color: '#0D9488' }} />
+                      <CheckCircle2 size={19} style={{ color: '#00D2B4' }} />
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0F172A' }}>
+                      <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#F8FAFC' }}>
                         100% Free Forever
                       </div>
-                      <div style={{ fontSize: '0.82rem', color: '#475569' }}>
+                      <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
                         Zero registration charges, zero brokerage, zero booking fees.
                       </div>
                     </div>
@@ -506,27 +508,27 @@ export default function AuthModal({
                     gap: '14px',
                     padding: '10px 15px',
                     borderRadius: '12px',
-                    background: '#EFF6FF',
-                    border: '1px solid #BFDBFE'
+                    background: 'rgba(212, 175, 55, 0.05)',
+                    border: '1px solid rgba(212, 175, 55, 0.18)'
                   }}>
                     <div style={{ 
                       width: '40px', 
                       height: '40px', 
                       borderRadius: '10px', 
-                      background: '#FFFFFF', 
-                      border: '1px solid #BFDBFE', 
+                      background: 'rgba(212, 175, 55, 0.16)', 
+                      border: '1px solid rgba(212, 175, 55, 0.35)', 
                       display: 'flex', 
                       alignItems: 'center', 
                       justifyContent: 'center', 
                       flexShrink: 0 
                     }}>
-                      <MapPin size={19} style={{ color: '#0052CC' }} />
+                      <MapPin size={19} style={{ color: 'var(--gold-primary)' }} />
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0F172A' }}>
+                      <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#F8FAFC' }}>
                         Verified Accommodations
                       </div>
-                      <div style={{ fontSize: '0.82rem', color: '#475569' }}>
+                      <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
                         Authentic room photos, food menu info & verified security deposit.
                       </div>
                     </div>
@@ -547,11 +549,11 @@ export default function AuthModal({
                   if (onRoleChange) onRoleChange(newRole);
                 }}
                 style={{
-                  background: '#F8FAFC',
-                  border: isOwner ? '1px solid #D4AF37' : '1px solid #0052CC',
-                  color: isOwner ? '#B45309' : '#0052CC',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: isOwner ? '1px solid rgba(212, 175, 55, 0.35)' : '1px solid rgba(14, 116, 237, 0.35)',
+                  color: isOwner ? 'var(--gold-light)' : '#93C5FD',
                   borderRadius: '22px',
-                  padding: '7px 18px',
+                  padding: '6px 16px',
                   fontSize: '0.82rem',
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -567,25 +569,27 @@ export default function AuthModal({
             </div>
           </div>
 
-          {/* RIGHT COLUMN: High-Visibility, Clean & User-Friendly Form Card */}
+          {/* RIGHT COLUMN: High-Visibility, Clean & User-Friendly Form Card (Scaled Up & Spacious) */}
           <div className="auth-right-pane">
             <div style={{
               width: '100%',
               maxWidth: '620px',
-              background: '#FFFFFF',
-              border: isOwner ? '1.5px solid #D4AF37' : '1.5px solid #0052CC',
+              background: 'linear-gradient(180deg, rgba(10, 32, 78, 0.96) 0%, rgba(5, 16, 42, 0.98) 100%)',
+              border: isOwner ? '1.5px solid rgba(212, 175, 55, 0.45)' : '1.5px solid rgba(14, 116, 237, 0.45)',
               borderRadius: '24px',
               padding: isRegister ? '24px 36px 20px 36px' : '32px 40px 26px 40px',
-              boxShadow: '0 20px 50px -10px rgba(15, 23, 42, 0.12), 0 0 1px 1px rgba(226, 232, 240, 0.9)',
+              boxShadow: isOwner 
+                ? '0 24px 60px -10px rgba(0, 0, 0, 0.85), 0 0 35px rgba(212, 175, 55, 0.22)' 
+                : '0 24px 60px -10px rgba(0, 0, 0, 0.85), 0 0 35px rgba(14, 116, 237, 0.22)',
               textAlign: 'left',
               position: 'relative'
             }}>
-              {/* Segmented Tabs: Instant Switch between Login & Register */}
+              {/* High-Contrast Segmented Tabs: Instant Switch between Login & Register */}
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
-                background: '#F1F5F9',
-                border: '1px solid #E2E8F0',
+                background: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.14)',
                 padding: '4px',
                 borderRadius: '13px',
                 marginBottom: isRegister ? '18px' : '24px'
@@ -598,9 +602,9 @@ export default function AuthModal({
                     borderRadius: '10px',
                     border: 'none',
                     background: !isRegister 
-                      ? (isOwner ? 'linear-gradient(135deg, #d4af37 0%, #f5c542 100%)' : 'linear-gradient(135deg, #0052cc 0%, #0e74ed 100%)')
+                      ? (isOwner ? 'linear-gradient(135deg, #d4af37 0%, #f5c542 100%)' : 'linear-gradient(135deg, #0e74ed 0%, #0099ff 100%)')
                       : 'transparent',
-                    color: !isRegister ? (isOwner ? '#0f172a' : '#ffffff') : '#475569',
+                    color: !isRegister ? (isOwner ? '#040d21' : '#ffffff') : '#CBD5E1',
                     fontWeight: 700,
                     fontSize: '0.94rem',
                     cursor: 'pointer',
@@ -622,9 +626,9 @@ export default function AuthModal({
                     borderRadius: '10px',
                     border: 'none',
                     background: isRegister 
-                      ? (isOwner ? 'linear-gradient(135deg, #d4af37 0%, #f5c542 100%)' : 'linear-gradient(135deg, #0052cc 0%, #0e74ed 100%)')
+                      ? (isOwner ? 'linear-gradient(135deg, #d4af37 0%, #f5c542 100%)' : 'linear-gradient(135deg, #0e74ed 0%, #0099ff 100%)')
                       : 'transparent',
-                    color: isRegister ? (isOwner ? '#0f172a' : '#ffffff') : '#475569',
+                    color: isRegister ? (isOwner ? '#040d21' : '#ffffff') : '#CBD5E1',
                     fontWeight: 700,
                     fontSize: '0.94rem',
                     cursor: 'pointer',
@@ -1051,9 +1055,11 @@ export default function AuthModal({
 
       {/* 3. Bottom Footer */}
       <footer style={{
-        padding: '10px 0',
-        borderTop: '1px solid #E2E8F0',
-        background: '#F8FAFC',
+        padding: '6px 0',
+        borderTop: isOwner 
+          ? '1px solid rgba(212, 175, 55, 0.15)' 
+          : '1px solid rgba(14, 116, 237, 0.15)',
+        background: 'rgba(3, 10, 28, 0.95)',
         textAlign: 'center',
         position: 'relative',
         zIndex: 20,
@@ -1067,14 +1073,14 @@ export default function AuthModal({
           alignItems: 'center',
           justifyContent: 'center',
           gap: '8px',
-          fontSize: '0.80rem',
-          color: '#64748B'
+          fontSize: '0.76rem',
+          color: '#94A3B8'
         }}>
-          <span style={{ color: '#0F172A', fontWeight: 600 }}>
+          <span style={{ color: '#CBD5E1', fontWeight: 500 }}>
             © 2026 Vrundavan Ventures Residences
           </span>
           <span>•</span>
-          <span>Verified Accommodations</span>
+          <span>Verified Luxury Accommodations</span>
           <span>•</span>
           <span>Direct Connect Network</span>
         </div>
@@ -1086,7 +1092,7 @@ export default function AuthModal({
           position: fixed;
           inset: 0;
           z-index: 99999;
-          background: #EDF4FD;
+          background: var(--bg-primary);
           display: flex;
           flex-direction: column;
           justifyContent: space-between;
@@ -1122,24 +1128,24 @@ export default function AuthModal({
         .auth-input {
           width: 100%;
           border-radius: 8px;
-          background: #F8FAFC !important;
-          border: 1.5px solid #CBD5E1 !important;
-          color: #0F172A !important;
+          background: rgba(255, 255, 255, 0.08) !important;
+          border: 1px solid rgba(255, 255, 255, 0.22) !important;
+          color: #ffffff !important;
           transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
           outline: none;
         }
         .auth-input:hover {
-          border-color: #94A3B8 !important;
-          background: #FFFFFF !important;
+          border-color: rgba(255, 255, 255, 0.38) !important;
+          background: rgba(255, 255, 255, 0.10) !important;
         }
         .auth-input:focus {
-          background: #FFFFFF !important;
-          border-color: #0052CC !important;
-          box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.15) !important;
+          background: rgba(255, 255, 255, 0.12) !important;
+          border-color: #38BDF8 !important;
+          box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25) !important;
         }
         .auth-input-owner:focus {
-          border-color: #D4AF37 !important;
-          box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2) !important;
+          border-color: #f5c542 !important;
+          box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.28) !important;
         }
         .auth-input::placeholder {
           color: #94A3B8;

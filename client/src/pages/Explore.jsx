@@ -215,12 +215,12 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
           alignItems: 'center',
           flexWrap: 'wrap',
           gap: '18px',
-          borderTop: '1px solid #E2E8F0',
+          borderTop: '1px solid rgba(255,255,255,0.06)',
           paddingTop: '16px'
         }}>
           {/* Sharing Buttons */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '0.8rem', color: '#64748B' }}>Unit Type:</span>
+            <span style={{ fontSize: '0.8rem', color: '#888' }}>Unit Type:</span>
             {['all', '1', '2', '3'].map((val) => (
               <button
                 key={val}
@@ -237,7 +237,7 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
 
           {/* Budget Slider */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: '220px' }}>
-            <span style={{ fontSize: '0.8rem', color: '#64748B' }}>Max Rent:</span>
+            <span style={{ fontSize: '0.8rem', color: '#888' }}>Max Rent:</span>
             <input 
               type="range"
               aria-label="Maximum monthly rent budget"
@@ -255,7 +255,7 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
 
           {/* Sorting */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ fontSize: '0.8rem', color: '#64748B' }}>Sort:</span>
+            <span style={{ fontSize: '0.8rem', color: '#888' }}>Sort:</span>
             <select 
               aria-label="Sort listings by"
               className="form-select"
@@ -297,13 +297,13 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
           alignItems: 'center',
           fontSize: '0.88rem'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#92400E' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--gold-primary)' }}>
             <Navigation size={16} style={{ color: 'var(--red-crimson)' }} />
             <span>GPS Location Active: Showing closest rooms and flats first ({userCoords.lat.toFixed(3)}, {userCoords.lng.toFixed(3)})</span>
           </div>
           <button 
             onClick={() => setUserCoords(null)}
-            style={{ background: 'transparent', border: 'none', color: '#64748B', cursor: 'pointer', fontSize: '0.8rem', textDecoration: 'underline' }}
+            style={{ background: 'transparent', border: 'none', color: '#aaa', cursor: 'pointer', fontSize: '0.8rem', textDecoration: 'underline' }}
           >
             Clear GPS
           </button>
@@ -313,7 +313,7 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
       {/* Interactive Map Toggle & View */}
       <div style={{ marginBottom: '35px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-          <h3 style={{ color: '#0F172A', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h3 style={{ color: '#fff', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <MapPin size={18} style={{ color: 'var(--gold-primary)' }} />
             Interactive Map View ({pgs.length} Properties)
           </h3>
@@ -339,8 +339,8 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
       {/* Results Grid */}
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h3 style={{ color: '#0F172A', fontSize: '1.25rem' }}>
-            Available Verified Properties <span style={{ color: '#64748B', fontSize: '0.9rem' }}>({pgs.length} Found)</span>
+          <h3 style={{ color: '#fff', fontSize: '1.25rem' }}>
+            Available Verified Properties <span style={{ color: '#888', fontSize: '0.9rem' }}>({pgs.length} Found)</span>
           </h3>
         </div>
 
@@ -352,8 +352,8 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
         ) : pgs.length === 0 ? (
           <div className="luxury-card" style={{ padding: '60px 20px', textAlign: 'center' }}>
             <Building size={48} style={{ color: 'var(--gold-primary)', margin: '0 auto 16px auto', display: 'block' }} />
-            <h3 style={{ color: '#0F172A', fontSize: '1.25rem', marginBottom: '8px' }}>No Properties Match Your Search</h3>
-            <p style={{ color: '#64748B', maxWidth: '420px', margin: '0 auto 20px auto', fontSize: '0.9rem' }}>
+            <h3 style={{ color: '#fff', fontSize: '1.25rem', marginBottom: '8px' }}>No Properties Match Your Search</h3>
+            <p style={{ color: '#888', maxWidth: '420px', margin: '0 auto 20px auto', fontSize: '0.9rem' }}>
               Try increasing your rent budget or choosing 'All Cities' to see more available rooms.
             </p>
             <button onClick={handleResetFilters} className="btn btn-gold">
