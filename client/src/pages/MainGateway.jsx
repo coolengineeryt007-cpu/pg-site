@@ -330,6 +330,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
           gap: 48px;
           align-items: center;
           width: 100%;
+          transform: translateY(-46px);
         }
 
         /* ===== LEFT COLUMN (+5% BIGGER & ONE-LINE PILLS) ===== */
@@ -765,7 +766,11 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
           .gw { height: auto; min-height: 100vh; overflow-y: auto; padding: 20px 0 14px; }
           .gw-ribbon { display: none; }
           .gw-content { padding: 0 18px; }
-          .gw-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+          .gw-grid {
+            grid-template-columns: 1fr !important;
+            gap: 28px !important;
+            transform: none !important;
+          }
           .gw-left {
             justify-self: center !important;
             margin: 0 auto !important;
