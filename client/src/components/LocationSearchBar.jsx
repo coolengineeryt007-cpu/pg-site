@@ -253,11 +253,11 @@ export default function LocationSearchBar({
         style={{
           display: 'flex',
           alignItems: 'center',
-          background: 'rgba(7, 23, 57, 0.95)',
-          border: isGuest ? '1.5px solid rgba(212, 175, 55, 0.5)' : '1px solid rgba(14, 116, 237, 0.45)',
+          background: '#FFFFFF',
+          border: isGuest ? '1.5px solid rgba(212, 175, 55, 0.6)' : '1.5px solid #CBD5E1',
           borderRadius: 'var(--radius-md)',
           padding: '6px 10px',
-          boxShadow: isGuest ? '0 8px 30px rgba(2, 6, 23, 0.8), 0 0 15px rgba(212, 175, 55, 0.15)' : '0 8px 30px rgba(2, 6, 23, 0.8), 0 0 15px rgba(14, 116, 237, 0.2)',
+          boxShadow: isGuest ? '0 12px 32px -4px rgba(212, 175, 55, 0.18), 0 4px 8px -2px rgba(15, 23, 42, 0.06)' : '0 12px 32px -4px rgba(14, 116, 237, 0.14), 0 4px 8px -2px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(14, 116, 237, 0.12)',
           gap: '8px',
           position: 'relative',
           cursor: isGuest ? 'pointer' : 'default',
@@ -265,7 +265,7 @@ export default function LocationSearchBar({
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', flex: 1, minWidth: 0, gap: '8px' }}>
-          <Search size={18} style={{ color: isGuest ? 'var(--gold-primary)' : 'var(--blue-light)', flexShrink: 0, marginLeft: '4px' }} />
+          <Search size={18} style={{ color: isGuest ? '#B45309' : '#0052CC', flexShrink: 0, marginLeft: '4px' }} />
           
           <input
             ref={inputRef}
@@ -304,11 +304,12 @@ export default function LocationSearchBar({
               backgroundImage: 'none',
               border: 'none',
               outline: 'none',
-              color: '#fff',
+              color: '#0F172A',
               fontSize: '0.95rem',
               padding: '8px 4px',
               minWidth: 0,
-              cursor: isGuest ? 'pointer' : 'text'
+              cursor: isGuest ? 'pointer' : 'text',
+              fontWeight: 500
             }}
           />
 
@@ -322,7 +323,7 @@ export default function LocationSearchBar({
               style={{
                 background: 'transparent',
                 border: 'none',
-                color: '#94A3B8',
+                color: '#64748B',
                 cursor: 'pointer',
                 padding: '4px',
                 display: 'flex',
@@ -331,8 +332,8 @@ export default function LocationSearchBar({
                 borderRadius: '50%',
                 transition: 'color 0.15s ease'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--gold-light)'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#94A3B8'}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#0052CC'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#64748B'}
             >
               <X size={16} />
             </button>
@@ -345,7 +346,7 @@ export default function LocationSearchBar({
             type="button"
             onClick={handleManualSearch}
             disabled={searchingText || !inputValue.trim()}
-            className="btn btn-gold btn-sm"
+            className="btn btn-primary btn-sm"
             style={{
               padding: '7px 16px',
               fontSize: '0.84rem',
@@ -362,7 +363,7 @@ export default function LocationSearchBar({
             <span>Search</span>
           </button>
 
-          {/* Near Me GPS Button - Refined Secondary Action */}
+          {/* Near Me GPS Button */}
           {showCurrentLocationBtn && (
             <button
               type="button"
@@ -378,24 +379,23 @@ export default function LocationSearchBar({
                 alignItems: 'center',
                 gap: '6px',
                 borderRadius: 'var(--radius-sm)',
-                background: 'rgba(14, 116, 237, 0.15)',
-                borderColor: 'rgba(14, 116, 237, 0.4)',
-                color: 'var(--blue-light)',
+                background: '#EDF4FD',
+                borderColor: 'rgba(0, 82, 204, 0.35)',
+                color: '#0052CC',
                 fontWeight: 600
               }}
-              title="Automatically detect current GPS location and autofill address"
             >
               {detectingLocation ? (
                 <Loader2 size={14} className="animate-spin" />
               ) : (
-                <Navigation size={13} style={{ color: 'var(--blue-cyan)' }} />
+                <Navigation size={13} style={{ color: '#0052CC' }} />
               )}
               <span>{detectingLocation ? "Detecting..." : "Near Me"}</span>
             </button>
           )}
         </div>
 
-        {/* GUEST MODE LOCKDOWN OVERLAY - Interactive "Login for more view" */}
+        {/* GUEST MODE LOCKDOWN OVERLAY */}
         {isGuest && (
           <div
             onClick={(e) => {
@@ -405,9 +405,9 @@ export default function LocationSearchBar({
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(90deg, rgba(4, 13, 33, 0.84) 0%, rgba(7, 23, 57, 0.88) 100%)',
-              backdropFilter: 'blur(3px)',
-              WebkitBackdropFilter: 'blur(3px)',
+              background: 'rgba(255, 255, 255, 0.88)',
+              backdropFilter: 'blur(4px)',
+              WebkitBackdropFilter: 'blur(4px)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -415,17 +415,17 @@ export default function LocationSearchBar({
               cursor: 'pointer',
               borderRadius: 'var(--radius-md)',
               border: '1.5px solid rgba(212, 175, 55, 0.65)',
-              boxShadow: '0 0 22px rgba(212, 175, 55, 0.25)',
+              boxShadow: '0 4px 18px rgba(212, 175, 55, 0.25)',
               transition: 'all 0.22s ease',
               zIndex: 10
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(212, 175, 55, 0.95)';
-              e.currentTarget.style.boxShadow = '0 0 32px rgba(212, 175, 55, 0.45)';
+              e.currentTarget.style.borderColor = '#B45309';
+              e.currentTarget.style.boxShadow = '0 6px 24px rgba(212, 175, 55, 0.4)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = 'rgba(212, 175, 55, 0.65)';
-              e.currentTarget.style.boxShadow = '0 0 22px rgba(212, 175, 55, 0.25)';
+              e.currentTarget.style.boxShadow = '0 4px 18px rgba(212, 175, 55, 0.25)';
             }}
             title="Click to login for more view and unlock search & GPS"
           >
@@ -440,7 +440,7 @@ export default function LocationSearchBar({
                 alignItems: 'center',
                 gap: '8px',
                 borderRadius: 'var(--radius-full)',
-                boxShadow: '0 4px 16px rgba(212, 175, 55, 0.4)',
+                boxShadow: '0 4px 14px rgba(212, 175, 55, 0.35)',
                 cursor: 'pointer',
                 letterSpacing: '0.3px',
                 pointerEvents: 'none'
@@ -463,10 +463,10 @@ export default function LocationSearchBar({
           right: 0,
           zIndex: 1000,
           marginTop: '6px',
-          background: '#071739',
-          border: '1px solid rgba(14, 116, 237, 0.5)',
+          background: '#FFFFFF',
+          border: '1.5px solid #0052CC',
           borderRadius: 'var(--radius-md)',
-          boxShadow: '0 14px 40px rgba(2, 6, 23, 0.95)',
+          boxShadow: '0 14px 40px rgba(15, 23, 42, 0.15)',
           overflow: 'hidden',
           maxHeight: '260px',
           overflowY: 'auto'
@@ -477,22 +477,22 @@ export default function LocationSearchBar({
               onClick={() => handleSelectSuggestion(item)}
               style={{
                 padding: '10px 14px',
-                borderBottom: idx < suggestions.length - 1 ? '1px solid #222' : 'none',
+                borderBottom: idx < suggestions.length - 1 ? '1px solid #E2E8F0' : 'none',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'flex-start',
                 gap: '10px',
                 transition: 'background 0.15s ease'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(212, 175, 55, 0.12)'}
+              onMouseEnter={(e) => e.currentTarget.style.background = '#EDF4FD'}
               onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <MapPin size={16} style={{ color: 'var(--gold-primary)', flexShrink: 0, marginTop: '2px' }} />
+              <MapPin size={16} style={{ color: '#0052CC', flexShrink: 0, marginTop: '2px' }} />
               <div>
-                <div style={{ color: '#fff', fontSize: '0.88rem', fontWeight: 600 }}>
+                <div style={{ color: '#0F172A', fontSize: '0.88rem', fontWeight: 600 }}>
                   {item.apartment || item.area || item.city}
                 </div>
-                <div style={{ color: '#888', fontSize: '0.78rem' }}>
+                <div style={{ color: '#64748B', fontSize: '0.78rem' }}>
                   {item.formattedAddress}
                 </div>
               </div>
@@ -501,20 +501,20 @@ export default function LocationSearchBar({
         </div>
       )}
 
-      {/* Permission Notice Banner (If Browser Geolocation was Denied) */}
+      {/* Permission Notice Banner */}
       {permissionNotice && (
         <div style={{
           marginTop: '10px',
-          background: 'rgba(212, 175, 55, 0.08)',
-          border: '1px solid rgba(212, 175, 55, 0.4)',
+          background: '#FEF3C7',
+          border: '1px solid rgba(212, 175, 55, 0.5)',
           borderRadius: 'var(--radius-sm)',
           padding: '10px 14px',
           fontSize: '0.8rem',
-          color: 'var(--gold-light)',
+          color: '#92400E',
           display: 'flex',
           alignItems: 'flex-start',
           gap: '10px',
-          boxShadow: '0 4px 15px rgba(0,0,0,0.5)'
+          boxShadow: '0 4px 15px rgba(15, 23, 42, 0.06)'
         }}>
           <AlertCircle size={16} style={{ color: 'var(--gold-primary)', flexShrink: 0, marginTop: '2px' }} />
           <div>

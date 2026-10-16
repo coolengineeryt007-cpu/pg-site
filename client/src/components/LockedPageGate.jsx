@@ -23,9 +23,9 @@ export default function LockedPageGate({
         width: '100%',
         padding: '44px 32px',
         textAlign: 'center',
-        background: 'linear-gradient(180deg, rgba(7, 23, 57, 0.95) 0%, rgba(4, 13, 33, 0.98) 100%)',
+        background: '#FFFFFF',
         border: '1.5px solid rgba(212, 175, 55, 0.45)',
-        boxShadow: '0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(14, 116, 237, 0.2)'
+        boxShadow: '0 20px 50px rgba(0, 82, 204, 0.12), 0 0 25px rgba(212, 175, 55, 0.15)'
       }}>
         {/* Lock Icon Emblem */}
         <div style={{

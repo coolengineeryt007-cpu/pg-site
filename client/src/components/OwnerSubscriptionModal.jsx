@@ -186,12 +186,12 @@ export default function OwnerSubscriptionModal({
       overflowY: 'auto'
     }}>
       <div style={{
-        background: 'linear-gradient(145deg, #071739 0%, #030a1c 100%)',
-        border: '1.5px solid rgba(212, 175, 55, 0.5)',
+        background: '#FFFFFF',
+        border: '1.5px solid rgba(212, 175, 55, 0.45)',
         borderRadius: '24px',
         maxWidth: '920px',
         width: '100%',
-        boxShadow: '0 30px 80px -15px rgba(0, 0, 0, 0.95), 0 0 60px rgba(212, 175, 55, 0.22)',
+        boxShadow: '0 30px 80px -15px rgba(0, 82, 204, 0.18), 0 0 60px rgba(212, 175, 55, 0.12)',
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
@@ -201,7 +201,7 @@ export default function OwnerSubscriptionModal({
         {/* Top Gold Accent Bar */}
         <div style={{
           height: '4px',
-          background: 'linear-gradient(90deg, #eab308, #f59e0b, #ca8a04, #eab308)',
+          background: 'linear-gradient(90deg, #0052CC, #0E74ED, #D4AF37, #0052CC)',
           flexShrink: 0
         }} />
 
@@ -211,7 +211,7 @@ export default function OwnerSubscriptionModal({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          borderBottom: '1px solid #E2E8F0',
           flexShrink: 0
         }}>
           <div>
@@ -223,7 +223,7 @@ export default function OwnerSubscriptionModal({
               borderRadius: '999px',
               background: 'rgba(234, 179, 8, 0.14)',
               border: '1px solid rgba(234, 179, 8, 0.35)',
-              color: '#facc15',
+              color: '#B45309',
               fontSize: '11px',
               fontWeight: 800,
               letterSpacing: '0.05em',
@@ -236,7 +236,7 @@ export default function OwnerSubscriptionModal({
             <h2 style={{
               fontSize: 'clamp(1.3rem, 2.2vw, 1.65rem)',
               fontWeight: 800,
-              color: '#ffffff',
+              color: '#0F172A',
               margin: '0 0 2px 0',
               letterSpacing: '-0.02em',
               lineHeight: 1.2
@@ -245,7 +245,7 @@ export default function OwnerSubscriptionModal({
             </h2>
             <p style={{
               fontSize: '0.86rem',
-              color: '#94a3b8',
+              color: '#475569',
               margin: 0,
               lineHeight: 1.35
             }}>
@@ -256,12 +256,12 @@ export default function OwnerSubscriptionModal({
           <button
             onClick={onClose}
             style={{
-              background: 'rgba(255, 255, 255, 0.06)',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
+              background: '#F1F5F9',
+              border: '1px solid #CBD5E1',
               borderRadius: '12px',
               width: '38px',
               height: '38px',
-              color: '#94a3b8',
+              color: '#64748B',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -291,8 +291,8 @@ export default function OwnerSubscriptionModal({
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             {/* Pricing Card */}
             <div style={{
-              background: 'linear-gradient(135deg, rgba(234, 179, 8, 0.12) 0%, rgba(15, 23, 42, 0.75) 100%)',
-              border: '1.5px solid rgba(234, 179, 8, 0.4)',
+              background: 'linear-gradient(135deg, rgba(234, 179, 8, 0.08) 0%, #F8FAFC 100%)',
+              border: '1.5px solid rgba(234, 179, 8, 0.35)',
               borderRadius: '18px',
               padding: '16px 18px',
               display: 'flex',
@@ -301,10 +301,10 @@ export default function OwnerSubscriptionModal({
             }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
-                  <span style={{ fontSize: '38px', fontWeight: 900, color: '#facc15', lineHeight: 1 }}>
+                  <span style={{ fontSize: '38px', fontWeight: 900, color: '#B45309', lineHeight: 1 }}>
                     ₹99
                   </span>
-                  <span style={{ fontSize: '14px', color: '#94a3b8', fontWeight: 700 }}>
+                  <span style={{ fontSize: '14px', color: '#64748B', fontWeight: 700 }}>
                     / 30 Days
                   </span>
                 </div>
@@ -316,16 +316,16 @@ export default function OwnerSubscriptionModal({
                   border: '1px solid rgba(234, 179, 8, 0.35)',
                   textAlign: 'right'
                 }}>
-                  <div style={{ fontSize: '10.5px', color: '#fde047', fontWeight: 800, textTransform: 'uppercase' }}>
+                  <div style={{ fontSize: '10.5px', color: '#B45309', fontWeight: 800, textTransform: 'uppercase' }}>
                     Cancel Anytime
                   </div>
-                  <div style={{ fontSize: '10px', color: '#cbd5e1' }}>
+                  <div style={{ fontSize: '10px', color: '#64748B' }}>
                     1-Click in Dashboard
                   </div>
                 </div>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12.5px', color: '#38bdf8', fontWeight: 700 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12.5px', color: '#0052CC', fontWeight: 700 }}>
                 <RefreshCw size={14} style={{ animation: 'spin 8s linear infinite', flexShrink: 0 }} />
                 <span>Next recurring autopay: ₹99 every 30 days</span>
               </div>
@@ -333,8 +333,8 @@ export default function OwnerSubscriptionModal({
 
             {/* Included Benefits Card */}
             <div style={{
-              background: 'rgba(255, 255, 255, 0.035)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
+              background: '#F8FAFC',
+              border: '1px solid #E2E8F0',
               borderRadius: '18px',
               padding: '16px 18px',
               display: 'flex',
@@ -342,52 +342,52 @@ export default function OwnerSubscriptionModal({
               gap: '11px',
               flex: 1
             }}>
-              <div style={{ fontSize: '11.5px', color: '#facc15', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <div style={{ fontSize: '11.5px', color: '#B45309', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Included In Your Plan:
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: '#f1f5f9' }}>
-                <CheckCircle2 size={17} color="#facc15" style={{ flexShrink: 0 }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: '#1E293B' }}>
+                <CheckCircle2 size={17} color="#B45309" style={{ flexShrink: 0 }} />
                 <span>Unlimited Room, Flat & PG Listings</span>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: '#f1f5f9' }}>
-                <CheckCircle2 size={17} color="#facc15" style={{ flexShrink: 0 }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: '#1E293B' }}>
+                <CheckCircle2 size={17} color="#B45309" style={{ flexShrink: 0 }} />
                 <span>Direct WhatsApp & Phone Call Inquiries</span>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: '#f1f5f9' }}>
-                <CheckCircle2 size={17} color="#facc15" style={{ flexShrink: 0 }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: '#1E293B' }}>
+                <CheckCircle2 size={17} color="#B45309" style={{ flexShrink: 0 }} />
                 <span>Keep 100% Rent — Zero Broker Commission</span>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: '#f1f5f9' }}>
-                <CheckCircle2 size={17} color="#facc15" style={{ flexShrink: 0 }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: '#1E293B' }}>
+                <CheckCircle2 size={17} color="#B45309" style={{ flexShrink: 0 }} />
                 <span>Verified Host Trust Badge on Listings</span>
               </div>
             </div>
 
             {/* Zero Commission Trust Strip */}
             <div style={{
-              background: 'rgba(16, 185, 129, 0.10)',
-              border: '1px solid rgba(16, 185, 129, 0.28)',
+              background: '#F0FDF4',
+              border: '1px solid #BBF7D0',
               borderRadius: '12px',
               padding: '10px 14px',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
               fontSize: '12px',
-              color: '#a7f3d0'
+              color: '#166534'
             }}>
-              <BadgePercent size={16} color="#34d399" style={{ flexShrink: 0 }} />
+              <BadgePercent size={16} color="#16a34a" style={{ flexShrink: 0 }} />
               <span><strong>0% Brokerage:</strong> Direct tenant connections with zero middlemen fees.</span>
             </div>
           </div>
 
           {/* RIGHT COLUMN: Exclusively UPI AutoPay Form */}
           <div style={{
-            background: 'rgba(255, 255, 255, 0.03)',
-            border: '1.5px solid rgba(234, 179, 8, 0.45)',
+            background: '#F8FAFC',
+            border: '1.5px solid rgba(0, 82, 204, 0.25)',
             borderRadius: '20px',
             padding: '18px 20px',
             display: 'flex',
@@ -403,20 +403,20 @@ export default function OwnerSubscriptionModal({
                     width: '34px',
                     height: '34px',
                     borderRadius: '10px',
-                    background: 'rgba(234, 179, 8, 0.18)',
-                    border: '1px solid rgba(234, 179, 8, 0.45)',
+                    background: 'rgba(0, 82, 204, 0.1)',
+                    border: '1px solid rgba(0, 82, 204, 0.3)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#facc15'
+                    color: 'var(--blue-primary)'
                   }}>
                     <Smartphone size={18} />
                   </div>
                   <div>
-                    <div style={{ fontSize: '14px', fontWeight: 800, color: '#ffffff' }}>
+                    <div style={{ fontSize: '14px', fontWeight: 800, color: '#0F172A' }}>
                       UPI AutoPay Mandate
                     </div>
-                    <div style={{ fontSize: '11.5px', color: '#94a3b8' }}>
+                    <div style={{ fontSize: '11.5px', color: '#64748B' }}>
                       Instant activation via any UPI App
                     </div>
                   </div>
@@ -425,7 +425,7 @@ export default function OwnerSubscriptionModal({
                 <span style={{
                   background: 'rgba(16, 185, 129, 0.16)',
                   border: '1px solid rgba(16, 185, 129, 0.4)',
-                  color: '#34d399',
+                  color: '#15803D',
                   fontSize: '10.5px',
                   fontWeight: 800,
                   padding: '3px 9px',
@@ -440,7 +440,7 @@ export default function OwnerSubscriptionModal({
 
               {/* Step 1: Quick UPI App Selector Pills */}
               <div style={{ marginBottom: '14px' }}>
-                <label style={{ display: 'block', fontSize: '12px', color: '#cbd5e1', fontWeight: 700, marginBottom: '7px' }}>
+                <label style={{ display: 'block', fontSize: '12px', color: '#334155', fontWeight: 700, marginBottom: '7px' }}>
                   1. Choose Your Preferred UPI App:
                 </label>
                 <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap' }}>
@@ -457,12 +457,12 @@ export default function OwnerSubscriptionModal({
                       onClick={() => handleSelectUpiApp(app.id)}
                       style={{
                         background: upiApp === app.id 
-                          ? 'linear-gradient(135deg, #eab308 0%, #ca8a04 100%)' 
-                          : 'rgba(255, 255, 255, 0.06)',
-                        color: upiApp === app.id ? '#0f172a' : '#cbd5e1',
+                          ? 'var(--blue-primary)' 
+                          : '#FFFFFF',
+                        color: upiApp === app.id ? '#FFFFFF' : '#334155',
                         border: upiApp === app.id 
-                          ? '1.5px solid #facc15' 
-                          : '1px solid rgba(255, 255, 255, 0.12)',
+                          ? '1.5px solid var(--blue-primary)' 
+                          : '1px solid #CBD5E1',
                         borderRadius: '8px',
                         padding: '6px 13px',
                         fontSize: '12px',
@@ -481,7 +481,7 @@ export default function OwnerSubscriptionModal({
               <div style={{ marginBottom: '12px' }}>
                 <label 
                   htmlFor="owner-sub-upi-id"
-                  style={{ display: 'block', fontSize: '12px', color: '#cbd5e1', fontWeight: 700, marginBottom: '6px' }}
+                  style={{ display: 'block', fontSize: '12px', color: '#334155', fontWeight: 700, marginBottom: '6px' }}
                 >
                   2. Enter Your UPI ID (Virtual Payment Address):
                 </label>
@@ -494,23 +494,23 @@ export default function OwnerSubscriptionModal({
                   placeholder="yourname@okaxis or 9876543210@paytm"
                   style={{
                     width: '100%',
-                    background: 'rgba(15, 23, 42, 0.9)',
-                    border: '1.5px solid rgba(234, 179, 8, 0.45)',
+                    background: '#FFFFFF',
+                    border: '1.5px solid #CBD5E1',
                     borderRadius: '10px',
                     padding: '10px 14px',
                     fontSize: '14px',
-                    color: '#ffffff',
+                    color: '#0F172A',
                     outline: 'none',
                     boxSizing: 'border-box',
                     fontFamily: 'monospace',
                     transition: 'border-color 0.2s ease, box-shadow 0.2s ease'
                   }}
                   onFocus={(e) => {
-                    e.currentTarget.style.borderColor = '#facc15';
-                    e.currentTarget.style.boxShadow = '0 0 12px rgba(234, 179, 8, 0.25)';
+                    e.currentTarget.style.borderColor = 'var(--blue-primary)';
+                    e.currentTarget.style.boxShadow = '0 0 10px rgba(0, 82, 204, 0.15)';
                   }}
                   onBlur={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(234, 179, 8, 0.45)';
+                    e.currentTarget.style.borderColor = '#CBD5E1';
                     e.currentTarget.style.boxShadow = 'none';
                   }}
                 />
@@ -523,9 +523,9 @@ export default function OwnerSubscriptionModal({
                 <div style={{
                   padding: '9px 12px',
                   borderRadius: '10px',
-                  background: 'rgba(239, 68, 68, 0.16)',
-                  border: '1px solid rgba(239, 68, 68, 0.4)',
-                  color: '#fca5a5',
+                  background: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  color: '#DC2626',
                   fontSize: '12px',
                   display: 'flex',
                   alignItems: 'center',
@@ -547,9 +547,9 @@ export default function OwnerSubscriptionModal({
                   padding: '13px 20px',
                   borderRadius: '12px',
                   background: processing 
-                    ? 'rgba(234, 179, 8, 0.4)' 
-                    : 'linear-gradient(135deg, #eab308 0%, #ca8a04 100%)',
-                  color: '#0f172a',
+                    ? 'rgba(0, 82, 204, 0.4)' 
+                    : 'linear-gradient(135deg, #0052CC 0%, #0E74ED 100%)',
+                  color: '#FFFFFF',
                   border: 'none',
                   fontSize: '14.5px',
                   fontWeight: 800,
@@ -558,7 +558,7 @@ export default function OwnerSubscriptionModal({
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '9px',
-                  boxShadow: '0 8px 24px -4px rgba(234, 179, 8, 0.5)',
+                  boxShadow: '0 8px 24px -4px rgba(0, 82, 204, 0.4)',
                   transition: 'all 0.2s ease',
                   letterSpacing: '0.2px'
                 }}
@@ -585,11 +585,11 @@ export default function OwnerSubscriptionModal({
                 justifyContent: 'center',
                 gap: '10px',
                 fontSize: '11px',
-                color: '#94a3b8',
+                color: '#64748B',
                 textAlign: 'center'
               }}>
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                  <Lock size={11} color="#facc15" /> 256-bit Bank Grade Encrypted
+                  <Lock size={11} color="#B45309" /> 256-bit Bank Grade Encrypted
                 </span>
                 <span>•</span>
                 <span>NPCI / RBI Compliant e-Mandate</span>
@@ -600,17 +600,17 @@ export default function OwnerSubscriptionModal({
                 marginTop: '11px',
                 padding: '6px 12px',
                 borderRadius: '8px',
-                background: 'rgba(34, 197, 94, 0.12)',
-                border: '1px solid rgba(34, 197, 94, 0.32)',
+                background: '#F0FDF4',
+                border: '1px solid #BBF7D0',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '7px',
                 fontSize: '11.5px',
-                color: '#4ade80',
+                color: '#15803D',
                 fontWeight: 600
               }}>
-                <CheckCircle2 size={13} style={{ flexShrink: 0, color: '#4ade80' }} />
+                <CheckCircle2 size={13} style={{ flexShrink: 0, color: '#15803D' }} />
                 <span>Test Payment Active: Click above to instantly activate your Owner Dashboard</span>
               </div>
             </div>

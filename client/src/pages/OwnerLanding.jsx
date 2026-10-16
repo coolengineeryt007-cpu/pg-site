@@ -78,38 +78,39 @@ export default function OwnerLanding({
     <div style={{ paddingBottom: '40px' }}>
       {/* HOST PORTAL TOPBAR: SELF-CONTAINED BRAND & ACTIONS */}
       <header style={{
-        background: 'rgba(5, 19, 45, 0.98)',
+        background: '#FFFFFF',
         backdropFilter: 'blur(16px)',
-        borderBottom: '1px solid rgba(212, 175, 55, 0.3)',
+        borderBottom: '1px solid #E2E8F0',
         padding: '12px 24px',
         marginBottom: '20px',
         position: 'sticky',
         top: 0,
         zIndex: 100,
-        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.6)'
+        boxShadow: '0 4px 20px rgba(0, 82, 204, 0.08)'
       }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img 
-              src="/logo.png" 
-              alt="Vrundavan Ventures" 
-              style={{ 
-                height: '62px', 
-                width: 'auto', 
-                maxHeight: '62px',
-                maxWidth: '280px',
-                objectFit: 'contain',
-                display: 'block',
-                filter: 'drop-shadow(0 2px 10px rgba(0, 0, 0, 0.45))'
-              }} 
-            />
+            <div className="brand-logo-badge">
+              <img 
+                src="/logo.png" 
+                alt="Vrundavan Ventures" 
+                style={{ 
+                  height: '46px', 
+                  width: 'auto', 
+                  maxHeight: '46px',
+                  maxWidth: '240px',
+                  objectFit: 'contain',
+                  display: 'block'
+                }} 
+              />
+            </div>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
             <button 
               onClick={onSwitchToStudent}
               className="btn btn-ghost btn-sm"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.82rem', color: 'var(--blue-light)' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.82rem', color: 'var(--blue-primary)' }}
             >
               <GraduationCap size={15} /> Switch to Tenant View
             </button>
@@ -138,23 +139,23 @@ export default function OwnerLanding({
           alignItems: 'center',
           gap: '12px',
           padding: '8px 20px',
-          background: 'rgba(212, 175, 55, 0.12)',
-          border: '1px solid rgba(212, 175, 55, 0.35)',
+          background: 'rgba(212, 175, 55, 0.1)',
+          border: '1px solid rgba(212, 175, 55, 0.4)',
           borderRadius: 'var(--radius-full)',
           fontSize: '0.88rem',
           flexWrap: 'wrap',
           justifyContent: 'center'
         }}>
-          <span style={{ color: 'var(--gold-light)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+          <span style={{ color: '#92400E', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
             <span>🏢</span> Dedicated Portal for PG Owners, Flat & House Landlords
           </span>
-          <span style={{ color: '#64748B' }}>•</span>
+          <span style={{ color: '#CBD5E1' }}>•</span>
           <button 
             onClick={onSwitchToStudent}
             style={{
               background: 'transparent',
               border: 'none',
-              color: 'var(--blue-light)',
+              color: 'var(--blue-primary)',
               cursor: 'pointer',
               fontWeight: 600,
               display: 'inline-flex',
@@ -171,8 +172,8 @@ export default function OwnerLanding({
       {/* 2. PERSPECTIVE TOGGLE BAR: FRONTEND STUDENT SHOWCASE VS HOST ADMIN */}
       <div className="container" style={{ marginBottom: '32px' }}>
         <div style={{
-          background: 'linear-gradient(180deg, rgba(7, 23, 57, 0.95) 0%, rgba(4, 13, 33, 0.98) 100%)',
-          border: '1.5px solid rgba(212, 175, 55, 0.4)',
+          background: '#FFFFFF',
+          border: '1px solid #CBD5E1',
           borderRadius: 'var(--radius-lg)',
           padding: '18px 24px',
           display: 'flex',
@@ -180,18 +181,18 @@ export default function OwnerLanding({
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: '16px',
-          boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
+          boxShadow: '0 8px 30px rgba(0, 82, 204, 0.08)'
         }}>
           <div>
-            <span style={{ fontSize: '0.78rem', color: 'var(--gold-primary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, display: 'block', marginBottom: '2px' }}>
+            <span style={{ fontSize: '0.78rem', color: '#B45309', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, display: 'block', marginBottom: '2px' }}>
               Host Experience Switcher
             </span>
-            <h3 style={{ color: '#fff', fontSize: '1.15rem', margin: 0, fontWeight: 800 }}>
+            <h3 style={{ color: '#0F172A', fontSize: '1.15rem', margin: 0, fontWeight: 800 }}>
               {activeViewMode === 'frontend' ? '🌟 Live Frontend Showcase (How Students See Your PG)' : '📊 Host Admin Dashboard Preview'}
             </h3>
           </div>
 
-          <div style={{ display: 'flex', gap: '8px', background: 'rgba(2, 6, 23, 0.7)', padding: '4px', borderRadius: 'var(--radius-full)', border: '1px solid rgba(14, 116, 237, 0.3)' }}>
+          <div style={{ display: 'flex', gap: '8px', background: '#F1F5F9', padding: '4px', borderRadius: 'var(--radius-full)', border: '1px solid #CBD5E1' }}>
             <button
               onClick={() => setActiveViewMode('frontend')}
               className={`btn btn-sm ${activeViewMode === 'frontend' ? 'btn-gold' : 'btn-ghost'}`}
@@ -237,11 +238,11 @@ export default function OwnerLanding({
             <div style={{
               maxWidth: '920px',
               margin: '0 auto',
-              background: 'linear-gradient(180deg, rgba(7, 23, 57, 0.95) 0%, rgba(4, 13, 33, 0.98) 100%)',
-              border: '1px solid var(--blue-border)',
+              background: '#FFFFFF',
+              border: '1px solid #CBD5E1',
               borderRadius: 'var(--radius-xl)',
               padding: '48px 32px',
-              boxShadow: 'var(--shadow-luxury)',
+              boxShadow: '0 20px 60px rgba(0, 82, 204, 0.08)',
               position: 'relative',
               overflow: 'hidden'
             }}>
@@ -253,7 +254,7 @@ export default function OwnerLanding({
                 transform: 'translateX(-50%)',
                 width: '650px',
                 height: '350px',
-                background: 'radial-gradient(ellipse, rgba(212, 175, 55, 0.22) 0%, rgba(14, 116, 237, 0.12) 50%, transparent 70%)',
+                background: 'radial-gradient(ellipse, rgba(0, 82, 204, 0.08) 0%, rgba(212, 175, 55, 0.08) 50%, transparent 70%)',
                 pointerEvents: 'none'
               }} />
 
@@ -262,7 +263,7 @@ export default function OwnerLanding({
                   <Sparkles size={14} /> Direct Host Connect • 50,000+ Student & Renter Searches
                 </span>
 
-                <h1 className="font-serif" style={{ fontSize: 'clamp(1.9rem, 4.2vw, 3.2rem)', lineHeight: 1.2, marginBottom: '18px', fontWeight: 900, color: '#ffffff' }}>
+                <h1 className="font-serif" style={{ fontSize: 'clamp(1.9rem, 4.2vw, 3.2rem)', lineHeight: 1.2, marginBottom: '18px', fontWeight: 900, color: '#0F172A' }}>
                   See How Students Discover <br />
                   <span className="gold-gradient-text">Your PG, Room & House Listings</span>
                 </h1>
@@ -298,8 +299,8 @@ export default function OwnerLanding({
 
                 {/* Quick 1-Click Demo Evaluation */}
                 <div style={{
-                  background: 'rgba(14, 116, 237, 0.08)',
-                  border: '1px dashed rgba(14, 116, 237, 0.35)',
+                  background: 'rgba(0, 82, 204, 0.06)',
+                  border: '1px dashed rgba(0, 82, 204, 0.35)',
                   borderRadius: 'var(--radius-md)',
                   padding: '12px 20px',
                   maxWidth: '480px',
@@ -310,10 +311,10 @@ export default function OwnerLanding({
                   gap: '12px'
                 }}>
                   <div style={{ textAlign: 'left' }}>
-                    <span style={{ fontSize: '0.8rem', color: '#93C5FD', fontWeight: 700, display: 'block' }}>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--blue-primary)', fontWeight: 700, display: 'block' }}>
                       ⚡ Instant Evaluation:
                     </span>
-                    <span style={{ fontSize: '0.75rem', color: '#CBD5E1' }}>
+                    <span style={{ fontSize: '0.75rem', color: '#64748B' }}>
                       Experience the live Host Portal as a verified demo landlord
                     </span>
                   </div>
@@ -512,7 +513,7 @@ export default function OwnerLanding({
                   }}>
                     {b.icon}
                   </div>
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#0F172A' }}>
                     {b.title}
                   </h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.6, margin: 0 }}>
@@ -526,11 +527,12 @@ export default function OwnerLanding({
           {/* 3 SIMPLE STEPS TO LIST */}
           <section className="container" style={{ marginBottom: '60px' }}>
             <div style={{
-              background: 'linear-gradient(180deg, rgba(7, 23, 57, 0.85) 0%, rgba(4, 13, 33, 0.95) 100%)',
-              border: '1px solid rgba(212, 175, 55, 0.3)',
+              background: '#FFFFFF',
+              border: '1px solid #CBD5E1',
               borderRadius: 'var(--radius-xl)',
               padding: '48px 36px',
-              textAlign: 'center'
+              textAlign: 'center',
+              boxShadow: '0 15px 40px rgba(0, 82, 204, 0.08)'
             }}>
               <h2 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(1.7rem, 3.2vw, 2.2rem)', marginBottom: '32px' }}>
                 List Your Property in 3 Simple Steps
@@ -557,7 +559,7 @@ export default function OwnerLanding({
                   }}>
                     1
                   </div>
-                  <h4 style={{ color: '#fff', fontSize: '1.15rem', margin: 0 }}>Create Host Account</h4>
+                  <h4 style={{ color: '#0F172A', fontSize: '1.15rem', margin: 0 }}>Create Host Account</h4>
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', lineHeight: 1.5, margin: 0 }}>
                     Sign up with your phone number and email to access your private Host Dashboard.
                   </p>
@@ -578,7 +580,7 @@ export default function OwnerLanding({
                   }}>
                     2
                   </div>
-                  <h4 style={{ color: '#fff', fontSize: '1.15rem', margin: 0 }}>Add Property & Address</h4>
+                  <h4 style={{ color: '#0F172A', fontSize: '1.15rem', margin: 0 }}>Add Property & Address</h4>
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', lineHeight: 1.5, margin: 0 }}>
                     Enter room details. Our Google Maps locator automatically pins your exact GPS entrance.
                   </p>
@@ -599,7 +601,7 @@ export default function OwnerLanding({
                   }}>
                     3
                   </div>
-                  <h4 style={{ color: '#fff', fontSize: '1.15rem', margin: 0 }}>Receive Direct Inquiries</h4>
+                  <h4 style={{ color: '#0F172A', fontSize: '1.15rem', margin: 0 }}>Receive Direct Inquiries</h4>
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', lineHeight: 1.5, margin: 0 }}>
                     Start getting verified student inquiries, WhatsApp messages, and physical visit bookings.
                   </p>

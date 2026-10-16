@@ -95,17 +95,17 @@ export default function Legal({ initialTab = 'terms' }) {
       </div>
 
       {/* Main Content Luxury Card */}
-      <div className="luxury-card" style={{ padding: '42px 48px', lineHeight: 1.85, color: '#CBD5E1', fontSize: '0.94rem' }}>
+      <div className="luxury-card" style={{ padding: '42px 48px', lineHeight: 1.85, color: '#334155', fontSize: '0.94rem' }}>
         
         {/* TAB 1: GENERAL TERMS OF SERVICE */}
         {activeTab === 'terms' && (
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '16px', marginBottom: '24px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', borderBottom: '1px solid #E2E8F0', paddingBottom: '16px', marginBottom: '24px' }}>
               <div>
-                <h2 className="font-serif" style={{ color: '#fff', fontSize: '1.65rem', margin: '0 0 6px 0' }}>
+                <h2 className="font-serif" style={{ color: '#0F172A', fontSize: '1.65rem', margin: '0 0 6px 0' }}>
                   Platform Terms of Service
                 </h2>
-                <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
+                <div style={{ fontSize: '0.82rem', color: '#64748B' }}>
                   Updated: October 2026 • Governed under the Information Technology Act, 2000 & Intermediary Rules
                 </div>
               </div>
@@ -114,14 +114,14 @@ export default function Legal({ initialTab = 'terms' }) {
               </span>
             </div>
 
-            <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
+            <h3 style={{ color: 'var(--blue-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
               1. How Vrundavan Ventures Works
             </h3>
             <p>
               Vrundavan Ventures is an online platform that connects people searching for accommodation (students, working bachelors, corporate professionals, families) directly with verified property owners and landlords. We do not act as a broker or middleman, and we do not take commissions on rent.
             </p>
 
-            <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
+            <h3 style={{ color: 'var(--blue-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
               2. Free for Students and Tenants
             </h3>
             <p>
@@ -136,21 +136,21 @@ export default function Legal({ initialTab = 'terms' }) {
               </li>
             </ul>
 
-            <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
+            <h3 style={{ color: 'var(--blue-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
               3. Direct Rent & Deposit Agreements
             </h3>
             <p>
               All rental details—including monthly rent, security deposit, notice period (standard 30 days), and house rules—are agreed upon directly between the property owner and the tenant. Both parties should sign a standard rental agreement and complete local police verification as required by law.
             </p>
 
-            <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
+            <h3 style={{ color: 'var(--blue-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
               4. Honest Listings & Real Photos
             </h3>
             <p>
               All property owners must provide honest descriptions and genuine room photos. Fake photos, misleading rent prices, or abusive behavior are strictly banned. Any listing violating these standards is removed immediately.
             </p>
 
-            <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
+            <h3 style={{ color: 'var(--blue-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
               5. Safe Renting Advice
             </h3>
             <p>
@@ -162,12 +162,12 @@ export default function Legal({ initialTab = 'terms' }) {
         {/* TAB 2: HOST SUBSCRIPTION & RECURRING AUTOPAY POLICY */}
         {activeTab === 'subscription' && (
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '16px', marginBottom: '24px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', borderBottom: '1px solid #E2E8F0', paddingBottom: '16px', marginBottom: '24px' }}>
               <div>
-                <h2 className="font-serif" style={{ color: '#fff', fontSize: '1.65rem', margin: '0 0 6px 0' }}>
+                <h2 className="font-serif" style={{ color: '#0F172A', fontSize: '1.65rem', margin: '0 0 6px 0' }}>
                   Host ₹99 Monthly Plan & Autopay Terms
                 </h2>
-                <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
+                <div style={{ fontSize: '0.82rem', color: '#64748B' }}>
                   Formulated under RBI e-Mandate Guidelines & Consumer Protection Rules
                 </div>
               </div>
@@ -177,13 +177,13 @@ export default function Legal({ initialTab = 'terms' }) {
             </div>
 
             <div style={{
-              background: 'linear-gradient(135deg, rgba(234, 179, 8, 0.1) 0%, rgba(15, 23, 42, 0.6) 100%)',
-              border: '1px solid rgba(234, 179, 8, 0.3)',
+              background: '#F8FAFC',
+              border: '1px solid #E2E8F0',
               borderRadius: '12px',
               padding: '18px 22px',
               marginBottom: '24px'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#facc15', fontWeight: 800, fontSize: '1.05rem', marginBottom: '6px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--blue-primary)', fontWeight: 800, fontSize: '1.05rem', marginBottom: '6px' }}>
                 <CheckCircle2 size={18} />
                 <span>Host Plan Summary</span>
               </div>
@@ -195,14 +195,14 @@ export default function Legal({ initialTab = 'terms' }) {
               </div>
             </div>
 
-            <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
+            <h3 style={{ color: 'var(--blue-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
               1. Who Pays the ₹99 Plan?
             </h3>
             <p>
               The ₹99 monthly plan is only for <strong>Property Owners and Landlords</strong> who want to publish their PGs, flats, and rooms, manage leads, and display verified badges. It is always 100% free for students and tenants looking for a stay.
             </p>
 
-            <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
+            <h3 style={{ color: 'var(--blue-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
               2. Safe & Transparent UPI Autopay
             </h3>
             <p>
@@ -220,7 +220,7 @@ export default function Legal({ initialTab = 'terms' }) {
               </li>
             </ul>
 
-            <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
+            <h3 style={{ color: 'var(--blue-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
               3. Cancel Anytime with 1 Click
             </h3>
             <p>
@@ -232,14 +232,14 @@ export default function Legal({ initialTab = 'terms' }) {
               <li>No further deductions will happen after cancellation.</li>
             </ul>
 
-            <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
+            <h3 style={{ color: 'var(--blue-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
               4. Invoices & Receipts
             </h3>
             <p>
               Every payment generates an official, printable invoice with a unique invoice number (e.g., INV-1001). You can view and download all your past receipts in your dashboard whenever needed.
             </p>
 
-            <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
+            <h3 style={{ color: 'var(--blue-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
               5. Fair Refund Policy
             </h3>
             <p>
@@ -251,12 +251,12 @@ export default function Legal({ initialTab = 'terms' }) {
         {/* TAB 3: PRIVACY & GEOLOCATION POLICY */}
         {activeTab === 'privacy' && (
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '16px', marginBottom: '24px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', borderBottom: '1px solid #E2E8F0', paddingBottom: '16px', marginBottom: '24px' }}>
               <div>
-                <h2 className="font-serif" style={{ color: '#fff', fontSize: '1.65rem', margin: '0 0 6px 0' }}>
+                <h2 className="font-serif" style={{ color: '#0F172A', fontSize: '1.65rem', margin: '0 0 6px 0' }}>
                   Privacy & GPS Policy
                 </h2>
-                <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
+                <div style={{ fontSize: '0.82rem', color: '#64748B' }}>
                   Protected under Indian Information Technology and Data Privacy Rules
                 </div>
               </div>
@@ -265,7 +265,7 @@ export default function Legal({ initialTab = 'terms' }) {
               </span>
             </div>
 
-            <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
+            <h3 style={{ color: 'var(--blue-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
               1. What Information We Collect
             </h3>
             <p>
@@ -277,14 +277,14 @@ export default function Legal({ initialTab = 'terms' }) {
               <li><strong>Secure Payments:</strong> Payments are processed through RBI-approved UPI gateways. We never see or store your bank passwords or card CVVs.</li>
             </ul>
 
-            <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
+            <h3 style={{ color: 'var(--blue-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
               2. How the "Near Me" GPS Feature Works
             </h3>
             <p>
               When you click "Near Me", we only use your phone or browser location in real-time to calculate walking and driving distances to nearby properties. We do not track where you go, and we do not store your location history.
             </p>
 
-            <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
+            <h3 style={{ color: 'var(--blue-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
               3. Zero Spam Guarantee
             </h3>
             <p>
@@ -296,12 +296,12 @@ export default function Legal({ initialTab = 'terms' }) {
         {/* TAB 4: STATUTORY GRIEVANCE REDRESSAL */}
         {activeTab === 'grievance' && (
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '16px', marginBottom: '24px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', borderBottom: '1px solid #E2E8F0', paddingBottom: '16px', marginBottom: '24px' }}>
               <div>
-                <h2 className="font-serif" style={{ color: '#fff', fontSize: '1.65rem', margin: '0 0 6px 0' }}>
+                <h2 className="font-serif" style={{ color: '#0F172A', fontSize: '1.65rem', margin: '0 0 6px 0' }}>
                   Help & Grievance Support
                 </h2>
-                <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
+                <div style={{ fontSize: '0.82rem', color: '#64748B' }}>
                   Official Grievance Redressal under IT Rules 2021 & Consumer Protection Rules
                 </div>
               </div>
@@ -316,8 +316,8 @@ export default function Legal({ initialTab = 'terms' }) {
 
             {/* Officer Details Card */}
             <div style={{
-              background: 'rgba(239, 68, 68, 0.08)',
-              border: '1.5px solid rgba(239, 68, 68, 0.3)',
+              background: '#FEF2F2',
+              border: '1.5px solid #FECACA',
               borderRadius: '16px',
               padding: '24px 28px',
               marginTop: '20px',
@@ -325,30 +325,30 @@ export default function Legal({ initialTab = 'terms' }) {
             }}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '18px' }}>
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800 }}>Grievance Officer</div>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', marginTop: '4px' }}>
+                  <div style={{ fontSize: '0.75rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 800 }}>Grievance Officer</div>
+                  <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0F172A', marginTop: '4px' }}>
                     Adv. R. K. Vaghela
                   </div>
-                  <div style={{ fontSize: '0.85rem', color: '#F87171', fontWeight: 600 }}>
+                  <div style={{ fontSize: '0.85rem', color: '#DC2626', fontWeight: 600 }}>
                     Legal & Support Department
                   </div>
                 </div>
 
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800 }}>Support Email</div>
-                  <div style={{ fontSize: '1rem', fontWeight: 700, color: '#fde047', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <div style={{ fontSize: '0.75rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 800 }}>Support Email</div>
+                  <div style={{ fontSize: '1rem', fontWeight: 700, color: '#0052CC', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <Mail size={16} />
                     <span>grievance@vrundavanventures.com</span>
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: '#cbd5e1' }}>
+                  <div style={{ fontSize: '0.82rem', color: '#475569' }}>
                     Customer Desk: support@vrundavanventures.com
                   </div>
                 </div>
 
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800 }}>Registered Office</div>
-                  <div style={{ fontSize: '0.9rem', color: '#fff', marginTop: '4px', display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
-                    <MapPin size={16} style={{ flexShrink: 0, marginTop: '3px', color: '#F87171' }} />
+                  <div style={{ fontSize: '0.75rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 800 }}>Registered Office</div>
+                  <div style={{ fontSize: '0.9rem', color: '#0F172A', marginTop: '4px', display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
+                    <MapPin size={16} style={{ flexShrink: 0, marginTop: '3px', color: '#DC2626' }} />
                     <span>
                       Vrundavan Ventures, Kalawad Road / 150 Feet Ring Road, Rajkot, Gujarat - 360005, India
                     </span>
@@ -356,12 +356,12 @@ export default function Legal({ initialTab = 'terms' }) {
                 </div>
 
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800 }}>Our Response Promise</div>
-                  <div style={{ fontSize: '0.9rem', color: '#fff', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <Clock size={16} style={{ color: '#34D399' }} />
+                  <div style={{ fontSize: '0.75rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 800 }}>Our Response Promise</div>
+                  <div style={{ fontSize: '0.9rem', color: '#0F172A', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Clock size={16} style={{ color: '#0D9488' }} />
                     <span>First Reply: Within <strong>48 Hours</strong></span>
                   </div>
-                  <div style={{ fontSize: '0.85rem', color: '#94a3b8' }}>
+                  <div style={{ fontSize: '0.85rem', color: '#64748B' }}>
                     Full Resolution: Within <strong>7–15 Days</strong>
                   </div>
                 </div>
