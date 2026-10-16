@@ -34,15 +34,14 @@ export default function Legal({ initialTab = 'terms' }) {
           marginBottom: '14px'
         }}>
           <Scale size={15} />
-          <span>Statutory Compliance & Legal Governance</span>
+          <span>Simple Rules & Legal Terms</span>
         </div>
 
         <h1 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)', marginBottom: '12px' }}>
-          Terms of Service & Regulatory Policies
+          Terms of Service & Policies
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.96rem', maxWidth: '780px', margin: '0 auto', lineHeight: 1.6 }}>
-          Standardized frameworks formulated in strict accordance with the Information Technology Act 2000, 
-          Consumer Protection (E-Commerce) Rules 2020, and Reserve Bank of India (RBI) e-Mandate Regulations.
+          Clear, honest, and simple rules for students, renters, and property owners. Formulated in compliance with Indian cyber laws and RBI guidelines.
         </p>
 
         {/* Tab Selection Row */}
@@ -70,7 +69,7 @@ export default function Legal({ initialTab = 'terms' }) {
             style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
           >
             <CreditCard size={15} />
-            <span>Host ₹99 Autopay Policy</span>
+            <span>Host ₹99 Autopay Terms</span>
           </button>
 
           <button 
@@ -80,7 +79,7 @@ export default function Legal({ initialTab = 'terms' }) {
             style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
           >
             <Lock size={15} />
-            <span>Privacy & Geolocation</span>
+            <span>Privacy & GPS Policy</span>
           </button>
 
           <button 
@@ -90,7 +89,7 @@ export default function Legal({ initialTab = 'terms' }) {
             style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
           >
             <ShieldCheck size={15} />
-            <span>Grievance Redressal</span>
+            <span>Help & Grievance Support</span>
           </button>
         </div>
       </div>
@@ -107,60 +106,55 @@ export default function Legal({ initialTab = 'terms' }) {
                   Platform Terms of Service
                 </h2>
                 <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
-                  Effective Date: October 2026 • Electronic Record under Information Technology Act, 2000 & Rule 3(1) of IT Intermediary Rules, 2021
+                  Updated: October 2026 • Governed under the Information Technology Act, 2000 & Intermediary Rules
                 </div>
               </div>
               <span className="badge badge-gold" style={{ fontSize: '0.75rem', padding: '4px 10px' }}>
-                Legal Intermediary
+                Simple & Clear
               </span>
             </div>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
-              1. Platform Nature & Intermediary Classification
+              1. How Vrundavan Ventures Works
             </h3>
             <p>
-              Vrundavan Ventures ("Platform", "We", "Us") operates strictly as an electronic technology platform and intermediary as defined under Section 2(1)(w) of the Information Technology Act, 2000. 
-              The Platform facilitates discovery and direct interaction between prospective tenants (students, working bachelors, corporate professionals, families) and property hosts/landlords. 
-              Vrundavan Ventures does not act as a real estate broker, leasing agent, landlord, or guarantor for any rental premises.
+              Vrundavan Ventures is an online platform that connects people searching for accommodation (students, working bachelors, corporate professionals, families) directly with verified property owners and landlords. We do not act as a broker or middleman, and we do not take commissions on rent.
             </p>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
-              2. User Tier Separation & Fee Exemption for Students/Tenants
+              2. Free for Students and Tenants
             </h3>
             <p>
-              In compliance with consumer transparency standards:
+              We believe in complete transparency:
             </p>
             <ul style={{ paddingLeft: '22px', margin: '8px 0 16px 0' }}>
               <li>
-                <strong>Students & Home Seekers:</strong> Access to accommodation exploration, interactive Google Maps GPS proximity calculation, property inspection requests, and direct communication with verified hosts is <strong>100% Free</strong>. Students and tenants are never charged any recurring fees, commissions, or platform subscriptions.
+                <strong>Students & Tenants:</strong> Searching properties, checking real photos, viewing live GPS map distances, and calling or messaging owners on WhatsApp is <strong>100% Free</strong> forever. Tenants are never asked to pay any fee or brokerage to our website.
               </li>
               <li>
-                <strong>Property Hosts & Landlords:</strong> Property hosts must maintain an active <strong>Host Partnership Subscription</strong> (₹99 initial activation for 30 days + ₹99 recurring autopay every 30 days) to list properties, access verified tenant leads, and display the Verified Host badge.
+                <strong>Property Owners & Landlords:</strong> Owners pay a simple ₹99 per month plan to keep their listings active, display the Verified Host shield, and receive direct tenant leads.
               </li>
             </ul>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
-              3. Independent Tenancy & Security Deposit Agreements
+              3. Direct Rent & Deposit Agreements
             </h3>
             <p>
-              All rental terms—including monthly rent, security deposit amounts, maintenance dues, move-in notice periods (standard 30-day notice), and house rules—are entered into directly between the property owner and the tenant. 
-              Property hosts are obligated under Indian Law to execute formal rental agreements and complete local police verification for all tenants as mandated by the relevant municipal and state authorities (e.g. Model Tenancy Act provisions).
+              All rental details—including monthly rent, security deposit, notice period (standard 30 days), and house rules—are agreed upon directly between the property owner and the tenant. Both parties should sign a standard rental agreement and complete local police verification as required by law.
             </p>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
-              4. Prohibited Content & Listing Authenticity
+              4. Honest Listings & Real Photos
             </h3>
             <p>
-              Under Rule 3(1)(b) of the Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021, users and hosts are strictly prohibited from publishing listings or information that is false, misleading, defamatory, obscene, infringing on third-party intellectual property, or violative of Indian law. 
-              Vrundavan Ventures reserves the unconditional right to suspend or remove any non-compliant listing without liability.
+              All property owners must provide honest descriptions and genuine room photos. Fake photos, misleading rent prices, or abusive behavior are strictly banned. Any listing violating these standards is removed immediately.
             </p>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
-              5. Limitation of Liability & Safe Harbor
+              5. Safe Renting Advice
             </h3>
             <p>
-              Under Section 79 of the Information Technology Act, 2000, Vrundavan Ventures shall not be liable for any third-party content, actions, tenancy disputes, damages, or breaches committed by landlords or tenants. 
-              Users agree to conduct their own due diligence, visit premises physically, and verify documentation prior to transferring rental deposits.
+              We always advise every tenant to visit the room in person or take a live WhatsApp video tour before transferring any deposit money. Never transfer funds without confirming property details directly with the landlord.
             </p>
           </div>
         )}
@@ -171,10 +165,10 @@ export default function Legal({ initialTab = 'terms' }) {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '16px', marginBottom: '24px' }}>
               <div>
                 <h2 className="font-serif" style={{ color: '#fff', fontSize: '1.65rem', margin: '0 0 6px 0' }}>
-                  Host Partnership Subscription & Autopay Terms
+                  Host ₹99 Monthly Plan & Autopay Terms
                 </h2>
                 <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
-                  Formulated under RBI Circular on e-Mandates for Recurring Transactions (RBI/2020-21/74) & Consumer Protection (E-Commerce) Rules, 2020
+                  Formulated under RBI e-Mandate Guidelines & Consumer Protection Rules
                 </div>
               </div>
               <span className="badge badge-gold" style={{ fontSize: '0.75rem', padding: '4px 10px' }}>
@@ -191,68 +185,65 @@ export default function Legal({ initialTab = 'terms' }) {
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#facc15', fontWeight: 800, fontSize: '1.05rem', marginBottom: '6px' }}>
                 <CheckCircle2 size={18} />
-                <span>Host Pricing Model Summary</span>
+                <span>Host Plan Summary</span>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px', marginTop: '10px', fontSize: '0.88rem' }}>
-                <div><strong>Initial Activation:</strong> ₹99 (30-day listing & lead access)</div>
-                <div><strong>Recurring Autopay:</strong> ₹99 every 30 days (Auto-deducted)</div>
-                <div><strong>Autopay Mode:</strong> NPCI UPI Autopay / Card e-Mandate</div>
-                <div><strong>Cancellation:</strong> 1-Click anytime in Dashboard</div>
+                <div><strong>Activation Fee:</strong> ₹99 for 30 days</div>
+                <div><strong>Monthly Renewal:</strong> ₹99 every 30 days (Auto-deducted)</div>
+                <div><strong>Payment Method:</strong> UPI Autopay (GPay, PhonePe, Paytm, BHIM)</div>
+                <div><strong>Cancellation:</strong> 1-Click anytime in your Dashboard</div>
               </div>
             </div>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
-              1. Scope & Applicability
+              1. Who Pays the ₹99 Plan?
             </h3>
             <p>
-              The ₹99 subscription is exclusively mandatory for <strong>Property Owners and Landlords</strong> who register to list properties, manage vacancies, and receive verified student and professional tenant leads on the Platform. 
-              Students and tenants browsing listings are completely exempt from any subscription or payment requirement.
+              The ₹99 monthly plan is only for <strong>Property Owners and Landlords</strong> who want to publish their PGs, flats, and rooms, manage leads, and display verified badges. It is always 100% free for students and tenants looking for a stay.
             </p>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
-              2. Explicit Electronic Mandate Authorization (RBI Compliance)
+              2. Safe & Transparent UPI Autopay
             </h3>
             <p>
-              In accordance with Reserve Bank of India directives regarding e-mandates on cards and Unified Payments Interface (UPI) for recurring transactions:
+              In line with Reserve Bank of India (RBI) rules:
             </p>
             <ul style={{ paddingLeft: '22px', margin: '8px 0 16px 0' }}>
               <li>
-                <strong>Initial Consent:</strong> The initial authorization of ₹99 requires explicit, multi-factor authentication by the host via NPCI-approved UPI apps (Google Pay, PhonePe, Paytm, BHIM) or bank-issued debit/credit card.
+                <strong>Your Approval:</strong> You approve the ₹99 monthly plan once using your preferred UPI app (Google Pay, PhonePe, Paytm, BHIM) with your secure UPI PIN.
               </li>
               <li>
-                <strong>Mandate Registration:</strong> An e-mandate (NPCI Mandate ID) is registered for ₹99 recurring deduction with a fixed billing cycle frequency of 30 days.
+                <strong>30-Day Cycle:</strong> ₹99 is deducted automatically every 30 days to keep your listings active.
               </li>
               <li>
-                <strong>Pre-Debit & Transaction Receipts:</strong> Property hosts receive pre-transaction alerts and electronic Tax Invoices detailing the Mandate ID, Transaction Reference, and timestamp upon every successful renewal.
+                <strong>Instant Receipts:</strong> You receive an instant digital invoice and SMS/UPI alert every time a renewal occurs.
               </li>
             </ul>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
-              3. Right to Revoke / 1-Click Mandate Cancellation
+              3. Cancel Anytime with 1 Click
             </h3>
             <p>
-              In adherence to RBI circular guidelines guaranteeing consumer control over recurring payments, the property host reserves the unconditional statutory right to cancel, revoke, or pause their recurring autopay mandate at any time directly through the Owner Dashboard. 
-              Upon cancellation:
+              You have full control. You can cancel your ₹99 autopay plan at any time directly from your Host Dashboard:
             </p>
             <ul style={{ paddingLeft: '22px', margin: '8px 0 16px 0' }}>
-              <li>No further automatic deductions of ₹99 will occur.</li>
-              <li>Existing listing benefits and verified partner badges remain active until the end of the currently active 30-day cycle.</li>
-              <li>No cancellation fees, penalties, or hidden charges apply.</li>
+              <li>No cancellation fees, no hidden charges, and no long-term contracts.</li>
+              <li>Your listings remain active and visible until your current 30-day period ends.</li>
+              <li>No further deductions will happen after cancellation.</li>
             </ul>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
-              4. Invoicing & Digital Tax Receipts
+              4. Invoices & Receipts
             </h3>
             <p>
-              In compliance with the Consumer Protection (E-Commerce) Rules, 2020, every host payment—including the initial ₹99 activation and subsequent ₹99 recurring debits—generates an official, printable Tax Invoice with a unique invoice number (e.g. INV-1001), transaction reference, and host identification details, stored permanently in the host portal.
+              Every payment generates an official, printable invoice with a unique invoice number (e.g., INV-1001). You can view and download all your past receipts in your dashboard whenever needed.
             </p>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
-              5. Refund & Chargeback Policy
+              5. Fair Refund Policy
             </h3>
             <p>
-              The ₹99 subscription is a digital service fee for platform hosting, listing promotion, and lead generation. Once the host listing portal is activated for a 30-day cycle, the subscription fee for that cycle is non-refundable. 
-              However, in the event of an erroneous technical duplicate deduction, the extra amount will be automatically reversed to the host's original payment method within 5–7 banking days upon notifying support.
+              The ₹99 subscription is an active listing fee and is non-refundable once activated for a 30-day period. However, if there is any accidental double charge due to a bank technical error, the extra amount is automatically refunded to your original bank account within 5–7 working days.
             </p>
           </div>
         )}
@@ -263,43 +254,41 @@ export default function Legal({ initialTab = 'terms' }) {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '16px', marginBottom: '24px' }}>
               <div>
                 <h2 className="font-serif" style={{ color: '#fff', fontSize: '1.65rem', margin: '0 0 6px 0' }}>
-                  Privacy & Geolocation Policy
+                  Privacy & GPS Policy
                 </h2>
                 <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
-                  Compliant with Information Technology (Reasonable Security Practices and Procedures) Rules, 2011 & DPDP Act Framework
+                  Protected under Indian Information Technology and Data Privacy Rules
                 </div>
               </div>
               <span className="badge badge-blue" style={{ fontSize: '0.75rem', padding: '4px 10px' }}>
-                Encrypted & Protected
+                Safe & Private
               </span>
             </div>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
-              1. Information We Collect
+              1. What Information We Collect
             </h3>
             <p>
-              We collect minimal personal data strictly necessary to facilitate verified accommodations:
+              We collect only the basic information required to help you rent safely:
             </p>
             <ul style={{ paddingLeft: '22px', margin: '8px 0 16px 0' }}>
-              <li><strong>Contact Credentials:</strong> Full name, verified mobile phone number, email address.</li>
-              <li><strong>Host Property Metadata:</strong> Property address, geolocation coordinates, room configurations, amenities, pricing, and bank payout details for deposit escrow tracking.</li>
-              <li><strong>Payment Mandate Data:</strong> Tokenized mandate IDs and transaction references processed via PCI-DSS and RBI-compliant gateways. We do NOT store card CVVs or bank passwords.</li>
+              <li><strong>Contact Info:</strong> Your name, mobile number, and email.</li>
+              <li><strong>Property Details (For Owners):</strong> Address, room pictures, rent prices, and house rules.</li>
+              <li><strong>Secure Payments:</strong> Payments are processed through RBI-approved UPI gateways. We never see or store your bank passwords or card CVVs.</li>
             </ul>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
-              2. Real-Time GPS & Google Maps Proximity
+              2. How the "Near Me" GPS Feature Works
             </h3>
             <p>
-              When a user activates the "Near Me" feature, device GPS coordinates (latitude and longitude) are accessed strictly in real-time on the client device to compute road distance to nearby verified residences via Google Maps API. 
-              We do NOT store continuous historical GPS trails or transmit location telemetry to third-party ad networks.
+              When you click "Near Me", we only use your phone or browser location in real-time to calculate walking and driving distances to nearby properties. We do not track where you go, and we do not store your location history.
             </p>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
-              3. Data Sharing & Direct Tenant-Host Connection
+              3. Zero Spam Guarantee
             </h3>
             <p>
-              Your contact details are shared exclusively between the verified student/tenant and the specific property host when an inquiry or visit is submitted. 
-              We do not sell, rent, or monetize user data to telemarketers or third-party advertising brokers.
+              Your contact details are shared only with the specific landlord when you choose to inquire about a property. We never sell, rent, or share your phone number with telemarketers or advertisers.
             </p>
           </div>
         )}
@@ -310,20 +299,19 @@ export default function Legal({ initialTab = 'terms' }) {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '16px', marginBottom: '24px' }}>
               <div>
                 <h2 className="font-serif" style={{ color: '#fff', fontSize: '1.65rem', margin: '0 0 6px 0' }}>
-                  Statutory Grievance Redressal Mechanism
+                  Help & Grievance Support
                 </h2>
                 <div style={{ fontSize: '0.82rem', color: '#94A3B8' }}>
-                  Mandatory Disclosure under Rule 3(2) of Information Technology (Intermediary Guidelines) Rules, 2021 & Consumer Protection Rules, 2020
+                  Official Grievance Redressal under IT Rules 2021 & Consumer Protection Rules
                 </div>
               </div>
               <span className="badge badge-crimson" style={{ fontSize: '0.75rem', padding: '4px 10px' }}>
-                Official Redressal
+                We Are Here to Help
               </span>
             </div>
 
             <p>
-              In compliance with the Information Technology Act, 2000 and the Consumer Protection (E-Commerce) Rules, 2020, 
-              the details of the designated <strong>Grievance Officer</strong> for Vrundavan Ventures are published below:
+              If you have any complaint, billing doubt, or need help regarding a property listing, you can contact our Grievance Officer directly:
             </p>
 
             {/* Officer Details Card */}
@@ -337,70 +325,69 @@ export default function Legal({ initialTab = 'terms' }) {
             }}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '18px' }}>
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800 }}>Designated Grievance Officer</div>
+                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800 }}>Grievance Officer</div>
                   <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', marginTop: '4px' }}>
                     Adv. R. K. Vaghela
                   </div>
                   <div style={{ fontSize: '0.85rem', color: '#F87171', fontWeight: 600 }}>
-                    Directorate of Legal & Compliance
+                    Legal & Support Department
                   </div>
                 </div>
 
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800 }}>Official Grievance Email</div>
+                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800 }}>Support Email</div>
                   <div style={{ fontSize: '1rem', fontWeight: 700, color: '#fde047', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <Mail size={16} />
                     <span>grievance@vrundavanventures.com</span>
                   </div>
                   <div style={{ fontSize: '0.82rem', color: '#cbd5e1' }}>
-                    Direct Escrow Desk: support@luxurypg.com
+                    Customer Desk: support@vrundavanventures.com
                   </div>
                 </div>
 
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800 }}>Jurisdiction & Registered Office</div>
+                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800 }}>Registered Office</div>
                   <div style={{ fontSize: '0.9rem', color: '#fff', marginTop: '4px', display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
                     <MapPin size={16} style={{ flexShrink: 0, marginTop: '3px', color: '#F87171' }} />
                     <span>
-                      Vrundavan Ventures Luxury Accommodations, Kalawad Road / 150 Feet Ring Road, Rajkot, Gujarat - 360005, India
+                      Vrundavan Ventures, Kalawad Road / 150 Feet Ring Road, Rajkot, Gujarat - 360005, India
                     </span>
                   </div>
                 </div>
 
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800 }}>Statutory Timelines</div>
+                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800 }}>Our Response Promise</div>
                   <div style={{ fontSize: '0.9rem', color: '#fff', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <Clock size={16} style={{ color: '#34D399' }} />
-                    <span>Acknowledgment: Within <strong>48 Hours</strong></span>
+                    <span>First Reply: Within <strong>48 Hours</strong></span>
                   </div>
                   <div style={{ fontSize: '0.85rem', color: '#94a3b8' }}>
-                    Final Resolution: Within <strong>30 Days</strong>
+                    Full Resolution: Within <strong>7–15 Days</strong>
                   </div>
                 </div>
               </div>
             </div>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
-              Grievance Filing Procedure
+              How to Submit a Complaint
             </h3>
             <ol style={{ paddingLeft: '22px', margin: '8px 0 16px 0', lineHeight: 1.8 }}>
               <li>
-                <strong>Submission:</strong> Email your complaint to <code style={{ color: '#fde047' }}>grievance@vrundavanventures.com</code> detailing the user email, property ID, transaction reference / mandate ID (if billing related), and specific issue.
+                <strong>Send an Email:</strong> Email us at <code style={{ color: '#fde047' }}>grievance@vrundavanventures.com</code> with your name, phone number, and issue details.
               </li>
               <li>
-                <strong>Acknowledgment:</strong> You will receive an official ticket acknowledgment with reference tracking within 48 hours.
+                <strong>Ticket Created:</strong> You will get an acknowledgment within 48 hours with a support ticket number.
               </li>
               <li>
-                <strong>Investigation & Resolution:</strong> The compliance team will investigate the facts, contact both parties if a dispute exists, and provide a reasoned resolution within 30 days as prescribed under the IT Rules, 2021.
+                <strong>Quick Resolution:</strong> Our team will review the issue, speak with both parties if needed, and resolve it quickly and fairly.
               </li>
             </ol>
 
             <h3 style={{ color: 'var(--gold-primary)', fontSize: '1.15rem', marginTop: '22px', marginBottom: '8px' }}>
-              Governing Law & Dispute Jurisdiction
+              Governing Law
             </h3>
             <p>
-              These Terms, policies, and all transactions shall be governed by and interpreted in accordance with the laws of the Republic of India. 
-              Subject to applicable alternative dispute resolution procedures, the Courts at <strong>Rajkot, Gujarat, India</strong> shall possess exclusive jurisdiction over any legal proceedings arising hereunder.
+              These terms are governed by the laws of India. Any legal dispute shall fall under the jurisdiction of the courts in <strong>Rajkot, Gujarat, India</strong>.
             </p>
           </div>
         )}

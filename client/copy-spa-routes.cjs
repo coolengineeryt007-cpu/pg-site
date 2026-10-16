@@ -21,15 +21,12 @@ const routes = [
   'nearme',
   'about',
   'contact',
-  'blogs',
   'terms',
   'privacy',
   'superadmin',
   'admin-secret',
   'owner-portal',
-  'student-home',
-  'student-register',
-  'owner-register'
+  'student-home'
 ];
 
 routes.forEach(route => {

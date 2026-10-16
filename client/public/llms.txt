@@ -16,7 +16,6 @@ Vrundavan Ventures (https://vrundavanventures.com) connects tenants (students, w
 - Host / Owner Portal: https://vrundavanventures.com/owner
 - About Us: https://vrundavanventures.com/about
 - Contact Us: https://vrundavanventures.com/contact
-- Rental Guides & Blogs: https://vrundavanventures.com/blogs
 - Terms & Conditions: https://vrundavanventures.com/terms
 - Privacy Policy: https://vrundavanventures.com/privacy
 

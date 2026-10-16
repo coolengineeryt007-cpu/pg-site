@@ -263,8 +263,8 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
-              <option value="featured">Prime & Featured First</option>
-              {userCoords && <option value="distance">Proximity (Nearest First)</option>}
+              <option value="featured">Featured First</option>
+              {userCoords && <option value="distance">Nearest to Me</option>}
               <option value="price_asc">Price: Low to High</option>
               <option value="price_desc">Price: High to Low</option>
               <option value="rating">Highest Rated</option>
@@ -299,7 +299,7 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--gold-primary)' }}>
             <Navigation size={16} style={{ color: 'var(--red-crimson)' }} />
-            <span>GPS Proximity Mode Active: Sorted by distance from your coordinates ({userCoords.lat.toFixed(3)}, {userCoords.lng.toFixed(3)})</span>
+            <span>GPS Location Active: Showing closest rooms and flats first ({userCoords.lat.toFixed(3)}, {userCoords.lng.toFixed(3)})</span>
           </div>
           <button 
             onClick={() => setUserCoords(null)}
@@ -340,21 +340,21 @@ export default function Explore({ onSelectPg, initialFilter = {}, currentUser, o
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <h3 style={{ color: '#fff', fontSize: '1.25rem' }}>
-            Available Verified PGs <span style={{ color: '#888', fontSize: '0.9rem' }}>({pgs.length} Found)</span>
+            Available Verified Properties <span style={{ color: '#888', fontSize: '0.9rem' }}>({pgs.length} Found)</span>
           </h3>
         </div>
 
         {loading ? (
           <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--gold-primary)' }}>
             <Navigation size={32} className="animate-spin" style={{ margin: '0 auto 12px auto', display: 'block' }} />
-            <p style={{ letterSpacing: '0.05em' }}>FETCHING LUXURY RESIDENCES...</p>
+            <p style={{ letterSpacing: '0.05em' }}>Loading verified properties...</p>
           </div>
         ) : pgs.length === 0 ? (
           <div className="luxury-card" style={{ padding: '60px 20px', textAlign: 'center' }}>
             <Building size={48} style={{ color: 'var(--gold-primary)', margin: '0 auto 16px auto', display: 'block' }} />
-            <h3 style={{ color: '#fff', fontSize: '1.25rem', marginBottom: '8px' }}>No PG Residences Match Your Filters</h3>
+            <h3 style={{ color: '#fff', fontSize: '1.25rem', marginBottom: '8px' }}>No Properties Match Your Search</h3>
             <p style={{ color: '#888', maxWidth: '420px', margin: '0 auto 20px auto', fontSize: '0.9rem' }}>
-              Try broadening your rent budget or selecting 'All Cities' to see more verified luxury properties.
+              Try increasing your rent budget or choosing 'All Cities' to see more available rooms.
             </p>
             <button onClick={handleResetFilters} className="btn btn-gold">
               Reset All Filters

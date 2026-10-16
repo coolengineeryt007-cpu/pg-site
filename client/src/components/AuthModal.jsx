@@ -70,15 +70,21 @@ export default function AuthModal({
           phone,
           address
         });
-        onLoginSuccess(res.user);
-        onClose();
+        if (onLoginSuccess) {
+          onLoginSuccess(res.user);
+        } else if (onClose) {
+          onClose();
+        }
       } else {
         const res = await api.login(email, password);
-        onLoginSuccess(res.user);
-        onClose();
+        if (onLoginSuccess) {
+          onLoginSuccess(res.user);
+        } else if (onClose) {
+          onClose();
+        }
       }
     } catch (err) {
-      setError(err.message || 'Authentication error');
+      setError(err.message || 'Authentication error. Please check your details and try again.');
     } finally {
       setLoading(false);
     }
@@ -91,10 +97,13 @@ export default function AuthModal({
     setError('');
     api.login(demoEmail, demoPass)
       .then((res) => {
-        onLoginSuccess(res.user);
-        onClose();
+        if (onLoginSuccess) {
+          onLoginSuccess(res.user);
+        } else if (onClose) {
+          onClose();
+        }
       })
-      .catch((err) => setError(err.message))
+      .catch((err) => setError(err.message || 'Authentication error. Please check credentials.'))
       .finally(() => setLoading(false));
   };
 
@@ -322,7 +331,7 @@ export default function AuthModal({
                       ? 'Free host signup. ₹99/month listing plan to publish your properties and receive direct student inquiries.' 
                       : 'Log in to manage your property listings, tenant leads, and direct WhatsApp inquiries.')
                   : (isRegister 
-                      ? '100% free registration. Connect directly with verified PG and room owners across Pune.' 
+                      ? '100% free registration. Connect directly with verified PG and room owners across India.' 
                       : 'Log in to view direct owner contact & WhatsApp numbers. Zero brokerage fees.')}
               </p>
             </div>
@@ -637,20 +646,26 @@ export default function AuthModal({
 
               {/* Error Notice */}
               {error && (
-                <div style={{
-                  background: 'rgba(239, 68, 68, 0.15)',
-                  border: '1px solid #ef4444',
-                  color: '#f87171',
-                  padding: '6px 12px',
-                  borderRadius: '8px',
-                  fontSize: '0.80rem',
-                  marginBottom: '14px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px'
-                }}>
-                  <AlertCircle size={15} style={{ flexShrink: 0 }} />
-                  <span>{error}</span>
+                <div 
+                  role="alert"
+                  style={{
+                    background: 'rgba(239, 68, 68, 0.20)',
+                    border: '1.5px solid #ef4444',
+                    color: '#fee2e2',
+                    padding: '10px 14px',
+                    borderRadius: '10px',
+                    fontSize: '0.88rem',
+                    fontWeight: 600,
+                    marginBottom: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    boxShadow: '0 4px 14px rgba(239, 68, 68, 0.25)',
+                    animation: 'shake 0.3s ease-in-out'
+                  }}
+                >
+                  <AlertCircle size={18} style={{ flexShrink: 0, color: '#f87171' }} />
+                  <span style={{ lineHeight: 1.4 }}>{error}</span>
                 </div>
               )}
 
@@ -913,6 +928,31 @@ export default function AuthModal({
                   </>
                 )}
 
+                {/* Proximate Error Alert directly above submit button */}
+                {error && (
+                  <div 
+                    role="alert"
+                    style={{
+                      background: 'rgba(239, 68, 68, 0.20)',
+                      border: '1.5px solid #ef4444',
+                      color: '#fee2e2',
+                      padding: '10px 14px',
+                      borderRadius: '10px',
+                      fontSize: '0.88rem',
+                      fontWeight: 600,
+                      marginBottom: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                      boxShadow: '0 4px 14px rgba(239, 68, 68, 0.25)',
+                      animation: 'shake 0.3s ease-in-out'
+                    }}
+                  >
+                    <AlertCircle size={18} style={{ flexShrink: 0, color: '#f87171' }} />
+                    <span style={{ lineHeight: 1.4 }}>{error}</span>
+                  </div>
+                )}
+
                 {/* Submit Action Button */}
                 <button 
                   type="submit" 
@@ -1135,12 +1175,15 @@ export default function AuthModal({
             gap: 20px;
             padding-top: 10px;
           }
-          .auth-left-pane {
-            display: none;
-          }
           .auth-two-col {
             grid-template-columns: 1fr !important;
           }
+        }
+
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          20%, 60% { transform: translateX(-6px); }
+          40%, 80% { transform: translateX(6px); }
         }
       `}</style>
     </div>

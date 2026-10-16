@@ -44,33 +44,33 @@ export default function OwnerLanding({
   const benefits = [
     {
       icon: <DollarSign size={26} style={{ color: 'var(--gold-primary)' }} />,
-      title: "100% Direct Tenant Income",
-      desc: "Direct tenant contact. Keep 100% of your room rental fees and deposits directly from tenants with no middleman cuts."
+      title: "Keep 100% of Your Rent",
+      desc: "Deal directly with tenants. Keep all of your monthly rent and deposits with zero broker commission."
     },
     {
       icon: <PhoneCall size={26} style={{ color: 'var(--blue-light)' }} />,
-      title: "Direct WhatsApp & Phone Leads",
-      desc: "Every student inquiry connects directly to your personal phone or WhatsApp number with verified preferences."
+      title: "Direct WhatsApp & Phone Calls",
+      desc: "Every tenant inquiry connects straight to your personal mobile number or WhatsApp."
     },
     {
       icon: <MapPin size={26} style={{ color: 'var(--blue-cyan)' }} />,
-      title: "Google Maps Turn-by-Turn GPS",
-      desc: "Our interactive GPS locator guides students directly to your building entrance from university campuses and IT hubs."
+      title: "Google Maps GPS Directions",
+      desc: "Help students and renters easily find your property with live Google Maps navigation."
     },
     {
       icon: <Layers size={26} style={{ color: 'var(--gold-light)' }} />,
-      title: "Complete Inventory Control",
-      desc: "Easily manage Single, Twin, and Triple sharing beds, flats, monthly rent, deposits, and house rules in real-time."
+      title: "Easy Room & Rent Management",
+      desc: "Update room availability, monthly rent, deposits, and house rules anytime in your dashboard."
     },
     {
       icon: <ShieldCheck size={26} style={{ color: 'var(--blue-light)' }} />,
-      title: "Verified Host Prestige Badge",
-      desc: "Earn the Vrundavan Ventures Verified Shield to boost student trust, inquiries, and booking velocity by 3.5x."
+      title: "Verified Host Badge",
+      desc: "Show the verified badge on your listings to build tenant trust and get up to 3x more inquiries."
     },
     {
       icon: <TrendingUp size={26} style={{ color: 'var(--gold-primary)' }} />,
-      title: "98% Occupancy Year-Round",
-      desc: "Target college students, university freshers, and corporate IT executives looking for quality accommodation."
+      title: "Full Occupancy All Year",
+      desc: "Reach thousands of college students, working professionals, and families looking for safe rooms."
     }
   ];
 
@@ -274,7 +274,7 @@ export default function OwnerLanding({
                   margin: '0 auto 32px auto',
                   lineHeight: 1.65
                 }}>
-                  Below is the exact luxury presentation that students, scholars, and working professionals experience when searching for accommodations on Vrundavan Ventures. Join over 450+ verified hosts and start receiving direct inquiries today!
+                  Here is how students and renters see your property on Vrundavan Ventures. Join verified property owners across India and start receiving direct calls and WhatsApp inquiries today!
                 </p>
 
                 {/* Primary Action Buttons */}
@@ -284,7 +284,7 @@ export default function OwnerLanding({
                     className="btn btn-gold btn-lg"
                     style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', minWidth: '220px', fontWeight: 800 }}
                   >
-                    <PlusCircle size={20} /> Enter Your PG With Us Free
+                    <PlusCircle size={20} /> List Your Property Free
                   </button>
 
                   <button 

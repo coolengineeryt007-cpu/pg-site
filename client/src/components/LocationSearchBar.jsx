@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { loadGoogleMaps, parseAddressComponents, getCurrentPosition, reverseGeocodeCoords, geocodeAddress } from '../services/googleMaps';
-import { MapPin, Navigation, Search, Loader2, X, AlertCircle } from 'lucide-react';
+import { MapPin, Navigation, Search, Loader2, X, AlertCircle, Lock, ArrowRight } from 'lucide-react';
 
 export default function LocationSearchBar({
   onLocationSelect,
   placeholder = "Search area, street, landmark, or university...",
   showCurrentLocationBtn = true,
   initialValue = "",
-  className = ""
+  className = "",
+  isGuest = false,
+  onGuestClick
 }) {
   const inputRef = useRef(null);
   const autocompleteRef = useRef(null);
@@ -42,8 +44,9 @@ export default function LocationSearchBar({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Initialize Google Places Autocomplete if authorized
+  // Initialize Google Places Autocomplete if authorized and not in guest mode
   useEffect(() => {
+    if (isGuest) return;
     let isMounted = true;
 
     loadGoogleMaps()
@@ -96,6 +99,10 @@ export default function LocationSearchBar({
 
   // Handle Input Change with debounced search suggestions
   const handleInputChange = (e) => {
+    if (isGuest) {
+      if (onGuestClick) onGuestClick();
+      return;
+    }
     const val = e.target.value;
     setInputValue(val);
 
@@ -148,9 +155,13 @@ export default function LocationSearchBar({
   // Handle GPS / Current Location
   const handleUseCurrentLocation = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
+    if (isGuest) {
+      if (onGuestClick) onGuestClick();
+      return;
+    }
     setDetectingLocation(true);
     setPermissionNotice(false);
-    setStatusMessage({ type: 'info', text: 'Acquiring high-precision GPS coordinates...' });
+    setStatusMessage({ type: 'info', text: 'Finding your current location...' });
 
     try {
       const pos = await getCurrentPosition();
@@ -160,7 +171,7 @@ export default function LocationSearchBar({
         setPermissionNotice(true);
       }
 
-      setStatusMessage({ type: 'info', text: 'Autofilling verified address details...' });
+      setStatusMessage({ type: 'info', text: 'Finding address details...' });
 
       const parsed = await reverseGeocodeCoords(pos.lat, pos.lng);
       const displayLabel = parsed.formattedAddress || `${parsed.area}, ${parsed.city}`;
@@ -168,7 +179,7 @@ export default function LocationSearchBar({
       setShowDropdown(false);
       setStatusMessage({ 
         type: 'success', 
-        text: `✓ Verified: ${parsed.area || parsed.city}${pos.permissionDenied ? ' (Network location)' : ' (Exact GPS)'}` 
+        text: `✓ Found: ${parsed.area || parsed.city}${pos.permissionDenied ? ' (Network location)' : ' (GPS)'}` 
       });
 
       if (onLocationSelect) {
@@ -178,7 +189,7 @@ export default function LocationSearchBar({
       setTimeout(() => setStatusMessage(null), 4000);
     } catch (err) {
       console.warn("GPS resolution error:", err);
-      setStatusMessage({ type: 'error', text: 'Could not resolve address. Please type your area above.' });
+      setStatusMessage({ type: 'error', text: 'Could not find address. Please type your area above.' });
       setTimeout(() => setStatusMessage(null), 4000);
     } finally {
       setDetectingLocation(false);
@@ -188,6 +199,10 @@ export default function LocationSearchBar({
   // Handle Search on text query (Enter key or Search Button)
   const handleManualSearch = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
+    if (isGuest) {
+      if (onGuestClick) onGuestClick();
+      return;
+    }
     if (!inputValue || !inputValue.trim()) return;
 
     setSearchingText(true);
@@ -231,26 +246,33 @@ export default function LocationSearchBar({
       {/* Search Input Bar */}
       <div 
         className="location-search-box"
+        onClick={isGuest ? (e) => {
+          e.preventDefault();
+          if (onGuestClick) onGuestClick();
+        } : undefined}
         style={{
           display: 'flex',
           alignItems: 'center',
           background: 'rgba(7, 23, 57, 0.95)',
-          border: '1px solid rgba(14, 116, 237, 0.45)',
+          border: isGuest ? '1.5px solid rgba(212, 175, 55, 0.5)' : '1px solid rgba(14, 116, 237, 0.45)',
           borderRadius: 'var(--radius-md)',
           padding: '6px 10px',
-          boxShadow: '0 8px 30px rgba(2, 6, 23, 0.8), 0 0 15px rgba(14, 116, 237, 0.2)',
+          boxShadow: isGuest ? '0 8px 30px rgba(2, 6, 23, 0.8), 0 0 15px rgba(212, 175, 55, 0.15)' : '0 8px 30px rgba(2, 6, 23, 0.8), 0 0 15px rgba(14, 116, 237, 0.2)',
           gap: '8px',
-          position: 'relative'
+          position: 'relative',
+          cursor: isGuest ? 'pointer' : 'default',
+          overflow: 'hidden'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', flex: 1, minWidth: 0, gap: '8px' }}>
-          <Search size={18} style={{ color: 'var(--blue-light)', flexShrink: 0, marginLeft: '4px' }} />
+          <Search size={18} style={{ color: isGuest ? 'var(--gold-primary)' : 'var(--blue-light)', flexShrink: 0, marginLeft: '4px' }} />
           
           <input
             ref={inputRef}
             type="text"
             value={inputValue}
-            onChange={handleInputChange}
+            onChange={isGuest ? undefined : handleInputChange}
+            readOnly={isGuest}
             autoComplete="off"
             id="location-search-input"
             aria-label={placeholder}
@@ -259,14 +281,23 @@ export default function LocationSearchBar({
             data-lpignore="true"
             data-form-type="other"
             onFocus={() => {
+              if (isGuest) {
+                if (onGuestClick) onGuestClick();
+                return;
+              }
               if (suggestions.length > 0) setShowDropdown(true);
             }}
             onKeyDown={(e) => {
+              if (isGuest) {
+                e.preventDefault();
+                if (onGuestClick) onGuestClick();
+                return;
+              }
               if (e.key === 'Enter') {
                 handleManualSearch(e);
               }
             }}
-            placeholder={placeholder}
+            placeholder={isGuest ? "Login to search locality, college or landmark..." : placeholder}
             style={{
               flex: 1,
               background: 'transparent',
@@ -276,7 +307,8 @@ export default function LocationSearchBar({
               color: '#fff',
               fontSize: '0.95rem',
               padding: '8px 4px',
-              minWidth: 0
+              minWidth: 0,
+              cursor: isGuest ? 'pointer' : 'text'
             }}
           />
 
@@ -362,6 +394,64 @@ export default function LocationSearchBar({
             </button>
           )}
         </div>
+
+        {/* GUEST MODE LOCKDOWN OVERLAY - Interactive "Login for more view" */}
+        {isGuest && (
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onGuestClick) onGuestClick();
+            }}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(90deg, rgba(4, 13, 33, 0.84) 0%, rgba(7, 23, 57, 0.88) 100%)',
+              backdropFilter: 'blur(3px)',
+              WebkitBackdropFilter: 'blur(3px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '0 14px',
+              cursor: 'pointer',
+              borderRadius: 'var(--radius-md)',
+              border: '1.5px solid rgba(212, 175, 55, 0.65)',
+              boxShadow: '0 0 22px rgba(212, 175, 55, 0.25)',
+              transition: 'all 0.22s ease',
+              zIndex: 10
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(212, 175, 55, 0.95)';
+              e.currentTarget.style.boxShadow = '0 0 32px rgba(212, 175, 55, 0.45)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(212, 175, 55, 0.65)';
+              e.currentTarget.style.boxShadow = '0 0 22px rgba(212, 175, 55, 0.25)';
+            }}
+            title="Click to login for more view and unlock search & GPS"
+          >
+            <button
+              type="button"
+              className="btn btn-gold btn-sm"
+              style={{
+                padding: '7px 20px',
+                fontWeight: 800,
+                fontSize: '0.86rem',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                borderRadius: 'var(--radius-full)',
+                boxShadow: '0 4px 16px rgba(212, 175, 55, 0.4)',
+                cursor: 'pointer',
+                letterSpacing: '0.3px',
+                pointerEvents: 'none'
+              }}
+            >
+              <span>🔑</span>
+              <span>Login for more view</span>
+              <ArrowRight size={14} />
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Autocomplete Suggestion Dropdown */}

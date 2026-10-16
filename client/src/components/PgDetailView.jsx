@@ -63,7 +63,7 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
 
   return (
     <div className="container" style={{ paddingTop: '30px', paddingBottom: '70px' }}>
-      {/* Top Guest Notice: Half Information Displayed */}
+      {/* Top Guest Notice: Limited Information in Guest Mode */}
       {isGuest && (
         <div style={{
           background: 'linear-gradient(90deg, rgba(245, 158, 11, 0.16) 0%, rgba(14, 116, 237, 0.16) 100%)',
@@ -81,10 +81,10 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
             <span style={{ fontSize: '1.6rem' }}>🔒</span>
             <div>
               <h4 style={{ color: '#fff', fontSize: '1rem', fontWeight: 700, margin: '0 0 2px 0' }}>
-                Guest Mode: Half Information Displayed
+                Guest Mode: Limited Information
               </h4>
               <p style={{ color: '#CBD5E1', fontSize: '0.85rem', margin: 0 }}>
-                Exact building address, direct owner contact (Phone & WhatsApp), and visit booking are locked.
+                Sign in to view clear room photos, exact street address, and direct owner phone & WhatsApp numbers.
               </p>
             </div>
           </div>
@@ -93,7 +93,7 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
             className="btn btn-gold btn-sm"
             style={{ padding: '8px 20px', fontWeight: 800, fontSize: '0.88rem' }}
           >
-            🔑 Do login for more information
+            🔑 Login for more view
           </button>
         </div>
       )}
@@ -115,7 +115,7 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
               className="btn btn-outline-gold btn-sm"
             >
               <Navigation size={15} style={{ color: 'var(--gold-primary)' }} />
-              <span>🔒 Directions (Do login for more info)</span>
+              <span>🔒 Directions (Login to View)</span>
             </button>
           ) : (
             <a 
@@ -154,14 +154,21 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <MapPin size={16} style={{ color: 'var(--red-crimson)' }} />
             <span>
-              {!isGuest && pg.address.apartment ? `${pg.address.apartment}, ` : ''}{pg.address.area}, {pg.address.city}
-              {isGuest && (
-                <span 
-                  onClick={() => onOpenLogin && onOpenLogin('tenant')}
-                  style={{ color: '#F59E0B', marginLeft: '8px', cursor: 'pointer', fontWeight: 600, fontSize: '0.82rem' }}
-                >
-                  • [🔒 Street Address Locked — Do login for more info]
-                </span>
+              {isGuest ? (
+                <>
+                  <span style={{ display: 'inline-block', filter: 'blur(5px)', WebkitFilter: 'blur(5px)', userSelect: 'none', opacity: 0.7, pointerEvents: 'none' }}>
+                    {pg.address.area || 'Locality Area'},
+                  </span>{' '}
+                  <strong style={{ color: '#fff', fontWeight: 700 }}>{pg.address.city}</strong>
+                  <span 
+                    onClick={() => onOpenLogin && onOpenLogin('tenant')}
+                    style={{ color: '#F59E0B', marginLeft: '8px', cursor: 'pointer', fontWeight: 600, fontSize: '0.82rem' }}
+                  >
+                    • [🔒 Address Locked — Login for more view]
+                  </span>
+                </>
+              ) : (
+                `${pg.address.apartment ? `${pg.address.apartment}, ` : ''}${pg.address.area}, ${pg.address.city}`
               )}
             </span>
           </div>
@@ -206,8 +213,56 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
               e.currentTarget.onerror = null;
               e.currentTarget.src = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80';
             }}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'cover',
+              filter: isGuest ? 'blur(10px)' : 'none',
+              WebkitFilter: isGuest ? 'blur(10px)' : 'none',
+              transform: isGuest ? 'scale(1.05)' : undefined,
+              transition: 'filter 0.3s ease, transform 0.3s ease'
+            }}
           />
+
+          {isGuest && (
+            <div 
+              onClick={() => onOpenLogin && onOpenLogin('tenant')}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'rgba(4, 13, 33, 0.45)',
+                cursor: 'pointer',
+                zIndex: 4
+              }}
+            >
+              <div style={{
+                background: 'rgba(4, 13, 33, 0.94)',
+                border: '1.5px solid rgba(212, 175, 55, 0.55)',
+                borderRadius: '16px',
+                padding: '18px 28px',
+                textAlign: 'center',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.85)',
+                maxWidth: '380px'
+              }}>
+                <div style={{ color: 'var(--gold-primary)', marginBottom: '8px', display: 'flex', justifyContent: 'center' }}>
+                  <Lock size={26} />
+                </div>
+                <div style={{ color: '#ffffff', fontWeight: 800, fontSize: '1rem', marginBottom: '4px' }}>
+                  Photos Locked for Guests
+                </div>
+                <div style={{ color: '#CBD5E1', fontSize: '0.82rem', marginBottom: '12px', lineHeight: 1.4 }}>
+                  Login or create a free account to view all high-resolution room photos
+                </div>
+                <span className="btn btn-gold btn-sm" style={{ padding: '6px 18px', fontWeight: 700 }}>
+                  🔑 Sign In to View Clear Photos
+                </span>
+              </div>
+            </div>
+          )}
+
           <div style={{
             position: 'absolute',
             bottom: '16px',
@@ -217,7 +272,8 @@ export default function PgDetailView({ pg, onBack, currentUser, onOpenLogin }) {
             borderRadius: 'var(--radius-full)',
             padding: '6px 14px',
             fontSize: '0.85rem',
-            color: 'var(--gold-light)'
+            color: 'var(--gold-light)',
+            zIndex: 3
           }}>
             Photo {selectedPhoto + 1} of {photos.length}
           </div>

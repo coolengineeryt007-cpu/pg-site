@@ -13,8 +13,6 @@ import SuperAdminPanel from './pages/SuperAdminPanel';
 import SuperAdminSecretGate from './components/SuperAdminSecretGate';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
-import Blogs from './pages/Blogs';
-import BlogDetail from './pages/BlogDetail';
 import Legal from './pages/Legal';
 import LockedPageGate from './components/LockedPageGate';
 import OwnerSubscriptionModal from './components/OwnerSubscriptionModal';
@@ -48,7 +46,13 @@ export default function App() {
         return { page: 'superadmin', role: 'student' };
       }
 
-      if (path === '/owner' || path === '/owner-portal' || path === '/host') {
+      if (
+        path === '/owner' || 
+        path === '/owner-portal' || 
+        path === '/host' || 
+        path === '/owner-dashboard' || 
+        path === '/dashboard'
+      ) {
         try {
           const saved = localStorage.getItem('vv_user') || localStorage.getItem('aurelia_user');
           const user = saved ? JSON.parse(saved) : null;
@@ -56,15 +60,15 @@ export default function App() {
             return { page: 'owner', role: 'owner' };
           }
         } catch {}
-        return { page: 'owner-login', role: 'owner' };
+        return { page: 'owner-login', role: 'owner', initialMode: 'login' };
       }
 
       if (path === '/owner-register' || path === '/owner/register') {
-        return { page: 'owner-register', role: 'owner' };
+        return { page: 'owner-login', role: 'owner', initialMode: 'register' };
       }
 
       if (path === '/student-register' || path === '/student/register') {
-        return { page: 'student-register', role: 'student' };
+        return { page: 'student-login', role: 'student', initialMode: 'register' };
       }
 
       if (path === '/student') {
@@ -75,7 +79,7 @@ export default function App() {
             return { page: 'home', role: 'student' };
           }
         } catch {}
-        return { page: 'student-login', role: 'student' };
+        return { page: 'student-login', role: 'student', initialMode: 'login' };
       }
 
       if (path === '/student-home') {
@@ -98,10 +102,6 @@ export default function App() {
         return { page: 'contact', role: 'student' };
       }
 
-      if (path === '/blogs') {
-        return { page: 'blogs', role: 'student' };
-      }
-
       if (path === '/terms') {
         return { page: 'terms', role: 'student' };
       }
@@ -119,8 +119,8 @@ export default function App() {
 
   const initialRoute = parseCurrentRoute();
   const [activePage, setActivePage] = useState(initialRoute.page);
+  const [authInitialMode, setAuthInitialMode] = useState(initialRoute.initialMode || 'login');
   const [selectedPg, setSelectedPg] = useState(null);
-  const [selectedBlog, setSelectedBlog] = useState(null);
   const [exploreFilter, setExploreFilter] = useState(() => {
     return initialRoute.page === 'nearme' ? { nearMeNow: true } : {};
   });
@@ -155,6 +155,9 @@ export default function App() {
     const handlePopState = () => {
       const route = parseCurrentRoute();
       setUserRoleMode(route.role);
+      if (route.initialMode) {
+        setAuthInitialMode(route.initialMode);
+      }
       if (route.page === 'nearme') {
         setActivePage('explore');
         setExploreFilter({ nearMeNow: true });
@@ -175,17 +178,15 @@ export default function App() {
     let desc = "Discover India's most verified PGs, private rental rooms, flats, and houses for families, working professionals, and students with direct owner connect.";
 
     if (activePage === 'student-login') {
-      title = "Student Login | Vrundavan Ventures";
-      desc = "Log in to view direct owner contact & WhatsApp numbers.";
-    } else if (activePage === 'student-register') {
-      title = "Student Registration (Free) | Vrundavan Ventures";
-      desc = "Free student registration forever. Unlock direct owner contact & WhatsApp numbers.";
+      title = authInitialMode === 'register' 
+        ? "Student Registration & Login | Vrundavan Ventures"
+        : "Student Login | Vrundavan Ventures";
+      desc = "Free student access forever. Log in or create an account to view direct owner contact & WhatsApp numbers.";
     } else if (activePage === 'owner-login') {
-      title = "Owner Login | Vrundavan Ventures";
-      desc = "Log in to manage your listings and tenant inquiries.";
-    } else if (activePage === 'owner-register') {
-      title = "Owner Registration | Vrundavan Ventures";
-      desc = "Free host registration. Activate ₹99/mo AutoPay to list properties and receive tenant leads.";
+      title = authInitialMode === 'register'
+        ? "Owner Registration & Login | Vrundavan Ventures"
+        : "Owner Login | Vrundavan Ventures";
+      desc = "Host login and signup. Manage properties, tenant leads, and activate ₹99/mo UPI AutoPay.";
     } else if (activePage === 'portal') {
       title = "Vrundavan Ventures | Find Rentals or List Your Property";
       desc = "Choose your portal: Find verified rental houses, rooms, and PGs with zero login, or list your property with direct tenant reach.";
@@ -204,9 +205,7 @@ export default function App() {
     } else if (activePage === 'about') {
       title = "About Us & Vision | Vrundavan Ventures";
     } else if (activePage === 'contact') {
-      title = "Contact Us & Concierge | Vrundavan Ventures";
-    } else if (activePage === 'blogs') {
-      title = "Rental Guides & Living Advice | Vrundavan Ventures Blog";
+      title = "Contact Us & Support | Vrundavan Ventures";
     }
 
     document.title = title;
@@ -217,7 +216,7 @@ export default function App() {
       document.head.appendChild(metaDesc);
     }
     metaDesc.content = desc;
-  }, [activePage, selectedPg, selectedBlog]);
+  }, [activePage, selectedPg]);
 
   // PushState Navigation Helper for clean professional URLs
   const navigateTo = (path, targetPage, filter = {}) => {
@@ -268,13 +267,17 @@ export default function App() {
     if (page === 'portal') {
       navigateTo('/', 'portal');
     } else if (page === 'student-login') {
+      setAuthInitialMode('login');
       navigateTo('/student', 'student-login');
     } else if (page === 'owner-login') {
+      setAuthInitialMode('login');
       navigateTo('/owner', 'owner-login');
     } else if (page === 'student-register') {
-      navigateTo('/student-register', 'student-register');
+      setAuthInitialMode('register');
+      navigateTo('/student', 'student-login');
     } else if (page === 'owner-register') {
-      navigateTo('/owner-register', 'owner-register');
+      setAuthInitialMode('register');
+      navigateTo('/owner', 'owner-login');
     } else if (page === 'nearme') {
       setUserRoleMode('student');
       navigateTo('/nearme', 'explore', { nearMeNow: true });
@@ -304,8 +307,6 @@ export default function App() {
       navigateTo('/about', 'about');
     } else if (page === 'contact') {
       navigateTo('/contact', 'contact');
-    } else if (page === 'blogs') {
-      navigateTo('/blogs', 'blogs');
     } else if (page === 'terms') {
       navigateTo('/terms', 'terms');
     } else if (page === 'privacy') {
@@ -321,14 +322,9 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSelectBlog = (blog) => {
-    setSelectedBlog(blog);
-    setActivePage('blog-detail');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const handleLoginSuccess = (user) => {
     setCurrentUser(user);
+    setAuthModalOpen(false);
     try {
       localStorage.setItem('vv_user', JSON.stringify(user));
     } catch {}
@@ -337,11 +333,10 @@ export default function App() {
       navigateTo('/superadmin', 'superadmin');
     } else if (user.role === 'owner') {
       setUserRoleMode('owner');
+      navigateTo('/owner', 'owner');
       if (!user.subscription || user.subscription.status !== 'active') {
         setSubscriptionPendingUser(user);
         setSubscriptionModalOpen(true);
-      } else {
-        navigateTo('/owner', 'owner');
       }
     } else {
       setUserRoleMode('student');
@@ -385,18 +380,15 @@ export default function App() {
     );
   }
 
-  // 1B. DEDICATED STUDENT LOGIN PAGE (URL: /student)
-  // ONLY login page needed, NO other content underneath or behind!
+  // 1B. DEDICATED STUDENT AUTH PAGE (URL: /student) - Single page with both Login & Register tabs
   if (activePage === 'student-login') {
     return (
       <AuthModal 
         isOpen={true}
         onClose={() => navigateTo('/', 'portal')}
         initialRole="tenant"
-        onLoginSuccess={(user) => {
-          handleLoginSuccess(user);
-          navigateTo('/student-home', 'home');
-        }}
+        initialMode={authInitialMode}
+        onLoginSuccess={handleLoginSuccess}
         onSkipLogin={() => {
           setUserRoleMode('student');
           navigateTo('/student-home', 'home');
@@ -412,19 +404,15 @@ export default function App() {
     );
   }
 
-  // 1C. DEDICATED OWNER LOGIN PAGE (URL: /owner)
-  // ONLY login page needed, NO other content underneath or behind!
+  // 1C. DEDICATED OWNER AUTH PAGE (URL: /owner) - Single page with both Login & Register tabs
   if (activePage === 'owner-login') {
     return (
       <AuthModal 
         isOpen={true}
         onClose={() => navigateTo('/', 'portal')}
         initialRole="owner"
-        initialMode="login"
-        onLoginSuccess={(user) => {
-          handleLoginSuccess(user);
-          navigateTo('/owner', 'owner');
-        }}
+        initialMode={authInitialMode}
+        onLoginSuccess={handleLoginSuccess}
         onSkipLogin={() => {
           setUserRoleMode('student');
           navigateTo('/student-home', 'home');
@@ -434,59 +422,6 @@ export default function App() {
           if (newRole === 'tenant') {
             setUserRoleMode('student');
             navigateTo('/student', 'student-login');
-          }
-        }}
-      />
-    );
-  }
-
-  // 1D. DEDICATED STUDENT REGISTER PAGE (URL: /student-register)
-  if (activePage === 'student-register') {
-    return (
-      <AuthModal 
-        isOpen={true}
-        onClose={() => navigateTo('/', 'portal')}
-        initialRole="tenant"
-        initialMode="register"
-        onLoginSuccess={(user) => {
-          handleLoginSuccess(user);
-          navigateTo('/student-home', 'home');
-        }}
-        onSkipLogin={() => {
-          setUserRoleMode('student');
-          navigateTo('/student-home', 'home');
-        }}
-        onGoHome={() => navigateTo('/', 'portal')}
-        onRoleChange={(newRole) => {
-          if (newRole === 'owner') {
-            setUserRoleMode('owner');
-            navigateTo('/owner-register', 'owner-register');
-          }
-        }}
-      />
-    );
-  }
-
-  // 1E. DEDICATED OWNER REGISTER PAGE (URL: /owner-register)
-  if (activePage === 'owner-register') {
-    return (
-      <AuthModal 
-        isOpen={true}
-        onClose={() => navigateTo('/', 'portal')}
-        initialRole="owner"
-        initialMode="register"
-        onLoginSuccess={(user) => {
-          handleLoginSuccess(user);
-        }}
-        onSkipLogin={() => {
-          setUserRoleMode('student');
-          navigateTo('/student-home', 'home');
-        }}
-        onGoHome={() => navigateTo('/', 'portal')}
-        onRoleChange={(newRole) => {
-          if (newRole === 'tenant') {
-            setUserRoleMode('student');
-            navigateTo('/student-register', 'student-register');
           }
         }}
       />
@@ -536,7 +471,7 @@ export default function App() {
         }}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
             <span style={{ fontSize: '1.1rem' }}>🔒</span>
-            <strong>Guest Preview Mode:</strong> Half / Partial information is showing.
+            <strong>Guest Mode:</strong> You are viewing limited information.
           </span>
           <button
             onClick={() => {
@@ -551,7 +486,7 @@ export default function App() {
               borderRadius: 'var(--radius-full)'
             }}
           >
-            🔑 Do login for more information
+            🔑 Login for more view
           </button>
         </div>
       )}
@@ -586,7 +521,14 @@ export default function App() {
                       e.currentTarget.onerror = null;
                       e.currentTarget.src = 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80';
                     }}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    style={{ 
+                      width: '100%', 
+                      height: '100%', 
+                      objectFit: 'cover',
+                      filter: 'blur(10px)',
+                      WebkitFilter: 'blur(10px)',
+                      transform: 'scale(1.08)'
+                    }}
                   />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 20%, rgba(4,13,33,0.92) 100%)' }} />
                   <div style={{ position: 'absolute', bottom: '16px', left: '18px', right: '18px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
@@ -594,8 +536,10 @@ export default function App() {
                       <h3 style={{ color: '#ffffff', fontSize: '1.35rem', fontWeight: 800, margin: '0 0 4px 0' }}>
                         {selectedPg.name}
                       </h3>
-                      <span style={{ color: '#CBD5E1', fontSize: '0.85rem' }}>
-                        📍 {selectedPg.address?.area}, {selectedPg.address?.city}
+                      <span style={{ color: '#CBD5E1', fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                        📍 <span style={{ display: 'inline-block', filter: 'blur(5px)', WebkitFilter: 'blur(5px)', userSelect: 'none', opacity: 0.7 }}>
+                          {selectedPg.address?.area || 'Prime Locality'},
+                        </span> <strong style={{ color: '#F1F5F9', fontWeight: 700 }}>{selectedPg.address?.city}</strong>
                       </span>
                     </div>
                     <span className="badge badge-gold" style={{ fontSize: '0.9rem', fontWeight: 800 }}>
@@ -620,11 +564,11 @@ export default function App() {
                 </div>
 
                 <h2 className="font-serif gold-gradient-text" style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '10px' }}>
-                  Please Login for More Information
+                  Please Login to View Details
                 </h2>
 
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6, maxWidth: '500px', margin: '0 auto 26px auto' }}>
-                  Full house details, exact street address, host direct phone & WhatsApp contacts, verified room availability, and physical visit scheduling are locked. Please login with your student/seeker account to view all details.
+                  Full house photos, exact address, owner direct phone & WhatsApp number, and visit scheduling are locked. Please login to view all details.
                 </p>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '380px', margin: '0 auto' }}>
@@ -637,7 +581,7 @@ export default function App() {
                     style={{ width: '100%', fontSize: '1rem', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
                   >
                     <LogIn size={18} />
-                    <span>Please Login for More Information</span>
+                    <span>🔑 Login for more view</span>
                   </button>
 
                   <button 
@@ -757,8 +701,8 @@ export default function App() {
         {activePage === 'contact' && (
           !currentUser ? (
             <LockedPageGate 
-              title="Please Login to View Concierge Contact"
-              message="Our direct phone support, VIP concierge desk, and physical office locations are available to registered members."
+              title="Please Login to View Support Contacts"
+              message="Our direct phone helpline, WhatsApp support, and office locations are available to registered members."
               role="student"
               onOpenLogin={(r) => { setAuthModalRole(r); setAuthModalOpen(true); }}
               onGoHome={() => handleNavigate('home')}
@@ -768,37 +712,7 @@ export default function App() {
           )
         )}
 
-        {activePage === 'blogs' && (
-          !currentUser ? (
-            <LockedPageGate 
-              title="Please Login to Read Rental Guides"
-              message="Unlock all tenant relocation guides, city living advice, and tenant checklists by signing in with your account."
-              role="student"
-              onOpenLogin={(r) => { setAuthModalRole(r); setAuthModalOpen(true); }}
-              onGoHome={() => handleNavigate('home')}
-            />
-          ) : (
-            <Blogs 
-              onSelectBlog={handleSelectBlog}
-            />
-          )
-        )}
 
-        {activePage === 'blog-detail' && selectedBlog && (
-          !currentUser ? (
-            <LockedPageGate 
-              title="Please Login to Read Full Article"
-              role="student"
-              onOpenLogin={(r) => { setAuthModalRole(r); setAuthModalOpen(true); }}
-              onGoHome={() => handleNavigate('home')}
-            />
-          ) : (
-            <BlogDetail 
-              blog={selectedBlog}
-              onBack={() => handleNavigate('blogs')}
-            />
-          )
-        )}
 
         {(activePage === 'terms' || activePage === 'privacy') && (
           <Legal 
@@ -833,14 +747,26 @@ export default function App() {
         onClose={() => setSubscriptionModalOpen(false)}
         currentUser={subscriptionPendingUser || currentUser}
         onSuccess={(updatedSub) => {
-          const activeUser = subscriptionPendingUser || currentUser;
-          if (activeUser) {
-            const updated = { ...activeUser, subscription: updatedSub };
-            setCurrentUser(updated);
+          let activeUser = subscriptionPendingUser || currentUser;
+          if (!activeUser) {
             try {
-              localStorage.setItem('vv_user', JSON.stringify(updated));
+              const saved = localStorage.getItem('vv_user') || localStorage.getItem('aurelia_user');
+              if (saved) activeUser = JSON.parse(saved);
             } catch {}
           }
+          if (!activeUser) {
+            activeUser = {
+              id: 'usr-owner-1',
+              name: 'Host Partner',
+              email: 'rajesh@royalpg.com',
+              role: 'owner'
+            };
+          }
+          const updated = { ...activeUser, subscription: updatedSub, role: 'owner' };
+          setCurrentUser(updated);
+          try {
+            localStorage.setItem('vv_user', JSON.stringify(updated));
+          } catch {}
           setSubscriptionModalOpen(false);
           setSubscriptionPendingUser(null);
           setUserRoleMode('owner');

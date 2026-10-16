@@ -106,6 +106,10 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
   );
 
   const handleSelectCity = (loc) => {
+    if (!currentUser) {
+      if (onOpenLogin) onOpenLogin('student');
+      return;
+    }
     setSelectedCity(loc.city);
     setMapCenter({ lat: loc.lat, lng: loc.lng });
     setMapZoom(12);
@@ -281,7 +285,25 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
                   onLocationSelect={handleHeroLocationSelect}
                   placeholder="Enter city, area, college or landmark..."
                   showCurrentLocationBtn={true}
+                  isGuest={!currentUser}
+                  onGuestClick={() => {
+                    if (onOpenLogin) onOpenLogin('student');
+                  }}
                 />
+                {!currentUser && (
+                  <div style={{
+                    marginTop: '8px',
+                    fontSize: '0.78rem',
+                    color: '#FDE68A',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    fontWeight: 500
+                  }}>
+                    <Lock size={12} style={{ color: 'var(--gold-primary)', flexShrink: 0 }} />
+                    <span>Location search & live GPS Near-Me are locked. Please login for more view.</span>
+                  </div>
+                )}
               </div>
 
               {/* 4 Trust Badges (Simple & Clear) */}
@@ -446,10 +468,10 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <span className="badge badge-gold" style={{ fontSize: '0.76rem', padding: '5px 12px' }}>
-                    <MapPin size={13} /> {selectedCity ? `${selectedCity} Selected` : 'Interactive GPS Explorer'}
+                    <MapPin size={13} /> {!currentUser ? '🔒 Map Explorer (Locked)' : (selectedCity ? `${selectedCity} Selected` : 'Interactive GPS Explorer')}
                   </span>
                   <span style={{ fontSize: '0.84rem', color: '#94A3B8' }}>
-                    {mapMarkers.length} verified properties mapped
+                    {!currentUser ? 'Login required to explore pins' : `${mapMarkers.length} verified properties mapped`}
                   </span>
                 </div>
 
@@ -477,14 +499,120 @@ export default function Home({ pgs, onSelectPg, onNavigate, currentUser, onOpenL
               </div>
 
               {/* Map View */}
-              <div style={{ flex: 1, minHeight: '480px' }}>
-                <GoogleMapView 
-                  markers={mapMarkers}
-                  center={mapCenter}
-                  zoom={mapZoom}
-                  height="490px"
-                  onSelectPg={onSelectPg}
-                />
+              <div style={{ flex: 1, minHeight: '480px', position: 'relative', overflow: 'hidden' }}>
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  filter: !currentUser ? 'blur(8px)' : 'none',
+                  transform: !currentUser ? 'scale(1.03)' : 'none',
+                  pointerEvents: !currentUser ? 'none' : 'auto',
+                  userSelect: !currentUser ? 'none' : 'auto',
+                  transition: 'filter 0.3s ease, transform 0.3s ease'
+                }}>
+                  <GoogleMapView 
+                    markers={mapMarkers}
+                    center={mapCenter}
+                    zoom={mapZoom}
+                    height="490px"
+                    onSelectPg={onSelectPg}
+                  />
+                </div>
+
+                {/* Guest Mode Overlay & Notice */}
+                {!currentUser && (
+                  <div
+                    onClick={() => {
+                      if (onOpenLogin) onOpenLogin('student');
+                    }}
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'radial-gradient(circle at center, rgba(4, 13, 33, 0.72) 0%, rgba(2, 6, 23, 0.88) 100%)',
+                      backdropFilter: 'blur(3px)',
+                      WebkitBackdropFilter: 'blur(3px)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '24px 20px',
+                      textAlign: 'center',
+                      cursor: 'pointer',
+                      zIndex: 20
+                    }}
+                    title="Click to login for more view and to unlock interactive map"
+                  >
+                    <div style={{
+                      background: 'linear-gradient(180deg, rgba(7, 23, 57, 0.94) 0%, rgba(4, 13, 33, 0.98) 100%)',
+                      border: '1.5px solid rgba(212, 175, 55, 0.6)',
+                      borderRadius: '20px',
+                      padding: '30px 28px',
+                      maxWidth: '480px',
+                      width: '90%',
+                      boxShadow: '0 20px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(212, 175, 55, 0.28)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center'
+                    }}>
+                      {/* Gold Glowing Lock Badge */}
+                      <div style={{
+                        width: '60px',
+                        height: '60px',
+                        borderRadius: '50%',
+                        background: 'rgba(212, 175, 55, 0.16)',
+                        border: '1.5px solid rgba(212, 175, 55, 0.55)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: '16px',
+                        color: 'var(--gold-primary)',
+                        boxShadow: '0 0 20px rgba(212, 175, 55, 0.35)'
+                      }}>
+                        <Lock size={28} />
+                      </div>
+
+                      <h3 className="gold-gradient-text font-serif" style={{ fontSize: '1.45rem', fontWeight: 800, margin: '0 0 8px 0', letterSpacing: '-0.2px' }}>
+                        Interactive Map Locked
+                      </h3>
+
+                      <p style={{ color: '#CBD5E1', fontSize: '0.90rem', lineHeight: 1.55, margin: '0 0 22px 0', maxWidth: '380px' }}>
+                        Interactive GPS property pins, exact street localities, and live navigation are restricted. Please login to explore all listings on the map.
+                      </p>
+
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (onOpenLogin) onOpenLogin('student');
+                        }}
+                        className="btn btn-gold btn-sm"
+                        style={{
+                          padding: '10px 28px',
+                          fontSize: '0.92rem',
+                          fontWeight: 800,
+                          borderRadius: 'var(--radius-full)',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          boxShadow: '0 4px 20px rgba(212, 175, 55, 0.45)',
+                          letterSpacing: '0.3px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <span>🔑</span>
+                        <span>Login for more view</span>
+                        <ArrowRight size={15} />
+                      </button>
+
+                      <div style={{
+                        marginTop: '14px',
+                        fontSize: '0.74rem',
+                        color: '#94A3B8'
+                      }}>
+                        Free student registration • Zero brokerage fees
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

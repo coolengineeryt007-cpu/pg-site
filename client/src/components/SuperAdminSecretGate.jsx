@@ -116,15 +116,15 @@ export default function SuperAdminSecretGate({ onLoginSuccess, onCancel }) {
           </div>
 
           <h2 className="font-serif" style={{ fontSize: '1.6rem', fontWeight: 800, color: '#ffffff', marginBottom: '6px' }}>
-            Master Control Center
+            Super Admin Login
           </h2>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
             <span className="badge badge-blue" style={{ fontSize: '0.72rem', letterSpacing: '0.08em' }}>
-              <Lock size={11} /> RESTRICTED ADMINISTRATIVE ACCESS
+              <Lock size={11} /> Restricted Admin Access
             </span>
           </div>
           <p style={{ color: '#94A3B8', fontSize: '0.82rem', marginTop: '10px' }}>
-            This portal is isolated from public view. Authorized Super Admin credentials required.
+            This area is for admins only. Please sign in with your admin credentials.
           </p>
         </div>
 
@@ -163,7 +163,7 @@ export default function SuperAdminSecretGate({ onLoginSuccess, onCancel }) {
 
           <div className="form-group" style={{ marginBottom: 0 }}>
             <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <KeyRound size={13} style={{ color: 'var(--blue-light)' }} /> Master Password
+              <KeyRound size={13} style={{ color: 'var(--blue-light)' }} /> Password
             </label>
             <input 
               type="password" 
@@ -181,7 +181,7 @@ export default function SuperAdminSecretGate({ onLoginSuccess, onCancel }) {
             className="btn btn-primary btn-lg"
             style={{ width: '100%', marginTop: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
           >
-            {loading ? 'Verifying Credentials...' : 'Authenticate Master Admin'}
+            {loading ? 'Signing in...' : 'Sign In as Admin'}
           </button>
         </form>
 
@@ -193,7 +193,7 @@ export default function SuperAdminSecretGate({ onLoginSuccess, onCancel }) {
           textAlign: 'center'
         }}>
           <span style={{ fontSize: '0.75rem', color: '#64748B', display: 'block', marginBottom: '10px' }}>
-            Authorized Demo Access Shortcut:
+            Quick Demo Login:
           </span>
           <button 
             type="button"
@@ -202,7 +202,7 @@ export default function SuperAdminSecretGate({ onLoginSuccess, onCancel }) {
             className="btn btn-sm btn-outline-blue"
             style={{ width: '100%', fontSize: '0.82rem' }}
           >
-            ⚡ 1-Click Master Access (superadmin@luxurypg.com)
+            ⚡ Quick Admin Login (superadmin@luxurypg.com)
           </button>
         </div>
       </div>

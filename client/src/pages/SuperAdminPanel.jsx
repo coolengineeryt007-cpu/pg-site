@@ -133,7 +133,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
 
         {/* Navigation Items */}
         <nav className="admin-nav">
-          <span className="admin-nav-section">Executive Command</span>
+          <span className="admin-nav-section">Overview</span>
 
           <button 
             onClick={() => { setActiveTab('overview'); setSidebarOpen(false); }}
@@ -160,7 +160,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
             )}
           </button>
 
-          <span className="admin-nav-section">Database & Entities</span>
+          <span className="admin-nav-section">Manage Listings & Users</span>
 
           <button 
             onClick={() => { setActiveTab('properties'); setSidebarOpen(false); }}
@@ -181,7 +181,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <MessageSquare size={18} style={{ color: 'var(--blue-light)' }} />
-              <span>All Tenant Leads</span>
+              <span>Tenant Inquiries</span>
             </div>
             <span className="badge badge-blue" style={{ fontSize: '0.7rem', padding: '2px 7px' }}>
               {inquiries.length}
@@ -194,7 +194,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Users size={18} />
-              <span>Property Hosts Directory</span>
+              <span>Property Owners</span>
             </div>
           </button>
 
@@ -204,7 +204,7 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <CreditCard size={18} style={{ color: '#facc15' }} />
-              <span>Order Payments & Autopay</span>
+              <span>Payments & Subscriptions</span>
             </div>
             {adminSubsData?.totalRevenue > 0 && (
               <span className="badge badge-gold" style={{ fontSize: '0.7rem', padding: '2px 7px' }}>
@@ -225,10 +225,10 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
             </div>
             <div style={{ overflow: 'hidden' }}>
               <strong style={{ color: '#fff', fontSize: '0.85rem', display: 'block', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                Vikramaditya Singhania
+                Admin Team
               </strong>
               <span style={{ color: '#F87171', fontSize: '0.7rem' }}>
-                👑 Root Super Administrator
+                👑 Super Administrator
               </span>
             </div>
           </div>
@@ -269,17 +269,17 @@ export default function SuperAdminPanel({ onSelectPg, onNavigateHome, onLogout }
 
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.8rem', color: '#888', marginBottom: '2px' }}>
-                <span>Root Governance</span>
+                <span>Admin</span>
                 <span>/</span>
                 <span style={{ color: 'var(--gold-primary)', textTransform: 'capitalize' }}>{activeTab}</span>
               </div>
               <h1 className="font-serif gold-gradient-text" style={{ fontSize: '1.6rem', fontWeight: 800 }}>
-                {activeTab === 'overview' && 'Global Analytics & KPIs'}
-                {activeTab === 'pending' && `Moderation Queue (${pendingPgs.length} Awaiting Approval)`}
-                {activeTab === 'properties' && `Properties Database (${allPgs.length} Total)`}
-                {activeTab === 'inquiries' && `Tenant Leads & Inquiries (${inquiries.length} Total)`}
-                {activeTab === 'owners' && 'Property Hosts Directory'}
-                {activeTab === 'payments' && `Host Order Payments & Recurring Autopay (${adminSubsData?.totalInvoices || 0} Orders)`}
+                {activeTab === 'overview' && 'Platform Overview & Stats'}
+                {activeTab === 'pending' && `Approval Queue (${pendingPgs.length} Awaiting Review)`}
+                {activeTab === 'properties' && `All Properties (${allPgs.length} Total)`}
+                {activeTab === 'inquiries' && `Tenant Inquiries (${inquiries.length} Total)`}
+                {activeTab === 'owners' && 'Property Owners'}
+                {activeTab === 'payments' && `Payments & Subscriptions (${adminSubsData?.totalInvoices || 0} Orders)`}
               </h1>
             </div>
           </div>

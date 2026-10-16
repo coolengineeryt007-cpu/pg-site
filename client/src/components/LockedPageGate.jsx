@@ -64,7 +64,7 @@ export default function LockedPageGate({
             style={{ width: '100%', fontSize: '1rem', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
           >
             <LogIn size={18} />
-            <span>{role === 'owner' ? 'Please Login as Property Owner' : 'Please Login as Student / Seeker'}</span>
+            <span>{role === 'owner' ? 'Login as Property Owner' : 'Login for More View'}</span>
           </button>
 
           {onGoHome && (

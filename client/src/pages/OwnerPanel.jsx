@@ -93,12 +93,12 @@ export default function OwnerPanel({
     ],
     facilities: [
       'High-Speed Fiber WiFi',
-      '3-Time Gourmet Buffet',
+      '3 Daily Meals (Breakfast, Lunch & Dinner)',
       'Air Conditioning (AC)',
       'Daily Housekeeping',
       '24x7 Power Backup',
       'RO Purified Water',
-      'Biometric Smart Lock',
+      'Digital Door Lock',
       'CCTV Security Coverage'
     ],
     rules: [
@@ -112,19 +112,19 @@ export default function OwnerPanel({
 
   const ALL_AMENITIES = [
     'High-Speed Fiber WiFi',
-    '3-Time Gourmet Buffet',
+    '3 Daily Meals (Breakfast, Lunch & Dinner)',
     'Air Conditioning (AC)',
     'Daily Housekeeping',
     '24x7 Power Backup',
     'RO Purified Water',
-    'Biometric Smart Lock',
+    'Digital Door Lock',
     'CCTV Security Coverage',
     'Gym & Fitness Zone',
-    'Automatic Laundry & Ironing',
+    'Washing Machine & Laundry',
     'Attached Balcony & Geyser',
-    'Gaming & PS5 Lounge',
+    'Common TV & Lounge Area',
     'Reserved Bike Parking',
-    'Vegetarian Kitchen Available'
+    'Pure Veg Food Available'
   ];
 
   const loadOwnerData = async () => {
@@ -1950,6 +1950,12 @@ export default function OwnerPanel({
         currentUser={currentUser}
         onSuccess={(updatedSub) => {
           setSubscription(updatedSub);
+          try {
+            const saved = localStorage.getItem('vv_user') || localStorage.getItem('aurelia_user');
+            const user = saved ? JSON.parse(saved) : (currentUser || { id: 'usr-owner-1', role: 'owner' });
+            const updated = { ...user, subscription: updatedSub, role: 'owner' };
+            localStorage.setItem('vv_user', JSON.stringify(updated));
+          } catch {}
           setMessage({
             type: 'success',
             text: '🎉 Host Partnership Activated! ₹99 initial paid and ₹99/30-day recurring autopay configured.'

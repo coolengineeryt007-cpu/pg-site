@@ -1,53 +1,68 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+import {
+  initMySQL,
+  isMySQLReady,
+  getFullDbFromMySQL,
+  mySqlFindUserByEmail,
+  mySqlFindUserById,
+  mySqlCreateUser,
+  mySqlUpdateUserSubscription,
+  mySqlGetAllPgs,
+  mySqlGetPgById,
+  mySqlCreatePg,
+  mySqlUpdatePg,
+  mySqlUpdatePgStatus,
+  mySqlDeletePg,
+  mySqlCreateInquiry,
+  mySqlGetInquiries,
+  mySqlGetReviews,
+  mySqlCreateSubscriptionRecord,
+  mySqlGetSubscriptionByOwner,
+  mySqlGetSubscriptionByProviderId,
+  mySqlUpdateSubscriptionStatus,
+  mySqlCancelSubscription,
+  mySqlGetAllSubscriptionsAdmin,
+  mySqlRecordPayment,
+  mySqlGetPaymentsByOwner,
+  mySqlGetAllPaymentsAdmin,
+  mySqlHasWebhookBeenProcessed,
+  mySqlRecordWebhookEvent
+} from './mysql.js';
+import { paymentProvider, paymentConfig } from '../services/paymentProvider.js';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-// In Vercel serverless environment, the filesystem is read-only except /tmp
 const DB_FILE = process.env.VERCEL
   ? path.join('/tmp', 'db.json')
   : path.join(__dirname, 'db.json');
 
-const BUNDLED_DB = path.join(__dirname, 'db.json');
-
-// Memory cache for fast response times in serverless executions
+// Memory cache for synchronous calls
 let memoryCache = null;
 
 // Read JSON file safely
 const readJsonFile = () => {
   try {
-    // If running in Vercel and /tmp/db.json doesn't exist yet, seed it from bundled db.json
-    if (process.env.VERCEL && !fs.existsSync(DB_FILE)) {
-      if (fs.existsSync(BUNDLED_DB)) {
-        try {
-          const dir = path.dirname(DB_FILE);
-          if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
-          }
-          fs.copyFileSync(BUNDLED_DB, DB_FILE);
-        } catch (copyErr) {
-          console.warn('Could not copy to /tmp/db.json:', copyErr.message);
-        }
-      }
-    }
-
-    const targetFile = fs.existsSync(DB_FILE) ? DB_FILE : BUNDLED_DB;
-    if (fs.existsSync(targetFile)) {
-      const raw = fs.readFileSync(targetFile, 'utf-8');
+    if (fs.existsSync(DB_FILE)) {
+      const raw = fs.readFileSync(DB_FILE, 'utf-8');
       const data = JSON.parse(raw);
       if (!Array.isArray(data.inquiries)) data.inquiries = [];
       if (!Array.isArray(data.pgs)) data.pgs = [];
       if (!Array.isArray(data.users)) data.users = [];
       if (!Array.isArray(data.blogs)) data.blogs = [];
       if (!Array.isArray(data.reviews)) data.reviews = [];
+      if (!Array.isArray(data.subscriptions)) data.subscriptions = [];
+      if (!Array.isArray(data.payments)) data.payments = [];
       return data;
     }
   } catch (err) {
     console.error('Error reading JSON DB file:', err);
   }
-  return { users: [], pgs: [], blogs: [], inquiries: [], reviews: [] };
+  return { users: [], pgs: [], blogs: [], inquiries: [], reviews: [], subscriptions: [], payments: [] };
 };
 
 const writeJsonFile = (data) => {
@@ -55,93 +70,119 @@ const writeJsonFile = (data) => {
     fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf-8');
     return true;
   } catch (err) {
-    console.error('Error writing to JSON DB file:', err);
+    console.error('Error writing JSON DB file:', err);
     return false;
   }
 };
 
-// Initialize Database
 export async function initDatabase() {
-  memoryCache = readJsonFile();
-  console.log(`📄 Vercel JSON Store initialized with ${memoryCache.pgs?.length || 0} listings, ${memoryCache.blogs?.length || 0} blogs.`);
-  return true;
-}
-
-// Immediate eager initialization attempt
-try {
-  memoryCache = readJsonFile();
-} catch (err) {
-  console.warn('Initial DB read warning:', err.message);
-}
-
-export const isMySQLActive = () => false;
-
-export const readDB = () => {
-  if (memoryCache) {
-    return memoryCache;
+  const mysqlSuccess = await initMySQL();
+  if (mysqlSuccess) {
+    console.log('🌟 Vrundavan Ventures Backend running with MySQL Database Engine.');
+    try {
+      const snapshot = await getFullDbFromMySQL();
+      if (snapshot) {
+        memoryCache = snapshot;
+        writeJsonFile(snapshot);
+      }
+    } catch (err) {
+      console.warn('Initial MySQL snapshot warning:', err.message);
+    }
+  } else {
+    console.log('📁 MySQL unavailable: fallback active.');
+    memoryCache = readJsonFile();
   }
+}
+
+export function isMySQLActive() {
+  return isMySQLReady();
+}
+
+export function readDB() {
+  if (memoryCache) return memoryCache;
   memoryCache = readJsonFile();
   return memoryCache;
-};
+}
 
-export const getDB = async () => {
-  return readDB();
-};
-
-export const writeDB = (data) => {
+export function writeDB(data) {
   memoryCache = data;
-  writeJsonFile(data);
-  return true;
-};
+  return writeJsonFile(data);
+}
 
-// Haversine formula to compute distance between two lat/lng in kilometers
-export const calculateDistanceKm = (lat1, lon1, lat2, lon2) => {
-  if (lat1 === undefined || lon1 === undefined || lat2 === undefined || lon2 === undefined) return null;
-  const R = 6371; // Earth radius in km
-  const dLat = (lat2 - lat1) * (Math.PI / 180);
-  const dLon = (lon2 - lon1) * (Math.PI / 180);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * (Math.PI / 180)) *
-      Math.cos(lat2 * (Math.PI / 180)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const d = R * c;
-  return Math.round(d * 10) / 10; // Round to 1 decimal place (e.g. 1.4 km)
-};
+export async function getDB() {
+  if (isMySQLReady()) {
+    const data = await getFullDbFromMySQL();
+    if (data) return data;
+  }
+  return readDB();
+}
 
-// 1. Users
+// ========================================================
+// USERS
+// ========================================================
 export async function findUserByEmail(email) {
   if (!email) return null;
   const cleanEmail = email.trim().toLowerCase();
-  const db = readDB();
-  return db.users.find(u => u.email.toLowerCase() === cleanEmail) || null;
-}
 
-export async function createUser(user) {
+  if (isMySQLReady()) {
+    const user = await mySqlFindUserByEmail(cleanEmail);
+    if (user) return user;
+  }
+
   const db = readDB();
-  db.users.push(user);
-  writeDB(db);
-  return user;
+  return (db.users || []).find(u => u.email && u.email.toLowerCase() === cleanEmail) || null;
 }
 
 export async function getUserById(id) {
   if (!id) return null;
+
+  if (isMySQLReady()) {
+    const user = await mySqlFindUserById(id);
+    if (user) return user;
+  }
+
   const db = readDB();
-  return db.users.find(u => u.id === id) || null;
+  return (db.users || []).find(u => u.id === id) || null;
 }
 
-export async function updateUserSubscription(userId, subscription) {
-  if (!userId) return null;
-  const db = readDB();
-  const u = db.users.find(user => user.id === userId);
-  if (u) {
-    u.subscription = subscription;
-    writeDB(db);
+export async function createUser(userData) {
+  const newUser = {
+    ...userData,
+    id: userData.id || `usr_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+    createdAt: new Date().toISOString()
+  };
+
+  if (isMySQLReady()) {
+    await mySqlCreateUser(newUser);
   }
-  return subscription;
+
+  const db = readDB();
+  db.users.push(newUser);
+  writeDB(db);
+
+  return newUser;
 }
+
+export async function updateUserSubscription(userId, subscriptionData) {
+  if (isMySQLReady()) {
+    await mySqlUpdateUserSubscription(userId, subscriptionData);
+  }
+
+  const db = readDB();
+  const index = (db.users || []).findIndex(u => u.id === userId);
+  if (index !== -1) {
+    db.users[index].subscription = subscriptionData;
+    writeDB(db);
+    return db.users[index];
+  }
+  return null;
+}
+
+// ========================================================
+// OWNER SUBSCRIPTION & UPI AUTOPAY LIFECYCLE (₹99.00 / month)
+// Lifecycle states: PENDING_AUTHORIZATION, AUTHORIZED, ACTIVE,
+// PAYMENT_PENDING, PAYMENT_FAILED, PAST_DUE, CANCELLED, EXPIRED, SUSPENDED
+// ========================================================
 
 export async function getUserSubscription(userId) {
   const user = await getUserById(userId);
@@ -151,194 +192,448 @@ export async function getUserSubscription(userId) {
     return {
       status: 'exempt',
       role: user.role,
-      message: 'Subscription is only required for Property Hosts/Owners'
+      message: 'Subscription is only required for Property Owners'
     };
   }
 
-  let sub = user.subscription;
-  if (!sub || !sub.status) {
-    return {
-      status: 'pending_payment',
-      planId: 'owner_partner_autopay',
-      initialAmount: 99,
-      recurringAmount: 99,
-      currency: 'INR',
-      currencySymbol: '₹',
-      billingCycleDays: 30,
-      autopayEnabled: false,
-      message: 'Initial Host Partner Activation of ₹99 required with 30-day recurring autopay (₹99).'
-    };
+  let dbSub = null;
+  let payments = [];
+
+  if (isMySQLReady()) {
+    dbSub = await mySqlGetSubscriptionByOwner(userId);
+    payments = await mySqlGetPaymentsByOwner(userId);
   }
 
-  // Check 30-day autopay auto-cut condition
-  const now = new Date();
-  if (sub.status === 'active' && sub.autopayEnabled && sub.nextBillingDate) {
-    const nextDate = new Date(sub.nextBillingDate);
-    if (now >= nextDate) {
-      console.log(`⚡ [AUTOPAY] 30 days elapsed for owner ${userId}. Auto-cutting ₹${sub.recurringAmount || 99} via ${sub.autopayMethod || 'UPI Autopay'}...`);
-      const invId = `INV-${Date.now().toString().slice(-4)}`;
-      const recurringInvoice = {
-        id: invId,
-        amount: sub.recurringAmount || 99,
-        type: 'recurring_autopay',
-        description: '30-Day Coliving Listing Maintenance (Autopay)',
-        method: sub.autopayMethod || 'UPI Autopay',
-        mandateId: sub.mandateId || 'MNDT-UPI-AUTO',
-        transactionRef: `TXN-REC-${Date.now().toString().slice(-6)}`,
-        date: now.toISOString(),
-        status: 'paid'
+  if (!dbSub) {
+    // Check fallback user object
+    const cachedSub = user.subscription;
+    if (cachedSub && cachedSub.status) {
+      dbSub = {
+        id: cachedSub.mandateId || `sub_${Date.now()}`,
+        ownerUserId: userId,
+        planCode: 'owner_autopay_99',
+        amountInr: 99,
+        amountPaise: 9900,
+        currency: 'INR',
+        billingInterval: 'monthly',
+        provider: cachedSub.autopayMethod?.includes('Cashfree') ? 'cashfree' : 'razorpay',
+        providerSubscriptionId: cachedSub.mandateId || null,
+        providerMandateReference: cachedSub.mandateId || null,
+        internalStatus: cachedSub.status === 'active' ? 'ACTIVE' : 'PENDING_AUTHORIZATION',
+        nextBillingAt: cachedSub.nextBillingDate,
+        createdAt: cachedSub.startedAt || new Date().toISOString()
       };
-
-      sub.invoices = [recurringInvoice, ...(sub.invoices || [])];
-      sub.lastPaymentDate = now.toISOString();
-      sub.nextBillingDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString();
-      await updateUserSubscription(userId, sub);
     }
   }
 
-  const daysRemaining = sub.nextBillingDate
-    ? Math.max(0, Math.ceil((new Date(sub.nextBillingDate) - now) / (1000 * 60 * 60 * 24)))
-    : 0;
-
-  return {
-    ...sub,
-    daysRemaining
-  };
-}
-
-export async function activateOwnerSubscription(userId, details = {}) {
-  const user = await getUserById(userId);
-  if (!user) {
-    throw new Error('User not found');
+  if (!dbSub) {
+    return {
+      status: 'PENDING_REGISTRATION',
+      internalStatus: 'PENDING_AUTHORIZATION',
+      planCode: 'owner_autopay_99',
+      planName: 'Vrundavan Ventures Owner Listing Subscription',
+      amountInr: 99,
+      amountPaise: 9900,
+      currency: 'INR',
+      currencySymbol: '₹',
+      billingInterval: 'monthly',
+      autopayEnabled: false,
+      canPublish: false,
+      message: '₹99.00 monthly UPI AutoPay subscription required to list properties.'
+    };
   }
 
   const now = new Date();
-  const nextBilling = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
-  const mandateId = `MNDT-UPI-${Date.now().toString().slice(-6)}`;
-  const transactionRef = `TXN-ACT-${Date.now().toString().slice(-6)}`;
-  const invoiceId = `INV-${Date.now().toString().slice(-4)}`;
-  const initialAmount = Number(details.amount || 99);
-  const recurringAmount = Number(details.recurringAmount || 99);
-  const method = details.paymentMethod || 'UPI Autopay';
+  const nextBilling = dbSub.nextBillingAt ? new Date(dbSub.nextBillingAt) : null;
+  const daysRemaining = nextBilling ? Math.max(0, Math.ceil((nextBilling - now) / (1000 * 60 * 60 * 24))) : 0;
+  const isActive = dbSub.internalStatus === 'ACTIVE';
+  const isPastDue = dbSub.internalStatus === 'PAST_DUE';
+  const isCancelled = dbSub.internalStatus === 'CANCELLED';
 
-  const subscription = {
+  return {
+    ...dbSub,
+    status: dbSub.internalStatus.toLowerCase(),
+    internalStatus: dbSub.internalStatus,
+    amountInr: 99,
+    amountPaise: 9900,
+    currency: 'INR',
+    currencySymbol: '₹',
+    billingInterval: 'monthly',
+    autopayEnabled: isActive,
+    canPublish: isActive,
+    daysRemaining,
+    invoices: payments.map(p => ({
+      id: p.id,
+      amount: p.amountInr,
+      method: p.paymentMethod,
+      mandateId: dbSub.providerMandateReference || 'UMRN-UPI-AUTOPAY',
+      transactionRef: p.providerPaymentId || `TXN-${p.id}`,
+      date: p.paidAt || p.createdAt,
+      status: p.paymentStatus
+    })),
+    cancellationDetails: isCancelled ? {
+      cancelledAt: dbSub.cancelledAt,
+      effectiveUntil: dbSub.nextBillingAt
+    } : null
+  };
+}
+
+/**
+ * 1. Initialize Subscription & Mandate Authorization
+ */
+export async function initializeOwnerSubscription(userId, { upiApp = 'gpay', upiId = '' }) {
+  const user = await getUserById(userId);
+  if (!user) throw new Error('User not found');
+
+  const subResult = await paymentProvider.createSubscription({
+    userId,
+    ownerName: user.name,
+    email: user.email,
+    mobile: user.phone || user.mobile,
+    planCode: 'owner_autopay_99'
+  });
+
+  const mandateResult = await paymentProvider.createMandateAuthorization({
+    subscriptionId: subResult.subscriptionId,
+    upiApp,
+    upiId
+  });
+
+  const subRecordId = `sub_${Date.now()}`;
+  if (isMySQLReady()) {
+    await mySqlCreateSubscriptionRecord({
+      id: subRecordId,
+      ownerUserId: userId,
+      planCode: 'owner_autopay_99',
+      amountPaise: 9900,
+      provider: subResult.provider,
+      providerSubscriptionId: subResult.subscriptionId,
+      providerMandateReference: mandateResult.mandateReference,
+      internalStatus: 'PENDING_AUTHORIZATION',
+      providerStatus: 'created'
+    });
+  }
+
+  return {
+    success: true,
+    subscriptionId: subResult.subscriptionId,
+    mandateReference: mandateResult.mandateReference,
+    amountInr: 99,
+    amountPaise: 9900,
+    currency: 'INR',
+    upiApp,
+    mandateUri: mandateResult.mandateUri,
+    appDeeplink: mandateResult.appDeeplink,
+    instructions: mandateResult.authorizationInstructions,
+    isSandbox: subResult.isSandbox,
+    notice: subResult.notice
+  };
+}
+
+/**
+ * 2. Confirm Mandate Authorization & Activate Subscription
+ */
+export async function confirmMandateAuthorization(userId, {
+  subscriptionId,
+  mandateReference,
+  upiApp = 'gpay',
+  paymentMethod,
+  upiId,
+  amount = 99,
+  recurringAmount = 99
+} = {}) {
+  const user = await getUserById(userId);
+  if (!user) throw new Error('User not found');
+
+  const now = new Date();
+  const nextBilling = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+  const paymentId = `pay_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 6)}`;
+  const mandateRef = mandateReference || `MNDT-UPI-${Date.now().toString().slice(-8)}`;
+  const method = paymentMethod || `UPI AutoPay (${(upiApp || 'gpay').toUpperCase()})`;
+  const userUpi = upiId || (user.email ? `${user.email.split('@')[0]}@okhdfcbank` : 'owner@okhdfcbank');
+  const numAmount = Number(amount) || 99;
+  const numRecurring = Number(recurringAmount) || 99;
+
+  if (isMySQLReady()) {
+    const existingSub = await mySqlGetSubscriptionByOwner(userId);
+    const subId = existingSub?.id || `sub_${Date.now()}`;
+
+    await mySqlUpdateSubscriptionStatus(subId, {
+      internalStatus: 'ACTIVE',
+      providerStatus: 'active',
+      providerMandateReference: mandateRef,
+      currentPeriodStart: now,
+      currentPeriodEnd: nextBilling,
+      nextBillingAt: nextBilling
+    });
+
+    await mySqlRecordPayment({
+      id: paymentId,
+      subscriptionId: subId,
+      ownerUserId: userId,
+      provider: 'razorpay',
+      providerPaymentId: paymentId,
+      providerOrderId: subscriptionId || null,
+      amountPaise: numAmount * 100,
+      paymentMethod: method,
+      paymentStatus: 'captured',
+      billingPeriodStart: now,
+      billingPeriodEnd: nextBilling,
+      paidAt: now
+    });
+  }
+
+  // Update legacy user.subscription object
+  const legacySub = {
     status: 'active',
-    planId: 'owner_partner_autopay',
-    planName: 'Prestige Host Partner Plan',
-    initialAmount,
-    recurringAmount,
+    internalStatus: 'ACTIVE',
+    planId: 'owner_autopay_99',
+    planName: 'Vrundavan Ventures Owner Listing Subscription',
+    initialAmount: numAmount,
+    recurringAmount: numRecurring,
     currency: 'INR',
     currencySymbol: '₹',
     billingCycleDays: 30,
     autopayEnabled: true,
     autopayMethod: method,
-    upiId: details.upiId || 'owner@okhdfcbank',
-    mandateId,
-    transactionRef,
+    upiId: userUpi,
+    mandateId: mandateRef,
+    transactionRef: paymentId,
     startedAt: now.toISOString(),
     lastPaymentDate: now.toISOString(),
     nextBillingDate: nextBilling.toISOString(),
     invoices: [
       {
-        id: invoiceId,
-        amount: initialAmount,
+        id: paymentId,
+        amount: numAmount,
         type: 'initial_activation',
-        description: 'Host Partner Initial Activation + 30-Day Pass',
-        method,
-        mandateId,
-        transactionRef,
+        description: 'Vrundavan Ventures Owner Listing Subscription (Month 1)',
+        method: method,
+        mandateId: mandateRef,
+        transactionRef: paymentId,
         date: now.toISOString(),
         status: 'paid'
       }
     ]
   };
 
-  await updateUserSubscription(userId, subscription);
+  await updateUserSubscription(userId, legacySub);
 
   return {
     success: true,
-    message: '₹99 Initial Payment & ₹30/month Autopay Mandate Authorized Successfully!',
+    message: 'UPI AutoPay Mandate authorized successfully! Your owner listings are now active.',
     subscription: {
-      ...subscription,
+      ...legacySub,
       daysRemaining: 30
     }
   };
 }
 
-export async function triggerRecurringAutopayDeduction(userId) {
+export const activateOwnerSubscription = confirmMandateAuthorization;
+
+/**
+ * 3. Cancel Subscription (stops future recurring debits)
+ */
+export async function cancelOwnerSubscription(userId, reason = 'Owner requested cancellation') {
   const user = await getUserById(userId);
-  if (!user) {
-    throw new Error('User not found');
-  }
+  if (!user) throw new Error('User not found');
 
-  let sub = user.subscription;
-  if (!sub || sub.status !== 'active') {
-    throw new Error('Cannot process recurring deduction: No active subscription found');
-  }
-
-  const now = new Date();
-  const invId = `INV-${Date.now().toString().slice(-4)}`;
-  const recurringAmount = sub.recurringAmount || 99;
-  const recurringInvoice = {
-    id: invId,
-    amount: recurringAmount,
-    type: 'recurring_autopay',
-    description: '30-Day Coliving Listing Maintenance (Autopay)',
-    method: sub.autopayMethod || 'UPI Autopay',
-    mandateId: sub.mandateId || `MNDT-UPI-${Date.now().toString().slice(-6)}`,
-    transactionRef: `TXN-REC-${Date.now().toString().slice(-6)}`,
-    date: now.toISOString(),
-    status: 'paid'
-  };
-
-  sub.invoices = [recurringInvoice, ...(sub.invoices || [])];
-  sub.lastPaymentDate = now.toISOString();
-  const baseDate = sub.nextBillingDate && new Date(sub.nextBillingDate) > now
-    ? new Date(sub.nextBillingDate)
-    : now;
-  sub.nextBillingDate = new Date(baseDate.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString();
-  sub.status = 'active';
-
-  await updateUserSubscription(userId, sub);
-
-  const daysRemaining = Math.max(0, Math.ceil((new Date(sub.nextBillingDate) - now) / (1000 * 60 * 60 * 24)));
-
-  return {
-    success: true,
-    message: `₹${recurringAmount} recurring autopay payment successfully deducted! Next deduction scheduled in 30 days.`,
-    subscription: {
-      ...sub,
-      daysRemaining
+  if (isMySQLReady()) {
+    const sub = await mySqlGetSubscriptionByOwner(userId);
+    if (sub) {
+      await paymentProvider.cancelSubscription(sub.providerSubscriptionId || sub.id);
+      await mySqlCancelSubscription(sub.id);
     }
-  };
-}
-
-export async function cancelOwnerSubscription(userId) {
-  const user = await getUserById(userId);
-  if (!user || !user.subscription) {
-    throw new Error('Subscription not found');
   }
 
-  user.subscription.autopayEnabled = false;
-  user.subscription.status = 'cancelled';
-  user.subscription.cancelledAt = new Date().toISOString();
-
-  await updateUserSubscription(userId, user.subscription);
+  if (user.subscription) {
+    user.subscription.autopayEnabled = false;
+    user.subscription.status = 'cancelled';
+    user.subscription.internalStatus = 'CANCELLED';
+    user.subscription.cancelledAt = new Date().toISOString();
+    user.subscription.cancelReason = reason;
+    await updateUserSubscription(userId, user.subscription);
+  }
 
   return {
     success: true,
-    message: 'Autopay mandate cancelled. Your access will remain active until the end of your current 30-day billing cycle.',
+    message: 'UPI AutoPay mandate cancelled successfully. Future recurring debits have been stopped.',
     subscription: user.subscription
   };
 }
 
+/**
+ * 4. Trigger Recurring Autopay Deduction (Sandbox testing / Scheduled cron)
+ */
+export async function triggerRecurringAutopayDeduction(userId) {
+  const user = await getUserById(userId);
+  if (!user) throw new Error('User not found');
+
+  let sub = await getUserSubscription(userId);
+  if (!sub || sub.internalStatus !== 'ACTIVE') {
+    throw new Error('Cannot process recurring deduction: No active subscription found');
+  }
+
+  const now = new Date();
+  const nextBilling = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+  const paymentId = `pay_rec_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 6)}`;
+
+  if (isMySQLReady()) {
+    const existingSub = await mySqlGetSubscriptionByOwner(userId);
+    if (existingSub) {
+      await mySqlUpdateSubscriptionStatus(existingSub.id, {
+        internalStatus: 'ACTIVE',
+        providerStatus: 'active',
+        currentPeriodStart: now,
+        currentPeriodEnd: nextBilling,
+        nextBillingAt: nextBilling
+      });
+
+      await mySqlRecordPayment({
+        id: paymentId,
+        subscriptionId: existingSub.id,
+        ownerUserId: userId,
+        provider: existingSub.provider || 'razorpay',
+        providerPaymentId: paymentId,
+        amountPaise: 9900,
+        paymentMethod: 'UPI AutoPay',
+        paymentStatus: 'captured',
+        billingPeriodStart: now,
+        billingPeriodEnd: nextBilling,
+        paidAt: now
+      });
+    }
+  }
+
+  return {
+    success: true,
+    message: '₹99.00 monthly UPI AutoPay debit successfully processed. Next renewal scheduled in 30 days.',
+    paymentId,
+    nextBillingAt: nextBilling.toISOString()
+  };
+}
+
+/**
+ * 5. Webhook Processor (Idempotent signature-verified processing)
+ */
+export async function handlePaymentWebhook(rawBody, signature) {
+  const isValid = paymentProvider.verifyWebhook(rawBody, signature);
+  if (!isValid && process.env.PAYMENT_ENVIRONMENT === 'production') {
+    throw new Error('Invalid webhook signature');
+  }
+
+  const event = typeof rawBody === 'string' ? JSON.parse(rawBody) : rawBody;
+  const eventDetails = paymentProvider.processPaymentEvent(event);
+
+  if (isMySQLReady()) {
+    const alreadyProcessed = await mySqlHasWebhookBeenProcessed(eventDetails.provider, eventDetails.eventId);
+    if (alreadyProcessed) {
+      return { status: 'duplicate', message: 'Event already processed' };
+    }
+
+    await mySqlRecordWebhookEvent({
+      id: `whevt_${Date.now()}`,
+      provider: eventDetails.provider,
+      providerEventId: eventDetails.eventId,
+      eventType: eventDetails.eventType,
+      payloadJson: event,
+      processingStatus: 'processed'
+    });
+
+    if (eventDetails.subscriptionId) {
+      const sub = await mySqlGetSubscriptionByProviderId(eventDetails.subscriptionId);
+      if (sub) {
+        await mySqlUpdateSubscriptionStatus(sub.id, {
+          internalStatus: eventDetails.internalStatus,
+          providerStatus: eventDetails.eventType
+        });
+
+        if (eventDetails.action === 'payment_succeeded') {
+          const now = new Date();
+          const nextBilling = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+          await mySqlRecordPayment({
+            id: eventDetails.paymentId || `pay_wh_${Date.now()}`,
+            subscriptionId: sub.id,
+            ownerUserId: sub.ownerUserId,
+            provider: eventDetails.provider,
+            providerPaymentId: eventDetails.paymentId,
+            amountPaise: eventDetails.amountPaise || 9900,
+            paymentMethod: 'UPI AutoPay',
+            paymentStatus: 'captured',
+            paidAt: new Date(eventDetails.paidAt)
+          });
+
+          await mySqlUpdateSubscriptionStatus(sub.id, {
+            currentPeriodStart: now,
+            currentPeriodEnd: nextBilling,
+            nextBillingAt: nextBilling
+          });
+        }
+      }
+    }
+  }
+
+  return { status: 'success', event: eventDetails };
+}
+
+/**
+ * 6. Admin Subscriptions & Revenue Directory
+ */
 export async function getAllOwnerSubscriptions() {
+  if (isMySQLReady()) {
+    const subs = await mySqlGetAllSubscriptionsAdmin();
+    const payments = await mySqlGetAllPaymentsAdmin();
+
+    let totalRevenuePaise = 0;
+    let activeMandates = 0;
+
+    subs.forEach(s => {
+      if (s.internalStatus === 'ACTIVE') activeMandates++;
+    });
+
+    payments.forEach(p => {
+      if (p.paymentStatus === 'captured') {
+        totalRevenuePaise += p.amountPaise;
+      }
+    });
+
+    return {
+      totalRevenue: Number(totalRevenuePaise / 100),
+      totalRevenuePaise,
+      activeMandates,
+      totalOwners: subs.length,
+      totalInvoices: payments.length,
+      ownerSubscriptions: subs.map(s => ({
+        ownerId: s.ownerUserId,
+        name: s.ownerName,
+        email: s.ownerEmail,
+        phone: s.ownerMobile,
+        subscription: {
+          ...s,
+          status: s.internalStatus.toLowerCase(),
+          daysRemaining: s.nextBillingAt ? Math.max(0, Math.ceil((new Date(s.nextBillingAt) - new Date()) / (1000 * 60 * 60 * 24))) : 0
+        }
+      })),
+      allInvoices: payments.map(p => ({
+        id: p.id,
+        amount: p.amountInr,
+        amountPaise: p.amountPaise,
+        ownerId: p.ownerUserId,
+        ownerName: p.ownerName,
+        ownerEmail: p.ownerEmail,
+        method: p.paymentMethod,
+        mandateId: p.subscriptionId || 'UMRN-UPI-AUTOPAY',
+        date: p.paidAt,
+        status: p.paymentStatus
+      }))
+    };
+  }
+
+  // Fallback memory store
   const db = await getDB();
   const owners = (db.users || []).filter(u => u.role === 'owner');
-
   let totalRevenue = 0;
   let activeMandates = 0;
-  let totalInvoices = 0;
   const allInvoices = [];
 
   const ownerSubscriptions = owners.map(o => {
@@ -351,16 +646,14 @@ export async function getAllOwnerSubscriptions() {
 
     invoices.forEach(inv => {
       totalRevenue += Number(inv.amount || 99);
-      totalInvoices++;
       allInvoices.push({
         ...inv,
         ownerId: o.id,
         ownerName: o.name,
         ownerEmail: o.email,
-        ownerPhone: o.phone || '',
+        phone: o.phone || '',
         mandateId: inv.mandateId || sub.mandateId || 'MNDT-UPI-AUTO',
-        autopayMethod: inv.method || sub.autopayMethod || 'UPI Autopay',
-        planName: sub.planName || 'Prestige Host Partner Plan'
+        autopayMethod: inv.method || sub.autopayMethod || 'UPI Autopay'
       });
     });
 
@@ -382,28 +675,39 @@ export async function getAllOwnerSubscriptions() {
     };
   });
 
-  allInvoices.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-
   return {
     totalRevenue,
     activeMandates,
     totalOwners: owners.length,
-    totalInvoices,
+    totalInvoices: allInvoices.length,
     ownerSubscriptions,
     allInvoices
   };
 }
 
-// 2. PGs
+// ========================================================
+// PGS & PROPERTIES
+// ========================================================
 export async function getAllPgs() {
+  if (isMySQLReady()) {
+    const pgs = await mySqlGetAllPgs();
+    if (pgs) return pgs;
+  }
   return readDB().pgs;
 }
 
 export async function getPgById(id) {
+  if (isMySQLReady()) {
+    const pg = await mySqlGetPgById(id);
+    if (pg) return pg;
+  }
   return readDB().pgs.find(p => p.id === id) || null;
 }
 
 export async function createPg(pgData) {
+  if (isMySQLReady()) {
+    await mySqlCreatePg(pgData);
+  }
   const db = readDB();
   db.pgs.unshift(pgData);
   writeDB(db);
@@ -411,6 +715,9 @@ export async function createPg(pgData) {
 }
 
 export async function updatePg(id, updatedData) {
+  if (isMySQLReady()) {
+    await mySqlUpdatePg(id, updatedData);
+  }
   const db = readDB();
   const index = db.pgs.findIndex(p => p.id === id);
   if (index !== -1) {
@@ -422,93 +729,107 @@ export async function updatePg(id, updatedData) {
 }
 
 export async function updatePgStatus(id, status, reason = null) {
+  if (isMySQLReady()) {
+    const pg = await mySqlUpdatePgStatus(id, status, reason);
+    if (pg) return pg;
+  }
   const db = readDB();
-  const pg = db.pgs.find(p => p.id === id);
-  if (pg) {
-    pg.status = status;
-    if (reason !== undefined) pg.statusReason = reason;
-    pg.statusUpdatedAt = new Date().toISOString();
+  const index = db.pgs.findIndex(p => p.id === id);
+  if (index !== -1) {
+    db.pgs[index].status = status;
+    if (reason) db.pgs[index].statusReason = reason;
+    db.pgs[index].statusUpdatedAt = new Date().toISOString();
     writeDB(db);
-    return pg;
+    return db.pgs[index];
   }
   return null;
 }
 
 export async function deletePg(id) {
-  const db = readDB();
-  const index = db.pgs.findIndex(p => p.id === id);
-  if (index !== -1) {
-    db.pgs.splice(index, 1);
-    writeDB(db);
-    return true;
+  if (isMySQLReady()) {
+    await mySqlDeletePg(id);
   }
-  return false;
-}
-
-// 3. Blogs
-export async function getAllBlogs() {
-  return readDB().blogs;
-}
-
-export async function getBlogBySlug(slug) {
-  return readDB().blogs.find(b => b.slug === slug || b.id === slug) || null;
-}
-
-// 4. Inquiries
-export async function createInquiry(inquiry) {
   const db = readDB();
-  db.inquiries.unshift(inquiry);
+  db.pgs = db.pgs.filter(p => p.id !== id);
   writeDB(db);
-  return inquiry;
+  return true;
+}
+
+// ========================================================
+// INQUIRIES & REVIEWS & BLOGS
+// ========================================================
+export async function createInquiry(inquiryData) {
+  const newInq = {
+    ...inquiryData,
+    id: inquiryData.id || `inq_${Date.now()}`,
+    status: 'new',
+    createdAt: new Date().toISOString()
+  };
+
+  if (isMySQLReady()) {
+    await mySqlCreateInquiry(newInq);
+  }
+
+  const db = readDB();
+  db.inquiries.unshift(newInq);
+  writeDB(db);
+  return newInq;
 }
 
 export async function getInquiries(ownerId = null) {
-  let list = readDB().inquiries;
+  if (isMySQLReady()) {
+    const rows = await mySqlGetInquiries(ownerId);
+    if (rows) return rows;
+  }
+  const db = readDB();
   if (ownerId) {
-    list = list.filter(i => i.ownerId === ownerId);
+    return db.inquiries.filter(i => i.ownerId === ownerId);
   }
-  return list;
+  return db.inquiries;
 }
 
-// 5. Reviews
+
 export async function getReviews(pgId = null) {
-  let list = readDB().reviews || [];
-  if (pgId) {
-    list = list.filter(r => r.pgId === pgId);
+  if (isMySQLReady()) {
+    const reviews = await mySqlGetReviews(pgId);
+    if (reviews) return reviews;
   }
-  return list;
+  const db = readDB();
+  if (pgId) {
+    return db.reviews.filter(r => r.pgId === pgId);
+  }
+  return db.reviews;
 }
 
-// 6. Stats
 export async function getStats() {
-  const pgs = await getAllPgs();
   const db = await getDB();
-  const users = db.users || [];
-  const inquiries = db.inquiries || [];
-  const blogs = db.blogs || [];
-
-  const owners = users.filter(u => u.role === 'owner');
-  let totalRevenue = 0;
-  let activeMandates = 0;
-
-  owners.forEach(o => {
-    const sub = o.subscription || {};
-    if (sub.status === 'active' && sub.autopayEnabled) activeMandates++;
-    (sub.invoices || []).forEach(inv => {
-      totalRevenue += Number(inv.amount || 99);
-    });
-  });
+  const approvedPgs = (db.pgs || []).filter(p => p.status === 'approved');
+  const totalBeds = (db.pgs || []).reduce((acc, pg) => {
+    return acc + (pg.rooms || []).reduce((rAcc, r) => rAcc + (Number(r.beds) || 1), 0);
+  }, 0);
 
   return {
-    totalPgs: pgs.length,
-    approvedPgs: pgs.filter(p => p.status === 'approved').length,
-    pendingApprovals: pgs.filter(p => p.status === 'pending_review').length,
-    draftPgs: pgs.filter(p => p.status === 'draft').length,
-    totalOwners: owners.length,
-    activeMandates,
-    totalRevenue,
-    totalInquiries: inquiries.length,
-    totalBlogs: blogs.length,
-    databaseEngine: 'JSON Store (Vercel Serverless Ready)'
+    totalProperties: (db.pgs || []).length,
+    approvedProperties: approvedPgs.length,
+    pendingProperties: (db.pgs || []).filter(p => p.status === 'pending_review').length,
+    totalUsers: (db.users || []).length,
+    totalOwners: (db.users || []).filter(u => u.role === 'owner').length,
+    totalTenants: (db.users || []).filter(u => u.role === 'tenant').length,
+    totalInquiries: (db.inquiries || []).length,
+    totalBeds,
+    activeCities: [...new Set((db.pgs || []).map(p => p.address?.city).filter(Boolean))].length
   };
+}
+
+export function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+  if (!lat1 || !lon1 || !lat2 || !lon2) return 9999;
+  const R = 6371; // Earth radius in km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }

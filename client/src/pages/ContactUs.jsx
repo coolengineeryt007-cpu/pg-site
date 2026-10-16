@@ -22,14 +22,14 @@ export default function ContactUs() {
       <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 50px auto' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '12px' }}>
           <span className="badge badge-blue">
-            24/7 Prestige Concierge
+            24/7 Friendly Support
           </span>
         </div>
         <h1 className="font-serif gold-gradient-text" style={{ fontSize: 'clamp(2.2rem, 4vw, 3.2rem)', marginBottom: '14px' }}>
-          Connect with Vrundavan Ventures
+          Contact Vrundavan Ventures
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: 1.7 }}>
-          Whether you are a prospective resident seeking suite availability or a PG owner requesting property onboarding verification, our concierge team is at your service.
+          Whether you are looking for a room, have questions about rent, or want to list your property as an owner, our team is always happy to help you.
         </p>
       </div>
 
@@ -37,17 +37,17 @@ export default function ContactUs() {
         {/* Contact Form */}
         <div className="luxury-card" style={{ padding: 'clamp(20px, 4vw, 36px)' }}>
           <h2 className="font-serif" style={{ fontSize: '1.5rem', color: '#fff', marginBottom: '10px' }}>
-            Send Us a Priority Message
+            Send Us a Message
           </h2>
           <p style={{ color: '#888', fontSize: '0.9rem', marginBottom: '24px' }}>
-            We typically respond within 15 minutes during active business hours.
+            We usually reply within 15 minutes during regular hours.
           </p>
 
           {submitted ? (
             <div style={{ textAlign: 'center', padding: '40px 10px', color: '#34D399' }}>
               <CheckCircle2 size={52} style={{ margin: '0 auto 16px auto', display: 'block' }} />
-              <h3 style={{ color: '#fff', fontSize: '1.3rem', marginBottom: '8px' }}>Message Dispatched Successfully</h3>
-              <p style={{ color: '#aaa', fontSize: '0.95rem' }}>Our concierge team has received your ticket and will call/email you shortly.</p>
+              <h3 style={{ color: '#fff', fontSize: '1.3rem', marginBottom: '8px' }}>Message Sent Successfully</h3>
+              <p style={{ color: '#aaa', fontSize: '0.95rem' }}>We have received your message and will call or email you shortly.</p>
               <button onClick={() => setSubmitted(false)} className="btn btn-outline-gold btn-sm" style={{ marginTop: '20px' }}>
                 Send Another Message
               </button>
@@ -60,7 +60,7 @@ export default function ContactUs() {
                   type="text" 
                   required 
                   className="form-input" 
-                  placeholder="e.g. Vikramaditya"
+                  placeholder="e.g. Rahul Sharma"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                 />
@@ -73,13 +73,13 @@ export default function ContactUs() {
                     type="email" 
                     required 
                     className="form-input" 
-                    placeholder="name@company.com"
+                    placeholder="name@example.com"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                   />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Contact Number *</label>
+                  <label className="form-label">Phone Number *</label>
                   <input 
                     type="tel" 
                     required 
@@ -92,18 +92,18 @@ export default function ContactUs() {
               </div>
 
               <div className="form-group">
-                <label className="form-label" htmlFor="contact-purpose-select">Inquiry Purpose</label>
+                <label className="form-label" htmlFor="contact-purpose-select">How Can We Help You?</label>
                 <select 
                   id="contact-purpose-select"
-                  aria-label="Inquiry Purpose"
+                  aria-label="How Can We Help You?"
                   className="form-select"
                   value={form.subject}
                   onChange={(e) => setForm({ ...form, subject: e.target.value })}
                 >
-                  <option value="General Inquiry">General Resident Inquiry</option>
-                  <option value="PG Owner Partnership">List My PG Property (Host Onboarding)</option>
-                  <option value="Corporate Booking">Corporate Employee Bulk Suites</option>
-                  <option value="Report Listing Issue">Super Admin Quality Flag</option>
+                  <option value="General Inquiry">General Question / Finding a Room</option>
+                  <option value="PG Owner Partnership">I am a Property Owner (List My Property)</option>
+                  <option value="Corporate Booking">Company / Group Bookings</option>
+                  <option value="Report Listing Issue">Report a Listing or Wrong Detail</option>
                 </select>
               </div>
 
@@ -113,7 +113,7 @@ export default function ContactUs() {
                   rows={4} 
                   required 
                   className="form-textarea" 
-                  placeholder="Tell us what you're looking for or how we can assist..."
+                  placeholder="Tell us what you are looking for or how we can help..."
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
                 />
@@ -121,7 +121,7 @@ export default function ContactUs() {
 
               <button type="submit" className="btn btn-gold btn-lg" style={{ width: '100%', marginTop: '10px' }}>
                 <Send size={18} />
-                <span>Submit Priority Ticket</span>
+                <span>Send Message</span>
               </button>
             </form>
           )}
@@ -132,20 +132,20 @@ export default function ContactUs() {
           <div className="luxury-card" style={{ padding: '28px' }}>
             <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Phone size={18} style={{ color: 'var(--gold-primary)' }} />
-              Helpline & Urgent Support
+              Phone & WhatsApp Support
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '0.95rem', color: '#ccc' }}>
               <div>
-                <span style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase', display: 'block' }}>Toll-Free Resident Desk</span>
+                <span style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase', display: 'block' }}>Toll-Free Helpline</span>
                 <strong style={{ color: 'var(--gold-primary)', fontSize: '1.1rem' }}>+91 1800 212 9999</strong>
               </div>
               <div>
-                <span style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase', display: 'block' }}>WhatsApp Concierge</span>
+                <span style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase', display: 'block' }}>WhatsApp Support</span>
                 <strong style={{ color: '#fff' }}>+91 98765 43210</strong>
               </div>
               <div>
-                <span style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase', display: 'block' }}>Official Email</span>
-                <strong style={{ color: '#fff' }}>concierge@vrundavanventures.com</strong>
+                <span style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase', display: 'block' }}>Email Address</span>
+                <strong style={{ color: '#fff' }}>support@vrundavanventures.com</strong>
               </div>
             </div>
           </div>
@@ -153,11 +153,11 @@ export default function ContactUs() {
           <div className="luxury-card" style={{ padding: '28px' }}>
             <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <MapPin size={18} style={{ color: 'var(--red-crimson)' }} />
-              Headquarters Location
+              Main Office Address
             </h3>
             <p style={{ color: '#bbb', fontSize: '0.95rem', lineHeight: 1.7, marginBottom: '12px' }}>
-              <strong>Vrundavan Ventures Corporate Towers</strong><br />
-              8th Floor, Executive Wing, 100 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034
+              <strong>Vrundavan Ventures</strong><br />
+              Kalawad Road / 150 Feet Ring Road, Rajkot, Gujarat 360005, India
             </p>
             <span style={{ fontSize: '0.8rem', color: 'var(--gold-primary)' }}>
               Open Monday to Saturday: 9:00 AM – 8:00 PM IST

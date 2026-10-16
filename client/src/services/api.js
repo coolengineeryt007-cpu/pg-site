@@ -105,18 +105,7 @@ export const api = {
     return res.json();
   },
 
-  // Blogs
-  async getBlogs() {
-    const res = await fetch(`${API_BASE}/blogs`);
-    if (!res.ok) throw new Error('Failed to fetch blogs');
-    return res.json();
-  },
 
-  async getBlogBySlug(slug) {
-    const res = await fetch(`${API_BASE}/blogs/${slug}`);
-    if (!res.ok) throw new Error('Failed to fetch blog post');
-    return res.json();
-  },
 
   // Super Admin Stats
   async getStats() {

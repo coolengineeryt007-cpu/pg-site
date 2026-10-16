@@ -84,9 +84,12 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            transition: 'transform 0.4s ease'
+            transition: 'transform 0.4s ease, filter 0.3s ease',
+            filter: isGuest ? 'blur(10px)' : 'none',
+            WebkitFilter: isGuest ? 'blur(10px)' : 'none',
+            transform: isGuest ? 'scale(1.08)' : undefined
           }}
-          className="hover-scale-img"
+          className={!isGuest ? "hover-scale-img" : ""}
         />
 
         {/* Gradient Overlay */}
@@ -96,6 +99,44 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
           background: 'linear-gradient(180deg, rgba(4,13,33,0.12) 0%, rgba(4,13,33,0.85) 100%)',
           pointerEvents: 'none'
         }} />
+
+        {/* Guest Mode Photo Lock Overlay */}
+        {isGuest && (
+          <div 
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onOpenLogin) onOpenLogin('tenant');
+            }}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 3,
+              cursor: 'pointer'
+            }}
+          >
+            <span style={{
+              background: 'rgba(4, 13, 33, 0.88)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              border: '1px solid rgba(212, 175, 55, 0.5)',
+              borderRadius: '20px',
+              padding: '6px 14px',
+              fontSize: '0.74rem',
+              fontWeight: 700,
+              color: '#FDE68A',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.7)'
+            }}>
+              <Lock size={12} style={{ color: 'var(--gold-primary)' }} />
+              <span>Login to View Clear Photos</span>
+            </span>
+          </div>
+        )}
 
         {/* Top Badges Bar */}
         <div style={{
@@ -244,9 +285,35 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '5px', minWidth: 0 }}>
             <MapPin size={13} style={{ color: '#38BDF8', flexShrink: 0 }} />
-            <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-              {pg.address?.area || pg.address?.city}, {pg.address?.city}
-            </span>
+            {isGuest ? (
+              <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                {/* Specific locality/area blurred for privacy in guest mode */}
+                <span 
+                  style={{ 
+                    display: 'inline-block',
+                    filter: 'blur(5px)', 
+                    WebkitFilter: 'blur(5px)',
+                    userSelect: 'none', 
+                    opacity: 0.68,
+                    color: '#94A3B8',
+                    letterSpacing: '0.2px',
+                    pointerEvents: 'none'
+                  }}
+                  aria-hidden="true"
+                  title="Specific area is hidden in guest mode. Login to view exact location."
+                >
+                  {pg.address?.area || 'Area Locality'},
+                </span>
+                {/* Main city name clearly visible */}
+                <span style={{ color: '#F1F5F9', fontWeight: 700, display: 'inline-block' }}>
+                  {pg.address?.city || 'Rajkot'}
+                </span>
+              </span>
+            ) : (
+              <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                {pg.address?.area || pg.address?.city}, {pg.address?.city}
+              </span>
+            )}
           </div>
 
           {isGuest && (
@@ -321,23 +388,44 @@ export default function PgCard({ pg, onSelect, showStatus = false, currentUser, 
           </div>
 
           <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-            <a 
-              href={directionsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-ghost btn-sm"
-              title="Get Google Maps Route"
-              aria-label={`Get directions to ${pg.name} on Google Maps`}
-              style={{ 
-                padding: '6px 8px', 
-                background: 'rgba(14, 116, 237, 0.12)', 
-                borderColor: 'rgba(14, 116, 237, 0.3)',
-                borderRadius: '8px'
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Navigation size={13} style={{ color: '#38BDF8' }} />
-            </a>
+            {isGuest ? (
+              <button 
+                type="button"
+                className="btn btn-ghost btn-sm"
+                title="Sign in to view directions on Google Maps"
+                aria-label="Sign in to view directions on Google Maps"
+                style={{ 
+                  padding: '6px 8px', 
+                  background: 'rgba(14, 116, 237, 0.12)', 
+                  borderColor: 'rgba(14, 116, 237, 0.3)',
+                  borderRadius: '8px'
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (onOpenLogin) onOpenLogin('tenant');
+                }}
+              >
+                <Navigation size={13} style={{ color: '#94A3B8' }} />
+              </button>
+            ) : (
+              <a 
+                href={directionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost btn-sm"
+                title="Get Google Maps Route"
+                aria-label={`Get directions to ${pg.name} on Google Maps`}
+                style={{ 
+                  padding: '6px 8px', 
+                  background: 'rgba(14, 116, 237, 0.12)', 
+                  borderColor: 'rgba(14, 116, 237, 0.3)',
+                  borderRadius: '8px'
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Navigation size={13} style={{ color: '#38BDF8' }} />
+              </a>
+            )}
 
             <button 
               type="button"

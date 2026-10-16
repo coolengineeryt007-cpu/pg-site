@@ -1,0 +1,207 @@
+================================================================================
+VRUNDAVAN VENTURES — COMPLETE WEBSITE PAGE LIST & URL DIRECTORY
+================================================================================
+
+Platform: Indian PG, Room, Flat & House Rental Marketplace
+Technology: React 19, Vite, Node.js, Express, MySQL
+Routing Type: Clean HTML5 Path-Based Routing (No '#' hashes)
+
+Local Base URL:      http://localhost:3050
+Production Base URL: https://vrundavanventures.com
+
+--------------------------------------------------------------------------------
+1. PUBLIC & TENANT PAGES
+--------------------------------------------------------------------------------
+
+1. Main Portal Gateway
+   URL:         /
+   Local URL:   http://localhost:3050/
+   Component:   client/src/pages/MainGateway.jsx
+   Audience:    All First-Time Visitors
+   Description: Clean dual-choice landing portal. Lets visitors select their role:
+                "For Students & Home Seekers" or "For Property Owners & Landlords".
+
+2. Tenant Marketplace Homepage
+   URL:         /student-home
+   Local URL:   http://localhost:3050/student-home
+   Component:   client/src/pages/Home.jsx
+   Audience:    Tenants, Students, Working Professionals, Families
+   Description: Primary discovery homepage featuring:
+                - Hero search bar (City, Budget, Property Type)
+                - 9 Rental Property Categories (PGs, Private Rooms, Shared Rooms, 
+                  1RK, 1BHK, 2BHK, 3BHK+, Independent Houses, Flats)
+                - Popular Gujarat cities (Rajkot, Ahmedabad, Surat, Vadodara, Gandhinagar)
+                - Verified featured accommodations
+                - Tenant testimonials and interactive FAQs
+
+3. Explore Rental Listings
+   URL:         /explore
+   Local URL:   http://localhost:3050/explore
+   Component:   client/src/pages/Explore.jsx
+   Audience:    Tenants & Seekers
+   Description: Search and filter database of verified properties. Includes filters for:
+                City, Rent Min/Max, Sharing Type (Single, Double, Triple), 
+                BHK configuration, and Amenities (WiFi, AC, Food, Power Backup).
+
+4. Near Me (GPS Live Proximity Search)
+   URL:         /nearme
+   Local URL:   http://localhost:3050/nearme
+   Component:   client/src/pages/Explore.jsx (with GPS proximity mode active)
+   Audience:    Tenants & Seekers
+   Description: Geolocation-enabled search that detects user GPS coordinates and calculates 
+                exact distance in kilometers to nearby properties.
+
+5. Property Details View (Dynamic Sub-Page)
+   URL:         /explore (Select Property) or /pg/:id
+   Local URL:   http://localhost:3050/explore
+   Component:   client/src/components/PgDetailView.jsx
+   Audience:    Tenants & Seekers
+   Description: Displays comprehensive property suite details:
+                Photo gallery, room configurations, pricing breakdown, amenities, 
+                house rules, exact address map, and direct Call/WhatsApp contact buttons.
+
+--------------------------------------------------------------------------------
+2. AUTHENTICATION & REGISTRATION PAGES
+--------------------------------------------------------------------------------
+
+6. Student / Tenant Authentication (Login & Free Registration)
+   URL:         /student
+   Local URL:   http://localhost:3050/student
+   Component:   client/src/components/AuthModal.jsx
+   Audience:    Tenants & Seekers
+   Description: Unified authentication portal for students and tenants with instant toggle 
+                between Login and 100% Free Account Registration to view direct owner contact 
+                and WhatsApp numbers.
+
+7. Property Owner / Host Authentication (Login & Registration)
+   URL:         /owner (when unauthenticated)
+   Local URL:   http://localhost:3050/owner
+   Component:   client/src/pages/OwnerLanding.jsx / client/src/components/AuthModal.jsx
+   Audience:    Property Owners & Landlords
+   Description: Unified sign-in and host registration portal with instant toggle between 
+                Login and New Host Registration connecting to the ₹99/month UPI AutoPay mandate.
+
+--------------------------------------------------------------------------------
+3. PROPERTY OWNER & HOST MANAGEMENT PAGES
+--------------------------------------------------------------------------------
+
+8. Property Owner Portal & Host Dashboard
+   URL:         /owner (Alias: /owner-portal, /host)
+   Local URL:   http://localhost:3050/owner
+   Component:   client/src/pages/OwnerPanel.jsx
+   Audience:    Authenticated Property Owners
+   Description: Full-featured host management panel:
+                - Property listing creator with Google Maps autofill
+                - Active/Draft/Under-Review property status manager
+                - Tenant visit inquiries and lead manager
+                - ₹99 monthly UPI AutoPay subscription status and billing countdown
+                - 1-click subscription cancellation controls
+
+9. Owner Subscription & UPI AutoPay Mandate Modal
+   URL:         Triggered inside /owner or upon registration
+   Component:   client/src/components/OwnerSubscriptionModal.jsx
+   Audience:    Property Owners
+   Description: Secure modal enforcing strict ₹99.00/month UPI AutoPay e-mandate.
+                Accepts Google Pay, PhonePe, Paytm, and BHIM.
+                Cards and non-recurring checkouts are explicitly disallowed.
+
+--------------------------------------------------------------------------------
+4. INFORMATIONAL & SUPPORT PAGES
+--------------------------------------------------------------------------------
+
+10. About Us
+    URL:         /about
+    Local URL:   http://localhost:3050/about
+    Component:   client/src/pages/AboutUs.jsx
+    Audience:    Public
+    Description: Company story, vision for clean broker-free coliving in India, 
+                 quality assurance standards, and safety verification protocols.
+
+11. Contact Support & VIP Concierge
+    URL:         /contact
+    Local URL:   http://localhost:3050/contact
+    Component:   client/src/pages/ContactUs.jsx
+    Audience:    Public
+    Description: Customer support center with toll-free phone (+91 1800 212 9999), 
+                 support email (support@vrundavanventures.com), interactive contact form, 
+                 and physical corporate headquarters address in Rajkot, Gujarat.
+
+--------------------------------------------------------------------------------
+5. STATUTORY LEGAL & COMPLIANCE PAGES
+--------------------------------------------------------------------------------
+
+12. Terms of Service & Listing Policy
+    URL:         /terms
+    Local URL:   http://localhost:3050/terms
+    Component:   client/src/pages/Legal.jsx (Tab: Terms / Subscription)
+    Audience:    Public / Compliance
+    Description: Electronic contract under IT Act 2000, intermediary disclaimer, 
+                 tenant guidelines, and the ₹99 Host Subscription & Renewal Policy.
+
+13. Privacy Policy & Geolocation Governance
+    URL:         /privacy
+    Local URL:   http://localhost:3050/privacy
+    Component:   client/src/pages/Legal.jsx (Tab: Privacy / Grievance)
+    Audience:    Public / Compliance
+    Description: Data collection standards, cookie policy, GPS coordinate usage disclosures, 
+                 and Grievance Redressal Officer contact information under IT Rules 2021.
+
+--------------------------------------------------------------------------------
+6. ADMINISTRATION & RESTRICTED ACCESS
+--------------------------------------------------------------------------------
+
+14. Super Admin Secret Security Gate
+    URL:         /superadmin (Aliases: /admin-secret, /secret-admin, /?admin=secret)
+    Local URL:   http://localhost:3050/superadmin
+    Component:   client/src/components/SuperAdminSecretGate.jsx
+    Audience:    Super Administrator Only
+    Description: Secure gate requiring Master PIN and Administrator login credentials.
+                 No public navigation links point to this URL.
+
+15. Super Admin Master Control Panel
+    URL:         /superadmin (when authenticated)
+    Local URL:   http://localhost:3050/superadmin
+    Component:   client/src/pages/SuperAdminPanel.jsx
+    Audience:    Super Administrator
+    Description: Executive administration dashboard:
+                 - One-click approve/reject/remove moderation for PG listings
+                 - Owner UPI AutoPay subscription directory
+                 - Audited integer paise billing revenue ledger
+                 - Platform-wide statistics (properties, users, inquiries, revenue)
+
+--------------------------------------------------------------------------------
+7. UTILITY & BACKEND ENDPOINTS
+--------------------------------------------------------------------------------
+
+16. SPA Fallback Handler
+    URL:         /404.html
+    Component:   client/dist/404.html (Generated via copy-spa-routes.cjs)
+    Description: Redirect and fallback page for Apache / cPanel / Vercel servers 
+                 ensuring direct browser refreshes on clean URLs resolve seamlessly.
+
+17. XML Sitemap (SEO Engine)
+    URL:         /sitemap.xml
+    Local URL:   http://localhost:5050/sitemap.xml
+    Description: Dynamically generated XML sitemap listing all static routes and 
+                 approved rental properties.
+
+18. Search Engine Directives
+    URL:         /robots.txt
+    Local URL:   http://localhost:5050/robots.txt
+    Description: Crawler directives allowing public search engines to index properties 
+                 while restricting administrative endpoints.
+
+19. API Engine Health Check
+    URL:         /api/health
+    Local URL:   http://localhost:5050/api/health
+    Description: Returns real-time API operational status, service identifier, 
+                 and MySQL database connection health.
+
+================================================================================
+TOTAL PAGE SUMMARY:
+- 11 Clean Primary URLs
+- 1 Dynamic Detail Sub-View (Property Detail View)
+- 3 Search Engine & System Utility Endpoints (Sitemap, Robots, Health API)
+================================================================================
+
+

@@ -92,7 +92,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
           margin: '0 auto 28px auto',
           lineHeight: 1.5
         }}>
-          Directly connecting tenants, working professionals, and students with verified property owners with zero middleman hurdles.
+          Directly connect students and working professionals with verified property owners. Zero brokers and zero extra fees.
         </p>
 
         {/* The TWO Clean Cards: Logo + Title Only */}
@@ -254,7 +254,7 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
             color: '#E2E8F0',
             letterSpacing: '0.2px'
           }}>
-            © 2026 Vrundavan Ventures Residences. All rights reserved.
+            © 2026 Vrundavan Ventures. All rights reserved.
           </div>
           <div style={{
             display: 'flex',
@@ -265,9 +265,9 @@ export default function MainGateway({ onSelectStudent, onSelectOwner }) {
             fontSize: '0.92rem',
             color: 'var(--text-muted)'
           }}>
-            <span>Verified Luxury Accommodations</span>
+            <span>Verified PGs, Rooms & Flats</span>
             <span style={{ color: 'var(--gold-primary)' }}>•</span>
-            <span>Direct Connect Network</span>
+            <span>Direct Owner Contact • Zero Brokerage</span>
           </div>
         </div>
       </footer>

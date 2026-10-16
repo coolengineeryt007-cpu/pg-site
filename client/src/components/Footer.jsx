@@ -101,11 +101,7 @@ export default function Footer({ onNavigate }) {
                   About Us
                 </a>
               </li>
-              <li>
-                <a href="/blogs" onClick={(e) => { e.preventDefault(); onNavigate('blogs'); }} style={{ color: '#94A3B8', textDecoration: 'none', transition: 'color 0.2s' }} className="nav-link">
-                  Guides & Blogs
-                </a>
-              </li>
+
               <li>
                 <a href="/contact" onClick={(e) => { e.preventDefault(); onNavigate('contact'); }} style={{ color: '#94A3B8', textDecoration: 'none', transition: 'color 0.2s' }} className="nav-link">
                   Contact Support

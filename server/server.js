@@ -22,8 +22,6 @@ import {
   updatePg,
   updatePgStatus,
   deletePg,
-  getAllBlogs,
-  getBlogBySlug,
   createInquiry,
   getInquiries,
   getReviews,
@@ -31,9 +29,11 @@ import {
   getUserById,
   getUserSubscription,
   updateUserSubscription,
-  activateOwnerSubscription,
+  initializeOwnerSubscription,
+  confirmMandateAuthorization,
   triggerRecurringAutopayDeduction,
   cancelOwnerSubscription,
+  handlePaymentWebhook,
   getAllOwnerSubscriptions,
   calculateDistanceKm
 } from './data/store.js';
@@ -50,7 +50,13 @@ app.use(generalRateLimiter);
 app.use(malwareAndExploitProtection);
 
 app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+// Preserve rawBody for HMAC-SHA256 signature verification in payment webhooks
+app.use(express.json({
+  limit: '10mb',
+  verify: (req, res, buf) => {
+    req.rawBody = buf ? buf.toString() : '';
+  }
+}));
 
 // Request logging middleware for debugging
 app.use((req, res, next) => {
@@ -321,7 +327,7 @@ app.post('/api/auth/login', checkBruteForceLock, async (req, res) => {
 
 app.post('/api/auth/register', async (req, res) => {
   try {
-    const { name, email, password, role = 'owner', phone } = req.body;
+    const { name, email, password, role = 'owner', phone, address } = req.body;
     if (!name || !email || !password) {
       return res.status(400).json({ error: 'Name, email, and password are required' });
     }
@@ -338,6 +344,7 @@ app.post('/api/auth/register', async (req, res) => {
       password,
       role: role === 'superadmin' ? 'owner' : role, // superadmins are pre-created
       phone: phone || '',
+      address: address || '',
       createdAt: new Date().toISOString(),
       subscription: role === 'owner' ? {
         status: 'pending_payment',
@@ -384,6 +391,7 @@ app.get('/api/pgs', async (req, res) => {
       maxRent,
       minRent,
       sharing,
+      bhk,
       amenity,
       status,
       ownerId,
@@ -402,6 +410,32 @@ app.get('/api/pgs', async (req, res) => {
       }
     } else {
       list = list.filter(pg => pg.status === 'approved');
+
+      // Enforce: Owner must have active AutoPay subscription for their listings to appear on the front end
+      // If AutoPay is closed/cancelled/expired, owner listings stop showing at front end
+      try {
+        const subData = await getAllOwnerSubscriptions().catch(() => null);
+        if (subData && Array.isArray(subData.ownerSubscriptions)) {
+          const ownerSubMap = new Map();
+          subData.ownerSubscriptions.forEach(os => {
+            if (os.ownerId && os.subscription) {
+              ownerSubMap.set(os.ownerId, os.subscription);
+            }
+          });
+
+          list = list.filter(pg => {
+            // Seeded demo listings or platform direct listings remain visible
+            if (!pg.ownerId || pg.ownerId === 'usr-owner-1') {
+              return true;
+            }
+            const sub = ownerSubMap.get(pg.ownerId);
+            if (!sub) return false; // No subscription record -> hide from public frontend
+            return sub.status === 'active' && sub.autopayEnabled !== false;
+          });
+        }
+      } catch (subErr) {
+        console.warn('Subscription filtering warning:', subErr.message);
+      }
     }
 
     // Filter by Property Type ('pg', 'room', 'house', 'flat')
@@ -468,6 +502,16 @@ app.get('/api/pgs', async (req, res) => {
     // Filter by Amenity
     if (amenity) {
       list = list.filter(pg => pg.facilities && pg.facilities.some(f => f.toLowerCase().includes(amenity.toLowerCase())));
+    }
+
+    // Filter by BHK / Configuration
+    if (bhk && bhk !== 'all') {
+      const bTerm = bhk.toLowerCase().replace('+', '');
+      list = list.filter(pg => 
+        (pg.bhk && pg.bhk.toLowerCase().includes(bTerm)) ||
+        (pg.name && pg.name.toLowerCase().includes(bTerm)) ||
+        (pg.propertyTypeLabel && pg.propertyTypeLabel.toLowerCase().includes(bTerm))
+      );
     }
 
     // Distance calculation if lat & lng are provided
@@ -599,6 +643,7 @@ app.post('/api/pgs', async (req, res) => {
       message: newPg.status === 'pending_review' 
         ? 'PG listing created and submitted for Super Admin approval!' 
         : 'PG draft saved successfully',
+      ...newPg,
       pg: newPg
     });
   } catch (error) {
@@ -676,29 +721,7 @@ app.delete('/api/pgs/:id', async (req, res) => {
   }
 });
 
-// BLOGS
-app.get('/api/blogs', async (req, res) => {
-  try {
-    const blogs = await getAllBlogs();
-    res.json(blogs);
-  } catch (error) {
-    console.error('Get blogs error:', error);
-    res.status(500).json({ error: 'Failed to retrieve blogs' });
-  }
-});
 
-app.get('/api/blogs/:slug', async (req, res) => {
-  try {
-    const blog = await getBlogBySlug(req.params.slug);
-    if (!blog) {
-      return res.status(404).json({ error: 'Blog not found' });
-    }
-    res.json(blog);
-  } catch (error) {
-    console.error('Get blog by slug error:', error);
-    res.status(500).json({ error: 'Failed to retrieve blog article' });
-  }
-});
 
 // INQUIRIES
 app.post('/api/inquiries', async (req, res) => {
@@ -756,20 +779,26 @@ app.get('/api/stats', async (req, res) => {
   }
 });
 
-// OWNER PARTNER SUBSCRIPTION & RECURRING AUTOPAY ROUTES
+// OWNER PARTNER SUBSCRIPTION & RECURRING UPI AUTOPAY ROUTES (₹99.00 / month)
 app.get('/api/subscription/config', (req, res) => {
   res.json({
-    initialAmount: 99,
-    recurringAmount: 99,
-    billingCycleDays: 30,
+    planCode: 'owner_autopay_99',
+    name: 'Vrundavan Ventures Owner Listing Subscription',
+    amountInr: 99,
+    amountPaise: 9900,
+    billingInterval: 'monthly',
     currency: 'INR',
     currencySymbol: '₹',
-    mode: 'functional_sandbox',
-    supportedMethods: [
-      { id: 'upi_autopay', name: 'UPI Autopay (GPay, PhonePe, Paytm, BHIM)', recommended: true },
-      { id: 'card_mandate', name: 'Debit / Credit Card e-Mandate (Visa, Mastercard, RuPay)', recommended: false },
-      { id: 'netbanking_mandate', name: 'Net Banking e-Mandate (HDFC, ICICI, SBI, Axis)', recommended: false }
-    ]
+    method: 'UPI AutoPay only',
+    paymentMethodNotice: 'Credit cards, debit cards and card-based checkouts are not accepted. Subscription renews monthly through UPI AutoPay after recurring payment mandate authorization.',
+    supportedUpiApps: [
+      { id: 'gpay', name: 'Google Pay', icon: 'gpay' },
+      { id: 'phonepe', name: 'PhonePe', icon: 'phonepe' },
+      { id: 'paytm', name: 'Paytm', icon: 'paytm' },
+      { id: 'bhim', name: 'BHIM UPI', icon: 'bhim' }
+    ],
+    pricingDisclosure: '₹99.00 INR per month. Mandate authorization is required before paid listing privileges are activated. Recurring debits will be processed monthly through our payment gateway provider.',
+    cancellationPolicy: 'You can cancel your recurring AutoPay subscription anytime from your Owner Dashboard or through your UPI App. Cancellation stops future debits immediately; existing paid listings remain published until the end of your billing cycle.'
   });
 });
 
@@ -786,13 +815,44 @@ app.get('/api/subscription/:userId', async (req, res) => {
   }
 });
 
-app.post('/api/subscription/activate', async (req, res) => {
+// Step 4a: Initiate Subscription & Mandate Authorization
+app.post('/api/subscription/create', async (req, res) => {
   try {
-    const { userId, paymentMethod, upiId, amount = 99, recurringAmount = 99 } = req.body;
+    const { userId, upiApp = 'gpay', upiId = '' } = req.body;
     if (!userId) {
       return res.status(400).json({ error: 'userId is required' });
     }
-    const result = await activateOwnerSubscription(userId, { paymentMethod, upiId, amount, recurringAmount });
+    const result = await initializeOwnerSubscription(userId, { upiApp, upiId });
+    res.json(result);
+  } catch (err) {
+    console.error('Create subscription mandate error:', err);
+    res.status(500).json({ error: err.message || 'Failed to initialize subscription mandate' });
+  }
+});
+
+// Step 4b: Confirm Mandate Authorization & Activate Listing Privileges
+app.post('/api/subscription/authorize', async (req, res) => {
+  try {
+    const { userId, subscriptionId, mandateReference, upiApp = 'gpay' } = req.body;
+    if (!userId) {
+      return res.status(400).json({ error: 'userId is required' });
+    }
+    const result = await confirmMandateAuthorization(userId, { subscriptionId, mandateReference, upiApp });
+    res.json(result);
+  } catch (err) {
+    console.error('Authorize mandate error:', err);
+    res.status(500).json({ error: err.message || 'Failed to authorize recurring mandate' });
+  }
+});
+
+// Backward compatibility alias for /api/subscription/activate
+app.post('/api/subscription/activate', async (req, res) => {
+  try {
+    const { userId } = req.body;
+    if (!userId) {
+      return res.status(400).json({ error: 'userId is required' });
+    }
+    const result = await confirmMandateAuthorization(userId, req.body);
     res.json(result);
   } catch (err) {
     console.error('Activate subscription error:', err);
@@ -800,6 +860,22 @@ app.post('/api/subscription/activate', async (req, res) => {
   }
 });
 
+// Cancel UPI AutoPay Mandate
+app.post('/api/subscription/cancel', async (req, res) => {
+  try {
+    const { userId, reason } = req.body;
+    if (!userId) {
+      return res.status(400).json({ error: 'userId is required' });
+    }
+    const result = await cancelOwnerSubscription(userId, reason);
+    res.json(result);
+  } catch (err) {
+    console.error('Cancel autopay error:', err);
+    res.status(500).json({ error: err.message || 'Failed to cancel autopay mandate' });
+  }
+});
+
+// Recurring monthly autopay deduction (Sandbox test / Cron trigger)
 app.post('/api/subscription/recurring-deduct', async (req, res) => {
   try {
     const { userId } = req.body;
@@ -814,17 +890,16 @@ app.post('/api/subscription/recurring-deduct', async (req, res) => {
   }
 });
 
-app.post('/api/subscription/cancel', async (req, res) => {
+// Dedicated Payment Gateway Webhook Endpoint
+app.post('/api/webhooks/payment-provider', async (req, res) => {
   try {
-    const { userId } = req.body;
-    if (!userId) {
-      return res.status(400).json({ error: 'userId is required' });
-    }
-    const result = await cancelOwnerSubscription(userId);
-    res.json(result);
+    const signature = req.headers['x-razorpay-signature'] || req.headers['x-webhook-signature'] || '';
+    const rawBody = req.rawBody || JSON.stringify(req.body);
+    const result = await handlePaymentWebhook(rawBody, signature);
+    res.json({ received: true, ...result });
   } catch (err) {
-    console.error('Cancel autopay error:', err);
-    res.status(500).json({ error: err.message || 'Failed to cancel autopay mandate' });
+    console.error('Webhook error:', err.message);
+    res.status(400).json({ error: err.message || 'Webhook verification failed' });
   }
 });
 
@@ -1042,7 +1117,6 @@ app.post('/api/ai/chat', async (req, res) => {
 app.get('/sitemap.xml', async (req, res) => {
   try {
     const pgs = await getAllPgs();
-    const blogs = await getAllBlogs();
     const baseUrl = req.protocol + '://' + req.get('host');
     
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
@@ -1054,7 +1128,6 @@ app.get('/sitemap.xml', async (req, res) => {
       { loc: '/explore', priority: '0.9', changefreq: 'daily' },
       { loc: '/about', priority: '0.7', changefreq: 'monthly' },
       { loc: '/contact', priority: '0.7', changefreq: 'monthly' },
-      { loc: '/blogs', priority: '0.8', changefreq: 'weekly' },
       { loc: '/terms', priority: '0.3', changefreq: 'yearly' },
       { loc: '/privacy', priority: '0.3', changefreq: 'yearly' }
     ];
@@ -1066,11 +1139,6 @@ app.get('/sitemap.xml', async (req, res) => {
     // Approved PGs
     pgs.filter(p => p.status === 'approved').forEach(p => {
       xml += `  <url>\n    <loc>${baseUrl}/pg/${p.id}</loc>\n    <lastmod>${p.createdAt?.split('T')[0] || new Date().toISOString().split('T')[0]}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
-    });
-
-    // Blogs
-    blogs.forEach(b => {
-      xml += `  <url>\n    <loc>${baseUrl}/blog/${b.slug}</loc>\n    <lastmod>${b.publishedAt || new Date().toISOString().split('T')[0]}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>\n`;
     });
 
     xml += `</urlset>`;
@@ -1103,7 +1171,6 @@ Vrundavan Ventures (${baseUrl}) connects tenants (students, working professional
 - Host / Owner Portal: ${baseUrl}/owner
 - About Us: ${baseUrl}/about
 - Contact Us: ${baseUrl}/contact
-- Rental Guides & Blogs: ${baseUrl}/blogs
 - Terms & Conditions: ${baseUrl}/terms
 - Privacy Policy: ${baseUrl}/privacy
 
@@ -1130,7 +1197,6 @@ Disallow: /admin
 Disallow: /superadmin
 Disallow: /api/
 Allow: /api/pgs
-Allow: /api/blogs
 
 # Agentic Browsing & AI Agent Crawler Directives
 User-agent: GPTBot

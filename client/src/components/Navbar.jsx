@@ -75,14 +75,7 @@ export default function Navbar({
                 <span>Near Me</span>
               </a>
 
-              <a 
-                href="/blogs" 
-                onClick={(e) => { e.preventDefault(); handleNav('blogs'); }}
-                className={`luxury-menu-link ${activePage === 'blogs' ? 'active' : ''}`}
-              >
-                <BookOpen size={17} style={{ color: '#00D2B4' }} />
-                <span>Guides & Blog</span>
-              </a>
+
 
               <a 
                 href="/about" 
@@ -369,17 +362,14 @@ export default function Navbar({
                     <MapPin size={18} style={{ color: 'var(--blue-light)' }} />
                     <span>Find Near Me (GPS Live)</span>
                   </a>
-                  <a href="/blogs" onClick={(e) => { e.preventDefault(); handleNav('blogs'); }} className="mobile-nav-item">
-                    <BookOpen size={18} style={{ color: '#00D2B4' }} />
-                    <span>Guides & Rental Advice</span>
-                  </a>
+
                   <a href="/about" onClick={(e) => { e.preventDefault(); handleNav('about'); }} className="mobile-nav-item">
                     <Info size={18} style={{ color: '#94A3B8' }} />
-                    <span>About Founders & Vision</span>
+                    <span>About Us</span>
                   </a>
                   <a href="/contact" onClick={(e) => { e.preventDefault(); handleNav('contact'); }} className="mobile-nav-item">
                     <PhoneCall size={18} style={{ color: 'var(--gold-light)' }} />
-                    <span>Contact Concierge Desk</span>
+                    <span>Contact Support</span>
                   </a>
                 </>
               ) : (
